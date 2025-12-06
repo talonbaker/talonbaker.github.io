@@ -1,0 +1,9 @@
+navigation.ymlmain:
+  - title: "About Me"
+    url: /about/
+  - title: "Art & Design"
+    url: /art/
+  - title: "Programming"
+    url: /programming/
+  - title: "Updates"
+    url: /Updates/

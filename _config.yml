@@ -1,4 +1,8 @@
-remote_theme: mmistakes/minimal-mistakes
-
-title: Talon Baker dot com
-description: A clean website; project showcase
+remote_theme: "mmistakes/minimal-mistakes@4.24.0" # Use a stable version number
+plugins:
+  - jekyll-remote-theme
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
