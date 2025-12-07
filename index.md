@@ -2,20 +2,20 @@
 layout: splash
 permalink: /
 header:
-  overlay_color: "#0a0a0a" # Dark, modern background
-  overlay_image: /assets/images/my-portrait.jpg # 👈 REPLACE THIS with a link to your high-quality portrait
+  overlay_color: "#0a0a0a"
+  overlay_image: /assets/images/my-kstyle-headshot.jpg # 👈 REPLACE this image file!
   caption: "Digital Portfolio of [Your Name]"
   actions:
-    - label: "Explore My Projects"
+    - label: "Explore Projects"
       url: /programming/
     - label: "View Digital Art"
       url: /art/
 excerpt: >
-  **Driving Excellence through Code and Creativity.**<br>
-  I am a dedicated builder, focused on delivering performant, maintainable, and highly **scalable** solutions.
+  **Senior Software Architect & Cross-Platform Development Lead.**<br>
+  I drive excellence, focused on delivering **performant, maintainable, and highly scalable** solutions.
 ---
 
 ## Featured Work
-Browse my cross-platform applications and creative projects.
+Browse my high-impact cross-platform applications and creative projects.
 
 {% include feature_row %}
