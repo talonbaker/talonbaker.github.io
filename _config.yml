@@ -1,6 +1,7 @@
-# In _config.yml
+# ... (all your other configuration lines go here) ...
 
-# This sets the default color scheme to 'dark'
-# Minimal Mistakes supports several schemes (dark, mint, neon, etc.)
-# 'dark' is the default dark mode.
+# -----------------------------------------------------
+# THEME/SKIN SETTINGS (FOR DARK MODE)
+# -----------------------------------------------------
+# This setting tells Minimal Mistakes to use its built-in 'dark' color scheme
 theme_skin: "dark"
