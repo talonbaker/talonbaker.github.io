@@ -1,8 +1,6 @@
-remote_theme: "mmistakes/minimal-mistakes@4.24.0" # Use a stable version number
-plugins:
-  - jekyll-remote-theme
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jekyll-include-cache
+# In _config.yml
+
+# This sets the default color scheme to 'dark'
+# Minimal Mistakes supports several schemes (dark, mint, neon, etc.)
+# 'dark' is the default dark mode.
+theme_skin: "dark"
