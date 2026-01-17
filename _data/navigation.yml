@@ -1,9 +1,21 @@
 main:
   - title: "Home"
     url: /
-  - title: "About Me"
+  - title: "About"
     url: /about/
-  - title: "Programming (WIP)"
+  - title: "Programming"
     url: /programming/
-  - title: "Art & Design (WIP)"
+  - title: "Art"
     url: /art/
+  - title: "Contact"
+    url: /contact/
+  - title: "Ruby Version"
+    url: ruby -v
+  - title: "Gem Version"
+    url: gem -v
+  - title: "Bundler Version"
+    url: bundle -v
+  - title: "Install Depedencies"
+    url: bundle install
+  - title: "Run Jekyll Build"
+    url: bundle exec jekyll build --trace

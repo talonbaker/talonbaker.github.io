@@ -3,24 +3,35 @@
 # -----------------------------------------------------
 title: "Talon Baker - Software Engineer"
 locale: "en-US"
-url: "https://talonbaker.com"
-baseurl: "" # Leave empty if this is your main site
+
+# This repo appears to be a GitHub Pages user site (talonbaker.github.io).
+# Keep baseurl empty for user/organization sites. If you use a custom domain,
+# add a top-level CNAME file and set the url accordingly.
+url: "https://talonbaker.github.io"
+baseurl: "" # Leave empty for user/organization site
 
 # -----------------------------------------------------
 # THEME SETTINGS (FOR GITHUB PAGES)
 # -----------------------------------------------------
-# We use remote_theme for GitHub Pages to pull Minimal Mistakes automatically
+# Use remote_theme to pull Minimal Mistakes from GitHub
 remote_theme: "mmistakes/minimal-mistakes"
 
-# This is the correct key for this theme's dark mode
+# Theme skin (valid values: "light", "dark")
 minimal_mistakes_skin: "dark"
 
 # -----------------------------------------------------
 # PLUGINS
 # -----------------------------------------------------
+# Only include plugins supported by GitHub Pages build environment.
 plugins:
-  - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-gist
   - jekyll-feed
-  - jekyll-include-cache # Required for Minimal Mistakes performance
+  - jekyll-seo-tag
+
+# -----------------------------------------------------
+# DEFAULTS / PERMALINKS
+# -----------------------------------------------------
+permalink: pretty
+
+# Optional: site-wide navigation data file
+# Minimal Mistakes reads _data/navigation.yml for header navigation.
