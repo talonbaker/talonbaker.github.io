@@ -1,7 +1,26 @@
-# ... (all your other configuration lines go here) ...
+# -----------------------------------------------------
+# SITE SETTINGS
+# -----------------------------------------------------
+title: "Talon Baker - Software Engineer"
+locale: "en-US"
+url: "https://talonbaker.com"
+baseurl: "" # Leave empty if this is your main site
 
 # -----------------------------------------------------
-# THEME/SKIN SETTINGS (FOR DARK MODE)
+# THEME SETTINGS (FOR GITHUB PAGES)
 # -----------------------------------------------------
-# This setting tells Minimal Mistakes to use its built-in 'dark' color scheme
-theme_skin: "dark"
+# We use remote_theme for GitHub Pages to pull Minimal Mistakes automatically
+remote_theme: "mmistakes/minimal-mistakes"
+
+# This is the correct key for this theme's dark mode
+minimal_mistakes_skin: "dark"
+
+# -----------------------------------------------------
+# PLUGINS
+# -----------------------------------------------------
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache # Required for Minimal Mistakes performance
