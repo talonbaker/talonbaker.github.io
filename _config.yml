@@ -1,37 +1,5 @@
-# -----------------------------------------------------
-# SITE SETTINGS
-# -----------------------------------------------------
-title: "Talon Baker - Software Engineer"
-locale: "en-US"
+# install gems (use vendor path if you want to avoid global install)
+bundle install --path vendor/bundle
 
-# This repo appears to be a GitHub Pages user site (talonbaker.github.io).
-# Keep baseurl empty for user/organization sites. If you use a custom domain,
-# add a top-level CNAME file and set the url accordingly.
-url: "https://talonbaker.github.io"
-baseurl: "" # Leave empty for user/organization site
-
-# -----------------------------------------------------
-# THEME SETTINGS (FOR GITHUB PAGES)
-# -----------------------------------------------------
-# Use remote_theme to pull Minimal Mistakes from GitHub
-remote_theme: "mmistakes/minimal-mistakes"
-
-# Theme skin (valid values: "light", "dark")
-minimal_mistakes_skin: "dark"
-
-# -----------------------------------------------------
-# PLUGINS
-# -----------------------------------------------------
-# Only include plugins supported by GitHub Pages build environment.
-plugins:
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-seo-tag
-
-# -----------------------------------------------------
-# DEFAULTS / PERMALINKS
-# -----------------------------------------------------
-permalink: pretty
-
-# Optional: site-wide navigation data file
-# Minimal Mistakes reads _data/navigation.yml for header navigation.
+# serve locally with live reload
+bundle exec jekyll serve --livereload
