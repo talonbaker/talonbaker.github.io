@@ -3,7 +3,7 @@ layout: splash
 permalink: /
 header:
   overlay_color: "#0a0a0a"
-  overlay_image: /assets/images/my-kstyle-headshot.jpg # 👈 REPLACE this image file!
+  overlay_image: /assets/images/headshot.png # 👈 REPLACE this image file!
   caption: "Digital Portfolio of [Your Name]"
   actions:
     - label: "Explore Projects"

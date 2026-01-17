@@ -9,17 +9,17 @@ layout: compress
     {% include seo.html %}
   </head>
 
-  <body class="layout--{{ page.layout | default: layout.layout }} theme--dark">
-    
-    {% include wip_banner.html %}
-    {% include masthead.html %}
+  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes %} {{ page.classes | join: ' ' }}{% endif %}">
 
-    <div class="initial-content">
-      {{ content }}
-    </div>
+      {% include wip_banner.html %}
+      {% include masthead.html %}
 
-    {% include footer.html %}
-    {% include scripts.html %}
+      <div class="initial-content">
+          {{ content }}
+      </div>
+
+      {% include footer.html %}
+      {% include scripts.html %}
 
   </body>
 </html>
