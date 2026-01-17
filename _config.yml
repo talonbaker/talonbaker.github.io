@@ -1,5 +1,31 @@
-# install gems (use vendor path if you want to avoid global install)
-bundle install --path vendor/bundle
+# -----------------------------------------------------
+# SITE SETTINGS
+# -----------------------------------------------------
+title: "Talon Baker - Software Engineer"
+locale: "en-US"
 
-# serve locally with live reload
-bundle exec jekyll serve --livereload
+# This repo appears to be a GitHub Pages user site (talonbaker.github.io).
+url: "https://talonbaker.github.io"
+baseurl: "" # Leave empty for user/organization site
+
+# -----------------------------------------------------
+# THEME SETTINGS (FOR BUILD)
+# -----------------------------------------------------
+# Use remote_theme to pull Minimal Mistakes from GitHub
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "dark"
+
+# -----------------------------------------------------
+# PLUGINS
+# -----------------------------------------------------
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# -----------------------------------------------------
+# DEFAULTS / PERMALINKS
+# -----------------------------------------------------
+permalink: pretty
