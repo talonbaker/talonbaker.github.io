@@ -1,10 +1,21 @@
 ---
-layout: home
-title: "Talon Baker"
+layout: splash
 permalink: /
+header:
+  overlay_color: "#0a0a0a"
+  overlay_image: /assets/images/headshot.png
+  caption: "Digital Portfolio of [Talon Baker]"
+  actions:
+    - label: "Explore Projects"
+      url: /programming/
+    - label: "View Digital Art"
+      url: /art/
+excerpt: >
+  **Senior Software Architect & Cross-Platform Development Lead.**<br>
+  I drive excellence, focused on delivering **performant, maintainable, and highly scalable** solutions.
 ---
 
-Welcome — this site uses the Minimal Mistakes theme.
+## Featured Work
+Browse my high-impact cross-platform applications and creative projects.
 
-- Read more [About](/about/)
-- See my [Programming Projects](/programming/)
+{% include feature_row %}
