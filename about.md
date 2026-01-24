@@ -8,7 +8,7 @@ permalink: /about/
 
 
 
-I am a highly motivated and **results-driven** professional with a proven record in developing robust **cross-platform desktop applications** using **Python** and **C++**. My focus is always on **delivering high-quality outcomes** by leveraging **modern development practices** and **clean code architecture**.
+I am a highly motivated, **results-driven** professional, with a proven record in developing robust **cross-platform desktop applications** using **Python** and **C++**. My focus is always on **delivering high-quality outcomes** by leveraging **modern development practices** and **clean code architecture**.
 
 ## My Philosophy on Work: Excellence Over Hardassness
 
