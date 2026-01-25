@@ -17,15 +17,10 @@ jobs:
 
       - name: "Debug: git info before build"
         run: |
-          echo "== git version =="
           git --version
-          echo "== remotes =="
           git remote -v || true
-          echo "== branches =="
           git branch -a || true
-          echo "== current HEAD =="
           git rev-parse --abbrev-ref HEAD || true
-          echo "== status =="
           git status --porcelain --branch || true
 
       - name: "Set up Ruby"
@@ -34,7 +29,7 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: "Install dependencies"    
+      - name: "Install dependencies"
         run: |
           gem install bundler --no-document
           bundle install --jobs 4 --path vendor/bundle
@@ -46,7 +41,6 @@ jobs:
 
       - name: "Debug: show built site summary"
         run: |
-          echo "== _site summary =="
           ls -la _site | sed -n '1,200p' || true
 
       - name: "Deploy to gh-pages (peaceiris)"
@@ -56,3 +50,6 @@ jobs:
           publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: false
+          force_orphan: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
