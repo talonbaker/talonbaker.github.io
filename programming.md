@@ -9,18 +9,18 @@ These projects showcase my ability to solve complex problems and implement highl
 
 ---
 
-## 🛠️ Project 1: [PROJECT NAME]
+## 🛠️ Project 1: Wacktory™
 
 <figure class="project-figure">
   <!-- Clickable thumbnail (opens repo) -->
   <a href="https://github.com/your-username/project-1-link" target="_blank" rel="noopener">
-    <img src="/assets/images/programming/project1-thumb.jpg" alt="Project 1 — [PROJECT NAME]" class="project-thumb project-thumb--clickable" />
+    <img src="/assets/images/programming/" alt="Wacktory" class="project-thumb project-thumb--clickable" />
   </a>
-  <figcaption><strong>[PROJECT NAME]</strong> — Short 1-line summary. (click image to open repository)</figcaption>
+  <figcaption><strong>Wacktory™</strong> — Wacktory™</figcaption>
 </figure>
 
-* **Project High-Level Goal:** [What critical business/technical problem did this project solve?]
-* **Architectural Insight:** [Key technical challenge.]
+* **Project High-Level Goal:** Wacktory™ is a new take on cooperative gameplay that pushes the limits of both Virtual Reality and traditional couch co-op. Players work together to beat the clock and create the most advanced product ever seen — The Cube.
+* **PLAYERS AREN'T JUST WAITING FOR THEIR TURN IN VR**
 * **Technologies Used:** [C++, Python, Qt, PyTorch, Docker, etc.]
 * **Impact Statement:** [e.g., "Achieved 45% reduction in latency."]
 * **Code:** [**View the GitHub Repository**](https://github.com/your-username/project-1-link)
@@ -63,7 +63,7 @@ Below are simple images (not links) for quick visual reference or screenshots. P
 
 <figure class="project-figure">
   <!-- Non-clickable thumbnail for this project -->
-  <img src="/assets/images/programming/project2-thumb.jpg" alt="Project 2 — [PROJECT NAME]" class="project-thumb project-thumb--plain" />
+  <img src="/assets/images/programming/project_wacktory/WacktoryAwardBanner.png" alt="Project 2 — [PROJECT NAME]" class="project-thumb project-thumb--plain" />
   <figcaption><strong>[PROJECT NAME]</strong> — Short 1-line summary.</figcaption>
 </figure>
 
@@ -74,3 +74,21 @@ Below are simple images (not links) for quick visual reference or screenshots. P
 * **Code:** [**View the GitHub Repository**](https://github.com/your-username/project-2-link)
 
 ---
+
+<!-- YouTube embed: replace VIDEO_ID and update title -->
+<div class="video-embed">
+  <iframe
+    src="https://www.youtube.com/embed/avccGwMOnUY"
+    title="Wacktory - Teaser"
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
+
+<!-- Clickable thumbnail to YouTube -->
+<figure class="project-figure">
+  <a href="https://youtu.be/avccGwMOnUY" target="_blank" rel="noopener">
+    <img src="/assets/images/programming/project_wacktory/WacktoryLogo.png" alt="Project demo video" class="project-thumb project-thumb--clickable" />
+  </a>
+  <figcaption>Wacktory - Teaser</figcaption>
+</figure>
