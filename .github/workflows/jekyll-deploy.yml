@@ -1,4 +1,4 @@
-name: Build and deploy Minimal Mistakes site
+name: "Build and deploy Minimal Mistakes site"
 
 on:
   push:
@@ -9,13 +9,13 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (full history + persist credentials)
+      - name: "Checkout repository (full history + persist credentials)"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Debug: git info before build
+      - name: "Debug: git info before build"
         run: |
           echo "== git version =="
           git --version
@@ -28,37 +28,31 @@ jobs:
           echo "== status =="
           git status --porcelain --branch || true
 
-      - name: Set up Ruby
+      - name: "Set up Ruby"
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Install dependencies  
+      - name: "Install dependencies"    
         run: |
           gem install bundler --no-document
           bundle install --jobs 4 --path vendor/bundle
 
-      - name: Build site with Jekyll
+      - name: "Build site with Jekyll"
         env:
           JEKYLL_ENV: production
         run: bundle exec jekyll build --destination ./_site
 
-      - name: Debug: show built site summary
+      - name: "Debug: show built site summary"
         run: |
           echo "== _site summary =="
           ls -la _site | sed -n '1,200p' || true
 
-      - name: Deploy to gh-pages (peaceiris)
+      - name: "Deploy to gh-pages (peaceiris)"
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # Use the built-in GITHUB_TOKEN (sufficient unless you have branch protections).
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: false
-          # optional: uncomment force_orphan to create a fresh gh-pages branch
-          # force_orphan: true
-          # optional: set committer identity explicitly if needed
-          # user_name: "github-actions[bot]"
-          # user_email: "github-actions[bot]@users.noreply.github.com"
