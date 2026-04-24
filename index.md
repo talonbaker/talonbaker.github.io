@@ -4,7 +4,7 @@ permalink: /
 header:
   overlay_color: "#0a0a0a"
   overlay_image: /assets/images/headshot.png
-  caption: "Digital Portfolio of [Talon Baker]"
+  caption: "Digital Portfolio of Talon Baker"
   actions:
     - label: "Explore Projects"
       url: /programming/
