@@ -30,17 +30,12 @@ I only care about getting exceptional work done. True high-performance teams thr
 
 ## 🔗 Find Me Online
 
-<a href="https://www.linkedin.com/in/talon-baker-7a5bb0b5/" target="_blank" rel="noopener">
-  <img src="/assets/images/logos/linkedin512.png" width="48" alt="LinkedIn" />
-</a>
-&nbsp;
-<a href="https://github.com/talonbaker" target="_blank" rel="noopener">
-  <img src="/assets/images/logos/github512.png" width="48" alt="GitHub" />
-</a>
-&nbsp;
-<a href="https://tebaker.itch.io/" target="_blank" rel="noopener">
-  <img src="/assets/images/logos/itch512.png" width="48" alt="Itch.io" />
-</a>
+<div style="font-size: 1.6rem;">
+  <a href="https://www.linkedin.com/in/talon-baker-7a5bb0b5/" target="_blank" rel="noopener" style="margin-right: 14px;" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+  <a href="https://github.com/talonbaker" target="_blank" rel="noopener" style="margin-right: 14px;" title="GitHub"><i class="fab fa-github"></i></a>
+  <a href="https://tebaker.itch.io/" target="_blank" rel="noopener" style="margin-right: 14px;" title="Itch.io"><i class="fab fa-itch-io"></i></a>
+  <a href="https://www.instagram.com/talonpencil/" target="_blank" rel="noopener" style="margin-right: 14px;" title="Instagram @talonpencil"><i class="fab fa-instagram"></i></a>
+</div>
 
 ---
 
