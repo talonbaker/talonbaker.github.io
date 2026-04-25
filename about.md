@@ -1,37 +1,42 @@
 ---
-title: "About Me: Driving Results with Modern Development Practices (WIP)"
+title: "About Me"
 layout: single
 permalink: /about/
 ---
 
-# **Architecting Future-Proof Digital Solutions**
+# **Talon Baker**
+**Programming • Game Design • Art**
 
+I am a highly motivated, results-driven developer with a background in computer science, game design, and visual arts. My experience spans VR games, graphics programming, AI agents, and cross-platform desktop applications, with a focus on delivering high-quality, maintainable, and performant software.
 
+## 🎓 Education
 
-I am a highly motivated, **results-driven** professional, with a proven record in developing robust **cross-platform desktop applications** using **Python** and **C++**. My focus is always on **delivering high-quality outcomes** by leveraging **modern development practices** and **clean code architecture**.
+**University of California, Santa Cruz (UCSC)**
+B.S. Computer Science: Game Design
 
-## My Philosophy on Work: Excellence Over Hardassness
+## 🛠️ Technical Skills
 
-My philosophy is rooted in trust and passion: **I only care about getting exceptional work done.**
-
-I believe that true high-performance teams thrive when individuals are given the **autonomy** to pursue their work with **passion and ownership**. I do not value **hardassedness**; I value **excellence** and impact. My commitment is to deliver solutions that are not just functional, but built to the highest standards of **maintainability** and **performance optimization**.
-
-> **One Measurable Achievement:** Reduced system latency by 45% through aggressive memory management and C++ optimization.
-
-## Core Proficiencies & Strategic Buzzwords
-
-My skillset is built around **Application Development** and the rigorous implementation of best-in-class **DevOps** principles, ensuring project success from conceptualization to deployment.
-
-| Category | Key Proficiencies & Buzzwords |
+| Category | Skills |
 | :--- | :--- |
-| **Development & Quality** | **Test-Driven Development (TDD)**, **Agile Methodologies (Scrum/Kanban)**, **Object-Oriented Programming (OOP)**, **Design Patterns**, **System Integration**, **Performance Tuning**, **Code Refactoring**. |
-| **Automation & Deployment** | **Continuous Integration/Continuous Delivery (CI/CD)** pipelines, **Automated Testing**, **Version Control (GitFlow)**, **Deployment Orchestration**, **Build Automation**. |
-| **Application Focus** | **Desktop Application Development**, **User Interface (UI) / User Experience (UX) principles**, **Cross-Platform Compatibility**, **Application Lifecycle Management (ALM)**, **Security Best Practices**. |
-| **Future Readiness** | **Scalable** Architecture, **Microservices** (Conceptual understanding & integration), **Containerization** (e.g., Docker), **Modular Design**. |
+| **Languages** | C++, C#, Python, JavaScript, GLSL, HLSL |
+| **Graphics & Web** | OpenGL, WebGL, Three.js, P5.js, GLSL Shaders |
+| **Game Development** | Unity 3D, Unity VR, Steam SDK |
+| **Development Practices** | Test-Driven Development (TDD), Agile/Scrum, OOP, Design Patterns, CI/CD, Git |
+| **Tools & Platforms** | Windows Forms (.NET), Docker, Cross-Platform Desktop |
 
-### Note on Web/Cloud Technologies
-My foundational expertise lies in desktop and application-level development using **Qt** and **WPF**. While I understand concepts like **Microservices** and **Containerization**, I am a dedicated **lifelong learner**. My focus will always align with the demands of the role, and I am fully prepared to rapidly acquire proficiency in **cloud-native** technologies based on project requirements.
+## 💡 My Philosophy
 
-## 🔗 Connect with Me
+I only care about getting exceptional work done. True high-performance teams thrive when individuals are given the autonomy to pursue their work with passion and ownership. My commitment is to deliver solutions that are not just functional, but built to the highest standards of maintainability and performance.
 
-I am eager to contribute to projects that require passion, high standards, and a focus on **business value delivery**. Please check out my **[Programming Projects](/programming/)** and **[Art Portfolio](/art/)**.
+## 🔗 Find Me Online
+
+<div style="font-size: 1.6rem;">
+  <a href="https://www.linkedin.com/in/talon-baker-7a5bb0b5/" target="_blank" rel="noopener" style="margin-right: 14px;" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+  <a href="https://github.com/talonbaker" target="_blank" rel="noopener" style="margin-right: 14px;" title="GitHub"><i class="fab fa-github"></i></a>
+  <a href="https://tebaker.itch.io/" target="_blank" rel="noopener" style="margin-right: 14px;" title="Itch.io"><i class="fab fa-itch-io"></i></a>
+  <a href="https://www.instagram.com/talonpencil/" target="_blank" rel="noopener" style="margin-right: 14px;" title="Instagram @talonpencil"><i class="fab fa-instagram"></i></a>
+</div>
+
+---
+
+Browse my **[Code & Game Projects](/programming/)** or check out my **[Art Portfolio](/art/)**.

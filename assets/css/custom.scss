@@ -144,3 +144,105 @@ body.home .hero .title {
   height: 100%;
   border: 0;
 }
+
+/* =====================================================
+   TERMINAL / TECHNICAL AESTHETIC
+   ===================================================== */
+
+/* h2 project headings — monospace, teal left-border accent */
+.page__content h2 {
+  font-family: 'SFMono-Regular', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64ffda;
+  border-left: 3px solid #64ffda;
+  padding: 0.3rem 0 0.3rem 0.85rem;
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  background: rgba(100, 255, 218, 0.04);
+  border-radius: 0 3px 3px 0;
+}
+
+/* h1 page title stays normal */
+.page__content h1 {
+  font-family: inherit;
+  color: inherit;
+  border-left: none;
+  background: none;
+  padding-left: 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Bold labels inside list items (e.g. "Technologies Used:") */
+.page__content li > strong:first-child {
+  color: #64ffda;
+  font-family: 'SFMono-Regular', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.85em;
+  letter-spacing: 0.03em;
+}
+
+/* Horizontal rules — thin teal-tinted separator */
+.page__content hr {
+  border: none;
+  border-top: 1px solid rgba(100, 255, 218, 0.18);
+  margin: 2.25rem 0;
+}
+
+/* Inline code blocks — teal-on-dark badge style */
+.page__content code {
+  background: rgba(100, 255, 218, 0.07);
+  color: #64ffda;
+  border: 1px solid rgba(100, 255, 218, 0.22);
+  border-radius: 3px;
+  font-size: 0.85em;
+  padding: 0.1em 0.4em;
+}
+
+/* Links inside content — teal accent, underline on hover */
+.page__content a:not(.btn) {
+  color: #64ffda;
+}
+.page__content a:not(.btn):hover {
+  color: #a8fff0;
+  text-decoration: underline;
+}
+
+/* =====================================================
+   HOME PAGE — FEATURE ROW CARDS
+   ===================================================== */
+
+/* Give feature cards a dark bordered feel */
+.feature__item .archive__item {
+  border: 1px solid rgba(100, 255, 218, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(100, 255, 218, 0.03);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.feature__item .archive__item:hover {
+  border-color: rgba(100, 255, 218, 0.4);
+  background: rgba(100, 255, 218, 0.07);
+}
+
+.feature__item .archive__item-title {
+  font-family: 'SFMono-Regular', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+  color: #64ffda;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Splash page excerpt text */
+.page__hero--overlay .page__title,
+.page__hero--overlay .page__lead {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+}
+
+.page__hero--overlay .page__lead {
+  font-size: 1.1rem;
+  opacity: 0.92;
+}
