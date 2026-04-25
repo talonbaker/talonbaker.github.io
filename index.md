@@ -3,8 +3,8 @@ layout: splash
 permalink: /
 header:
   overlay_color: "#0a0a0a"
-  overlay_image: /assets/images/banner.jpg
-  overlay_filter: 0.15
+  overlay_image: /assets/images/headshot.png
+  overlay_filter: 0.55
   actions:
     - label: "// Projects"
       url: /programming/
