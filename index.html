@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Talon Baker — Programmer • Designer • Artist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="grain-overlay"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-dot"></div>
+        <span>TALON</span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#work" class="nav-link">Work</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="line-1">Programmer</span>
+        <span class="line-2">Game Designer</span>
+        <span class="line-3">Artist</span>
+      </h1>
+      <p class="hero-subtitle">I build games, software, and art. Shipped on Steam. Designed for impact.</p>
+      <div class="hero-cta">
+        <a href="#work" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-accent"></div>
+  </section>
+
+  <!-- FEATURED WORK SECTION -->
+  <section id="work" class="work-section">
+    <div class="container">
+      <h2 class="section-title">Featured Projects</h2>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="assets/images/programming/project_wacktory/WacktoryAwardBanner.png" alt="Wacktory">
+          </div>
+          <div class="project-info">
+            <h3>Wacktory — VR Game</h3>
+            <p class="project-meta">Shipped on Steam • 12-person team • Producer & Programmer</p>
+            <p>Co-developed and shipped a VR cooperative game. Won Grand Prize at UCSC Games Showcase. Lead technical implementation and team coordination.</p>
+            <div class="project-tags">
+              <span class="tag">VR</span>
+              <span class="tag">C#</span>
+              <span class="tag">Game Design</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="assets/images/programming/project_glsl_pixelationshader/glslShader_1.png" alt="GLSL Shader">
+          </div>
+          <div class="project-info">
+            <h3>Graphics & Systems</h3>
+            <p class="project-meta">OpenGL, WebGL, GLSL, Three.js</p>
+            <p>Custom pixel art shaders, real-time graphics systems, and AI agents. Built low-level data structures and high-performance tools.</p>
+            <div class="project-tags">
+              <span class="tag">Graphics</span>
+              <span class="tag">GLSL</span>
+              <span class="tag">C++</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="assets/images/programming/project_theguardiansofucsc/GoUCSCRiddlePoster.png" alt="Guardians of UCSC">
+          </div>
+          <div class="project-info">
+            <h3>The Guardians of UCSC</h3>
+            <p class="project-meta">ARG • Game Design • Production</p>
+            <p>Produced a campus-wide alternate reality game. Designed and shipped 6+ digital and analog games across the UCSC campus.</p>
+            <div class="project-tags">
+              <span class="tag">Game Design</span>
+              <span class="tag">Production</span>
+              <span class="tag">Creative</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section id="skills" class="skills-section">
+    <div class="container">
+      <h2 class="section-title">Core Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>Programming</h3>
+          <ul class="skill-list">
+            <li>C# / C++</li>
+            <li>Python</li>
+            <li>GLSL / WebGL</li>
+            <li>Web (React, JS)</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Game Development</h3>
+          <ul class="skill-list">
+            <li>Game Design</li>
+            <li>VR Development</li>
+            <li>Real-time Systems</li>
+            <li>Team Production</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Art & Design</h3>
+          <ul class="skill-list">
+            <li>Digital Art</li>
+            <li>UI/UX Design</li>
+            <li>Animation</li>
+            <li>Visual Communication</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I'm a Computer Science graduate from UC Santa Cruz with a focus on Game Design. I'm obsessed with the intersection of code, design, and art — that's where magic happens.</p>
+          <p>My work spans shipped VR games, custom graphics systems, AI agents, and full-stack software. I've also produced and designed games at scale, working with teams to ship polished experiences.</p>
+          <p>I'm building something in the gaming space and looking for opportunities where I can apply my full skill set to ship impactful work.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-block">
+            <div class="stat-number">12+</div>
+            <div class="stat-label">Person Teams Led</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Game on Steam</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Games Designed & Shipped</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">Let's Build Something</h2>
+      <p class="contact-subtitle">I'm open to interesting opportunities, collaborations, and conversations.</p>
+
+      <div class="contact-grid">
+        <a href="https://www.linkedin.com/in/talon-baker-7a5bb0b5/" target="_blank" rel="noopener" class="contact-card">
+          <i class="fab fa-linkedin"></i>
+          <span>LinkedIn</span>
+        </a>
+        <a href="https://github.com/talonbaker" target="_blank" rel="noopener" class="contact-card">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </a>
+        <a href="https://tebaker.itch.io/" target="_blank" rel="noopener" class="contact-card">
+          <i class="fab fa-itch-io"></i>
+          <span>Itch.io</span>
+        </a>
+        <a href="https://www.instagram.com/talonpencil/" target="_blank" rel="noopener" class="contact-card">
+          <i class="fab fa-instagram"></i>
+          <span>Art Instagram</span>
+        </a>
+        <a href="mailto:tebaker7@gmail.com" class="contact-card">
+          <i class="fas fa-envelope"></i>
+          <span>Email</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Talon Baker. Built with code and passion.</p>
+      <p><a href="name-gen/index.html" style="color: #64ffda; text-decoration: none;">→ Name Generator</a></p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
