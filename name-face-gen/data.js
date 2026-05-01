@@ -5,7 +5,7 @@ window.NAME_DATA = {
     female: ["Camilla", "Midge", "Lady", "Samantha", "Soon", "Fanny", "Candy", "Barb", "Kitty", "Irene", "Flo", "Bev", "Anita", "Ivana", "Penny", "Gigi", "Misty", "Bunny", "Dixie", "Trixie", "Tessie", "Dot", "Peaches", "Olive", "Cherry", "Verna", "Babs", "Agatha", "Tootsie", "Goldie", "Marge", "Pansy", "Ethel", "Blanche", "Prue", "Beulah", "Gertrude", "Helga", "Mildred", "Hortense"],
     neutral: ["Spanky", "Milky", "Smalky", "Smokey", "Dolla", "Spazzy", "Weird", "Pat", "Pip", "Ziggy", "Skitter", "Boop", "Gorp", "Zip", "Nacho", "Pudge", "Squeak", "Dripple", "Fodder", "Gristle", "Titch", "Sniff", "Puff", "Wobble", "Jinx", "Riff", "Soggy", "Lump", "Crusty", "Dab", "Fleck", "Grit", "Poke", "Tubby", "Skid", "Slick", "Winky", "Binky", "Widget"]
   },
-  fusion_prefixes: ["Beef", "Blob", "Chunky", "Dr.", "Clump", "Dong", "Fizzle", "Frump", "Gloom", "Grump", "Gurgle", "Honk", "Jiggle", "Klutzo", "Lump", "Muck", "Noodle", "Plop", "Poot", "Pork", "Quack", "Rump", "Slap", "Sludge", "Shnoz", "Snort", "Stink", "Twerp", "Bug", "Waffle", "Zonk", "Bung", "Long", "Hard", "Wet", "Soft", "Big", "Small", "Short", "Stiff", "Wood", "Bush", "Sack", "Crack", "Nut", "Cream", "Stroke", "Rub", "Tug", "Poke", "Shaft", "Rack", "Hole", "Knob", "Junk", "Beaver", "Ball", "Wedge", "Grab", "Munch", "Schlep", "Squirt", "Grunt", "Throttle", "Smear", "Guzzle", "Flop"],
+  fusion_prefixes: ["Beef", "Blob", "Boob","Chunky", "Dr.", "Clump", "Dong", "Fizzle", "Frump", "Gloom", "Grump", "Gurgle", "Honk", "Jiggle", "Klutzo", "Lump", "Muck", "Noodle", "Plop", "Poot", "Pork", "Quack", "Rump", "Slap", "Sludge", "Shnoz", "Snort", "Stink", "Twerp", "Bug", "Waffle", "Zonk", "Bung", "Long", "Hard", "Wet", "Soft", "Big", "Small", "Short", "Stiff", "Wood", "Bush", "Sack", "Crack", "Nut", "Cream", "Stroke", "Rub", "Tug", "Poke", "Shaft", "Rack", "Hole", "Knob", "Junk", "Beaver", "Ball", "Wedge", "Grab", "Munch", "Schlep", "Squirt", "Grunt", "Throttle", "Smear", "Guzzle", "Flop"],
   fusion_suffixes: [
     "berg",
     "bord",
@@ -77,6 +77,7 @@ window.NAME_DATA = {
     "Dickonson",
     "Grundle",
     "Pooman",
+    "Baker",
     "Pooson",
     "Plowman",
     "Plowson",
