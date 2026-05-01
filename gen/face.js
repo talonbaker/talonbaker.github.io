@@ -1232,6 +1232,7 @@ function drawEyes(ctx, type, eyeBags, skinTones) {
 
 // ---------- Face details: nose, mouth, freckles, blush ----------
 function drawFaceDetails(ctx, genome, skinTones) {
+  const skin = toHexColor(skinTones.midtone);
   const skinDeep = toHexColor(skinTones.deepShadow);
   const skinMid = toHexColor(skinTones.shadow);
 
