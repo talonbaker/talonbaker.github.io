@@ -344,7 +344,7 @@ function App() {
   const [shake, setShake] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
   const [ready, setReady] = useState(false);
-  const [expandedPanel, setExpandedPanel] = useState(null); // 'stats', 'log', or null
+  const [expandedPanels, setExpandedPanels] = useState(new Set()); // Set of 'stats' and/or 'log'
 
   // Initialize ColorSampler on mount
   useEffect(() => {
@@ -354,6 +354,40 @@ function App() {
       console.error('ColorSampler init error:', err);
       setReady(true); // still set ready so app can work
     });
+  }, []);
+
+  // Auto-expand sections based on available vertical space
+  useEffect(() => {
+    const handleResize = () => {
+      const vh = window.innerHeight;
+      const vw = window.innerWidth;
+
+      // Only auto-expand on larger screens (tablets/desktop, not phones)
+      // Phone breakpoint is typically 768px
+      if (vw >= 768) {
+        // Desktop/large tablet: check if we have enough height
+        // Space needed: header ~60px + footer ~50px + roll button ~70px + machine panel min ~350px + padding ~60px = ~590px
+        // Stats section needs ~200px, Log section needs ~150px when scrollable
+
+        if (vh >= 1200) {
+          // Very large screen - expand both stats and log
+          setExpandedPanels(new Set(["stats", "log"]));
+        } else if (vh >= 900) {
+          // Large screen - expand just stats
+          setExpandedPanels(new Set(["stats"]));
+        } else {
+          // Regular desktop/tablet - collapse by default
+          setExpandedPanels(new Set());
+        }
+      } else {
+        // Phone: collapse sections to save space
+        setExpandedPanels(new Set());
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Persist history
@@ -409,7 +443,7 @@ function App() {
     setTierCounts(prev => ({ ...prev, [current.tier]: (prev[current.tier] || 0) + 1 }));
 
     // Collapse all panels on roll to show result
-    setExpandedPanel(null);
+    setExpandedPanels(new Set());
 
     // Screen shake based on tier
     const shakeAmount = { common: 0, uncommon: 2, rare: 4, epic: 8, legendary: 18, ultra: 32 }[current.tier];
@@ -464,9 +498,17 @@ function App() {
 
         <main className="main-grid-mobile">
           {/* STATS: collapsible section */}
-          <section className={`collapsible-section stats-section ${expandedPanel === "stats" ? "expanded" : "collapsed"}`}>
-            <button className="section-toggle" onClick={() => setExpandedPanel(expandedPanel === "stats" ? null : "stats")}>
-              <span className="toggle-arrow">{expandedPanel === "stats" ? "▼" : "▶"}</span>
+          <section className={`collapsible-section stats-section ${expandedPanels.has("stats") ? "expanded" : "collapsed"}`}>
+            <button className="section-toggle" onClick={() => {
+              const next = new Set(expandedPanels);
+              if (next.has("stats")) {
+                next.delete("stats");
+              } else {
+                next.add("stats");
+              }
+              setExpandedPanels(next);
+            }}>
+              <span className="toggle-arrow">{expandedPanels.has("stats") ? "▼" : "▶"}</span>
               <span className="section-title">ROLLS + STATS</span>
               <span className="section-count">{totalRolls}</span>
             </button>
@@ -535,9 +577,17 @@ function App() {
           </section>
 
           {/* LOG: collapsible section */}
-          <section className={`collapsible-section log-section ${expandedPanel === "log" ? "expanded" : "collapsed"}`}>
-            <button className="section-toggle" onClick={() => setExpandedPanel(expandedPanel === "log" ? null : "log")}>
-              <span className="toggle-arrow">{expandedPanel === "log" ? "▼" : "▶"}</span>
+          <section className={`collapsible-section log-section ${expandedPanels.has("log") ? "expanded" : "collapsed"}`}>
+            <button className="section-toggle" onClick={() => {
+              const next = new Set(expandedPanels);
+              if (next.has("log")) {
+                next.delete("log");
+              } else {
+                next.add("log");
+              }
+              setExpandedPanels(next);
+            }}>
+              <span className="toggle-arrow">{expandedPanels.has("log") ? "▼" : "▶"}</span>
               <span className="section-title">LOG</span>
               <span className="section-count">{history.length}</span>
             </button>
