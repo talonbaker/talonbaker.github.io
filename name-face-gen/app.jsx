@@ -64,13 +64,19 @@ function playTick(freq = 600, dur = 0.04, vol = 0.06) {
 
 function playRevealChord(tier) {
   const ctx = getAudio(); if (!ctx) return;
+
+  // ===== MYTHIC: cinematic multi-stage payoff =====
+  if (tier === "ultra") {
+    playMythicSound(ctx);
+    return;
+  }
+
   const chords = {
     common: [220],
     uncommon: [261.6, 329.6],
     rare: [261.6, 329.6, 392],
     epic: [261.6, 329.6, 392, 523.25],
     legendary: [261.6, 329.6, 392, 523.25, 659.25, 783.99],
-    ultra: [130.8, 196, 261.6, 329.6, 392, 523.25, 659.25, 783.99, 1046.5, 1318.5],
   };
   const notes = chords[tier] || [220];
   notes.forEach((f, i) => {
@@ -97,6 +103,167 @@ function playRevealChord(tier) {
       o.start(); o.stop(ctx.currentTime + 0.8);
     }, 0);
   }
+}
+
+// ===== MYTHIC: a proper cinematic moment =====
+function playMythicSound(ctx) {
+  const now = ctx.currentTime;
+
+  // -- Master bus with light reverb-ish delay tail
+  const master = ctx.createGain();
+  master.gain.value = 1.0;
+  master.connect(ctx.destination);
+
+  // Helper: simple oscillator note
+  const note = (freq, type, t0, dur, vol, attack = 0.02, target = master) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, now + t0);
+    g.gain.linearRampToValueAtTime(vol, now + t0 + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + t0 + dur);
+    o.connect(g).connect(target);
+    o.start(now + t0); o.stop(now + t0 + dur + 0.05);
+    return { o, g };
+  };
+
+  // ---------- 1. SUB-BASS IMPACT (huge thud — 0s) ----------
+  // Pitched-down sine sweep from 120Hz → 35Hz for a chest-thump
+  {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(120, now);
+    o.frequency.exponentialRampToValueAtTime(35, now + 0.6);
+    g.gain.setValueAtTime(0.85, now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+    o.connect(g).connect(master);
+    o.start(now); o.stop(now + 1.3);
+  }
+
+  // ---------- 2. METALLIC GONG STRIKE (0.05s) ----------
+  // Inharmonic metallic ring made of detuned oscillators
+  const gongFreqs = [110, 196.7, 311.3, 437.5, 622.6]; // non-harmonic ratios
+  gongFreqs.forEach((f, i) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = f;
+    const vol = 0.16 / (i + 1);
+    g.gain.setValueAtTime(vol, now + 0.05);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.05 + 2.8);
+    o.connect(g).connect(master);
+    o.start(now + 0.05); o.stop(now + 3);
+  });
+
+  // ---------- 3. CHOIR PAD (0.3s — sustained "ahhh" cluster) ----------
+  // Layered detuned sawtooths through a lowpass = orchestral pad
+  const padFilter = ctx.createBiquadFilter();
+  padFilter.type = "lowpass";
+  padFilter.frequency.setValueAtTime(400, now + 0.3);
+  padFilter.frequency.exponentialRampToValueAtTime(3000, now + 1.2);
+  padFilter.Q.value = 2;
+  padFilter.connect(master);
+
+  // D minor-ish ominous cluster (D, F, A, D, F)
+  const padFreqs = [146.8, 174.6, 220, 293.7, 349.2];
+  padFreqs.forEach(f => {
+    [-7, 0, 7].forEach(detune => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sawtooth";
+      o.frequency.value = f;
+      o.detune.value = detune;
+      g.gain.setValueAtTime(0, now + 0.3);
+      g.gain.linearRampToValueAtTime(0.025, now + 0.5);
+      g.gain.linearRampToValueAtTime(0.04, now + 1.5);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 4.2);
+      o.connect(g).connect(padFilter);
+      o.start(now + 0.3); o.stop(now + 4.3);
+    });
+  });
+
+  // ---------- 4. ASCENDING SHIMMER ARP (0.6s) ----------
+  // Quick climbing high notes — celestial harp/glock effect
+  const arp = [523.25, 659.25, 783.99, 987.77, 1174.66, 1396.91, 1760, 2093.0, 2349.32, 2637.02];
+  arp.forEach((f, i) => {
+    const t0 = 0.6 + i * 0.08;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0, now + t0);
+    g.gain.linearRampToValueAtTime(0.09, now + t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + t0 + 0.7);
+    o.connect(g).connect(master);
+    o.start(now + t0); o.stop(now + t0 + 0.75);
+  });
+
+  // ---------- 5. PEAK CHORD HIT (1.6s — the "MYTHIC" moment) ----------
+  // Big triumphant Dmaj/Fmaj polychord with brass-y sawtooths
+  const peakFreqs = [
+    73.4,  // D2  (sub)
+    146.8, // D3
+    220,   // A3
+    293.7, // D4
+    349.2, // F4 (minor 3rd → tension)
+    440,   // A4
+    587.3, // D5
+    698.5, // F5
+    880,   // A5
+    1174.7 // D6
+  ];
+  peakFreqs.forEach((f, i) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = i < 3 ? "sawtooth" : "triangle";
+    o.frequency.value = f;
+    const vol = i < 3 ? 0.14 : 0.08;
+    g.gain.setValueAtTime(0, now + 1.6);
+    g.gain.linearRampToValueAtTime(vol, now + 1.62);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 1.6 + 2.5);
+    o.connect(g).connect(master);
+    o.start(now + 1.6); o.stop(now + 4.2);
+  });
+
+  // ---------- 6. SECOND IMPACT (1.6s — punch with the chord) ----------
+  {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(80, now + 1.6);
+    o.frequency.exponentialRampToValueAtTime(28, now + 2.2);
+    g.gain.setValueAtTime(0.95, now + 1.6);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 2.6);
+    o.connect(g).connect(master);
+    o.start(now + 1.6); o.stop(now + 2.7);
+  }
+
+  // ---------- 7. WHITE-NOISE WHOOSH (rising into peak) ----------
+  // Filtered noise burst sweeping up — adds a cinematic riser
+  const noiseDur = 1.5;
+  const sampleRate = ctx.sampleRate;
+  const noiseBuf = ctx.createBuffer(1, sampleRate * noiseDur, sampleRate);
+  const noiseData = noiseBuf.getChannelData(0);
+  for (let i = 0; i < noiseData.length; i++) noiseData[i] = (Math.random() * 2 - 1) * 0.5;
+  const noiseSrc = ctx.createBufferSource();
+  noiseSrc.buffer = noiseBuf;
+  const noiseFilter = ctx.createBiquadFilter();
+  noiseFilter.type = "bandpass";
+  noiseFilter.Q.value = 2;
+  noiseFilter.frequency.setValueAtTime(400, now + 0.1);
+  noiseFilter.frequency.exponentialRampToValueAtTime(8000, now + 1.6);
+  const noiseGain = ctx.createGain();
+  noiseGain.gain.setValueAtTime(0, now + 0.1);
+  noiseGain.gain.linearRampToValueAtTime(0.18, now + 1.5);
+  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.7);
+  noiseSrc.connect(noiseFilter).connect(noiseGain).connect(master);
+  noiseSrc.start(now + 0.1);
+
+  // ---------- 8. SHIMMERING TAIL BELLS (after peak, 2.0s+) ----------
+  // High twinkles fading out — like glitter settling
+  const tailFreqs = [2093, 2637, 3135, 4186, 5274];
+  tailFreqs.forEach((f, i) => {
+    const t0 = 2.0 + Math.random() * 0.8;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = f;
+    g.gain.setValueAtTime(0, now + t0);
+    g.gain.linearRampToValueAtTime(0.05, now + t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + t0 + 1.5);
+    o.connect(g).connect(master);
+    o.start(now + t0); o.stop(now + t0 + 1.6);
+  });
 }
 
 // ---------- Particles ----------
@@ -500,7 +667,7 @@ function App() {
             <div className="rarity-key">
               <div className="panel-title">DROP RATES</div>
               {Object.keys(TIERS).map(k => {
-                const rates = { common: "50%", uncommon: "30%", rare: "14%", epic: "4.9%", legendary: "1%", ultra: "0.?%" };
+                const rates = { common: "50%", uncommon: "30%", rare: "10%", epic: "5%", legendary: "4%", ultra: "0.?%" };
                 return (
                   <div key={k} className="rate-row" style={{ "--tier-color": TIERS[k].color }}>
                     <span className="rate-pip" />
@@ -575,7 +742,7 @@ function App() {
         </main>
 
         <footer className="app-footer">
-          <span>↑ COMMON 50% · UNCOMMON 30% · RARE 14% · EPIC 4.9% · LEGENDARY 1% · MYTHIC 0.?%</span>
+          <span>↑ COMMON 50% · UNCOMMON 30% · RARE 10% · EPIC 5% · LEGENDARY 4% · MYTHIC 0.?%</span>
           <span>HOLD SPACE TO ROLL · {totalRolls} TOTAL ROLLS · {history.length} IN LOG</span>
         </footer>
 
@@ -601,7 +768,7 @@ function App() {
             <div className={`legendary-name-big ${isUltra ? "ultra-name-big" : ""}`} data-text={current?.displayName}>
               {current?.displayName}
             </div>
-            <div className="legendary-sub">{isUltra ? "A 1-IN-1000 ROLL · TAP ANYWHERE TO CONTINUE" : "A 1-IN-100 ROLL · TAP ANYWHERE TO CONTINUE"}</div>
+            <div className="legendary-sub">{isUltra ? "A 1-IN-100000 ROLL · TAP ANYWHERE TO CONTINUE" : "A 1-IN-100 ROLL · TAP ANYWHERE TO CONTINUE"}</div>
             <GoldDust active={true} />
           </div>
         </div>
