@@ -19,22 +19,22 @@ feature_row:
     alt: "Wacktory — UCSC Games Showcase Grand Prize"
     title: "Games & VR"
     excerpt: "Shipped a VR cooperative game on Steam. Grand Prize at the UCSC Games Showcase. Producer & Programmer on a 12-person team."
-    url: "/programming/"
-    btn_label: "View Projects →"
+    url: "/programming/wacktory/"
+    btn_label: "View Project →"
     btn_class: "btn--primary"
   - image_path: /assets/images/programming/project_glsl_pixelationshader/glslShader_1.png
     alt: "GLSL Pixelation Shader"
     title: "Graphics & Systems"
     excerpt: "OpenGL, WebGL, GLSL shaders, Three.js — plus AI agents, C++ data structures, and C# tools."
-    url: "/programming/"
-    btn_label: "View Projects →"
+    url: "/programming/graphics-systems/"
+    btn_label: "View Project →"
     btn_class: "btn--primary"
   - image_path: /assets/images/programming/project_theguardiansofucsc/GoUCSCRiddlePoster.png
     alt: "The Guardians of UCSC ARG"
     title: "Producing & Design"
     excerpt: "Produced a campus-wide ARG at UC Santa Cruz. Designed and shipped 6+ digital and analog games."
-    url: "/programming/"
-    btn_label: "View Projects →"
+    url: "/programming/guardians-of-ucsc/"
+    btn_label: "View Project →"
     btn_class: "btn--primary"
 ---
 
