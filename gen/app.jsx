@@ -344,8 +344,7 @@ function App() {
   const [shake, setShake] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
   const [ready, setReady] = useState(false);
-  const [showLeftPanel, setShowLeftPanel] = useState(false);
-  const [showRightPanel, setShowRightPanel] = useState(false);
+  const [expandedPanel, setExpandedPanel] = useState(null); // 'stats', 'log', or null
 
   // Initialize ColorSampler on mount
   useEffect(() => {
@@ -409,9 +408,8 @@ function App() {
     setTotalRolls(n => n + 1);
     setTierCounts(prev => ({ ...prev, [current.tier]: (prev[current.tier] || 0) + 1 }));
 
-    // Collapse sidebars on mobile after roll
-    setShowLeftPanel(false);
-    setShowRightPanel(false);
+    // Collapse all panels on roll to show result
+    setExpandedPanel(null);
 
     // Screen shake based on tier
     const shakeAmount = { common: 0, uncommon: 2, rare: 4, epic: 8, legendary: 18, ultra: 32 }[current.tier];
@@ -464,14 +462,15 @@ function App() {
           </div>
         </header>
 
-        <main className="main-grid">
-          {/* LEFT: stats / history */}
-          <aside className={`side-panel side-panel-left ${showLeftPanel ? "expanded" : "collapsed"}`}>
-            <button className="panel-toggle" onClick={() => setShowLeftPanel(!showLeftPanel)} title="Toggle stats">
-              {showLeftPanel ? "▼" : "▶"} <span className="toggle-label">STATS</span>
+        <main className="main-grid-mobile">
+          {/* STATS: collapsible section */}
+          <section className={`collapsible-section stats-section ${expandedPanel === "stats" ? "expanded" : "collapsed"}`}>
+            <button className="section-toggle" onClick={() => setExpandedPanel(expandedPanel === "stats" ? null : "stats")}>
+              <span className="toggle-arrow">{expandedPanel === "stats" ? "▼" : "▶"}</span>
+              <span className="section-title">ROLLS + STATS</span>
+              <span className="section-count">{totalRolls}</span>
             </button>
-            <div className="panel-content">
-              <div className="stats-mini">{totalRolls}</div>
+            <div className="section-content">
               <StatsBar totalRolls={totalRolls} tierCounts={tierCounts} />
               <div className="rarity-key">
                 <div className="panel-title">DROP RATES</div>
@@ -483,10 +482,11 @@ function App() {
                       <span className="rate-label">{TIERS[k].label}</span>
                       <span className="rate-pct">{rates[k]}</span>
                     </div>
-                  );              })}
+                  );
+                })}
               </div>
             </div>
-          </aside>
+          </section>
 
           {/* CENTER: the machine */}
           <section className="machine-panel">
@@ -534,12 +534,14 @@ function App() {
             </div>
           </section>
 
-          {/* RIGHT: log */}
-          <aside className={`side-panel side-panel-right ${showRightPanel ? "expanded" : "collapsed"}`}>
-            <button className="panel-toggle" onClick={() => setShowRightPanel(!showRightPanel)} title="Toggle history">
-              {showRightPanel ? "▼" : "▶"} <span className="toggle-label">LOG ({history.length})</span>
+          {/* LOG: collapsible section */}
+          <section className={`collapsible-section log-section ${expandedPanel === "log" ? "expanded" : "collapsed"}`}>
+            <button className="section-toggle" onClick={() => setExpandedPanel(expandedPanel === "log" ? null : "log")}>
+              <span className="toggle-arrow">{expandedPanel === "log" ? "▼" : "▶"}</span>
+              <span className="section-title">LOG</span>
+              <span className="section-count">{history.length}</span>
             </button>
-            <div className="panel-content">
+            <div className="section-content">
               <div className="panel-title">
                 ROLL LOG
                 {(history.length > 0 || totalRolls > 0) && (
@@ -553,7 +555,7 @@ function App() {
                 ))}
               </div>
             </div>
-          </aside>
+          </section>
         </main>
 
         <footer className="app-footer">

@@ -11,7 +11,8 @@
       "Bash(git commit -m 'Add comprehensive error handling and guards for genome data *)",
       "Bash(git commit -m 'Improve facial features: lighter chin shadow, nose highlight, and warm blush *)",
       "Bash(git commit -m 'Remove harsh chin shadow band, add subtle chin definition *)",
-      "Bash(git commit -m 'Add collapsible sidebars for mobile responsiveness *)"
+      "Bash(git commit -m 'Add collapsible sidebars for mobile responsiveness *)",
+      "Bash(git commit -m 'Redesign mobile layout with mutually exclusive collapsible sections *)"
     ]
   }
 }
