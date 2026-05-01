@@ -596,25 +596,17 @@ function drawBody(ctx, bodyType, skinTones, garbTones) {
       }
     }
   }
-  // Highlights on left, shadows on right
+  // Highlights on left, shadows on right — only for depth, not extreme
   for (const [x, y, c, , row] of bodyMask) {
     const isLeft = c === 0 || row[c - 1] !== "X";
     const isRight = c === row.length - 1 || row[c + 1] !== "X";
     if (isLeft) px(ctx, x, y, garbHi);
+    // Right shadow only on outer edge, not excessive
     if (isRight) px(ctx, x, y, garbShade);
-    // Inner right shadow
-    if (!isRight && row[c + 1] === "X" && (c === row.length - 2 || row[c + 2] !== "X")) {
-      px(ctx, x, y, garbShade);
-    }
   }
-  // Collar shadow under neck — lighter shadow to not overpower
-  for (let x = neckLeft - 1; x <= neckRight + 1; x++) {
-    px(ctx, x, baseY + 1, garbShade);
-  }
-  // Collar V-suggestion based on garb (subtle)
-  px(ctx, 15, baseY + 1, garbShade);
-  px(ctx, 16, baseY + 2, garbShade);
-  px(ctx, 15, baseY + 2, toHexColor(garbTones.highlight));
+  // Subtle shadow only where neck meets chin — just a tiny line for definition
+  px(ctx, neckLeft - 1, neckTop - 1, garbShade);
+  px(ctx, neckRight + 1, neckTop - 1, garbShade);
 
   return { neckLeft, neckRight, neckTop, baseY };
 }
