@@ -607,14 +607,14 @@ function drawBody(ctx, bodyType, skinTones, garbTones) {
       px(ctx, x, y, garbShade);
     }
   }
-  // Collar shadow under neck
+  // Collar shadow under neck — lighter shadow to not overpower
   for (let x = neckLeft - 1; x <= neckRight + 1; x++) {
-    px(ctx, x, baseY + 1, garbShade2);
+    px(ctx, x, baseY + 1, garbShade);
   }
   // Collar V-suggestion based on garb (subtle)
-  px(ctx, 15, baseY + 1, garbShade2);
-  px(ctx, 16, baseY + 2, garbShade2);
-  px(ctx, 15, baseY + 2, garbShade);
+  px(ctx, 15, baseY + 1, garbShade);
+  px(ctx, 16, baseY + 2, garbShade);
+  px(ctx, 15, baseY + 2, toHexColor(garbTones.highlight));
 
   return { neckLeft, neckRight, neckTop, baseY };
 }
@@ -1233,11 +1233,12 @@ function drawEyes(ctx, type, eyeBags, skinTones) {
 // ---------- Face details: nose, mouth, freckles, blush ----------
 function drawFaceDetails(ctx, genome, skinTones) {
   const skin = toHexColor(skinTones.midtone);
+  const skinHi = toHexColor(skinTones.highlight);
   const skinDeep = toHexColor(skinTones.deepShadow);
   const skinMid = toHexColor(skinTones.shadow);
 
-  // Nose: 2-3 pixels of skin shadow, centered
-  px(ctx, 15, 14, skinMid);
+  // Nose: highlight on tip, shadow on bridge
+  px(ctx, 15, 14, skinHi);
   px(ctx, 15, 15, skinDeep);
   px(ctx, 16, 15, skinMid);
 
@@ -1284,10 +1285,12 @@ function drawFaceDetails(ctx, genome, skinTones) {
     px(ctx, 17, 14, shade(skin, -0.10));
   }
 
-  // Cheek blush
+  // Cheek blush and nose flush — warm reddish tint
   if (genome.cheekBlush) {
-    px(ctx, 11, 14, shade(skin, -0.04));
-    px(ctx, 19, 14, shade(skin, -0.04));
+    const blush = shade(skin, 0.08); // warm reddish tint
+    px(ctx, 11, 14, blush);
+    px(ctx, 19, 14, blush);
+    px(ctx, 15, 14, blush); // tiny nose blush
   }
 }
 
