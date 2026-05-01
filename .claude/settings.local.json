@@ -13,7 +13,11 @@
       "Bash(git commit -m 'Remove harsh chin shadow band, add subtle chin definition *)",
       "Bash(git commit -m 'Add collapsible sidebars for mobile responsiveness *)",
       "Bash(git commit -m 'Redesign mobile layout with mutually exclusive collapsible sections *)",
-      "Bash(git commit -m 'Add smart responsive section expansion based on available screen space *)"
+      "Bash(git commit -m 'Add smart responsive section expansion based on available screen space *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\repos\\\\talonbaker.github.io\" -Recurse)",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object FullName)",
+      "PowerShell(Get-ChildItem *)"
     ]
   }
 }

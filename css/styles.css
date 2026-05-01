@@ -590,3 +590,124 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
+
+/* ============ ART SECTION ============ */
+.art-section {
+  padding: 6rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(10, 10, 12, 0.8) 100%);
+}
+
+.art-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.05em;
+}
+
+.art-instagram-link {
+  color: var(--accent-purple);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.art-instagram-link:hover {
+  color: var(--accent-cyan);
+}
+
+/* ============ CAROUSEL ============ */
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carousel-track-wrapper {
+  flex: 1;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.carousel-slide {
+  flex: 0 0 calc((100% - 3rem) / 3);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  display: block;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+  display: block;
+}
+
+.carousel-slide:hover {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 30px rgba(199, 125, 255, 0.2);
+}
+
+.carousel-slide:hover img {
+  transform: scale(1.04);
+}
+
+.carousel-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  box-shadow: 0 0 15px rgba(199, 125, 255, 0.2);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  .carousel-slide {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+  }
+}
+
+@media (max-width: 560px) {
+  .carousel-slide {
+    flex: 0 0 100%;
+  }
+}
+
+/* ============ POINT-UP HAND ============ */
+.point-up-hand {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 130px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 35;
+  filter: drop-shadow(0 -4px 12px rgba(0, 0, 0, 0.6));
+}
