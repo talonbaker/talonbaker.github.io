@@ -442,6 +442,7 @@ function drawHead(ctx, headShape, skinTones) {
 // ---------- Body / Shoulders ----------
 function drawBody(ctx, bodyType, skinTones, garbTones) {
   const skinShade = toHexColor(skinTones.shadow);
+  const garb = toHexColor(garbTones.midtone);
   const garbHi = toHexColor(garbTones.highlight);
   const garbShade = toHexColor(garbTones.shadow);
   const garbShade2 = toHexColor(garbTones.deepShadow);
