@@ -99,35 +99,35 @@ function weightedPick(weights) {
 
 function generateFace(tier, gender) {
   const C = window.FACE_CONFIG;
-  const CS = window.ColorSampler;
-
   tier = tier || "common";
+  // Normalize: the rest of the app uses "ultra" but the config uses "mythic"
   const tierKey = tier === "ultra" ? "mythic" : tier;
   gender = gender || fpick(["male", "female", "neutral"]);
 
-  // Sample colors from perlin texture — no hardcoded color palettes
-  let skinTones = CS.sampleAndDerive();
-  const hairTones = CS.sampleAndDerive();
-  const eyeTones = CS.sampleAndDerive();
-  const garbTones = CS.sampleAndDerive();
+  // Skin: with some chance use the tier's special pool, otherwise common.
+  const skinChance = (C.skin_special_chance && C.skin_special_chance[tierKey]) || 0;
+  const useSpecialSkin = froll() < skinChance && C.skin_tones[tierKey];
+  const skin = weightedPick(useSpecialSkin ? C.skin_tones[tierKey] : C.skin_tones.common);
 
-  // TIER-SPECIFIC OVERRIDES: Keep special legendary/mythic effects
-  // These are unique, rare, and define the tier visually
-  if (tierKey === "legendary") {
-    // Legendary: blood-marked obsidian skin
-    skinTones = CS.deriveTones({ r: 46, g: 46, b: 46 }); // #2e2e2e obsidian
-  } else if (tierKey === "mythic") {
-    // Mythic: void-black or blood-marked
-    const mythicChoice = froll() < 0.5;
-    skinTones = CS.deriveTones(
-      mythicChoice
-        ? { r: 26, g: 6, b: 6 }    // blood-marked #1a0606
-        : { r: 58, g: 16, b: 16 }  // deeper blood #3a1010
-    );
+  // Hair color — same idea but with tier-specific cascading defaults.
+  // Mythic mixes mythic + legendary; epic falls back to rare; rare to uncommon; etc.
+  let hairColor;
+  if (tierKey === "mythic") {
+    hairColor = weightedPick({ ...C.hair_colors.mythic, ...C.hair_colors.legendary });
+  } else if (tierKey === "legendary") {
+    hairColor = weightedPick(C.hair_colors.legendary);
+  } else if (tierKey === "epic") {
+    hairColor = weightedPick(froll() < 0.7 ? C.hair_colors.epic : C.hair_colors.rare);
+  } else if (tierKey === "rare") {
+    hairColor = weightedPick(froll() < 0.6 ? C.hair_colors.rare : C.hair_colors.uncommon);
+  } else if (tierKey === "uncommon") {
+    hairColor = weightedPick(froll() < 0.5 ? C.hair_colors.uncommon : C.hair_colors.common);
+  } else {
+    hairColor = weightedPick(C.hair_colors.common);
   }
 
-  // Eye types still tied to tier for special effects (glow, burning, void)
   const eyePool = C.eye_types[tierKey] || C.eye_types.common;
+  const garbPool = C.garb_colors[tierKey] || C.garb_colors.common;
 
   const dc = C.detail_chances || {};
   const frecklesBase =
@@ -137,20 +137,14 @@ function generateFace(tier, gender) {
   return {
     tier,
     gender,
-    // Skin tones (4-tone system)
-    skinTones,
-    // Hair tones (4-tone system)
-    hairTones,
-    // Eye tones (4-tone system, modified by eye type)
-    eyeTones,
-    // Garb/clothing tones (4-tone system)
-    garbTones,
-    // Structural variety (no hardcoded limits, just distribution)
+    skin,
+    hairColor,
     hairStyle: weightedPick(C.hair_styles[gender] || C.hair_styles.neutral),
     headShape: weightedPick(C.head_shapes[gender] || C.head_shapes.neutral),
     bodyType:  weightedPick(C.body_types[gender]  || C.body_types.neutral),
     eye:    weightedPick(eyePool),
     mouth:  weightedPick(C.mouths),
+    garb:   weightedPick(garbPool),
     freckles:   froll() < frecklesBase,
     cheekBlush: froll() < (dc.cheek_blush ?? 0.4),
     eyeBags:    froll() < (dc.eye_bags    ?? 0.15),
@@ -163,15 +157,6 @@ window.generateFace = generateFace;
 
 // ---------- Renderer ----------
 const W = 32, H = 36;
-
-// Convert color object {r, g, b} to hex string
-function toHexColor(colorObj) {
-  if (typeof colorObj === 'string') return colorObj; // already hex
-  const r = colorObj.r || 0;
-  const g = colorObj.g || 0;
-  const b = colorObj.b || 0;
-  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-}
 
 function shade(hex, amount) {
   const c = hex.replace("#", "");
@@ -381,14 +366,13 @@ function getHeadShape(shape) {
 }
 
 // Returns object with head metadata for use by other layers
-function drawHead(ctx, headShape, skinTones) {
+function drawHead(ctx, headShape, skin) {
   const rows = getHeadShape(headShape);
   const baseX = 6, baseY = 5;
-  // Use 4-tone system from texture sampling
-  const skinMid = toHexColor(skinTones.midtone);
-  const skinHi = toHexColor(skinTones.highlight);
-  const skinShade1 = toHexColor(skinTones.shadow);
-  const skinShade2 = toHexColor(skinTones.deepShadow);
+  const skinMid = skin;
+  const skinShade1 = shade(skin, -0.10);  // mid-shadow
+  const skinShade2 = shade(skin, -0.20);  // deep shadow
+  const skinHi = shade(skin, 0.08);       // highlight
 
   // First pass: fill all pixels with mid skin and record positions
   const mask = []; // [x, y, isLeftEdge, isRightEdge, isTopEdge, isBottomEdge]
@@ -440,13 +424,11 @@ function drawHead(ctx, headShape, skinTones) {
 }
 
 // ---------- Body / Shoulders ----------
-function drawBody(ctx, bodyType, skinTones, garbTones) {
-  const skinShade = toHexColor(skinTones.shadow);
-  const garb = toHexColor(garbTones.midtone);
-  const garbHi = toHexColor(garbTones.highlight);
-  const garbShade = toHexColor(garbTones.shadow);
-  const garbShade2 = toHexColor(garbTones.deepShadow);
-  const skinMid = toHexColor(skinTones.midtone);
+function drawBody(ctx, bodyType, skin, garb) {
+  const skinShade = shade(skin, -0.18);
+  const garbHi = shade(garb, 0.08);
+  const garbShade = shade(garb, -0.20);
+  const garbShade2 = shade(garb, -0.32);
 
   // Neck — sits directly under the chin (head bottom is around y=18-19).
   // Just one short row of skin connects head to shoulders.
@@ -456,14 +438,14 @@ function drawBody(ctx, bodyType, skinTones, garbTones) {
 
   // Two rows of neck skin
   for (let x = neckLeft; x <= neckRight; x++) {
-    px(ctx, x, neckTop, skinMid);
-    px(ctx, x, neckTop + 1, skinMid);
+    px(ctx, x, neckTop, skin);
+    px(ctx, x, neckTop + 1, skin);
   }
   // Subtle right-side neck shadow
   px(ctx, neckRight, neckTop, skinShade);
   px(ctx, neckRight, neckTop + 1, skinShade);
   // Soft shadow under jaw — just one row at neckTop
-  px(ctx, neckLeft, neckTop, toHexColor(skinTones.shadow));
+  px(ctx, neckLeft, neckTop, shade(skin, -0.12));
 
   // Shoulder shape per body type — width and slope
   let shapes;
@@ -596,27 +578,32 @@ function drawBody(ctx, bodyType, skinTones, garbTones) {
       }
     }
   }
-  // Highlights on left, shadows on right — only for depth, not extreme
+  // Highlights on left, shadows on right
   for (const [x, y, c, , row] of bodyMask) {
     const isLeft = c === 0 || row[c - 1] !== "X";
     const isRight = c === row.length - 1 || row[c + 1] !== "X";
     if (isLeft) px(ctx, x, y, garbHi);
-    // Right shadow only on outer edge, not excessive
     if (isRight) px(ctx, x, y, garbShade);
+    // Inner right shadow
+    if (!isRight && row[c + 1] === "X" && (c === row.length - 2 || row[c + 2] !== "X")) {
+      px(ctx, x, y, garbShade);
+    }
   }
-  // Subtle shadow only where neck meets chin — just a tiny line for definition
-  px(ctx, neckLeft - 1, neckTop - 1, garbShade);
-  px(ctx, neckRight + 1, neckTop - 1, garbShade);
+  // Collar shadow under neck
+  for (let x = neckLeft - 1; x <= neckRight + 1; x++) {
+    px(ctx, x, baseY + 1, garbShade2);
+  }
+  // Collar V-suggestion based on garb (subtle)
+  px(ctx, 15, baseY + 1, garbShade2);
+  px(ctx, 16, baseY + 2, garbShade2);
+  px(ctx, 15, baseY + 2, garbShade);
 
   return { neckLeft, neckRight, neckTop, baseY };
 }
 
 // ---------- Hair: BACK pass (renders before head) ----------
 // For long hair flowing behind head silhouette down onto shoulders.
-function drawHairBack(ctx, style, hairTones) {
-  const hair = toHexColor(hairTones.midtone);
-  const hairShadow = toHexColor(hairTones.shadow);
-  const hairHi = toHexColor(hairTones.highlight);
+function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
   const drawShape = (rows, baseX, baseY) => {
     for (let r = 0; r < rows.length; r++) {
       for (let c = 0; c < rows[r].length; c++) {
@@ -836,10 +823,7 @@ function drawHairBack(ctx, style, hairTones) {
 
 // ---------- Hair: FRONT pass (renders after head) ----------
 // Bangs, fringe, side-locks, tops of short hair.
-function drawHairFront(ctx, style, hairTones) {
-  const hair = toHexColor(hairTones.midtone);
-  const hairShadow = toHexColor(hairTones.shadow);
-  const hairHi = toHexColor(hairTones.highlight);
+function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
   const drawShape = (rows, baseX, baseY) => {
     for (let r = 0; r < rows.length; r++) {
       for (let c = 0; c < rows[r].length; c++) {
@@ -863,7 +847,7 @@ function drawHairFront(ctx, style, hairTones) {
       ];
       drawShape(top, 6, 5);
       // Side-front cascade
-      px(ctx, 6, 10);
+      px(ctx, 6, 10); 
       const sideL = ["X","X","X","x"];
       const sideR = ["X","X","X","x"];
       sideL.forEach((c, i) => px(ctx, 6, 10 + i, hair));
@@ -1146,7 +1130,7 @@ function drawHairFront(ctx, style, hairTones) {
 }
 
 // ---------- Eyes ----------
-function drawEyes(ctx, type, eyeBags, skinTones) {
+function drawEyes(ctx, type, eyeBags, skin) {
   const lx = 11, rx = 19, y = 12;
   const drawDot = (x, y, color, glow) => {
     if (glow) {
@@ -1161,9 +1145,8 @@ function drawEyes(ctx, type, eyeBags, skinTones) {
   };
   // Optional eye-bags (slight shadow under each eye)
   if (eyeBags) {
-    const eyeBagColor = toHexColor(skinTones.shadow);
-    px(ctx, lx, y + 1, eyeBagColor);
-    px(ctx, rx, y + 1, eyeBagColor);
+    px(ctx, lx, y + 1, shade(skin, -0.18));
+    px(ctx, rx, y + 1, shade(skin, -0.18));
   }
   switch (type) {
     case "bead-black":
@@ -1182,10 +1165,6 @@ function drawEyes(ctx, type, eyeBags, skinTones) {
       drawDot(lx, y, "#c060ff", "#c060ff"); drawDot(rx, y, "#c060ff", "#c060ff"); break;
     case "glow-cyan":
       drawDot(lx, y, "#80ffe8", "#80ffe8"); drawDot(rx, y, "#80ffe8", "#80ffe8"); break;
-    case "glow-grey":
-      drawDot(lx, y, "#b8b8c8", "#b8b8c8"); drawDot(rx, y, "#b8b8c8", "#b8b8c8"); break;
-    case "glow-emerald":
-      drawDot(lx, y, "#4cff6a", "#4cff6a"); drawDot(rx, y, "#4cff6a", "#4cff6a"); break;
     case "scar-eye":
       px(ctx, lx, y, "#0a0a0a");
       px(ctx, rx - 1, y - 1, "#5a2020");
@@ -1223,14 +1202,12 @@ function drawEyes(ctx, type, eyeBags, skinTones) {
 }
 
 // ---------- Face details: nose, mouth, freckles, blush ----------
-function drawFaceDetails(ctx, genome, skinTones) {
-  const skin = toHexColor(skinTones.midtone);
-  const skinHi = toHexColor(skinTones.highlight);
-  const skinDeep = toHexColor(skinTones.deepShadow);
-  const skinMid = toHexColor(skinTones.shadow);
+function drawFaceDetails(ctx, genome, skin) {
+  const skinDeep = shade(skin, -0.25);
+  const skinMid = shade(skin, -0.15);
 
-  // Nose: highlight on tip, shadow on bridge
-  px(ctx, 15, 14, skinHi);
+  // Nose: 2-3 pixels of skin shadow, centered
+  px(ctx, 15, 14, skinMid);
   px(ctx, 15, 15, skinDeep);
   px(ctx, 16, 15, skinMid);
 
@@ -1277,12 +1254,10 @@ function drawFaceDetails(ctx, genome, skinTones) {
     px(ctx, 17, 14, shade(skin, -0.10));
   }
 
-  // Cheek blush and nose flush — warm reddish tint
+  // Cheek blush
   if (genome.cheekBlush) {
-    const blush = shade(skin, 0.08); // warm reddish tint
-    px(ctx, 11, 14, blush);
-    px(ctx, 19, 14, blush);
-    px(ctx, 15, 14, blush); // tiny nose blush
+    px(ctx, 11, 14, shade(skin, -0.04));
+    px(ctx, 19, 14, shade(skin, -0.04));
   }
 }
 
@@ -1318,65 +1293,35 @@ function drawTierAccessory(ctx, tier) {
   }
 }
 
-// Helper: ensure tone objects exist with required structure
-function ensureTones(tones) {
-  if (!tones || typeof tones !== 'object') {
-    return { r: 128, g: 128, b: 128, midtone: { r: 128, g: 128, b: 128 }, highlight: { r: 180, g: 180, b: 180 }, shadow: { r: 80, g: 80, b: 80 }, deepShadow: { r: 40, g: 40, b: 40 } };
-  }
-  if (!tones.midtone) tones.midtone = tones;
-  if (!tones.highlight) tones.highlight = { r: 180, g: 180, b: 180 };
-  if (!tones.shadow) tones.shadow = { r: 80, g: 80, b: 80 };
-  if (!tones.deepShadow) tones.deepShadow = { r: 40, g: 40, b: 40 };
-  return tones;
-}
-
 // ---------- Main render ----------
 function renderFace(canvas, genome) {
-  try {
-    if (!canvas || !genome) return;
+  const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.clearRect(0, 0, W, H);
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  // Background tint
+  rect(ctx, 0, 0, W, H, genome.bgTint);
 
-    ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, W, H);
+  const skinShadow = shade(genome.skin, -0.18);
+  const hairShadow = shade(genome.hairColor, -0.30);
+  const hairHi = shade(genome.hairColor, 0.18);
 
-    // Ensure all tone objects exist (for backward compatibility with old history)
-    genome.skinTones = ensureTones(genome.skinTones);
-    genome.hairTones = ensureTones(genome.hairTones);
-    genome.eyeTones = ensureTones(genome.eyeTones);
-    genome.garbTones = ensureTones(genome.garbTones);
-
-    // Ensure required genome properties exist
-    genome.bodyType = genome.bodyType || "average";
-    genome.headShape = genome.headShape || "oval";
-    genome.hairStyle = genome.hairStyle || "long-flow";
-    genome.eye = genome.eye || "bead-black";
-    genome.mouth = genome.mouth || "line";
-    genome.bgTint = genome.bgTint || "#2a2a2e";
-
-    // Background tint
-    rect(ctx, 0, 0, W, H, genome.bgTint);
-
-    // Layer order:
-    // 1. background
-    // 2. body / shoulders / garb
-    // 3. HAIR BACK PASS (long hair behind silhouette)
-    // 4. head + skin shading
-    // 5. face details (nose, mouth, etc.)
-    // 6. eyes
-    // 7. HAIR FRONT PASS (bangs, top, side-locks)
-    // 8. tier accessories
-    drawBody(ctx, genome.bodyType, genome.skinTones, genome.garbTones);
-    drawHairBack(ctx, genome.hairStyle, genome.hairTones);
-    drawHead(ctx, genome.headShape, genome.skinTones);
-    drawFaceDetails(ctx, genome, genome.skinTones);
-    drawEyes(ctx, genome.eye, genome.eyeBags, genome.skinTones);
-    drawHairFront(ctx, genome.hairStyle, genome.hairTones);
-    drawTierAccessory(ctx, genome.tier);
-  } catch (err) {
-    console.error('Error rendering face:', err);
-  }
+  // Layer order:
+  // 1. background
+  // 2. body / shoulders / garb
+  // 3. HAIR BACK PASS (long hair behind silhouette)
+  // 4. head + skin shading
+  // 5. face details (nose, mouth, etc.)
+  // 6. eyes
+  // 7. HAIR FRONT PASS (bangs, top, side-locks)
+  // 8. tier accessories
+  drawBody(ctx, genome.bodyType, genome.skin, genome.garb);
+  drawHairBack(ctx, genome.hairStyle, genome.hairColor, hairShadow, hairHi);
+  drawHead(ctx, genome.headShape, genome.skin);
+  drawFaceDetails(ctx, genome, genome.skin);
+  drawEyes(ctx, genome.eye, genome.eyeBags, genome.skin);
+  drawHairFront(ctx, genome.hairStyle, genome.hairColor, hairShadow, hairHi);
+  drawTierAccessory(ctx, genome.tier);
 }
 
 window.renderFace = renderFace;
