@@ -342,14 +342,6 @@ function App() {
   const [legendaryOverlay, setLegendaryOverlay] = useState(false);
   const [shake, setShake] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
-  const [ready, setReady] = useState(false);
-
-  // Initialize ColorSampler on mount
-  useEffect(() => {
-    window.ColorSampler.init().then(() => {
-      setReady(true);
-    });
-  }, []);
 
   // Persist history
   useEffect(() => {
@@ -378,7 +370,7 @@ function App() {
   }, [tierCounts]);
 
   const doRoll = useCallback(() => {
-    if (rolling || !ready) return;
+    if (rolling) return;
     // unlock audio
     const ctx = getAudio();
     if (ctx && ctx.state === "suspended") ctx.resume();
@@ -391,7 +383,7 @@ function App() {
     setRolling(true);
     setRevealed(false);
     setLegendaryOverlay(false);
-  }, [rolling, gender, ready]);
+  }, [rolling, gender]);
 
   const handleSettle = useCallback(() => {
     if (!current) return;
@@ -510,9 +502,9 @@ function App() {
             </div>
 
             <div className="roll-row">
-              <button className={`roll-btn ${rolling ? "disabled" : ""} ${!ready ? "disabled" : ""}`} onClick={doRoll} disabled={rolling || !ready}>
+              <button className={`roll-btn ${rolling ? "disabled" : ""}`} onClick={doRoll} disabled={rolling}>
                 <span className="roll-btn-bg" />
-                <span className="roll-btn-text">{!ready ? "LOADING…" : rolling ? "ROLLING…" : "ROLL"}</span>
+                <span className="roll-btn-text">{rolling ? "ROLLING…" : "ROLL"}</span>
                 <span className="roll-btn-hint">SPACE</span>
               </button>
             </div>

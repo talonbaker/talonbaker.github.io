@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Name Generation Distribution Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #0a0a0c;
+      color: #e8e8ec;
+      padding: 40px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #31FF31;
+      margin-bottom: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      border: 1px solid #2a2a32;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #2a2a32;
+    }
+    th {
+      background: #1a1a1f;
+      font-weight: bold;
+      color: #31FF31;
+    }
+    td {
+      background: #111114;
+    }
+    .common { color: #9ca3af; }
+    .uncommon { color: #31FF31; }
+    .rare { color: #3a9eff; }
+    .epic { color: #c77dff; }
+    .legendary { color: #FFB347; }
+    .ultra { color: #ff2a2a; font-weight: bold; }
+    .summary {
+      margin-top: 30px;
+      padding: 20px;
+      background: #1a1a1f;
+      border: 1px solid #2a2a32;
+      border-radius: 4px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #e8e8ec;
+      color: #0a0a0c;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    button:hover {
+      background: #fff;
+    }
+    .loading {
+      color: #FFB347;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎲 Name Generation Distribution Test</h1>
+
+  <button onclick="runTest()">Run 1000 Generations</button>
+  <div id="results"></div>
+
+  <script src="data.js"></script>
+  <script>
+    function runTest() {
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = 'Running...';
+      btn.classList.add('loading');
+
+      setTimeout(() => {
+        const results = { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0, ultra: 0 };
+
+        for (let i = 0; i < 1000; i++) {
+          const name = window.generateName();
+          results[name.tier]++;
+        }
+
+        const html = `
+          <table>
+            <thead>
+              <tr>
+                <th>TIER</th>
+                <th>COUNT</th>
+                <th>EXPECTED</th>
+                <th>ACTUAL %</th>
+                <th>DIFF</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="common">Common</td>
+                <td>${results.common}</td>
+                <td>~500</td>
+                <td>${(results.common / 10).toFixed(1)}%</td>
+                <td>${results.common - 500 > 0 ? '+' : ''}${results.common - 500}</td>
+              </tr>
+              <tr>
+                <td class="uncommon">Uncommon</td>
+                <td>${results.uncommon}</td>
+                <td>~300</td>
+                <td>${(results.uncommon / 10).toFixed(1)}%</td>
+                <td>${results.uncommon - 300 > 0 ? '+' : ''}${results.uncommon - 300}</td>
+              </tr>
+              <tr>
+                <td class="rare">Rare</td>
+                <td>${results.rare}</td>
+                <td>~140</td>
+                <td>${(results.rare / 10).toFixed(1)}%</td>
+                <td>${results.rare - 140 > 0 ? '+' : ''}${results.rare - 140}</td>
+              </tr>
+              <tr>
+                <td class="epic">Epic</td>
+                <td>${results.epic}</td>
+                <td>~49</td>
+                <td>${(results.epic / 10).toFixed(1)}%</td>
+                <td>${results.epic - 49 > 0 ? '+' : ''}${results.epic - 49}</td>
+              </tr>
+              <tr>
+                <td class="legendary">Legendary</td>
+                <td>${results.legendary}</td>
+                <td>~10</td>
+                <td>${(results.legendary / 10).toFixed(1)}%</td>
+                <td>${results.legendary - 10 > 0 ? '+' : ''}${results.legendary - 10}</td>
+              </tr>
+              <tr>
+                <td class="ultra">MYTHIC (Ultra)</td>
+                <td>${results.ultra}</td>
+                <td>~1</td>
+                <td>${(results.ultra / 10).toFixed(1)}%</td>
+                <td>${results.ultra - 1 > 0 ? '+' : ''}${results.ultra - 1}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="summary">
+            <strong>Total Rolls:</strong> ${Object.values(results).reduce((a,b)=>a+b)} / 1000<br><br>
+            ${results.ultra === 0
+              ? `<span class="ultra">⚠️ No MYTHIC rolled (statistically possible but unusual)</span><br>
+                 Getting 0 mythics in 1000 rolls has ~36.8% probability<br>
+                 Try running again or do 5000+ rolls to be more certain`
+              : `<span class="ultra">✅ Got ${results.ultra} MYTHIC - System is working!</span>`
+            }
+          </div>
+        `;
+
+        document.getElementById('results').innerHTML = html;
+        btn.disabled = false;
+        btn.textContent = 'Run 1000 Generations Again';
+        btn.classList.remove('loading');
+      }, 100);
+    }
+  </script>
+</body>
+</html>
