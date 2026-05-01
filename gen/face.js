@@ -1337,35 +1337,51 @@ function ensureTones(tones) {
 
 // ---------- Main render ----------
 function renderFace(canvas, genome) {
-  const ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-  ctx.clearRect(0, 0, W, H);
+  try {
+    if (!canvas || !genome) return;
 
-  // Ensure all tone objects exist (for backward compatibility with old history)
-  genome.skinTones = ensureTones(genome.skinTones);
-  genome.hairTones = ensureTones(genome.hairTones);
-  genome.eyeTones = ensureTones(genome.eyeTones);
-  genome.garbTones = ensureTones(genome.garbTones);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-  // Background tint
-  rect(ctx, 0, 0, W, H, genome.bgTint);
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, W, H);
 
-  // Layer order:
-  // 1. background
-  // 2. body / shoulders / garb
-  // 3. HAIR BACK PASS (long hair behind silhouette)
-  // 4. head + skin shading
-  // 5. face details (nose, mouth, etc.)
-  // 6. eyes
-  // 7. HAIR FRONT PASS (bangs, top, side-locks)
-  // 8. tier accessories
-  drawBody(ctx, genome.bodyType, genome.skinTones, genome.garbTones);
-  drawHairBack(ctx, genome.hairStyle, genome.hairTones);
-  drawHead(ctx, genome.headShape, genome.skinTones);
-  drawFaceDetails(ctx, genome, genome.skinTones);
-  drawEyes(ctx, genome.eye, genome.eyeBags, genome.skinTones);
-  drawHairFront(ctx, genome.hairStyle, genome.hairTones);
-  drawTierAccessory(ctx, genome.tier);
+    // Ensure all tone objects exist (for backward compatibility with old history)
+    genome.skinTones = ensureTones(genome.skinTones);
+    genome.hairTones = ensureTones(genome.hairTones);
+    genome.eyeTones = ensureTones(genome.eyeTones);
+    genome.garbTones = ensureTones(genome.garbTones);
+
+    // Ensure required genome properties exist
+    genome.bodyType = genome.bodyType || "average";
+    genome.headShape = genome.headShape || "oval";
+    genome.hairStyle = genome.hairStyle || "long-flow";
+    genome.eye = genome.eye || "bead-black";
+    genome.mouth = genome.mouth || "line";
+    genome.bgTint = genome.bgTint || "#2a2a2e";
+
+    // Background tint
+    rect(ctx, 0, 0, W, H, genome.bgTint);
+
+    // Layer order:
+    // 1. background
+    // 2. body / shoulders / garb
+    // 3. HAIR BACK PASS (long hair behind silhouette)
+    // 4. head + skin shading
+    // 5. face details (nose, mouth, etc.)
+    // 6. eyes
+    // 7. HAIR FRONT PASS (bangs, top, side-locks)
+    // 8. tier accessories
+    drawBody(ctx, genome.bodyType, genome.skinTones, genome.garbTones);
+    drawHairBack(ctx, genome.hairStyle, genome.hairTones);
+    drawHead(ctx, genome.headShape, genome.skinTones);
+    drawFaceDetails(ctx, genome, genome.skinTones);
+    drawEyes(ctx, genome.eye, genome.eyeBags, genome.skinTones);
+    drawHairFront(ctx, genome.hairStyle, genome.hairTones);
+    drawTierAccessory(ctx, genome.tier);
+  } catch (err) {
+    console.error('Error rendering face:', err);
+  }
 }
 
 window.renderFace = renderFace;

@@ -299,9 +299,10 @@ function FaceCanvas({ genome, size = 160, className = "" }) {
 
 // ---------- Roll history ----------
 function HistoryItem({ entry, onClick }) {
-  const t = TIERS[entry.tier];
+  const t = TIERS[entry.tier] || TIERS.common;
+  if (!entry.displayName) return null;
   return (
-    <button className={`history-item history-${entry.tier}`} onClick={() => onClick(entry)} style={{ "--tier-color": t.color }}>
+    <button className={`history-item history-${entry.tier || "common"}`} onClick={() => onClick(entry)} style={{ "--tier-color": t.color }}>
       {entry.face && <FaceCanvas genome={entry.face} size={28} className="history-face" />}
       <span className="history-tier-pip" />
       <span className="history-name">{entry.displayName}</span>
@@ -348,6 +349,9 @@ function App() {
   useEffect(() => {
     window.ColorSampler.init().then(() => {
       setReady(true);
+    }).catch(err => {
+      console.error('ColorSampler init error:', err);
+      setReady(true); // still set ready so app can work
     });
   }, []);
 

@@ -5,7 +5,10 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
-      "Bash(node -c face.js)"
+      "Bash(node -c face.js)",
+      "Bash(git commit -m 'Fix missing garb midtone color definition in drawBody *)",
+      "Bash(git commit -m 'Fix missing skin midtone color definition in drawFaceDetails *)",
+      "Bash(git commit -m 'Add comprehensive error handling and guards for genome data *)"
     ]
   }
 }
