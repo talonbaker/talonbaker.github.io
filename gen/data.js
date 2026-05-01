@@ -1,19 +1,19 @@
 // Name generator data — pulled from the spec
 window.NAME_DATA = {
   first_names: {
-    male: ["Richard", "Dickard", "Billy", "Ivan", "Eric", "Angelo", "Talon", "Fredrick", "Jon", "Guy", "Fry", "Sonny", "Harden", "Hardon", "Rod", "Woody", "Harry", "Johnson", "Peter", "Phil", "Buster", "Artie", "Lance", "Seamore", "Mike", "Ben", "Otto", "Dickie", "Barry", "Chuck", "Dong", "Willie", "Tug", "Rusty", "Buck", "Gus", "Morty", "Butch", "Skip", "Humpy", "Stroker", "Wedge", "Biff", "Dixon", "Digby", "Gomer", "Eustace", "Barnaby", "Bort", "Slab"],
-    female: ["Camilla", "Midge", "Soon", "Fanny", "Candy", "Irene", "Angela", "Barb", "Kitty", "Flo", "Bev", "Anita", "Ivana", "Penny", "Gigi", "Misty", "Bunny", "Dixie", "Trixie", "Tessie", "Dot", "Peaches", "Olive", "Cherry", "Verna", "Babs", "Agatha", "Tootsie", "Goldie", "Marge", "Pansy", "Ethel", "Blanche", "Prue", "Beulah", "Gertrude", "Helga", "Mildred", "Hortense"],
+    male: ["Richard", "Dickard", "Billy", "Ivan", "Javi", "Ted", "Samson", "Eric", "Angelo", "Talon", "Fredrick", "Jon", "Guy", "Fry", "Sonny", "Harden", "Hardon", "Rod", "Woody", "Harry", "Johnson", "Peter", "Phil", "Buster", "Artie", "Lance", "Seamore", "Mike", "Ben", "Otto", "Dickie", "Barry", "Chuck", "Dong", "Willie", "Tug", "Rusty", "Buck", "Gus", "Morty", "Butch", "Skip", "Humpy", "Stroker", "Wedge", "Biff", "Dixon", "Digby", "Gomer", "Eustace", "Barnaby", "Bort", "Slab"],
+    female: ["Camilla", "Julie", "Dolly", "Samantha", "Midge", "Soon", "Fanny", "Candy", "Irene", "Angela", "Barb", "Kitty", "Flo", "Bev", "Anita", "Ivana", "Penny", "Gigi", "Misty", "Bunny", "Dixie", "Trixie", "Tessie", "Dot", "Peaches", "Olive", "Cherry", "Verna", "Babs", "Agatha", "Tootsie", "Goldie", "Marge", "Pansy", "Ethel", "Blanche", "Prue", "Beulah", "Gertrude", "Helga", "Mildred", "Hortense"],
     neutral: ["Spanky", "Milky", "Smalky", "Smokey", "Dolla", "Spazzy", "Weird", "Pat", "Pip", "Ziggy", "Skitter", "Boop", "Gorp", "Zip", "Nacho", "Pudge", "Squeak", "Dripple", "Fodder", "Gristle", "Titch", "Sniff", "Puff", "Wobble", "Jinx", "Riff", "Soggy", "Lump", "Crusty", "Dab", "Fleck", "Grit", "Poke", "Tubby", "Skid", "Slick", "Winky", "Binky", "Widget"]
   },
-  fusion_prefixes: ["Beef", "La", "Blob", "Chunky", "Clump", "Dong", "Fizzle", "Frump", "Gloom", "Grump", "Gurgle", "Honk", "Jiggle", "Klutzo", "Lump", "Muck", "Noodle", "Plop", "Poot", "Pork", "Quack", "Rump", "Slap", "Sludge", "Shnoz", "Snort", "Stink", "Twerp", "Waffle", "Zonk", "Bung", "Long", "Hard", "Wet", "Soft", "Big", "Small", "Short", "Stiff", "Wood", "Bush", "Sack", "Crack", "Nut", "Cream", "Stroke", "Rub", "Tug", "Poke", "Shaft", "Rack", "Hole", "Knob", "Junk", "Beaver", "Ball", "Wedge", "Grab", "Munch", "Schlep", "Squirt", "Grunt", "Throttle", "Smear", "Guzzle", "Flop"],
-  fusion_suffixes: ["berg", "bord", "son", "sin", "er", "ing", "gal", "sit", "man", "men", "mon", "en", "den", "tch", "billa", "butt", "ker", "y", "oid", "kins", "munch", "face", "ee", "bottom", "wick", "ford", "ling", "ton", "blatt", "doodle", "fink", "goose", "hole", "knob", "lick", "moose", "nugget", "puss", "rump", "snout", "toes", "wad", "well", "off", "on", "ly", "kin", "pecker", "shiner", "rider", "grinder", "smith", "field", "wood", "water", "cock", "bridge", "house", "bag", "sack", "mouth", "foot", "leg", "hand", "finger"],
-  static_last_names: ["Prickens", "Dickonson", "Grundle", "Pooman", "Pooson", "Plowman", "Plowson", "Ploob", "Ploomb", "Dumbe", "Snell", "Cho", "Snellky", "Harden", "Spanks", "Spanky", "Boobilla", "Dumbus", "Cranker", "Cracker", "Conch", "Couch", "Chaire", "Redass", "Milk", "Milky", "Hardass", "Bonker", "Spankman", "Shoeman", "Shoegal", "Choson", "Dooson", "Roden", "Roddan", "Bigman", "Biggins", "Bingus", "Fetch", "Ballson", "Ballman", "Buttson", "Buttman", "Hooker", "Honker", "Honkey", "Fux", "Beefbottom", "Crackerjack", "Dunderhead", "Eggfart", "Flapjack", "Goosehonk", "Hamhock", "Ironbutt", "Jellybelly", "Knucklehead", "Lardass", "Meatball", "Nutcase", "Picklebreath", "Rumptunnel", "Slapnuts", "Thickneck", "Wormguy", "Snodgrass", "Crandall", "Lumpkin", "Pumpernickel", "Shunt", "Blump", "Gristle", "Waffleman", "Squelch", "Dripman", "Stinkleton", "Swallow", "Cox", "Dix", "Hancock", "Wacker", "Pounder", "Grabman", "Tugwell", "Rubbin", "Dixon", "Morehead", "Butts", "Fillmore", "Cummings", "Hardcastle", "Lovelady", "Glasscock", "Wiener", "Wankel", "Fiddler", "Rodman", "Pecker", "Sackett", "Wang", "Schlong"],
+  fusion_prefixes: ["Beef", "La", "Shank", "Blob", "Chunky", "Clump", "Dong", "Fizzle", "Frump", "Gloom", "Grump", "Gurgle", "Honk", "Love", "Jiggle", "Klutzo", "Lump", "Muck", "Noodle", "Plop", "Poot", "Pork", "Quack", "Rump", "Slap", "Sludge", "Shnoz", "Snort", "Stink", "Twerp", "Waffle", "Zonk", "Bung", "Long", "Hard", "Wet", "Soft", "Big", "Small", "Short", "Stiff", "Wood", "Bush", "Sack", "Crack", "Nut", "Cream", "Stroke", "Rub", "Tug", "Poke", "Shaft", "Rack", "Hole", "Knob", "Junk", "Beaver", "Ball", "Wedge", "Grab", "Munch", "Schlep", "Squirt", "Grunt", "Throttle", "Smear", "Guzzle", "Flop"],
+  fusion_suffixes: ["berg", "bord", "son", "shits", "sin", "er", "ing", "gal", "sit", "man", "men", "mon", "en", "den", "tch", "billa", "bug", "butt", "ker", "y", "oid", "kins", "munch", "face", "ee", "bottom", "wick", "ford", "ling", "ton", "blatt", "doodle", "fink", "goose", "hole", "knob", "lick", "moose", "nugget", "puss", "rump", "snout", "toes", "wad", "well", "off", "on", "ly", "kin", "pecker", "shiner", "rider", "grinder", "smith", "field", "wood", "water", "cock", "bridge", "house", "bag", "sack", "mouth", "foot", "leg", "hand", "finger"],
+  static_last_names: ["Prickens", "Baker", "Dickonson", "Grundle", "Pooman", "Pooson", "Plowman", "Plowson", "Garlic", "Ploob", "Ploomb", "Dumbe", "Snell", "Snellky", "Harden", "Spanks", "Spanky", "Boobilla", "Dumbus", "Cranker", "Cracker", "Conch", "Couch", "Chaire", "Red", "Milk", "Milky", "Hardass", "Bonker", "Spankman", "Shoeman", "Shoegal", "Choson", "Dooson", "Roden", "Roddan", "Bigman", "Biggins", "Bingus", "Fetch", "Ballson", "Ballman", "Buttson", "Buttman", "Hooker", "Honker", "Honkey", "Fux", "Beefbottom", "Crackerjack", "Dunderhead", "Eggfart", "Flapjack", "Goosehonk", "Hamhock", "Ironbutt", "Jellybelly", "Knucklehead", "Lardass", "Meatball", "Nutcase", "Picklebreath", "Rumptunnel", "Slapnuts", "Thickneck", "Wormguy", "Snodgrass", "Crandall", "Lumpkin", "Pumpernickel", "Shunt", "Blump", "Gristle", "Waffleman", "Squelch", "Dripman", "Stinkleton", "Swallow", "Cox", "Dix", "Hancock", "Wacker", "Pounder", "Grabman", "Tugwell", "Rubbin", "Dixon", "Morehead", "Butts", "Fillmore", "Cummings", "Hardcastle", "Lovelady", "Glasscock", "Wiener", "Wankel", "Fiddler", "Rodman", "Pecker", "Sackett", "Wang", "Schlong"],
   legendary_roots: {
     male: ["Zeus", "Odin", "Ares", "Thor", "Kratos", "Apollo", "Titan", "Ragnar", "Maximus", "Leonidas", "Gunnar", "Rollo", "Attila", "Ajax", "Siegfried", "Beowulf", "Thanatos", "Hades", "Erebus", "Belial"],
     female: ["Hera", "Athena", "Artemis", "Valkyrie", "Freya", "Isis", "Nyx", "Hecate", "Sigrid", "Zenobia", "Boudica", "Lagertha", "Hippolyta", "Ishtar", "Morrigan", "Sekhmet", "Kali", "Medusa", "Tiamat", "Lilith"],
     neutral: ["Phoenix", "Oracle", "Zenith", "Aeon", "Ether", "Chaos", "Nova", "Pulsar", "Abyss", "Obsidian", "Onyx", "Harbinger", "Paragon", "Vanguard", "Sovereign", "Nemesis"]
   },
-  legendary_titles: ["The Unconquered", "The World-Eater", "Storm-Born", "Void-Walker", "The Eternal", "Iron-Willed", "The Doom-Slayer", "Shadow-Stalker", "The Prime", "The Harbinger", "Earth-Shaker", "The Blood-Axe", "Star-Reaper", "The Sovereign", "The Inevitable"],
+  legendary_titles: ["Unconquered", "World-Eater", "Storm-Born", "Void-Walker", "Eternal", "Iron-Willed", "Doom-Slayer", "Shadow-Stalker", "Prime", "Harbinger", "Earth-Shaker", "Blood-Axe", "Star-Reaper", "Sovereign", "Inevitable"],
   corporate_titles: ["Senior Associate", "Executive VP", "Lead Synergy Coordinator", "Interim Regional Director", "Chief Vibes Officer", "Junior Deputy Manager", "VP of Optics", "Principal Strategist", "Director of First Impressions"]
 };
 
@@ -65,7 +65,7 @@ function maybeAddSuffix(name, D, prob) {
   return null;
 }
 
-function generateName(gender, totalRolls) {
+function generateName(gender) {
   const D = window.NAME_DATA;
   const g = gender || pick(["male", "female", "neutral"]);
   const first = pick(D.first_names[g]);
@@ -79,19 +79,14 @@ function generateName(gender, totalRolls) {
   // We'll map to the "Loot Drop Visual Tiers":
   //   Common 50%, Uncommon 30%, Rare 14%, Epic 5%, Legendary 1%
   // Use weighted roll to feel right.
-  // Every 1000 rolls, guarantee a mythic (ultra).
+  const r = roll();
   let tier;
-  if (totalRolls !== undefined && (totalRolls + 1) % 1000 === 0) {
-    tier = "ultra";
-  } else {
-    const r = roll();
-    if (r < 0.50) tier = "common";
-    else if (r < 0.80) tier = "uncommon";
-    else if (r < 0.94) tier = "rare";
-    else if (r < 0.989) tier = "epic";
-    else if (r < 0.999) tier = "legendary";
-    else tier = "ultra";
-  }
+  if (r < 0.50) tier = "common";
+  else if (r < 0.80) tier = "uncommon";
+  else if (r < 0.94) tier = "rare";
+  else if (r < 0.989) tier = "epic";
+  else if (r < 0.999) tier = "legendary";
+  else tier = "ultra";
 
   let displayName, fullData = { tier, gender: g, first };
 

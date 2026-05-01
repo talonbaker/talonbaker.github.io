@@ -277,11 +277,33 @@ function SlotName({ rolling, finalName, tier, onSettle }) {
   );
 }
 
+// ---------- Procedural Pixel Face ----------
+function FaceCanvas({ genome, size = 160, className = "" }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!ref.current || !genome) return;
+    window.renderFace(ref.current, genome);
+  }, [genome]);
+  if (!genome) return null;
+  const { W, H } = window.FACE_DIMS;
+  return (
+    <canvas
+      ref={ref}
+      width={W}
+      height={H}
+      className={`face-canvas ${className}`}
+      style={{ width: size, height: Math.round(size * (H / W)) }}
+    />
+  );
+}
+
 // ---------- Roll history ----------
 function HistoryItem({ entry, onClick }) {
-  const t = TIERS[entry.tier];
+  const t = TIERS[entry.tier] || TIERS.common;
+  if (!entry.displayName) return null;
   return (
-    <button className={`history-item history-${entry.tier}`} onClick={() => onClick(entry)} style={{ "--tier-color": t.color }}>
+    <button className={`history-item history-${entry.tier || "common"}`} onClick={() => onClick(entry)} style={{ "--tier-color": t.color }}>
+      {entry.face && <FaceCanvas genome={entry.face} size={28} className="history-face" />}
       <span className="history-tier-pip" />
       <span className="history-name">{entry.displayName}</span>
       <span className="history-tier-label">{t.label}</span>
@@ -321,6 +343,52 @@ function App() {
   const [legendaryOverlay, setLegendaryOverlay] = useState(false);
   const [shake, setShake] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [expandedPanels, setExpandedPanels] = useState(new Set()); // Set of 'stats' and/or 'log'
+
+  // Initialize ColorSampler on mount
+  useEffect(() => {
+    window.ColorSampler.init().then(() => {
+      setReady(true);
+    }).catch(err => {
+      console.error('ColorSampler init error:', err);
+      setReady(true); // still set ready so app can work
+    });
+  }, []);
+
+  // Auto-expand sections based on available vertical space
+  useEffect(() => {
+    const handleResize = () => {
+      const vh = window.innerHeight;
+      const vw = window.innerWidth;
+
+      // Only auto-expand on larger screens (tablets/desktop, not phones)
+      // Phone breakpoint is typically 768px
+      if (vw >= 768) {
+        // Desktop/large tablet: check if we have enough height
+        // Space needed: header ~60px + footer ~50px + roll button ~70px + machine panel min ~350px + padding ~60px = ~590px
+        // Stats section needs ~200px, Log section needs ~150px when scrollable
+
+        if (vh >= 1200) {
+          // Very large screen - expand both stats and log
+          setExpandedPanels(new Set(["stats", "log"]));
+        } else if (vh >= 900) {
+          // Large screen - expand just stats
+          setExpandedPanels(new Set(["stats"]));
+        } else {
+          // Regular desktop/tablet - collapse by default
+          setExpandedPanels(new Set());
+        }
+      } else {
+        // Phone: collapse sections to save space
+        setExpandedPanels(new Set());
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Persist history
   useEffect(() => {
@@ -349,18 +417,20 @@ function App() {
   }, [tierCounts]);
 
   const doRoll = useCallback(() => {
-    if (rolling) return;
+    if (rolling || !ready) return;
     // unlock audio
     const ctx = getAudio();
     if (ctx && ctx.state === "suspended") ctx.resume();
 
     const g = gender === "any" ? null : gender;
-    const result = window.generateName(g, totalRolls);
+    const result = window.generateName(g);
+    // Procedural face genome — same loot-table logic, tied to the name's tier + gender
+    result.face = window.generateFace(result.tier, result.gender);
     setCurrent(result);
     setRolling(true);
     setRevealed(false);
     setLegendaryOverlay(false);
-  }, [rolling, gender, totalRolls]);
+  }, [rolling, gender, ready]);
 
   const handleSettle = useCallback(() => {
     if (!current) return;
@@ -371,6 +441,9 @@ function App() {
     setHistory(prev => [{ ...current, ts: Date.now() }, ...prev].slice(0, 100));
     setTotalRolls(n => n + 1);
     setTierCounts(prev => ({ ...prev, [current.tier]: (prev[current.tier] || 0) + 1 }));
+
+    // Collapse all panels on roll to show result
+    setExpandedPanels(new Set());
 
     // Screen shake based on tier
     const shakeAmount = { common: 0, uncommon: 2, rare: 4, epic: 8, legendary: 18, ultra: 32 }[current.tier];
@@ -423,23 +496,39 @@ function App() {
           </div>
         </header>
 
-        <main className="main-grid">
-          {/* LEFT: stats / history */}
-          <aside className="side-panel">
-            <StatsBar totalRolls={totalRolls} tierCounts={tierCounts} />
-            <div className="rarity-key">
-              <div className="panel-title">DROP RATES</div>
-              {Object.keys(TIERS).map(k => {
-                const rates = { common: "50%", uncommon: "30%", rare: "14%", epic: "4.9%", legendary: "1%", ultra: "0.?%" };
-                return (
-                  <div key={k} className="rate-row" style={{ "--tier-color": TIERS[k].color }}>
-                    <span className="rate-pip" />
-                    <span className="rate-label">{TIERS[k].label}</span>
-                    <span className="rate-pct">{rates[k]}</span>
-                  </div>
-                );              })}
+        <main className="main-grid-mobile">
+          {/* STATS: collapsible section */}
+          <section className={`collapsible-section stats-section ${expandedPanels.has("stats") ? "expanded" : "collapsed"}`}>
+            <button className="section-toggle" onClick={() => {
+              const next = new Set(expandedPanels);
+              if (next.has("stats")) {
+                next.delete("stats");
+              } else {
+                next.add("stats");
+              }
+              setExpandedPanels(next);
+            }}>
+              <span className="toggle-arrow">{expandedPanels.has("stats") ? "▼" : "▶"}</span>
+              <span className="section-title">ROLLS + STATS</span>
+              <span className="section-count">{totalRolls}</span>
+            </button>
+            <div className="section-content">
+              <StatsBar totalRolls={totalRolls} tierCounts={tierCounts} />
+              <div className="rarity-key">
+                <div className="panel-title">DROP RATES</div>
+                {Object.keys(TIERS).map(k => {
+                  const rates = { common: "50%", uncommon: "30%", rare: "14%", epic: "4.9%", legendary: "1%", ultra: "0.?%" };
+                  return (
+                    <div key={k} className="rate-row" style={{ "--tier-color": TIERS[k].color }}>
+                      <span className="rate-pip" />
+                      <span className="rate-label">{TIERS[k].label}</span>
+                      <span className="rate-pct">{rates[k]}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </aside>
+          </section>
 
           {/* CENTER: the machine */}
           <section className="machine-panel">
@@ -459,6 +548,12 @@ function App() {
 
                 <SlotName rolling={rolling} finalName={current?.displayName || "PRESS ROLL"} tier={tier} onSettle={handleSettle} />
 
+                {revealed && current?.face && (
+                  <div className={`face-stage face-stage-${tier}`}>
+                    <FaceCanvas genome={current.face} size={180} className="face-main" />
+                  </div>
+                )}
+
                 {revealed && (
                   <div className="reveal-sub">
                     <span className="sub-divider">◆</span>
@@ -473,29 +568,44 @@ function App() {
             </div>
 
             <div className="roll-row">
-              <button className={`roll-btn ${rolling ? "disabled" : ""}`} onClick={doRoll} disabled={rolling}>
+              <button className={`roll-btn ${rolling ? "disabled" : ""} ${!ready ? "disabled" : ""}`} onClick={doRoll} disabled={rolling || !ready}>
                 <span className="roll-btn-bg" />
-                <span className="roll-btn-text">{rolling ? "ROLLING…" : "ROLL"}</span>
+                <span className="roll-btn-text">{!ready ? "LOADING…" : rolling ? "ROLLING…" : "ROLL"}</span>
                 <span className="roll-btn-hint">SPACE</span>
               </button>
             </div>
           </section>
 
-          {/* RIGHT: log */}
-          <aside className="side-panel side-panel-right">
-            <div className="panel-title">
-              ROLL LOG
-              {(history.length > 0 || totalRolls > 0) && (
-                <button className="clear-btn" onClick={() => { if (confirm("Clear history and reset counter?")) { setHistory([]); setTotalRolls(0); setTierCounts({ common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0, ultra: 0 }); } }}>CLEAR</button>
-              )}
+          {/* LOG: collapsible section */}
+          <section className={`collapsible-section log-section ${expandedPanels.has("log") ? "expanded" : "collapsed"}`}>
+            <button className="section-toggle" onClick={() => {
+              const next = new Set(expandedPanels);
+              if (next.has("log")) {
+                next.delete("log");
+              } else {
+                next.add("log");
+              }
+              setExpandedPanels(next);
+            }}>
+              <span className="toggle-arrow">{expandedPanels.has("log") ? "▼" : "▶"}</span>
+              <span className="section-title">LOG</span>
+              <span className="section-count">{history.length}</span>
+            </button>
+            <div className="section-content">
+              <div className="panel-title">
+                ROLL LOG
+                {(history.length > 0 || totalRolls > 0) && (
+                  <button className="clear-btn" onClick={() => { if (confirm("Clear history and reset counter?")) { setHistory([]); setTotalRolls(0); setTierCounts({ common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0, ultra: 0 }); } }}>CLEAR</button>
+                )}
+              </div>
+              <div className="history-list">
+                {history.length === 0 && <div className="history-empty">No rolls yet.<br/>Press ROLL to start.</div>}
+                {history.map((h, i) => (
+                  <HistoryItem key={h.ts + "-" + i} entry={h} onClick={(e) => setCurrent(e) && setRevealed(true)} />
+                ))}
+              </div>
             </div>
-            <div className="history-list">
-              {history.length === 0 && <div className="history-empty">No rolls yet.<br/>Press ROLL to start.</div>}
-              {history.map((h, i) => (
-                <HistoryItem key={h.ts + "-" + i} entry={h} onClick={(e) => setCurrent(e) && setRevealed(true)} />
-              ))}
-            </div>
-          </aside>
+          </section>
         </main>
 
         <footer className="app-footer">
@@ -514,6 +624,11 @@ function App() {
             <div className={`legendary-banner ${isUltra ? "ultra-banner" : ""}`}>
               <span className="legendary-banner-text">{isUltra ? "✦ MYTHIC ✦" : "LEGENDARY DROP"}</span>
             </div>
+            {current?.face && (
+              <div className={`legendary-face-stage ${isUltra ? "ultra-face-stage" : ""}`}>
+                <FaceCanvas genome={current.face} size={320} className="face-legendary" />
+              </div>
+            )}
             <div className={`legendary-name-big ${isUltra ? "ultra-name-big" : ""}`} data-text={current?.displayName}>
               {current?.displayName}
             </div>
