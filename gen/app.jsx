@@ -344,6 +344,8 @@ function App() {
   const [shake, setShake] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
   const [ready, setReady] = useState(false);
+  const [showLeftPanel, setShowLeftPanel] = useState(false);
+  const [showRightPanel, setShowRightPanel] = useState(false);
 
   // Initialize ColorSampler on mount
   useEffect(() => {
@@ -407,6 +409,10 @@ function App() {
     setTotalRolls(n => n + 1);
     setTierCounts(prev => ({ ...prev, [current.tier]: (prev[current.tier] || 0) + 1 }));
 
+    // Collapse sidebars on mobile after roll
+    setShowLeftPanel(false);
+    setShowRightPanel(false);
+
     // Screen shake based on tier
     const shakeAmount = { common: 0, uncommon: 2, rare: 4, epic: 8, legendary: 18, ultra: 32 }[current.tier];
     if (shakeAmount > 0) {
@@ -460,19 +466,25 @@ function App() {
 
         <main className="main-grid">
           {/* LEFT: stats / history */}
-          <aside className="side-panel">
-            <StatsBar totalRolls={totalRolls} tierCounts={tierCounts} />
-            <div className="rarity-key">
-              <div className="panel-title">DROP RATES</div>
-              {Object.keys(TIERS).map(k => {
-                const rates = { common: "50%", uncommon: "30%", rare: "14%", epic: "4.9%", legendary: "1%", ultra: "0.?%" };
-                return (
-                  <div key={k} className="rate-row" style={{ "--tier-color": TIERS[k].color }}>
-                    <span className="rate-pip" />
-                    <span className="rate-label">{TIERS[k].label}</span>
-                    <span className="rate-pct">{rates[k]}</span>
-                  </div>
-                );              })}
+          <aside className={`side-panel side-panel-left ${showLeftPanel ? "expanded" : "collapsed"}`}>
+            <button className="panel-toggle" onClick={() => setShowLeftPanel(!showLeftPanel)} title="Toggle stats">
+              {showLeftPanel ? "▼" : "▶"} <span className="toggle-label">STATS</span>
+            </button>
+            <div className="panel-content">
+              <div className="stats-mini">{totalRolls}</div>
+              <StatsBar totalRolls={totalRolls} tierCounts={tierCounts} />
+              <div className="rarity-key">
+                <div className="panel-title">DROP RATES</div>
+                {Object.keys(TIERS).map(k => {
+                  const rates = { common: "50%", uncommon: "30%", rare: "14%", epic: "4.9%", legendary: "1%", ultra: "0.?%" };
+                  return (
+                    <div key={k} className="rate-row" style={{ "--tier-color": TIERS[k].color }}>
+                      <span className="rate-pip" />
+                      <span className="rate-label">{TIERS[k].label}</span>
+                      <span className="rate-pct">{rates[k]}</span>
+                    </div>
+                  );              })}
+              </div>
             </div>
           </aside>
 
@@ -523,18 +535,23 @@ function App() {
           </section>
 
           {/* RIGHT: log */}
-          <aside className="side-panel side-panel-right">
-            <div className="panel-title">
-              ROLL LOG
-              {(history.length > 0 || totalRolls > 0) && (
-                <button className="clear-btn" onClick={() => { if (confirm("Clear history and reset counter?")) { setHistory([]); setTotalRolls(0); setTierCounts({ common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0, ultra: 0 }); } }}>CLEAR</button>
-              )}
-            </div>
-            <div className="history-list">
-              {history.length === 0 && <div className="history-empty">No rolls yet.<br/>Press ROLL to start.</div>}
-              {history.map((h, i) => (
-                <HistoryItem key={h.ts + "-" + i} entry={h} onClick={(e) => setCurrent(e) && setRevealed(true)} />
-              ))}
+          <aside className={`side-panel side-panel-right ${showRightPanel ? "expanded" : "collapsed"}`}>
+            <button className="panel-toggle" onClick={() => setShowRightPanel(!showRightPanel)} title="Toggle history">
+              {showRightPanel ? "▼" : "▶"} <span className="toggle-label">LOG ({history.length})</span>
+            </button>
+            <div className="panel-content">
+              <div className="panel-title">
+                ROLL LOG
+                {(history.length > 0 || totalRolls > 0) && (
+                  <button className="clear-btn" onClick={() => { if (confirm("Clear history and reset counter?")) { setHistory([]); setTotalRolls(0); setTierCounts({ common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0, ultra: 0 }); } }}>CLEAR</button>
+                )}
+              </div>
+              <div className="history-list">
+                {history.length === 0 && <div className="history-empty">No rolls yet.<br/>Press ROLL to start.</div>}
+                {history.map((h, i) => (
+                  <HistoryItem key={h.ts + "-" + i} entry={h} onClick={(e) => setCurrent(e) && setRevealed(true)} />
+                ))}
+              </div>
             </div>
           </aside>
         </main>
