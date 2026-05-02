@@ -266,6 +266,27 @@ function playMythicSound(ctx) {
   });
 }
 
+// ---------- Share / download ----------
+function shareOrDownload(canvas, name, scale) {
+  scale = scale || 8;
+  const off = document.createElement('canvas');
+  off.width = canvas.width * scale; off.height = canvas.height * scale;
+  const offCtx = off.getContext('2d'); offCtx.imageSmoothingEnabled = false;
+  offCtx.drawImage(canvas, 0, 0, off.width, off.height);
+  off.toBlob(function(blob) {
+    const filename = ((name || 'character').replace(/[^a-z0-9_\-]/gi, '_')) + '.png';
+    const file = new File([blob], filename, { type: 'image/png' });
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: name || 'Character' }).catch(() => _dl(blob, filename));
+    } else { _dl(blob, filename); }
+  });
+}
+function _dl(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 // ---------- Particles ----------
 function ParticleBurst({ tier, trigger }) {
   const canvasRef = useRef(null);
@@ -445,8 +466,9 @@ function SlotName({ rolling, finalName, tier, onSettle }) {
 }
 
 // ---------- Procedural Pixel Face ----------
-function FaceCanvas({ genome, size = 160, className = "" }) {
-  const ref = useRef(null);
+function FaceCanvas({ genome, size = 160, className = "", canvasRef: externalRef }) {
+  const internalRef = useRef(null);
+  const ref = externalRef || internalRef;
   // Guard: old localStorage entries may have partial/missing genome data
   const validGenome = genome && genome.skin && genome.hairColor && genome.bgTint;
   useEffect(() => {
@@ -541,6 +563,7 @@ function App() {
   const [legendaryOverlay, setLegendaryOverlay] = useState(false);
   const [shake, setShake] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
+  const faceCanvasRef = useRef(null);
 
   // Persist history
   useEffect(() => {
@@ -698,7 +721,7 @@ function App() {
 
                 {revealed && current?.face && (
                   <div className={`face-stage face-stage-${tier}`}>
-                    <FaceCanvas genome={current.face} size={180} className="face-main" />
+                    <FaceCanvas genome={current.face} size={180} className="face-main" canvasRef={faceCanvasRef} />
                   </div>
                 )}
 
@@ -716,6 +739,15 @@ function App() {
             </div>
 
             <div className="roll-row">
+              <button
+                className="share-btn-face"
+                onClick={() => { if (faceCanvasRef.current && current) shareOrDownload(faceCanvasRef.current, current.displayName || 'character', 8); }}
+                disabled={!revealed}
+                title="Save or share portrait as image"
+              >
+                SHARE
+                <span className="share-btn-face-sub">SAVE IMAGE</span>
+              </button>
               <button className={`roll-btn ${rolling ? "disabled" : ""}`} onClick={() => doRoll()} disabled={rolling}>
                 <span className="roll-btn-bg" />
                 <span className="roll-btn-text">{rolling ? "ROLLING…" : "ROLL"}</span>

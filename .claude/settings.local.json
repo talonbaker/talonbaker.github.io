@@ -17,7 +17,9 @@
       "Bash(Get-ChildItem -Path \"C:\\\\repos\\\\talonbaker.github.io\" -Recurse)",
       "Bash(Select-Object FullName)",
       "Bash(Sort-Object FullName)",
-      "PowerShell(Get-ChildItem *)"
+      "PowerShell(Get-ChildItem *)",
+      "Bash(node *)",
+      "Bash(powershell *)"
     ]
   }
 }
