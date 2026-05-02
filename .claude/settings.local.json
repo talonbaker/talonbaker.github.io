@@ -19,7 +19,8 @@
       "Bash(Sort-Object FullName)",
       "PowerShell(Get-ChildItem *)",
       "Bash(node *)",
-      "Bash(powershell *)"
+      "Bash(powershell *)",
+      "Bash(start name-face-gen/index.html)"
     ]
   }
 }

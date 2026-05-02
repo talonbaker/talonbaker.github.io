@@ -155,7 +155,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--bg-1);
   border: 1px solid var(--line);
   padding: 0;
-  flex: 1; max-height: 60vh;
+  flex: 1; max-height: 72vh;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
   transition: border-color 0.4s, box-shadow 0.4s;
@@ -203,7 +203,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .frame-inner {
   position: relative; width: 100%; height: 100%;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 40px 60px; gap: 24px;
+  padding: 28px 60px; gap: 18px;
 }
 
 .reveal-meta {
@@ -328,14 +328,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 14px 20px;
   background: var(--bg-2); border: 1px solid var(--line-2);
   color: var(--text-dim); font-size: 11px; letter-spacing: 0.22em;
-  transition: all 0.15s; line-height: 1; margin-right: 10px;
+  transition: all 0.15s; line-height: 1;
 }
 .share-btn-face:hover:not(:disabled) { color: var(--text); border-color: #4ad8ff; box-shadow: 0 0 16px rgba(74,216,255,0.3); }
 .share-btn-face:disabled { opacity: 0.3; cursor: not-allowed; }
 .share-btn-face-sub { font-size: 8px; color: var(--text-faint); letter-spacing: 0.18em; }
 
+.share-btn-badge {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 14px 20px;
+  background: var(--bg-2); border: 1px solid var(--line-2);
+  color: var(--text-dim); font-size: 11px; letter-spacing: 0.22em;
+  transition: all 0.15s; line-height: 1;
+}
+.share-btn-badge:hover:not(:disabled) { color: var(--text); border-color: #c77dff; box-shadow: 0 0 16px rgba(199,125,255,0.3); }
+.share-btn-badge:disabled { opacity: 0.3; cursor: not-allowed; }
+
 /* Roll button */
-.roll-row { display: flex; justify-content: center; align-items: center; }
+.roll-row { display: flex; justify-content: center; align-items: center; gap: 10px; }
 .roll-btn {
   position: relative;
   font-family: var(--font-display);
@@ -782,4 +792,262 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .history-legendary .history-face { border-color: #FFB347; box-shadow: 0 0 6px rgba(255, 160, 0, 0.5); }
 .history-ultra     .history-face { border-color: #ff2a2a; box-shadow: 0 0 6px rgba(255, 42, 42, 0.6); }
+
+/* ============ ID BADGE ============ */
+.id-badge {
+  position: relative;
+  width: 290px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  animation: badge-drop-in 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+  z-index: 3;
+}
+@keyframes badge-drop-in {
+  from { opacity: 0; transform: translateY(-18px) scale(0.88); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Holographic shimmer overlay — legendary/ultra only */
+.badge-holo-overlay {
+  position: absolute; inset: 0; z-index: 10;
+  background: linear-gradient(105deg,
+    transparent 30%,
+    rgba(255, 255, 200, 0.14) 47%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(200, 255, 200, 0.12) 53%,
+    transparent 70%
+  );
+  animation: holo-sweep 3.2s linear infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+@keyframes holo-sweep {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+
+/* --- Badge header strip --- */
+.badge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--tier-color);
+  gap: 6px;
+  min-height: 34px;
+}
+.badge-company {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(0, 0, 0, 0.75);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-dept {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 9px; letter-spacing: 0.12em;
+  color: rgba(0, 0, 0, 0.65);
+  text-align: right;
+  min-width: 0;
+}
+.badge-dept-emoji { font-size: 14px; flex-shrink: 0; }
+.badge-dept-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.badge-dept-generic { font-size: 9px; letter-spacing: 0.1em; color: rgba(0,0,0,0.55); }
+
+/* --- Portrait zone --- */
+.badge-portrait-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 14px 8px;
+  position: relative;
+}
+.badge-photo-frame {
+  border: 2px solid var(--tier-color);
+  background: #111;
+  line-height: 0;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.7);
+}
+.badge-face { display: block; }
+.badge-tier-tag {
+  margin-top: 6px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.25em;
+  color: var(--tier-color);
+  text-shadow: 0 0 8px var(--tier-color);
+}
+
+/* --- Identity block --- */
+.badge-identity {
+  padding: 8px 14px 6px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.badge-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.badge-role {
+  font-size: 10px; letter-spacing: 0.12em;
+  color: var(--tier-color);
+  margin-top: 4px;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+/* --- Flair / notes area --- */
+.badge-notes {
+  padding: 6px 14px 8px;
+  display: flex; flex-direction: column; gap: 4px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  min-height: 0;
+}
+.badge-note {
+  font-size: 9.5px; letter-spacing: 0.06em;
+  line-height: 1.35;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.badge-condition { color: #8b8b95; font-style: italic; }
+.badge-access    { color: #6b8fa8; }
+.badge-sin       { color: #a86b5a; }
+.badge-sticker   { color: #7aaa6a; }
+.badge-clearance { color: var(--tier-color); font-weight: 700; }
+.badge-legacy    { color: var(--tier-color); }
+.badge-sig       { color: var(--tier-color); font-style: italic; letter-spacing: 0.04em; }
+
+/* --- Barcode footer --- */
+.badge-footer-strip {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.2);
+}
+.badge-barcode {
+  display: flex; align-items: flex-end; gap: 1px; height: 22px;
+}
+.badge-bar {
+  background: var(--text-dim);
+  height: 100%;
+  min-width: 1px;
+  opacity: 0.5;
+  border-radius: 1px;
+}
+.badge-id-code {
+  font-size: 9px; letter-spacing: 0.15em; color: var(--text-faint);
+}
+
+/* ---- Tier-specific badge visuals ---- */
+
+/* Common — scratched gray plastic */
+.badge-common {
+  background: #1e1e22;
+  border: 2px solid #4b5563;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+.badge-common::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent, transparent 6px,
+    rgba(255,255,255,0.015) 6px, rgba(255,255,255,0.015) 7px
+  );
+  pointer-events: none; z-index: 5;
+}
+.badge-common .badge-header { background: #374151; }
+.badge-common .badge-company { color: rgba(255,255,255,0.45); }
+.badge-common .badge-dept { color: rgba(255,255,255,0.3); }
+
+/* Uncommon — standard blue office badge */
+.badge-uncommon {
+  background: linear-gradient(160deg, #0f1e2c 0%, #0d1a28 100%);
+  border: 2px solid #3a6ea8;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+.badge-uncommon .badge-header { background: #1a3a5a; }
+.badge-uncommon .badge-company { color: rgba(255,255,255,0.55); }
+.badge-uncommon .badge-dept { color: rgba(255,255,255,0.4); }
+
+/* Rare — "Visitor" yellow with slight stain */
+.badge-rare {
+  background: linear-gradient(160deg, #1c1800 0%, #150f00 100%);
+  border: 2px solid #b8960a;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.badge-rare::before {
+  content: "";
+  position: absolute;
+  top: 55%; left: 30%;
+  width: 60px; height: 50px;
+  background: radial-gradient(ellipse, rgba(120,80,0,0.18) 0%, transparent 70%);
+  pointer-events: none; z-index: 5;
+}
+.badge-rare .badge-header { background: #3a2a00; }
+.badge-rare .badge-company { color: rgba(255,210,0,0.65); }
+.badge-rare .badge-dept { color: rgba(255,200,0,0.5); }
+
+/* Epic — vibrant department color */
+.badge-epic {
+  background: linear-gradient(160deg, #120a20 0%, #0e0818 100%);
+  border: 2px solid #c77dff;
+  box-shadow: 0 0 20px rgba(199, 125, 255, 0.25), 0 4px 16px rgba(0,0,0,0.6);
+}
+.badge-epic .badge-header { background: #2a1045; }
+.badge-epic .badge-company { color: rgba(220,180,255,0.7); }
+.badge-epic .badge-dept { color: rgba(200,150,255,0.55); }
+
+/* Legendary — gold-trimmed hologram */
+.badge-legendary {
+  background: linear-gradient(160deg, #1a1400 0%, #0e0e00 50%, #1a1400 100%);
+  border: 2px solid #ffd040;
+  box-shadow: 0 0 28px rgba(255, 208, 64, 0.4), 0 0 60px rgba(255, 180, 0, 0.15), 0 4px 20px rgba(0,0,0,0.7);
+  animation: badge-drop-in 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both, badge-leg-glow 2s ease-in-out 0.45s infinite;
+}
+@keyframes badge-leg-glow {
+  0%, 100% { box-shadow: 0 0 28px rgba(255, 208, 64, 0.4), 0 0 60px rgba(255, 180, 0, 0.15), 0 4px 20px rgba(0,0,0,0.7); }
+  50%      { box-shadow: 0 0 48px rgba(255, 220, 80, 0.65), 0 0 100px rgba(255, 200, 0, 0.25), 0 4px 20px rgba(0,0,0,0.7); }
+}
+.badge-legendary .badge-header { background: linear-gradient(90deg, #7a5800, #c89020, #7a5800); }
+.badge-legendary .badge-company { color: rgba(255, 240, 180, 0.9); }
+.badge-legendary .badge-dept { color: rgba(255, 220, 130, 0.75); }
+.badge-legendary .badge-name { color: #fff5cc; }
+.badge-legendary .badge-role {
+  background: linear-gradient(90deg, #ff8000, #ffd700, #ff8000);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  font-weight: 700;
+}
+
+/* Mythic — obsidian with blood-red glow */
+.badge-ultra {
+  background: linear-gradient(160deg, #050008 0%, #0a0010 50%, #050008 100%);
+  border: 2px solid #ff3030;
+  box-shadow: 0 0 36px rgba(255, 42, 42, 0.5), 0 0 80px rgba(180, 0, 0, 0.2), 0 4px 20px rgba(0,0,0,0.8);
+  animation: badge-drop-in 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both, badge-ultra-glow 1.8s ease-in-out 0.45s infinite;
+}
+@keyframes badge-ultra-glow {
+  0%, 100% { box-shadow: 0 0 36px rgba(255, 42, 42, 0.5), 0 0 80px rgba(180, 0, 0, 0.2), 0 4px 20px rgba(0,0,0,0.8); }
+  50%      { box-shadow: 0 0 60px rgba(255, 80, 80, 0.75), 0 0 130px rgba(255, 0, 0, 0.35), 0 4px 20px rgba(0,0,0,0.8); }
+}
+.badge-ultra .badge-header { background: linear-gradient(90deg, #3a0000, #7a0808, #3a0000); }
+.badge-ultra .badge-company { color: rgba(255, 180, 180, 0.8); }
+.badge-ultra .badge-dept { color: rgba(255, 130, 130, 0.65); }
+.badge-ultra .badge-name { color: #f5f5f7; text-shadow: 0 0 8px rgba(255, 42, 42, 0.6); }
+.badge-ultra .badge-role { color: #ff6060; font-weight: 700; }
+.badge-ultra .badge-clearance { animation: clearance-pulse 2s ease-in-out infinite; }
+@keyframes clearance-pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.65; }
+}
 

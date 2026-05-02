@@ -83,6 +83,8 @@ window.FACE_CONFIG = {
       "pixie":             2,
       "short-shag":        2,
       "tucked":            1,   // medium hair behind ears
+      "beehive":           2,   // tall stacked retro bun
+      "pompadour":         1,   // retro front volume
     },
     male: {
       "short-mop":         3,   // standard short hair
@@ -96,6 +98,10 @@ window.FACE_CONFIG = {
       "long-pull":         1,   // medium-long pulled back
       "mullet":            1,   // for chaos
       "bald":              1,   // rare-ish
+      "pompadour":         2,   // exaggerated retro front volume
+      "power-bald":        1,   // shaved sides, bald on top
+      "comb-over":         1,   // sparse strands swept over bald spot
+      "spike":             1,   // spiky creative texture
     },
     neutral: {
       "shaggy":            2,
@@ -106,6 +112,9 @@ window.FACE_CONFIG = {
       "side-swept":        1,
       "tucked":            1,
       "ponytail":          1,
+      "messy-office":      2,   // asymmetric unkempt office hair
+      "pompadour":         1,
+      "power-bald":        1,
     },
   },
 

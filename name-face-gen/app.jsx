@@ -1,6 +1,16 @@
 // Main app — name roll machine
 const { useState, useEffect, useRef, useCallback } = React;
 
+// Badge company names — flavor per tier
+const BADGE_COMPANIES = {
+  common:    "INITECH CORP.",
+  uncommon:  "INITECH CORP.",
+  rare:      "INITECH CORP.",
+  epic:      "WOLFRAM & HART",
+  legendary: "AXIOM GLOBAL INC.",
+  ultra:     "OMNI CORP.",
+};
+
 // Tier configuration
 const TIERS = {
   common: {
@@ -287,6 +297,189 @@ function _dl(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+// ---------- Badge canvas renderer ----------
+function renderBadgeCanvas(nameResult, badgeData) {
+  const S = 3; // pixel scale
+  const BW = 290 * S, BH = 420 * S;
+  const off = document.createElement('canvas');
+  off.width = BW; off.height = BH;
+  const c = off.getContext('2d');
+  c.imageSmoothingEnabled = false;
+
+  const tier = nameResult.tier || 'common';
+  const tierMeta = TIERS[tier] || TIERS.common;
+  const company = BADGE_COMPANIES[tier] || 'INITECH CORP.';
+
+  // Tier palette
+  const palettes = {
+    common:    { bg: '#1e1e22', border: '#4b5563', header: '#374151', htext: 'rgba(255,255,255,0.45)' },
+    uncommon:  { bg: '#0f1e2c', border: '#3a6ea8', header: '#1a3a5a', htext: 'rgba(255,255,255,0.55)' },
+    rare:      { bg: '#1c1800', border: '#b8960a', header: '#3a2a00', htext: 'rgba(255,210,0,0.65)' },
+    epic:      { bg: '#120a20', border: '#c77dff', header: '#2a1045', htext: 'rgba(220,180,255,0.7)' },
+    legendary: { bg: '#1a1400', border: '#ffd040', header: '#7a5800', htext: 'rgba(255,240,180,0.9)' },
+    ultra:     { bg: '#050008', border: '#ff3030', header: '#3a0000', htext: 'rgba(255,180,180,0.8)' },
+  };
+  const pal = palettes[tier] || palettes.common;
+
+  // Background
+  c.fillStyle = pal.bg;
+  c.fillRect(0, 0, BW, BH);
+
+  // Border
+  c.strokeStyle = pal.border;
+  c.lineWidth = 4 * S;
+  const br = 8 * S;
+  c.beginPath();
+  c.roundRect(2*S, 2*S, BW - 4*S, BH - 4*S, br);
+  c.stroke();
+
+  // Header strip
+  const hh = 38 * S;
+  c.fillStyle = pal.header;
+  c.beginPath();
+  c.roundRect(2*S, 2*S, BW - 4*S, hh, [br, br, 0, 0]);
+  c.fill();
+
+  // Company text
+  c.fillStyle = pal.htext;
+  c.font = `bold ${11 * S}px "JetBrains Mono", monospace`;
+  c.letterSpacing = `${2 * S}px`;
+  c.fillText(company, 16 * S, 24 * S);
+
+  // Dept stamp
+  const stamp = badgeData.departmentStamp;
+  if (stamp) {
+    c.font = `${10 * S}px "JetBrains Mono", monospace`;
+    c.letterSpacing = `${1 * S}px`;
+    c.fillStyle = pal.htext;
+    c.textAlign = 'right';
+    c.fillText(`${stamp.emoji} ${stamp.label}`, BW - 16 * S, 24 * S);
+    c.textAlign = 'left';
+  }
+
+  // Portrait — render face onto temp canvas then blit
+  const faceSize = 110 * S;
+  const { W: FW, H: FH } = window.FACE_DIMS;
+  const faceCanvas = document.createElement('canvas');
+  faceCanvas.width = FW; faceCanvas.height = FH;
+  if (nameResult.face) window.renderFace(faceCanvas, nameResult.face);
+  const faceDrawH = Math.round(faceSize * (FH / FW));
+  const faceX = Math.round((BW - faceSize) / 2);
+  const faceY = hh + 14 * S;
+  c.drawImage(faceCanvas, faceX, faceY, faceSize, faceDrawH);
+
+  // Tier tag
+  c.fillStyle = tierMeta.color;
+  c.font = `bold ${9 * S}px "JetBrains Mono", monospace`;
+  c.letterSpacing = `${2 * S}px`;
+  c.textAlign = 'center';
+  c.fillText(tierMeta.label, BW / 2, faceY + faceDrawH + 14 * S);
+  c.textAlign = 'left';
+
+  // Divider
+  let curY = faceY + faceDrawH + 22 * S;
+  c.strokeStyle = 'rgba(255,255,255,0.08)';
+  c.lineWidth = S;
+  c.beginPath(); c.moveTo(16 * S, curY); c.lineTo(BW - 16 * S, curY); c.stroke();
+  curY += 14 * S;
+
+  // Name
+  let badgeName = nameResult.displayName || '';
+  if (nameResult.legendaryRoot) {
+    badgeName = nameResult.surname ? `${nameResult.legendaryRoot} ${nameResult.surname}` : nameResult.legendaryRoot;
+  } else if (nameResult.corpTitle && nameResult.first) {
+    badgeName = nameResult.surname ? `${nameResult.first} ${nameResult.surname}` : nameResult.first;
+  }
+  c.fillStyle = tier === 'ultra' ? '#f5f5f7' : (tier === 'legendary' ? '#fff5cc' : '#e8e8ec');
+  c.font = `bold ${18 * S}px "Space Grotesk", system-ui, sans-serif`;
+  c.letterSpacing = `${0.5 * S}px`;
+  c.textAlign = 'center';
+  c.fillText(badgeName, BW / 2, curY);
+  c.textAlign = 'left';
+  curY += 18 * S;
+
+  // Role / title
+  if (badgeData.title) {
+    c.fillStyle = tierMeta.color;
+    c.font = `${10 * S}px "JetBrains Mono", monospace`;
+    c.letterSpacing = `${1 * S}px`;
+    c.textAlign = 'center';
+    c.fillText(badgeData.title, BW / 2, curY);
+    c.textAlign = 'left';
+    curY += 16 * S;
+  }
+
+  // Divider
+  curY += 6 * S;
+  c.strokeStyle = 'rgba(255,255,255,0.06)';
+  c.lineWidth = S;
+  c.beginPath(); c.moveTo(16 * S, curY); c.lineTo(BW - 16 * S, curY); c.stroke();
+  curY += 12 * S;
+
+  // Flair notes
+  const notes = [
+    badgeData.condition && ['rgba(139,139,149,1)', `⬡ ${badgeData.condition}`],
+    badgeData.access    && ['#6b8fa8',              `🔒 ${badgeData.access}`],
+    badgeData.note      && ['#a86b5a',              `⚠ ${badgeData.note}`],
+    badgeData.sticker   && ['#7aaa6a',              `★ ${badgeData.sticker}`],
+    badgeData.clearance && [tierMeta.color,          `✦ ${badgeData.clearance}`],
+    badgeData.legacy    && [tierMeta.color,          `◆ ${badgeData.legacy}`],
+    badgeData.signature && [tierMeta.color,          badgeData.signature],
+  ].filter(Boolean);
+
+  c.font = `${9 * S}px "JetBrains Mono", monospace`;
+  c.letterSpacing = `${0.5 * S}px`;
+  for (const [color, text] of notes) {
+    c.fillStyle = color;
+    // Clip long lines
+    const maxW = (BW - 32 * S);
+    let txt = text;
+    while (c.measureText(txt).width > maxW && txt.length > 4) txt = txt.slice(0, -4) + '…';
+    c.fillText(txt, 16 * S, curY);
+    curY += 14 * S;
+  }
+
+  // Footer strip
+  const footerY = BH - 40 * S;
+  c.strokeStyle = 'rgba(255,255,255,0.06)';
+  c.lineWidth = S;
+  c.beginPath(); c.moveTo(0, footerY); c.lineTo(BW, footerY); c.stroke();
+
+  // Barcode
+  const bars = [2,1,3,1,2,3,1,2,1,3,2,1,2,3,1,2,1,3,2,1,3,1,2,1];
+  let bx = 16 * S;
+  const barH = 22 * S;
+  const barTop = footerY + 8 * S;
+  c.fillStyle = 'rgba(139,139,149,0.5)';
+  for (const w of bars) {
+    c.fillRect(bx, barTop, w * S, barH);
+    bx += (w + 1) * S;
+  }
+
+  // ID code
+  c.fillStyle = 'rgba(85,85,92,1)';
+  c.font = `${9 * S}px "JetBrains Mono", monospace`;
+  c.letterSpacing = `${1.5 * S}px`;
+  c.textAlign = 'right';
+  const idCode = `ID-${nameResult.seed ? String(nameResult.seed).slice(0, 7) : '0000000'}`;
+  c.fillText(idCode, BW - 16 * S, barTop + barH / 2 + 4 * S);
+  c.textAlign = 'left';
+
+  return off;
+}
+
+function shareBadge(nameResult, badgeData) {
+  const canvas = renderBadgeCanvas(nameResult, badgeData);
+  canvas.toBlob(function(blob) {
+    const safeName = (nameResult.displayName || 'badge').replace(/[^a-z0-9_\-]/gi, '_');
+    const filename = safeName + '_badge.png';
+    const file = new File([blob], filename, { type: 'image/png' });
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: nameResult.displayName || 'ID Badge' }).catch(() => _dl(blob, filename));
+    } else { _dl(blob, filename); }
+  });
+}
+
 // ---------- Particles ----------
 function ParticleBurst({ tier, trigger }) {
   const canvasRef = useRef(null);
@@ -551,6 +744,86 @@ function DevPanel({ onForce, disabled }) {
   );
 }
 
+// ---------- ID Badge ----------
+function IdBadge({ nameResult, badgeData, faceRef }) {
+  const tier = nameResult.tier || "common";
+  const tierMeta = TIERS[tier] || TIERS.common;
+  const deptStamp = badgeData.departmentStamp;
+
+  // Extract the "human" name (strip embedded corp title for badge display)
+  let badgeName = nameResult.displayName || "";
+  if (nameResult.legendaryRoot) {
+    badgeName = nameResult.surname
+      ? `${nameResult.legendaryRoot} ${nameResult.surname}`
+      : nameResult.legendaryRoot;
+  } else if (nameResult.corpTitle && nameResult.first) {
+    badgeName = nameResult.surname
+      ? `${nameResult.first} ${nameResult.surname}`
+      : nameResult.first;
+  }
+
+  const company = BADGE_COMPANIES[tier] || "INITECH CORP.";
+
+  const barcodeWidths = [2,1,3,1,2,3,1,2,1,3,2,1,2,3,1,2,1,3,2,1,3,1,2,1];
+
+  return (
+    <div className={`id-badge badge-${tier}`} style={{ "--tier-color": tierMeta.color }}>
+      {/* Holographic shimmer overlay for legendary/ultra */}
+      {(tier === "legendary" || tier === "ultra") && <div className="badge-holo-overlay" />}
+
+      {/* Header strip */}
+      <div className="badge-header">
+        <span className="badge-company">{company}</span>
+        {deptStamp ? (
+          <span className="badge-dept">
+            <span className="badge-dept-emoji">{deptStamp.emoji}</span>
+            <span className="badge-dept-label">{deptStamp.label}</span>
+          </span>
+        ) : (
+          <span className="badge-dept badge-dept-generic">GENERAL STAFF</span>
+        )}
+      </div>
+
+      {/* Portrait zone */}
+      <div className="badge-portrait-zone">
+        <div className={`badge-photo-frame badge-photo-${tier}`}>
+          <FaceCanvas genome={nameResult.face} size={110} className="badge-face" canvasRef={faceRef} />
+        </div>
+        <div className="badge-tier-tag">{tierMeta.label}</div>
+      </div>
+
+      {/* Identity block */}
+      <div className="badge-identity">
+        <div className="badge-name">{badgeName}</div>
+        {badgeData.title && <div className="badge-role">{badgeData.title}</div>}
+      </div>
+
+      {/* Flair / notes */}
+      <div className="badge-notes">
+        {badgeData.condition && <div className="badge-note badge-condition">⬡ {badgeData.condition}</div>}
+        {badgeData.access    && <div className="badge-note badge-access">🔒 {badgeData.access}</div>}
+        {badgeData.note      && <div className="badge-note badge-sin">⚠ {badgeData.note}</div>}
+        {badgeData.sticker   && <div className="badge-note badge-sticker">★ {badgeData.sticker}</div>}
+        {badgeData.clearance && <div className="badge-note badge-clearance">✦ {badgeData.clearance}</div>}
+        {badgeData.legacy    && <div className="badge-note badge-legacy">◆ {badgeData.legacy}</div>}
+        {badgeData.signature && <div className="badge-note badge-sig">{badgeData.signature}</div>}
+      </div>
+
+      {/* Barcode footer */}
+      <div className="badge-footer-strip">
+        <div className="badge-barcode">
+          {barcodeWidths.map((w, i) => (
+            <div key={i} className="badge-bar" style={{ width: w + "px" }} />
+          ))}
+        </div>
+        <div className="badge-id-code">
+          ID-{nameResult.seed ? String(nameResult.seed).slice(0, 7) : "0000000"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ---------- Main App ----------
 function App() {
   const [gender, setGender] = useState("any");
@@ -616,6 +889,8 @@ function App() {
     const result = window.generateName(g, forcedTier);
     // Procedural face genome — same loot-table logic, tied to the name's tier + gender
     result.face = window.generateFace(result.tier, result.gender);
+    // Badge data — flair, title, and department stamp
+    result.badge = window.generateBadge(result);
     setCurrent(result);
     setRolling(true);
     setRevealed(false);
@@ -719,10 +994,12 @@ function App() {
 
                 <SlotName rolling={rolling} finalName={current?.displayName || "PRESS ROLL"} tier={tier} onSettle={handleSettle} />
 
-                {revealed && current?.face && (
-                  <div className={`face-stage face-stage-${tier}`}>
-                    <FaceCanvas genome={current.face} size={180} className="face-main" canvasRef={faceCanvasRef} />
-                  </div>
+                {revealed && current?.face && current?.badge && (
+                  <IdBadge
+                    nameResult={current}
+                    badgeData={current.badge}
+                    faceRef={faceCanvasRef}
+                  />
                 )}
 
                 {revealed && (
@@ -745,13 +1022,22 @@ function App() {
                 disabled={!revealed}
                 title="Save or share portrait as image"
               >
-                SHARE
+                PORTRAIT
                 <span className="share-btn-face-sub">SAVE IMAGE</span>
               </button>
               <button className={`roll-btn ${rolling ? "disabled" : ""}`} onClick={() => doRoll()} disabled={rolling}>
                 <span className="roll-btn-bg" />
                 <span className="roll-btn-text">{rolling ? "ROLLING…" : "ROLL"}</span>
                 <span className="roll-btn-hint">SPACE</span>
+              </button>
+              <button
+                className="share-btn-badge"
+                onClick={() => { if (current?.badge) shareBadge(current, current.badge); }}
+                disabled={!revealed}
+                title="Save or share ID badge as image"
+              >
+                BADGE
+                <span className="share-btn-face-sub">SAVE CARD</span>
               </button>
             </div>
           </section>

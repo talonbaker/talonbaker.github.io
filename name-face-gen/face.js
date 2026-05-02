@@ -156,7 +156,7 @@ function generateFace(tier, gender) {
 window.generateFace = generateFace;
 
 // ---------- Renderer ----------
-const W = 32, H = 36;
+const W = 32, H = 38;
 
 function shade(hex, amount) {
   const c = hex.replace("#", "");
@@ -184,7 +184,7 @@ function rect(ctx, x, y, w, h, color) {
 // Origin offset (x, y) places the head silhouette on the canvas.
 // Heads sit centered horizontally around column 16, top around y=4.
 function getHeadShape(shape) {
-  // Heads are 14 rows tall, ~16 cols wide max. Centered on column 16 (after baseX=6 offset).
+  // Heads are 15 rows tall, ~16 cols wide max. Centered on column 16 (after baseX=6 offset).
   // Shape pools are split by gender so female faces use soft/round shapes and
   // male faces use angular ones.
   const shapes = {
@@ -205,6 +205,7 @@ function getHeadShape(shape) {
       "   XXXXXXXXXXXXXX   ",
       "    XXXXXXXXXXXX    ",
       "      XXXXXXXX      ",
+      "       XXXXXX       ",  // chin
     ],
     oval: [
       // Slightly elongated, narrower than round, smooth taper
@@ -222,6 +223,7 @@ function getHeadShape(shape) {
       "    XXXXXXXXXXXX    ",
       "     XXXXXXXXXX     ",
       "      XXXXXXXX      ",
+      "       XXXXXX       ",  // chin
     ],
     heart: [
       // Wide forehead/temples, narrow pointed chin
@@ -239,6 +241,7 @@ function getHeadShape(shape) {
       "      XXXXXXXX      ",
       "       XXXXXX       ",
       "        XXXX        ",
+      "         XX         ",  // chin point
     ],
     diamond: [
       // Narrow forehead and chin, widest at cheekbones
@@ -256,6 +259,7 @@ function getHeadShape(shape) {
       "      XXXXXXXX      ",
       "       XXXXXX       ",
       "        XXXX        ",
+      "         XX         ",  // chin point
     ],
 
     // ---- ANGULAR / MASCULINE ----
@@ -275,6 +279,7 @@ function getHeadShape(shape) {
       "  XXXXXXXXXXXXXXXX  ",
       "  XXXXXXXXXXXXXXXX  ",
       "   XXXXXXXXXXXXXX   ",
+      "    XXXXXXXXXXXX    ",  // squared chin
     ],
     rectangle: [
       // Tall and narrower than square — rectangular jaw
@@ -292,6 +297,7 @@ function getHeadShape(shape) {
       "    XXXXXXXXXXXX    ",
       "    XXXXXXXXXXXX    ",
       "     XXXXXXXXXX     ",
+      "      XXXXXXXX      ",  // chin
     ],
     oblong: [
       // Even longer than rectangle, slightly tapered at top and bottom
@@ -309,6 +315,7 @@ function getHeadShape(shape) {
       "    XXXXXXXXXXXX    ",
       "    XXXXXXXXXXXX    ",
       "      XXXXXXXX      ",
+      "       XXXXXX       ",  // chin
     ],
     "angular-round": [
       // Hexagonal — round-ish but with definite faceted edges
@@ -326,6 +333,7 @@ function getHeadShape(shape) {
       "   XXXXXXXXXXXXXX   ",
       "    XXXXXXXXXXXX    ",
       "     XXXXXXXXXX     ",
+      "      XXXXXXXX      ",  // chin
     ],
     triangle: [
       // Narrow temples, wide square jaw — "pyramid"
@@ -343,6 +351,7 @@ function getHeadShape(shape) {
       "XXXXXXXXXXXXXXXXXXXX",
       "XXXXXXXXXXXXXXXXXXXX",
       "XXXXXXXXXXXXXXXXXXXX",
+      "XXXXXXXXXXXXXXXXXXXX",  // wide jaw chin
     ],
     "inverted-triangle": [
       // Wide forehead, pointed chin
@@ -360,6 +369,7 @@ function getHeadShape(shape) {
       "        XXXXXX      ",
       "         XXXX       ",
       "          XX        ",
+      "          XX        ",  // chin tip
     ],
   };
   return shapes[shape] || shapes.oval;
@@ -444,8 +454,13 @@ function drawBody(ctx, bodyType, skin, garb) {
   // Subtle right-side neck shadow
   px(ctx, neckRight, neckTop, skinShade);
   px(ctx, neckRight, neckTop + 1, skinShade);
-  // Soft shadow under jaw — just one row at neckTop
-  px(ctx, neckLeft, neckTop, shade(skin, -0.12));
+  // Contact shadow at chin/neck junction — darker strip across top of neck
+  for (let x = neckLeft; x <= neckRight; x++) {
+    px(ctx, x, neckTop, shade(skin, -0.22));
+  }
+  // Spread shadow 1px wider for soft edge
+  px(ctx, neckLeft - 1, neckTop, shade(skin, -0.14));
+  px(ctx, neckRight + 1, neckTop, shade(skin, -0.14));
 
   // Shoulder shape per body type — width and slope
   let shapes;
@@ -815,6 +830,36 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
       drawShape(back, 4, 5);
       break;
     }
+    case "pompadour": {
+      // Hair base behind head for pompadour
+      const back = [
+        "    XXXXXXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXXXXXX  ",
+        " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXX      XXXXXXX ",
+        " XXXXXXX          XXXXX ",
+      ];
+      drawShape(back, 4, 5);
+      break;
+    }
+    case "beehive": {
+      // Hair behind and sides for beehive
+      const back = [
+        "    XXXXXXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXXXXXX  ",
+        " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXXXXXX ",
+      ];
+      drawShape(back, 4, 5);
+      break;
+    }
+    case "power-bald":
+    case "comb-over":
+    case "messy-office":
+      // Minimal or no back pass needed
+      break;
     default:
       // Most short styles need no back pass
       break;
@@ -992,6 +1037,9 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXX        XXXXX  ",
       ];
       drawShape(top, 6, 5);
+      // Sideburns
+      px(ctx, 7, 14, hairShadow); px(ctx, 7, 15, hairShadow);
+      px(ctx, 24, 14, hairShadow); px(ctx, 24, 15, hairShadow);
       break;
     }
     case "buzz": {
@@ -1002,6 +1050,9 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  xxXXXXXXXXXXXXxx  ",
       ];
       drawShape(top, 6, 5);
+      // Stubble sideburns
+      px(ctx, 7, 13, hairShadow); px(ctx, 7, 14, hairShadow);
+      px(ctx, 24, 13, hairShadow); px(ctx, 24, 14, hairShadow);
       break;
     }
     case "bowl": {
@@ -1027,6 +1078,9 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXxxXXXXXXXXXXX  ",
       ];
       drawShape(top, 6, 5);
+      // Sideburns
+      px(ctx, 7, 14, hairShadow); px(ctx, 7, 15, hairShadow);
+      px(ctx, 24, 14, hairShadow);
       break;
     }
     case "messy":
@@ -1040,6 +1094,9 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         " X X            X X ",
       ];
       drawShape(top, 6, 5);
+      // Sideburn wisps
+      px(ctx, 7, 14, hairShadow); px(ctx, 24, 14, hairShadow);
+      px(ctx, 6, 15, hair);
       break;
     }
     case "mullet": {
@@ -1121,6 +1178,82 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXXXXXXXXXX   ",
       ];
       drawShape(top, 6, 4);
+      break;
+    }
+    case "pompadour": {
+      // Tall retro front volume sweeping back — starts above head at y=1
+      const top = [
+        "     XXXXXXXXXX     ",  // peak
+        "    XXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXX    ",  // starts sweeping back-right
+        "  XXXXXXXXXXX       ",
+        "  XXXXXXXXXX        ",
+        " XXXXXXXXXX         ",
+        " XXXXXXXXX          ",
+      ];
+      drawShape(top, 6, 1);
+      // Sideburns
+      px(ctx, 7, 14, hairShadow); px(ctx, 24, 14, hairShadow);
+      break;
+    }
+    case "beehive": {
+      // Very tall stacked bun rising above the head
+      const bun = [
+        "      XXXXXXXX      ",
+        "     XXXXXXXXXX     ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXX   ",
+        "   XXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXX XXXXXXXX  ",
+      ];
+      drawShape(bun, 6, 0);
+      // Stray wisp
+      px(ctx, 14, 4, hairShadow);
+      px(ctx, 17, 3, hair);
+      break;
+    }
+    case "power-bald": {
+      // Completely bald top — only dark stubble at sides
+      for (let i = 0; i < 4; i++) {
+        px(ctx, 7,  12 + i, hairShadow);
+        px(ctx, 8,  13 + i, hairShadow);
+        px(ctx, 24, 12 + i, hairShadow);
+        px(ctx, 23, 13 + i, hairShadow);
+      }
+      break;
+    }
+    case "comb-over": {
+      // Sparse strands swept from right side over bald top
+      const top = [
+        "                    ",
+        "              XXXXX ",
+        "          XXXXXXXXX ",
+        "      XXXXXXXXXXXXX ",
+        "   XXXXXXXXXXXXXXXX ",
+        "   XXXXXXX          ",
+      ];
+      drawShape(top, 6, 5);
+      // Stubble on exposed side
+      px(ctx, 7, 13, hairShadow); px(ctx, 7, 14, hairShadow);
+      break;
+    }
+    case "messy-office": {
+      // Asymmetric unkempt office hair — longer on left, stray right
+      const top = [
+        "  X  XXXXXXXX       ",
+        "   XXXXXXXXXXX      ",
+        "  XXXXXXXXXXXX      ",
+        "  XXXXXXXXXX  XX    ",
+        "  XXXXXXXX          ",
+        "  XXXX              ",
+      ];
+      drawShape(top, 6, 5);
+      px(ctx, 7,  11, hair); px(ctx, 7, 12, hair);
+      px(ctx, 25, 11, hairShadow);
       break;
     }
     case "bald":
@@ -1206,10 +1339,14 @@ function drawFaceDetails(ctx, genome, skin) {
   const skinDeep = shade(skin, -0.25);
   const skinMid = shade(skin, -0.15);
 
-  // Nose: 2-3 pixels of skin shadow, centered
-  px(ctx, 15, 14, skinMid);
-  px(ctx, 15, 15, skinDeep);
-  px(ctx, 16, 15, skinMid);
+  // Nose: 4-pixel dot with directional shading (light from upper-left)
+  const noseHi   = shade(skin,  0.10);
+  const noseMid  = shade(skin, -0.12);
+  const noseDeep = shade(skin, -0.26);
+  px(ctx, 15, 14, noseHi);    // tip highlight
+  px(ctx, 16, 14, noseDeep);  // right bridge shadow
+  px(ctx, 15, 15, noseMid);   // nose body
+  px(ctx, 16, 15, noseDeep);  // right nosewing shadow
 
   // Mouth
   const my = 17;
