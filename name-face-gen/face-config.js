@@ -197,10 +197,10 @@ window.FACE_CONFIG = {
   skin_special_chance: {
     common:    0,
     uncommon:  0,
-    rare:      0.20,
-    epic:      0.25,
-    legendary: 0.20,   // was 0.50 — most legendaries now use common skin tones
-    mythic:    0.65,
+    rare:      0.10,
+    epic:      0.10,
+    legendary: 0.08,
+    mythic:    0.08,
   },
 
   // ---------- EYE TYPES ----------

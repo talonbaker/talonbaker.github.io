@@ -1497,8 +1497,18 @@ function renderFace(canvas, genome) {
   // 6. eyes
   // 7. HAIR FRONT PASS (bangs, top, side-locks)
   // 8. tier accessories
-  drawBody(ctx, genome.bodyType, genome.skin, genome.garb);
+  const bodyInfo = drawBody(ctx, genome.bodyType, genome.skin, genome.garb);
   drawHairBack(ctx, genome.hairStyle, genome.hairColor, hairShadow, hairHi);
+  // Redraw neck over hair back pass so braid/ponytail/low-bun tails don't show through
+  const { neckLeft, neckRight, neckTop } = bodyInfo;
+  for (let x = neckLeft; x <= neckRight; x++) {
+    px(ctx, x, neckTop,     shade(genome.skin, -0.22));
+    px(ctx, x, neckTop + 1, genome.skin);
+  }
+  px(ctx, neckRight, neckTop,     skinShadow);
+  px(ctx, neckRight, neckTop + 1, skinShadow);
+  px(ctx, neckLeft - 1, neckTop,  shade(genome.skin, -0.14));
+  px(ctx, neckRight + 1, neckTop, shade(genome.skin, -0.14));
   drawHead(ctx, genome.headShape, genome.skin);
   drawFaceDetails(ctx, genome, genome.skin);
   drawEyes(ctx, genome.eye, genome.eyeBags, genome.skin);
