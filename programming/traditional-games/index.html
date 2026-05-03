@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Traditional Games — Talon Baker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/images/logos/favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg-0: #0a0a0c;
+      --bg-1: #111114;
+      --bg-2: #1a1a1f;
+      --line: #2a2a32;
+      --text: #e8e8ec;
+      --text-dim: #8b8b95;
+      --accent-cyan: #64ffda;
+      --accent-orange: #FFB347;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-0);
+      color: var(--text);
+      font-family: var(--font-mono);
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle-line {
+      color: var(--accent-orange);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 2.5rem 0;
+    }
+
+    p { margin-bottom: 1rem; color: var(--text-dim); }
+    p strong { color: var(--text); }
+
+    /* ── Carousel ── */
+    .carousel-section {
+      margin: 2rem 0;
+    }
+
+    .carousel-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .carousel-wrap {
+      position: relative;
+      background: var(--bg-1);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.35s ease;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .carousel-slide img {
+      max-height: 420px;
+      max-width: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .carousel-slide .slide-caption {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      margin-top: 0.75rem;
+    }
+
+    .carousel-slide-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .carousel-btn {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-family: var(--font-mono);
+    }
+
+    .carousel-btn:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange);
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--line);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .dot.active { background: var(--accent-orange); }
+
+    /* ── Game Sections ── */
+    .game-section {
+      margin: 2.5rem 0;
+    }
+
+    .game-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+
+    .game-type {
+      font-size: 0.75rem;
+      color: var(--accent-orange);
+      border: 1px solid var(--accent-orange);
+      padding: 0.15rem 0.55rem;
+      opacity: 0.8;
+    }
+
+    .game-img {
+      width: 100%;
+      max-width: 500px;
+      border: 1px solid var(--line);
+      display: block;
+      margin: 1rem 0;
+    }
+
+    .rules-block {
+      background: var(--bg-1);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent-orange);
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .rules-block h3 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      color: var(--accent-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .rules-block p,
+    .rules-block li {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .rules-block ol,
+    .rules-block ul {
+      padding-left: 1.5rem;
+    }
+
+    .rules-block ol li,
+    .rules-block ul li {
+      margin-bottom: 0.35rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.7rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a href="../../" class="back-link">← Back to portfolio</a>
+
+    <p class="subtitle-line">Analog &amp; Physical Game Design</p>
+    <h1>Traditional Games</h1>
+    <p class="meta">Board games, card games, and hybrid designs — built and playtested as part of the UCSC Game Design curriculum.</p>
+
+    <p>
+      These are physical and hybrid game design projects exploring emergent mechanics, player-driven narrative,
+      and analog systems. Each game was designed, prototyped, and playtested from scratch.
+    </p>
+
+    <!-- ── CARD ART CAROUSEL ── -->
+    <div class="carousel-section">
+      <h2>Card Art</h2>
+
+      <div class="carousel-wrap">
+        <div class="carousel-track" id="card-carousel-track">
+          <!-- Slide: Rats in a Sewer -->
+          <div class="carousel-slide">
+            <div class="carousel-slide-inner">
+              <img src="../../assets/images/programming/project_ratsinasewer/riasImage.png" alt="Rats in a Sewer">
+              <p class="slide-caption">Rats in a Sewer</p>
+            </div>
+          </div>
+          <!-- Slide: La Tour De Bike -->
+          <div class="carousel-slide">
+            <div class="carousel-slide-inner">
+              <img src="../../assets/images/programming/project_latourdebike/LaTourDeBikeImage.png" alt="La Tour De Bike">
+              <p class="slide-caption">La Tour De Bike</p>
+            </div>
+          </div>
+          <!-- Slide: The Obsessive Hobbyist -->
+          <div class="carousel-slide">
+            <div class="carousel-slide-inner">
+              <img src="../../assets/images/programming/project_theobsessivehobbyist/theObsessiveHobbyistImage.png" alt="The Obsessive Hobbyist">
+              <p class="slide-caption">The Obsessive Hobbyist</p>
+            </div>
+          </div>
+          <!-- ADD MORE CARD ART SLIDES HERE:
+          <div class="carousel-slide">
+            <div class="carousel-slide-inner">
+              <img src="../../assets/images/programming/project_ratsinasewer/card_art_1.png" alt="Card art">
+              <p class="slide-caption">Caption</p>
+            </div>
+          </div>
+          -->
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prev-btn" aria-label="Previous">&#8592;</button>
+        <div class="carousel-dots" id="carousel-dots"></div>
+        <button class="carousel-btn" id="next-btn" aria-label="Next">&#8594;</button>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── RATS IN A SEWER ── -->
+    <div class="game-section" id="rats-in-a-sewer">
+      <div class="game-header">
+        <h2>Rats in a Sewer</h2>
+        <span class="game-type">Experimental</span>
+      </div>
+
+      <p>
+        An experimental game exploring <strong>emergent gameplay and player-driven narrative</strong>. Players
+        take on the roles of rats navigating a sewer system, balancing survival with social dynamics and
+        opportunistic cooperation.
+      </p>
+
+      <img
+        src="../../assets/images/programming/project_ratsinasewer/riasImage.png"
+        alt="Rats in a Sewer"
+        class="game-img"
+      >
+
+      <div class="rules-block">
+        <h3>Rules</h3>
+        <p>Rules content to be added. Add your ruleset here.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── LA TOUR DE BIKE ── -->
+    <div class="game-section" id="la-tour-de-bike">
+      <div class="game-header">
+        <h2>La Tour De Bike</h2>
+        <span class="game-type">Analog / Digital</span>
+      </div>
+
+      <p>
+        A <strong>hybrid analog/digital game</strong> exploring how physical and digital mechanics can
+        complement each other. Designed around the drama and strategy of a cycling race, translated into
+        a tabletop format.
+      </p>
+
+      <img
+        src="../../assets/images/programming/project_latourdebike/LaTourDeBikeImage.png"
+        alt="La Tour De Bike"
+        class="game-img"
+      >
+
+      <div class="rules-block">
+        <h3>Rules</h3>
+        <p>Rules content to be added. Add your ruleset here.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── THE OBSESSIVE HOBBYIST ── -->
+    <div class="game-section" id="the-obsessive-hobbyist">
+      <div class="game-header">
+        <h2>The Obsessive Hobbyist</h2>
+        <span class="game-type">Narrative</span>
+      </div>
+
+      <p>
+        A game exploring <strong>hobbyist culture, identity, and obsessive player behavior</strong>.
+        Players compete to complete personal projects while managing distractions, time, and the
+        temptation to start something new before finishing the last thing.
+      </p>
+
+      <img
+        src="../../assets/images/programming/project_theobsessivehobbyist/theObsessiveHobbyistImage.png"
+        alt="The Obsessive Hobbyist"
+        class="game-img"
+      >
+
+      <div class="rules-block">
+        <h3>Rules</h3>
+        <p>Rules content to be added. Add your ruleset here.</p>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Game Design</span>
+      <span class="tag">Analog</span>
+      <span class="tag">Experimental</span>
+      <span class="tag">Narrative</span>
+      <span class="tag">UCSC</span>
+    </div>
+  </div>
+
+  <script>
+    const track = document.getElementById('card-carousel-track');
+    const slides = track.querySelectorAll('.carousel-slide');
+    const dotsContainer = document.getElementById('carousel-dots');
+    let current = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('next-btn').addEventListener('click', () => goTo(current + 1));
+  </script>
+</body>
+</html>

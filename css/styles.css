@@ -372,6 +372,12 @@ body {
   color: var(--accent-cyan);
 }
 
+a.project-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 /* ============ SKILLS SECTION ============ */
 .skills-section {
   padding: 6rem 0;

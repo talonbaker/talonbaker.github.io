@@ -2,6 +2,7 @@
 title: "Graphics & Systems Programming"
 layout: single
 permalink: /programming/graphics-systems/
+published: false
 ---
 
 # 🖥️ Graphics & Systems

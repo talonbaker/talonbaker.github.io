@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wacktory — Talon Baker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/images/logos/favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg-0: #0a0a0c;
+      --bg-1: #111114;
+      --bg-2: #1a1a1f;
+      --line: #2a2a32;
+      --text: #e8e8ec;
+      --text-dim: #8b8b95;
+      --accent-cyan: #64ffda;
+      --accent-gold: #FFD700;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-0);
+      color: var(--text);
+      font-family: var(--font-mono);
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      color: var(--accent-gold);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 2rem 0;
+    }
+
+    p { margin-bottom: 1rem; color: var(--text-dim); }
+    p strong { color: var(--text); }
+
+    .hero-img {
+      width: 100%;
+      border: 1px solid var(--line);
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .detail-block {
+      background: var(--bg-1);
+      border: 1px solid var(--line);
+      padding: 1rem 1.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-value {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .award-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--bg-1);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      margin: 2rem 0;
+      background: var(--bg-1);
+      border: 1px solid var(--line);
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .gallery img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--line);
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent-cyan);
+      color: #0a0a0c;
+      font-weight: 700;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.7rem;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a href="../../" class="back-link">← Back to portfolio</a>
+
+    <p class="subtitle">VR Cooperative Game &bull; Shipped on Steam</p>
+    <h1>Wacktory</h1>
+    <p class="meta">Unity 3D &bull; C# &bull; Steam SDK &bull; VR &bull; 12-person team</p>
+
+    <div class="award-badge">🏆 UCSC Games Showcase — Grand Prize Winner</div>
+
+    <img
+      src="../../assets/images/programming/project_wacktory/WacktoryAwardBanner.png"
+      alt="Wacktory Award Banner"
+      class="hero-img"
+    >
+
+    <p>
+      <strong>Wacktory™</strong> is a new take on cooperative gameplay that pushes the limits of both Virtual Reality
+      and traditional couch co-op. Players work together to beat the clock and create the most advanced product ever
+      seen — <strong>The Cube</strong>. Players aren't just waiting for their turn in VR.
+    </p>
+
+    <p>
+      Over the last six months of my graduate year I helped lead the Wacktory team from game concept to a fully
+      playable VR demo available on Steam. Using Agile/Scrum frameworks to track weekly milestones, I helped the
+      team maintain a steady workflow with consistent output throughout the process.
+    </p>
+
+    <div class="details-grid">
+      <div class="detail-block">
+        <div class="detail-label">My Role</div>
+        <div class="detail-value">Producer &amp; Programmer</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Team Size</div>
+        <div class="detail-value">12 people</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Technologies</div>
+        <div class="detail-value">Unity 3D, C#, VR, Steam SDK</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Status</div>
+        <div class="detail-value">Shipped on Steam</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Award</div>
+        <div class="detail-value">UCSC Games Showcase Grand Prize</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <h2>Trailer</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/avccGwMOnUY"
+        title="Wacktory - Teaser Trailer"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <hr class="divider">
+
+    <h2>Gallery</h2>
+    <div class="gallery">
+      <img src="../../assets/images/programming/project_wacktory/WacktoryLogo.png" alt="Wacktory Logo">
+      <img src="../../assets/images/programming/project_wacktory/teamGrandPrizePhotoCROP.JPG" alt="Team Grand Prize photo">
+      <img src="../../assets/images/programming/project_wacktory/ucscGamesShowcase2019GrandPrizeWacktoryCROP.JPG" alt="UCSC Games Showcase 2019">
+    </div>
+
+    <hr class="divider">
+
+    <div class="cta-row">
+      <a href="https://store.steampowered.com/app/1082750/Wacktory/" target="_blank" rel="noopener" class="btn btn-primary">Play on Steam →</a>
+      <a href="https://wacktory.com" target="_blank" rel="noopener" class="btn btn-secondary">Wacktory.com →</a>
+    </div>
+
+    <div class="tags">
+      <span class="tag">VR</span>
+      <span class="tag">C#</span>
+      <span class="tag">Unity</span>
+      <span class="tag">Co-op</span>
+      <span class="tag">Steam</span>
+      <span class="tag">Game Design</span>
+      <span class="tag">Production</span>
+    </div>
+  </div>
+</body>
+</html>

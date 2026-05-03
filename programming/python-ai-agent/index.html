@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python AI Agent — Talon Baker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/images/logos/favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg-0: #0a0a0c;
+      --bg-1: #111114;
+      --bg-2: #1a1a1f;
+      --line: #2a2a32;
+      --text: #e8e8ec;
+      --text-dim: #8b8b95;
+      --accent-cyan: #64ffda;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-0);
+      color: var(--text);
+      font-family: var(--font-mono);
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 2rem 0;
+    }
+
+    p { margin-bottom: 1rem; color: var(--text-dim); }
+    p strong { color: var(--text); }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .detail-block {
+      background: var(--bg-1);
+      border: 1px solid var(--line);
+      padding: 1rem 1.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-value {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .gallery img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--line);
+      background: var(--bg-1);
+    }
+
+    .note-box {
+      background: var(--bg-1);
+      border-left: 3px solid var(--accent-cyan);
+      padding: 1rem 1.25rem;
+      margin: 2rem 0;
+      font-size: 0.875rem;
+      color: var(--text-dim);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.7rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a href="../../" class="back-link">← Back to portfolio</a>
+
+    <h1>Python AI Agent — Visual Intelligence</h1>
+    <p class="meta">Python &bull; Pillow &bull; AI / ML</p>
+
+    <hr class="divider">
+
+    <p>
+      Constructed an AI agent using <strong>Python and Pillow (Python Image Library)</strong> that uses visual inputs to
+      recognize patterns, manipulate input frames, and calculate the probability of the most likely answer to
+      <strong>Raven's Progressive Matrices</strong> — standardized tests of non-verbal abstract intelligence.
+    </p>
+
+    <p>
+      The agent processes each puzzle as a set of images, applies transformations (rotation, reflection, pixel-difference
+      scoring), and ranks candidate answers by how well they complete the underlying visual pattern. No machine learning
+      models — just classical image processing and geometric reasoning.
+    </p>
+
+    <div class="details-grid">
+      <div class="detail-block">
+        <div class="detail-label">Language</div>
+        <div class="detail-value">Python</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Libraries</div>
+        <div class="detail-value">Pillow (PIL)</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Domain</div>
+        <div class="detail-value">AI / Image Processing</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Input</div>
+        <div class="detail-value">Visual puzzle matrices</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <h2 style="font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 1rem; color: var(--text);">Sample Outputs</h2>
+
+    <div class="gallery">
+      <img src="../../assets/images/programming/project_python_pillow/generated_1.png" alt="AI agent output 1">
+      <img src="../../assets/images/programming/project_python_pillow/generated_2.png" alt="AI agent output 2">
+      <img src="../../assets/images/programming/project_python_pillow/generated_4.png" alt="AI agent output 4">
+      <img src="../../assets/images/programming/project_python_pillow/generated_5.png" alt="AI agent output 5">
+    </div>
+
+    <div class="note-box">
+      Source code lives in Georgia Tech's private course repository and cannot be shared publicly.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Pillow</span>
+      <span class="tag">AI</span>
+      <span class="tag">Image Processing</span>
+      <span class="tag">Pattern Recognition</span>
+    </div>
+  </div>
+</body>
+</html>
