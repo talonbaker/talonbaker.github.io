@@ -464,7 +464,7 @@ function App() {
         </div>
 
         <footer className="app-footer">
-          <span>COMMON 50% · UNCOMMON 30% · RARE 10% · EPIC 5% · LEGENDARY 4% · MYTHIC 0.?%</span>
+          <span>COMMON 55% · UNCOMMON 27% · RARE 12% · EPIC 4% · LEGENDARY 1.5% · MYTHIC 0.5%</span>
           <span>SPACE TO ROLL · {totalRolls} ROLLS · {history.length} IN LOG</span>
         </footer>
 
@@ -486,7 +486,7 @@ function App() {
             )}
             <div className={`legendary-name-big`}>{current?.displayName}</div>
             <div className="legendary-sub">
-              {isUltra ? 'A 1-IN-100000 ROLL · TAP TO CONTINUE' : 'A 1-IN-100 ROLL · TAP TO CONTINUE'}
+              {isUltra ? 'A 1-IN-200 ROLL · TAP TO CONTINUE' : 'A 1-IN-67 ROLL · TAP TO CONTINUE'}
             </div>
             <GoldDust active={true} className="gold-dust-canvas-ov" />
           </div>

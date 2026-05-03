@@ -632,52 +632,52 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
 
   switch (style) {
     case "long-flow": {
-      // Flowing hair behind head and onto shoulders, both sides
+      // Wide back — 2px extra on each side, full-height side curtains
       const back = [
-        "    XXXXXXXXXXXXXXXX    ",
-        "   XXXXXXXXXXXXXXXXXX   ",
-        "  XXXXXXXXXXXXXXXXXXXX  ",
-        "  XXXXXXXXXXXXXXXXXXXX  ",
-        " XXXXXXXXXXXXXXXXXXXXXX ",
-        " XXXXXXXXXXXXXXXXXXXXXX ",
-        " XXXXXXXXXXXXXXXXXXXXXX ",
-        " XXXXXXXXXXXXXXXXXXXXXX ",
-        " XXXXXXXXXXXXXXXXXXXXXX ",
-        "XXXXXXXX        XXXXXXXX",
-        "XXXXXXX          XXXXXXX",
-        "XXXXXXX          XXXXXXX",
-        "XXXXXX            XXXXXX",
-        "XXXXXX            XXXXXX",
-        "XXXXX              XXXXX",
-        "XXXX                XXXX",
-        "XXX                  XXX",
-        "XX                    XX",
+        "      XXXXXXXXXXXXXXXX      ",
+        "    XXXXXXXXXXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "XXXXXXX               XXXXXXX",
+        "XXXXXXX               XXXXXXX",
+        "XXXXXX                 XXXXXX",
+        "XXXXXX                 XXXXXX",
+        "XXXXX                   XXXXX",
+        "XXXXX                   XXXXX",
+        "XXXX                     XXXX",
+        "XXX                       XXX",
+        "XXX                       XXX",
       ];
-      drawShape(back, 4, 5);
+      drawShape(back, 2, 5);
       break;
     }
     case "long-shiny": {
-      // Long jet-black/dark hair with a subtle vertical highlight stripe (shiny)
+      // Wide shiny back — centered highlight stripe, full-height side curtains
       const back = [
-        "    XXXXXXXXXXXXXXXX    ",
-        "   XXXXXXXXXXXXXXXXXX   ",
-        "  XXXXXXXXXXhXXXXXXXXX  ",
-        "  XXXXXXXXXXhXXXXXXXXX  ",
-        " XXXXXXXXXXXhXXXXXXXXXX ",
-        " XXXXXXXXXXXhXXXXXXXXXX ",
-        " XXXXXXXXXXXhXXXXXXXXXX ",
-        " XXXXXXXXXXXhXXXXXXXXXX ",
-        " XXXXXXXX       XXXXXXX ",
-        "XXXXXXX          XXXXXXX",
-        "XXXXXXX          XXXXXXX",
-        "XXXXXX            XXXXXX",
-        "XXXXX              XXXXX",
-        "XXXX                XXXX",
-        "XXXX                XXXX",
-        "XXX                  XXX",
-        "XX                    XX",
+        "      XXXXXXXXXXXXXXXX      ",
+        "    XXXXXXXXXXXXXXXXXXXX    ",
+        "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+        "XXXXXXX               XXXXXXX",
+        "XXXXXXX               XXXXXXX",
+        "XXXXXX                 XXXXXX",
+        "XXXXX                   XXXXX",
+        "XXXXX                   XXXXX",
+        "XXXX                     XXXX",
+        "XXX                       XXX",
+        "XXX                       XXX",
       ];
-      drawShape(back, 4, 5);
+      drawShape(back, 2, 5);
       break;
     }
     case "long-side": {
@@ -700,7 +700,7 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
       break;
     }
     case "ponytail": {
-      // Hair pulled back — small fringe behind the head, then a tail down the back
+      // Extended back cap with side visibility + wider tail
       const back = [
         "    XXXXXXXXXXXXXXXX    ",
         "   XXXXXXXXXXXXXXXXXX   ",
@@ -708,25 +708,30 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXXXXXXXXXXXXXXX  ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXX          XXXXXXX ",
+        " XXXX            XXXXXX ",
+        " XXX              XXXXX ",
+        " XX                XXXX ",
       ];
       drawShape(back, 4, 5);
-      // Tail down the back, slightly off-center
+      // Ponytail down the back
       const tail = [
-        "XXXX",
-        "XXXX",
-        "XXXh",
-        "XXXh",
-        "XXXh",
-        "XXXh",
-        "XXX ",
-        "XXX ",
-        "XX  ",
-        "XX  ",
+        "XXXXX",
+        "XXXXX",
+        "XXXXh",
+        "XXXXh",
+        "XXXXh",
+        "XXXXh",
+        "XXXX ",
+        "XXXX ",
+        "XXX  ",
+        "XXX  ",
       ];
-      drawShape(tail, 14, 13);
+      drawShape(tail, 13, 13);
       break;
     }
     case "low-bun": {
+      // Extended back cap with side visibility + bun at nape
       const back = [
         "    XXXXXXXXXXXXXXXX    ",
         "   XXXXXXXXXXXXXXXXXX   ",
@@ -734,6 +739,10 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXXXXXXXXXXXXXXX  ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXX          XXXXXXX ",
+        " XXXX            XXXXXX ",
+        " XXX              XXXXX ",
+        " XX                XXXX ",
       ];
       drawShape(back, 4, 5);
       // Bun at back of neck
@@ -749,6 +758,7 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
       break;
     }
     case "braid": {
+      // Extended back cap showing hair on sides, wider braid
       const back = [
         "    XXXXXXXXXXXXXXXX    ",
         "   XXXXXXXXXXXXXXXXXX   ",
@@ -756,21 +766,25 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXXXXXXXXXXXXXXX  ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXX          XXXXXXX ",
+        " XXXX            XXXXXX ",
+        " XXX              XXXXX ",
+        " XX                XXXX ",
       ];
       drawShape(back, 4, 5);
-      // Braid down the back — woven look
+      // Braid down the back — woven look, wider column
       const braid = [
-        "XXXX",
-        "XxxX",
-        "XXXX",
-        "XxxX",
-        "XXXX",
-        "XxxX",
-        "XXXX",
-        "XxxX",
-        " XX ",
+        "XXXXXX",
+        "XxxxxX",
+        "XXXXXX",
+        "XxxxxX",
+        "XXXXXX",
+        "XxxxxX",
+        "XXXXXX",
+        "XxxxxX",
+        " XXXX ",
       ];
-      drawShape(braid, 14, 13);
+      drawShape(braid, 13, 13);
       break;
     }
     case "long-pull":
@@ -789,43 +803,53 @@ function drawHairBack(ctx, style, hair, hairShadow, hairHi) {
       break;
     }
     case "tucked": {
-      // Medium hair that goes behind the ears — appears at neck level on sides
+      // Hair tucked behind ears — extended side curtains to neck level
       const back = [
         "    XXXXXXXXXXXXXXXX    ",
         "   XXXXXXXXXXXXXXXXXX   ",
         "  XXXXXXXXXXXXXXXXXXXX  ",
         "  XXXXXXXXXXXXXXXXXXXX  ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
-        " XXXXXX          XXXXXX ",
-        " XXXX              XXXX ",
-        " XXX                XXX ",
+        " XXXXX          XXXXXXX ",
+        " XXXX            XXXXXX ",
+        " XXXX            XXXXXX ",
+        " XXX              XXXXX ",
+        " XXX              XXXXX ",
+        " XX                XXXX ",
+        " XX                XXXX ",
       ];
       drawShape(back, 4, 5);
       break;
     }
     case "messy-bun": {
+      // Extended back cap with escaping side strands
       const back = [
         "    XXXXXXXXXXXXXXXX    ",
         "   XXXXXXXXXXXXXXXXXX   ",
         "  XXXXXXXXXXXXXXXXXXXX  ",
         "  XXXXXXXXXXXXXXXXXXXX  ",
         " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXXXXXX ",
+        " XXXXX          XXXXXXX ",
+        " XXXX            XXXXXX ",
+        " XX                XXXX ",
       ];
       drawShape(back, 4, 5);
-      // Loose strands escaping
-      px(ctx, 5, 12, hair);
-      px(ctx, 27, 12, hair);
+      // Loose escaping strands
+      px(ctx, 5, 11, hair); px(ctx, 4, 12, hair);
+      px(ctx, 26, 11, hair); px(ctx, 27, 12, hair);
       break;
     }
     case "short-shag": {
-      // Hair extends slightly down past head edges
+      // Short textured hair — one extra row for better side coverage
       const back = [
         "    XXXXXXXXXXXXXXXX    ",
         "   XXXXXXXXXXXXXXXXXX   ",
         "  XXXXXXXXXXXXXXXXXXXX  ",
         "  XXXXXXXXXXXXXXXXXXXX  ",
         " XXXXXX            XXXX ",
-        " XXXX                XX ",
+        " XXXX              XXXX ",
+        " XXX                XXX ",
       ];
       drawShape(back, 4, 5);
       break;
@@ -882,7 +906,7 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
 
   switch (style) {
     case "long-flow": {
-      // Top crown + side-front locks
+      // Top crown
       const top = [
         "      XXXXXXXX      ",
         "    XXXXXXXXXXXX    ",
@@ -891,12 +915,13 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXX    XXXXXX  ",
       ];
       drawShape(top, 6, 5);
-      // Side-front cascade
-      px(ctx, 6, 10); 
-      const sideL = ["X","X","X","x"];
-      const sideR = ["X","X","X","x"];
-      sideL.forEach((c, i) => px(ctx, 6, 10 + i, hair));
-      sideR.forEach((c, i) => px(ctx, 25, 10 + i, hair));
+      // Deep side curtains framing the face — 2px wide, 9 rows tall
+      for (let i = 0; i < 9; i++) {
+        px(ctx, 6, 10 + i, i >= 7 ? hairShadow : hair);
+        px(ctx, 7, 10 + i, hairShadow);
+        px(ctx, 25, 10 + i, i >= 7 ? hairShadow : hair);
+        px(ctx, 24, 10 + i, hairShadow);
+      }
       break;
     }
     case "long-shiny": {
@@ -908,13 +933,13 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXX    XXXXXXX  ",
       ];
       drawShape(top, 6, 5);
-      // Long side bangs framing the face
-      for (let i = 0; i < 4; i++) {
-        px(ctx, 6, 10 + i, hair);
-        px(ctx, 25, 10 + i, hair);
+      // Deep side curtains — 2px wide, 9 rows tall
+      for (let i = 0; i < 9; i++) {
+        px(ctx, 6, 10 + i, i >= 7 ? hairShadow : hair);
+        px(ctx, 7, 10 + i, hairShadow);
+        px(ctx, 25, 10 + i, i >= 7 ? hairShadow : hair);
+        px(ctx, 24, 10 + i, hairShadow);
       }
-      px(ctx, 7, 10, hairShadow);
-      px(ctx, 24, 10, hairShadow);
       break;
     }
     case "long-side": {
@@ -929,11 +954,15 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXXX          ",
       ];
       drawShape(top, 6, 5);
-      // Side lock
-      for (let i = 0; i < 5; i++) px(ctx, 6, 10 + i, hair);
+      // Left side lock — heavier (hair sweeps this way), 2px wide
+      for (let i = 0; i < 7; i++) px(ctx, 6, 10 + i, hair);
+      for (let i = 0; i < 5; i++) px(ctx, 7, 10 + i, hairShadow);
+      // Right side wisp — lighter
+      for (let i = 0; i < 4; i++) px(ctx, 25, 11 + i, hairShadow);
       break;
     }
     case "bob": {
+      // Chin-length bob — extended sides framing the full face
       const top = [
         "      XXXXXXXX      ",
         "    XXXXXXXXXXXX    ",
@@ -941,15 +970,19 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXXXXXXXXXXX  ",
         "  XXXXXXXXXXXXXXXX  ",
         " XXXXXX      XXXXXX ",
+        " XXXXX        XXXXX ",
+        " XXXX          XXXX ",
         " XXXX          XXXX ",
         " XXX            XXX ",
+        " XXX            XXX ",
+        " XXx            xXX ",
         " XXx            xXX ",
       ];
       drawShape(top, 6, 5);
       break;
     }
     case "ponytail": {
-      // Pulled-back top with slight fringe
+      // Top pulled back with side wisps at cheek
       const top = [
         "      XXXXXXXX      ",
         "    XXXXXXXXXXXX    ",
@@ -958,6 +991,10 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXX    XXXXXX  ",
       ];
       drawShape(top, 6, 5);
+      for (let i = 0; i < 5; i++) {
+        px(ctx, 6, 10 + i, hairShadow);
+        px(ctx, 25, 10 + i, hairShadow);
+      }
       break;
     }
     case "low-bun": {
@@ -969,6 +1006,10 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXX  XXXXXXX  ",
       ];
       drawShape(top, 6, 5);
+      for (let i = 0; i < 4; i++) {
+        px(ctx, 6, 10 + i, hairShadow);
+        px(ctx, 25, 10 + i, hairShadow);
+      }
       break;
     }
     case "messy-bun": {
@@ -1002,6 +1043,10 @@ function drawHairFront(ctx, style, hair, hairShadow, hairHi) {
         "  XXXXXXX    XXXXX  ",
       ];
       drawShape(top, 6, 5);
+      for (let i = 0; i < 5; i++) {
+        px(ctx, 6, 10 + i, hairShadow);
+        px(ctx, 25, 10 + i, hairShadow);
+      }
       break;
     }
     case "pixie": {

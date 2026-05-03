@@ -264,46 +264,46 @@
     switch (style) {
       case 'long-flow': {
         ds([
-          "    XXXXXXXXXXXXXXXX    ",
-          "   XXXXXXXXXXXXXXXXXX   ",
-          "  XXXXXXXXXXXXXXXXXXXX  ",
-          "  XXXXXXXXXXXXXXXXXXXX  ",
-          " XXXXXXXXXXXXXXXXXXXXXX ",
-          " XXXXXXXXXXXXXXXXXXXXXX ",
-          " XXXXXXXXXXXXXXXXXXXXXX ",
-          " XXXXXXXXXXXXXXXXXXXXXX ",
-          " XXXXXXXXXXXXXXXXXXXXXX ",
-          "XXXXXXXX        XXXXXXXX",
-          "XXXXXXX          XXXXXXX",
-          "XXXXXXX          XXXXXXX",
-          "XXXXXX            XXXXXX",
-          "XXXXXX            XXXXXX",
-          "XXXXX              XXXXX",
-          "XXXX                XXXX",
-          "XXX                  XXX",
-          "XX                    XX",
-        ], bx, by); break;
+          "      XXXXXXXXXXXXXXXX      ",
+          "    XXXXXXXXXXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "XXXXXXX               XXXXXXX",
+          "XXXXXXX               XXXXXXX",
+          "XXXXXX                 XXXXXX",
+          "XXXXXX                 XXXXXX",
+          "XXXXX                   XXXXX",
+          "XXXXX                   XXXXX",
+          "XXXX                     XXXX",
+          "XXX                       XXX",
+          "XXX                       XXX",
+        ], bx-2, by); break;
       }
       case 'long-shiny': {
         ds([
-          "    XXXXXXXXXXXXXXXX    ",
-          "   XXXXXXXXXXXXXXXXXX   ",
-          "  XXXXXXXXXXhXXXXXXXXX  ",
-          "  XXXXXXXXXXhXXXXXXXXX  ",
-          " XXXXXXXXXXXhXXXXXXXXXX ",
-          " XXXXXXXXXXXhXXXXXXXXXX ",
-          " XXXXXXXXXXXhXXXXXXXXXX ",
-          " XXXXXXXXXXXhXXXXXXXXXX ",
-          " XXXXXXXX       XXXXXXX ",
-          "XXXXXXX          XXXXXXX",
-          "XXXXXXX          XXXXXXX",
-          "XXXXXX            XXXXXX",
-          "XXXXX              XXXXX",
-          "XXXX                XXXX",
-          "XXXX                XXXX",
-          "XXX                  XXX",
-          "XX                    XX",
-        ], bx, by); break;
+          "      XXXXXXXXXXXXXXXX      ",
+          "    XXXXXXXXXXXXXXXXXXXX    ",
+          "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXhXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          "XXXXXXX               XXXXXXX",
+          "XXXXXXX               XXXXXXX",
+          "XXXXXX                 XXXXXX",
+          "XXXXX                   XXXXX",
+          "XXXXX                   XXXXX",
+          "XXXX                     XXXX",
+          "XXX                       XXX",
+          "XXX                       XXX",
+        ], bx-2, by); break;
       }
       case 'long-side': {
         ds([
@@ -329,8 +329,12 @@
           "  XXXXXXXXXXXXXXXXXXXX  ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXX          XXXXXXX ",
+          " XXXX            XXXXXX ",
+          " XXX              XXXXX ",
+          " XX                XXXX ",
         ], bx, by);
-        ds(["XXXX","XXXX","XXXh","XXXh","XXXh","XXXh","XXX ","XXX ","XX  ","XX  "], bx+10, by+9); break;
+        ds(["XXXXX","XXXXX","XXXXh","XXXXh","XXXXh","XXXXh","XXXX ","XXXX ","XXX  ","XXX  "], bx+9, by+9); break;
       }
       case 'low-bun': {
         ds([
@@ -340,6 +344,10 @@
           "  XXXXXXXXXXXXXXXXXXXX  ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXX          XXXXXXX ",
+          " XXXX            XXXXXX ",
+          " XXX              XXXXX ",
+          " XX                XXXX ",
         ], bx, by);
         ds([" XXXX ","XXXXXX","XXhhXX","XXhhXX","XXXXXX"," XXXX "], bx-1, by+15); break;
       }
@@ -351,8 +359,12 @@
           "  XXXXXXXXXXXXXXXXXXXX  ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXX          XXXXXXX ",
+          " XXXX            XXXXXX ",
+          " XXX              XXXXX ",
+          " XX                XXXX ",
         ], bx, by);
-        ds(["XXXX","XxxX","XXXX","XxxX","XXXX","XxxX","XXXX","XxxX"," XX "], bx+10, by+9); break;
+        ds(["XXXXXX","XxxxxX","XXXXXX","XxxxxX","XXXXXX","XxxxxX","XXXXXX","XxxxxX"," XXXX "], bx+9, by+9); break;
       }
       case 'long-pull':
       case 'slicked-back': {
@@ -373,9 +385,13 @@
           "  XXXXXXXXXXXXXXXXXXXX  ",
           "  XXXXXXXXXXXXXXXXXXXX  ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
-          " XXXXXX          XXXXXX ",
-          " XXXX              XXXX ",
-          " XXX                XXX ",
+          " XXXXX          XXXXXXX ",
+          " XXXX            XXXXXX ",
+          " XXXX            XXXXXX ",
+          " XXX              XXXXX ",
+          " XXX              XXXXX ",
+          " XX                XXXX ",
+          " XX                XXXX ",
         ], bx, by); break;
       }
       case 'messy-bun': {
@@ -385,8 +401,13 @@
           "  XXXXXXXXXXXXXXXXXXXX  ",
           "  XXXXXXXXXXXXXXXXXXXX  ",
           " XXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXX          XXXXXXX ",
+          " XXXX            XXXXXX ",
+          " XX                XXXX ",
         ], bx, by);
-        px(ctx, 21, 11, hair); px(ctx, 43, 11, hair); break;
+        px(ctx, 21, 10, hair); px(ctx, 20, 11, hair);
+        px(ctx, 42, 10, hair); px(ctx, 43, 11, hair); break;
       }
       case 'short-shag': {
         ds([
@@ -395,7 +416,8 @@
           "  XXXXXXXXXXXXXXXXXXXX  ",
           "  XXXXXXXXXXXXXXXXXXXX  ",
           " XXXXXX            XXXX ",
-          " XXXX                XX ",
+          " XXXX              XXXX ",
+          " XXX                XXX ",
         ], bx, by); break;
       }
       default: break;
@@ -420,24 +442,56 @@
     switch (style) {
       case 'long-flow': {
         ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXX    XXXXXX  "], bx, by);
-        for (let i = 0; i < 4; i++) { px(ctx, 22, 9+i, hair); px(ctx, 41, 9+i, hair); } break;
+        for (let i = 0; i < 9; i++) {
+          px(ctx, 22, 9+i, i >= 7 ? hairShadow : hair);
+          px(ctx, 23, 9+i, hairShadow);
+          px(ctx, 41, 9+i, i >= 7 ? hairShadow : hair);
+          px(ctx, 40, 9+i, hairShadow);
+        } break;
       }
       case 'long-shiny': {
         ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXhhhXXXXXX   ","  XXXXXXhhhXXXXXXX  ","  XXXXX    XXXXXXX  "], bx, by);
-        for (let i = 0; i < 4; i++) { px(ctx, 22, 9+i, hair); px(ctx, 41, 9+i, hair); }
-        px(ctx, 23, 9, hairShadow); px(ctx, 40, 9, hairShadow); break;
+        for (let i = 0; i < 9; i++) {
+          px(ctx, 22, 9+i, i >= 7 ? hairShadow : hair);
+          px(ctx, 23, 9+i, hairShadow);
+          px(ctx, 41, 9+i, i >= 7 ? hairShadow : hair);
+          px(ctx, 40, 9+i, hairShadow);
+        } break;
       }
       case 'long-side': {
         ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXXXXXXXXXXX   ","  XXXXXXXXXXXX      ","  XXXXXXXX          "], bx, by);
-        for (let i = 0; i < 5; i++) px(ctx, 22, 9+i, hair); break;
+        for (let i = 0; i < 7; i++) px(ctx, 22, 9+i, hair);
+        for (let i = 0; i < 5; i++) px(ctx, 23, 9+i, hairShadow);
+        for (let i = 0; i < 4; i++) px(ctx, 41, 10+i, hairShadow); break;
       }
       case 'bob': {
-        ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXXXXXXXXXXXX  "," XXXXXX      XXXXXX "," XXXX          XXXX "," XXX            XXX "," XXx            xXX "], bx, by); break;
+        ds([
+          "      XXXXXXXX      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+          " XXXXXX      XXXXXX ",
+          " XXXXX        XXXXX ",
+          " XXXX          XXXX ",
+          " XXXX          XXXX ",
+          " XXX            XXX ",
+          " XXX            XXX ",
+          " XXx            xXX ",
+          " XXx            xXX ",
+        ], bx, by); break;
       }
-      case 'ponytail':
-      case 'low-bun':
+      case 'ponytail': {
+        ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXX    XXXXXX  "], bx, by);
+        for (let i = 0; i < 5; i++) { px(ctx, 22, 9+i, hairShadow); px(ctx, 41, 9+i, hairShadow); } break;
+      }
+      case 'low-bun': {
+        ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXXX  XXXXXXX  "], bx, by);
+        for (let i = 0; i < 4; i++) { px(ctx, 22, 9+i, hairShadow); px(ctx, 41, 9+i, hairShadow); } break;
+      }
       case 'braid': {
-        ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXX    XXXXXX  "], bx, by); break;
+        ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXXX    XXXXX  "], bx, by);
+        for (let i = 0; i < 5; i++) { px(ctx, 22, 9+i, hairShadow); px(ctx, 41, 9+i, hairShadow); } break;
       }
       case 'messy-bun': {
         ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXX    XXXXX  "], bx, by);

@@ -595,25 +595,16 @@ function generateName(gender, forcedTier) {
   const g = gender || pick(["male", "female", "neutral"]);
   const first = pick(D.first_names[g]);
 
-  // Determine rarity by walking the algorithm.
-  // Algorithm probabilities from spec:
-  //  - Vanilla: 35%  -> Common
-  //  - Suffixed: 32.5% -> Uncommon (per spec it'd be Uncommon/Rare visual)
-  //  - Hyphenated: 29.25% -> Rare/Epic
-  //  - Double-suffixed: 3.25% -> Legendary (or divine root)
-  // We'll map to the "Loot Drop Visual Tiers":
-  //   Common 50%, Uncommon 30%, Rare 14%, Epic 5%, Legendary 1%
-  // Use weighted roll to feel right.
   const r = roll();
   let tier;
   // Tier thresholds — adjust here to change drop rates.
-  // common 50%, uncommon 30%, rare 10%, epic 5%, legendary 4%, mythic 1%
-  if (r < 0.50) tier = "common";
-  else if (r < 0.80) tier = "uncommon";
-  else if (r < 0.90) tier = "rare";
-  else if (r < 0.95) tier = "epic";
-  else if (r < 0.99) tier = "legendary";
-  else tier = "ultra"; // MYTHIC — 1 in 100
+  // common 55%, uncommon 27%, rare 12%, epic 4%, legendary 1.5%, mythic 0.5%
+  if (r < 0.55) tier = "common";
+  else if (r < 0.82) tier = "uncommon";
+  else if (r < 0.94) tier = "rare";
+  else if (r < 0.98) tier = "epic";
+  else if (r < 0.995) tier = "legendary";
+  else tier = "ultra"; // MYTHIC — 1 in 200
 
   // Debug override: if a tier is forced (e.g. from the dev panel), use it
   if (forcedTier) tier = forcedTier;

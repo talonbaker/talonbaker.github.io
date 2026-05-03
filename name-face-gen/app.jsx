@@ -965,7 +965,7 @@ function App() {
             <div className="rarity-key">
               <div className="panel-title">DROP RATES</div>
               {Object.keys(TIERS).map(k => {
-                const rates = { common: "50%", uncommon: "30%", rare: "10%", epic: "5%", legendary: "4%", ultra: "0.?%" };
+                const rates = { common: "55%", uncommon: "27%", rare: "12%", epic: "4%", legendary: "1.5%", ultra: "0.5%" };
                 return (
                   <div key={k} className="rate-row" style={{ "--tier-color": TIERS[k].color }}>
                     <span className="rate-pip" />
@@ -1060,7 +1060,7 @@ function App() {
         </main>
 
         <footer className="app-footer">
-          <span>↑ COMMON 50% · UNCOMMON 30% · RARE 10% · EPIC 5% · LEGENDARY 4% · MYTHIC 0.?%</span>
+          <span>↑ COMMON 55% · UNCOMMON 27% · RARE 12% · EPIC 4% · LEGENDARY 1.5% · MYTHIC 0.5%</span>
           <span>HOLD SPACE TO ROLL · {totalRolls} TOTAL ROLLS · {history.length} IN LOG</span>
         </footer>
 
@@ -1086,7 +1086,7 @@ function App() {
             <div className={`legendary-name-big ${isUltra ? "ultra-name-big" : ""}`} data-text={current?.displayName}>
               {current?.displayName}
             </div>
-            <div className="legendary-sub">{isUltra ? "A 1-IN-100000 ROLL · TAP ANYWHERE TO CONTINUE" : "A 1-IN-100 ROLL · TAP ANYWHERE TO CONTINUE"}</div>
+            <div className="legendary-sub">{isUltra ? "A 1-IN-200 ROLL · TAP ANYWHERE TO CONTINUE" : "A 1-IN-67 ROLL · TAP ANYWHERE TO CONTINUE"}</div>
             <GoldDust active={true} />
           </div>
         </div>
