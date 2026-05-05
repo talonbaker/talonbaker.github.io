@@ -9,3 +9,11 @@ vendor/
 node_modules/
 .DS_Store
 Thumbs.db
+
+# IDE / editor caches
+.vs/
+.vscode/
+.idea/
+
+# Claude Code local settings (per-user, not for sharing)
+.claude/settings.local.json

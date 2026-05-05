@@ -8,6 +8,11 @@
 
   const WB = 64, HB = 104;
 
+  // Number of chest rows used for the rounded-shoulder cap. drawArms skips
+  // exactly this many top rows so arms appear right below the slope, never
+  // above it.
+  const SHOULDER_CAP_ROWS = 5;
+
   // ─── Utilities ────────────────────────────────────────────────────────────
 
   function shade(hex, amount) {
@@ -194,6 +199,92 @@
         "         XXXX       ",
         "          XX        ",
       ],
+      // ── New shapes ──
+      // Chiseled — strong jaw + prominent cheekbones
+      chiseled: [
+        "     XXXXXXXXXX     ",
+        "    XXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXX  ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "   XXXXXXXXXXXXXX   ",
+      ],
+      // Pear-face — narrow forehead, wider lower face (mirror of heart, less extreme)
+      "pear-face": [
+        "      XXXXXXXX      ",
+        "     XXXXXXXXXX     ",
+        "     XXXXXXXXXX     ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXX   ",
+        "   XXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "   XXXXXXXXXXXXXX   ",
+        "    XXXXXXXXXXXX    ",
+        "     XXXXXXXXXX     ",
+      ],
+      // Long-oval — extra-long oval
+      "long-oval": [
+        "      XXXXXXXX      ",
+        "     XXXXXXXXXX     ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "     XXXXXXXXXX     ",
+        "     XXXXXXXXXX     ",
+        "      XXXXXXXX      ",
+      ],
+      // Cushion — soft rounded square (wide + short)
+      cushion: [
+        "    XXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "   XXXXXXXXXXXXXX   ",
+      ],
+      // Tapered — gentler inverted triangle (wider top, narrower jaw, no point)
+      tapered: [
+        "    XXXXXXXXXXXX    ",
+        "   XXXXXXXXXXXXXX   ",
+        "  XXXXXXXXXXXXXXXX  ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        " XXXXXXXXXXXXXXXXXX ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "  XXXXXXXXXXXXXXXX  ",
+        "   XXXXXXXXXXXXXX   ",
+        "   XXXXXXXXXXXXXX   ",
+        "   XXXXXXXXXXXXXX   ",
+        "    XXXXXXXXXXXX    ",
+        "    XXXXXXXXXXXX    ",
+        "     XXXXXXXXXX     ",
+      ],
     };
     return shapes[shape] || shapes.oval;
   }
@@ -259,8 +350,10 @@
         }
       }
     };
-    // Offset: original baseX 4 → 20 (+16), original baseY 5 → 4 (-1)
-    const bx = 20, by = 4;
+    // Offset: original baseX 4 → 20 (+16), original baseY 5 → 4 (-1).
+    // by sits one row above the head crown so the wider second row of the hair
+    // pattern covers the head's top instead of leaving skin visible through it.
+    const bx = 20, by = 3;
     switch (style) {
       case 'long-flow': {
         ds([
@@ -420,6 +513,88 @@
           " XXX                XXX ",
         ], bx, by); break;
       }
+      // ── New back-pass styles ──
+      case 'afro': {
+        // Big round halo extending well past the head
+        ds([
+          "    XXXXXXXXXXXXXXXXXXXX    ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          " XXXXXXXXXXXXXXXXXXXXXXXXXX ",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXX                  XXXXX",
+          "XXXX                    XXXX",
+          " XX                      XX ",
+        ], bx-2, by-2); break;
+      }
+      case 'beehive': {
+        // Tall stacked retro bun rising above the head
+        ds([
+          "         XXXXXXXX         ",
+          "        XXXXXXXXXX        ",
+          "       XXXXXXXXXXXX       ",
+          "       XXXXXXXXXXXX       ",
+          "      XXXXXXXXXXXXXX      ",
+          "      XXXXXXXXXXXXXX      ",
+          "     XXXXXXXXXXXXXXXX     ",
+          "     XXXXXXXXXXXXXXXX     ",
+          "    XXXXXXXXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXXXXXXXX  ",
+          " XXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXXXXXXXXXXXXXXXXXXX ",
+        ], bx, by-8); break;
+      }
+      case 'dreadlocks': {
+        // Long thick locks hanging down behind the head
+        ds([
+          "    XXXXXXXXXXXXXXXXXXXX    ",
+          "  XXXXXXXXXXXXXXXXXXXXXXXX  ",
+          " XXXXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXX  XXX  XXXXXX  XXX  XXX ",
+          " XXX  XXX  XXXXXX  XXX  XXX ",
+          " XXX  XXX  XXXXXX  XXX  XXX ",
+          " XXX  XXX  XXXXXX  XXX  XXX ",
+          " XXX  XXX          XXX  XXX ",
+          " XX    X            X    XX ",
+        ], bx-2, by); break;
+      }
+      case 'man-bun': {
+        // Slicked back top + small round bun behind crown
+        ds([
+          "    XXXXXXXXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXXXXXXXX  ",
+          " XXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXX        XXXXXXXX  ",
+        ], bx, by);
+        ds(["  XXXX  "," XXXXXX ","XXXXXXXX","XXhhhhXX","XXhhhhXX","XXXXXXXX"," XXXXXX ","  XXXX  "], 28, 1); break;
+      }
+      case 'top-knot': {
+        // Slicked back + tall bun on top
+        ds([
+          "    XXXXXXXXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXXXXXXXX  ",
+          " XXXXXXXXXXXXXXXXXXXXXXXX ",
+          " XXXXXXXXXXXXXXXXXXXXXXXX ",
+        ], bx, by); break;
+      }
+      case 'space-buns': {
+        // Slick bottom layer with two buns above
+        ds([
+          "    XXXXXXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXXXXXX  ",
+        ], bx, by); break;
+      }
       default: break;
     }
   }
@@ -437,8 +612,10 @@
         }
       }
     };
-    // Offset: original baseX 6 → 22 (+16), original baseY 5 → 4 (-1)
-    const bx = 22, by = 4;
+    // Offset: original baseX 6 → 22 (+16), original baseY 5 → 4 (-1).
+    // by sits one row above the head crown so the wider second row of the hair
+    // pattern covers the head's top instead of leaving skin visible through it.
+    const bx = 22, by = 3;
     switch (style) {
       case 'long-flow': {
         ds(["      XXXXXXXX      ","    XXXXXXXXXXXX    ","   XXXXXXXXXXXXXX   ","  XXXXXXXXXXXXXXXX  ","  XXXXXX    XXXXXX  "], bx, by);
@@ -540,6 +717,139 @@
       }
       case 'spike': {
         ds(["  X    X  X    X    ","   XXX XX XX XX     ","    XXXXXXXXXXX     ","   XXXXXXXXXXXXX    ","  XXXXXXXXXXXXXXX   "], bx, by-1); break;
+      }
+      // ── New front-pass styles ──
+      case 'pompadour': {
+        // Tall raised front swoop, slicked sides
+        ds([
+          "      XXXXXXXX      ",
+          "     XXXXXXXXXX     ",
+          "    XXXXXXXXXXXX    ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXX    ",
+        ], bx, by-3);
+        ds([
+          "      XXXXXXXX      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXhhhXXXXX   ",
+          "  XXXXXXhhhXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+        ], bx, by); break;
+      }
+      case 'afro': {
+        // Front cap of the halo — head silhouette top covered fully
+        ds([
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXX          XX   ",
+        ], bx, by); break;
+      }
+      case 'mohawk': {
+        // Central strip rising, sides shaved (faint stubble)
+        ds([
+          "      xxxxxxxx      ",
+          "    xxxXXXXXXxxx    ",
+          "   xxxXXXXXXXXxxx   ",
+        ], bx, by);
+        ds([
+          "       XXXX         ",
+          "       XXXX         ",
+          "       XXXX         ",
+          "      XXXXXX        ",
+          "      XXXXXX        ",
+          "     XXXXXXXX       ",
+        ], bx, by-4); break;
+      }
+      case 'crew-cut': {
+        // Very short, almost flat-top
+        ds([
+          "      XXXXXXXX      ",
+          "     XXXXXXXXXX     ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+        ], bx, by); break;
+      }
+      case 'beehive': {
+        // Smooth crown wrapping front of head (back-pass adds the tower above)
+        ds([
+          "      XXXXXXXX      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXhhhXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+        ], bx, by); break;
+      }
+      case 'dreadlocks': {
+        // Front locks hanging onto forehead
+        ds([
+          "      XXXXXXXX      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XX  XX  XX  XX X  ",
+          "  XX  XX  XX  XX X  ",
+        ], bx, by); break;
+      }
+      case 'man-bun': {
+        // Slicked back front (back-pass draws the bun)
+        ds([
+          "      hhhhhhhh      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+        ], bx, by); break;
+      }
+      case 'top-knot': {
+        // Slick sides with tall central bun above the crown
+        ds([
+          "      XXXXXXXX      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+        ], bx, by);
+        // Top bun: small narrow stack
+        ds([
+          "       XXXX         ",
+          "      XXXXXX        ",
+          "      XXXXXX        ",
+          "       XXXX         ",
+          "       XXXX         ",
+        ], bx, by-4); break;
+      }
+      case 'space-buns': {
+        // Slick top with a bun on each side
+        ds([
+          "      XXXXXXXX      ",
+          "    XXXXXXXXXXXX    ",
+          "   XXXXXXXXXXXXXX   ",
+          "  XXXXXXXXXXXXXXXX  ",
+          "  XXXXXXXXXXXXXXXX  ",
+        ], bx, by);
+        // Left bun (centered on column 23 of canvas)
+        ds([
+          "  XX  ",
+          " XXXX ",
+          "XXXXXX",
+          "XXXXXX",
+          " XXXX ",
+          "  XX  ",
+        ], 19, 1);
+        // Right bun (centered on column 41)
+        ds([
+          "  XX  ",
+          " XXXX ",
+          "XXXXXX",
+          "XXXXXX",
+          " XXXX ",
+          "  XX  ",
+        ], 38, 1); break;
       }
       case 'bald':
       default: break;
@@ -651,20 +961,27 @@
 
     // [shoulderW, waistW, hipW, thighW, shinW, armUpperW, armLowerW, neckW]
     const P = {
-      broad:   [30, 22, 24, 9, 7, 4, 3, 6],
-      average: [24, 20, 22, 8, 6, 3, 3, 5],
-      lean:    [20, 16, 18, 7, 5, 3, 2, 4],
-      stout:   [26, 28, 26, 9, 7, 4, 3, 6],
-      slender: [18, 14, 20, 7, 5, 3, 2, 4],
-      petite:  [16, 12, 18, 6, 5, 3, 2, 4],
-      curved:  [20, 14, 28, 8, 6, 3, 3, 4],
+      broad:     [30, 22, 24, 9, 7, 4, 3, 6],
+      average:   [24, 20, 22, 8, 6, 3, 3, 5],
+      lean:      [20, 16, 18, 7, 5, 3, 2, 4],
+      stout:     [26, 28, 26, 9, 7, 4, 3, 6],
+      slender:   [18, 14, 20, 7, 5, 3, 2, 4],
+      petite:    [16, 12, 18, 6, 5, 3, 2, 4],
+      curved:    [20, 14, 28, 8, 6, 3, 3, 4],
+      // New body types
+      athletic:  [26, 16, 20, 8, 7, 4, 3, 5],   // V-shape, broad shoulders, narrow waist
+      hourglass: [22, 12, 26, 8, 6, 3, 3, 4],   // pronounced waist, very wide hips
+      muscular:  [32, 22, 24, 9, 7, 5, 4, 6],   // wide shoulders, big arms
+      pear:      [18, 18, 28, 9, 6, 3, 3, 4],   // narrow shoulders, wide hips
+      lanky:     [18, 14, 16, 6, 5, 2, 2, 4],   // narrow all around
+      chubby:    [26, 26, 28, 10, 8, 4, 3, 5],  // soft + uniformly wide
     };
     const [shoulderW, waistW, hipW, thighW, shinW, armUW, armLW, neckW] = (P[bt] || P.average);
 
-    // Bust width for females (breast bulge peak)
+    // Bust width for females (breast bulge peak) — kept modest so they project forward, not sideways
     const breastSize = genome.breastSize || 'none';
-    const bustExtra  = breastSize === 'large' ? 6 : breastSize === 'medium' ? 4 : breastSize === 'small' ? 2 : 0;
-    const bustW = (g === 'female') ? Math.min(shoulderW + bustExtra, shoulderW + 8) : shoulderW;
+    const bustExtra  = breastSize === 'large' ? 4 : breastSize === 'medium' ? 2 : breastSize === 'small' ? 1 : 0;
+    const bustW = (g === 'female') ? Math.min(shoulderW + bustExtra, shoulderW + 6) : shoulderW;
 
     // Section heights (base × factor)
     const chestH   = Math.round(15 * tl);
@@ -710,6 +1027,10 @@
     const armLHalf = Math.ceil(armLW / 2);
     const armL_cx  = shoulderL - armGap - armUHalf;
     const armR_cx  = shoulderR + armGap + armUHalf;
+    // Outer arm extent — distance from cx to the outermost arm pixel.
+    // Computed from the actual arm position so cap math lines up exactly.
+    const outerArmHalf = (cx - armL_cx) + armUHalf;
+    const neckHalfOut  = neckHalf;
 
     // Leg x bounds (inside hips)
     const legGap = 2;
@@ -728,6 +1049,7 @@
       armL_cx, armR_cx, armUHalf, armLHalf,
       legL_cx, legR_cx, legHalf,
       breastSize,
+      outerArmHalf, neckHalfOut, armGap,
     };
   }
 
@@ -735,15 +1057,18 @@
 
   function chestWidthAt(t, bt, g, breastSize, shoulderW, waistW, bustW) {
     if (g === 'female') {
-      // Collar → bust peak → waist (hourglass curve)
-      const bustPeak = 0.40;
+      // Collar → bust peak → waist. Peak sits lower (0.55) so the bust isn't crammed under the chin.
+      const bustPeak = 0.55;
       if (t <= bustPeak) {
+        // Ease-IN so the chest sits close to shoulder width up high, then swells near the peak.
         const st = t / bustPeak;
-        const ease = st * (2 - st); // ease-out
+        const ease = st * st;
         return Math.round(shoulderW + (bustW - shoulderW) * ease);
       } else {
+        // Quick taper from peak to waist
         const st = (t - bustPeak) / (1 - bustPeak);
-        return Math.round(bustW + (waistW - bustW) * (st * st));
+        const ease = 1 - (1 - st) * (1 - st); // ease-out
+        return Math.round(bustW + (waistW - bustW) * ease);
       }
     } else if (bt === 'stout') {
       // Gut: stomach wider than chest
@@ -787,16 +1112,36 @@
 
   function drawTorso(ctx, garb, skin, dims) {
     const { g, bt, cx, torsoTop, stomachTop, shoulderW, waistW, hipW, bustW,
-            chestH, stomachH, breastSize } = dims;
+            chestH, stomachH, breastSize, outerArmHalf, neckHalfOut } = dims;
     const gHi    = shade(garb,  0.09);
     const gShade = shade(garb, -0.18);
     const gDeep  = shade(garb, -0.30);
 
+    // Shoulder cap — first few rows slope from the neck edge out and down to the
+    // outer arm edge, so the silhouette curves continuously from neck → shoulder
+    // → arm instead of meeting at a 90° corner. Drawn as part of the chest so it
+    // overdraws the top of the arm (drawTorso runs after drawArms).
+    const capRows = Math.min(SHOULDER_CAP_ROWS, chestH);
+    const capInnerHalf = neckHalfOut + 1;       // narrowest row, just past the neck
+    const capOuterHalf = outerArmHalf;           // widest row, covers across both arms
+
     // ── Chest section ──
     for (let row = 0; row < chestH; row++) {
-      const t = row / Math.max(1, chestH - 1);
-      const w = chestWidthAt(t, bt, g, breastSize, shoulderW, waistW, bustW);
-      const x0 = cx - Math.floor(w / 2);
+      let w;
+      let halfW;
+      if (row < capRows) {
+        // Diagonal shoulder slope. capT=0 at the top (narrow), capT=1 at cap bottom (wide).
+        const capT = capRows === 1 ? 1 : row / (capRows - 1);
+        // Ease-out so the curve flares smoothly outward
+        const ease = 1 - (1 - capT) * (1 - capT);
+        halfW = Math.round(capInnerHalf + (capOuterHalf - capInnerHalf) * ease);
+        w = halfW * 2;
+      } else {
+        const t = row / Math.max(1, chestH - 1);
+        w = chestWidthAt(t, bt, g, breastSize, shoulderW, waistW, bustW);
+        halfW = Math.floor(w / 2);
+      }
+      const x0 = cx - halfW;
       const x1 = x0 + w - 1;
       const y  = torsoTop + row;
       for (let x = x0; x <= x1; x++) px(ctx, x, y, garb);
@@ -805,11 +1150,22 @@
       if (w >= 3) px(ctx, x1-1, y, shade(garb, -0.09));
     }
 
-    // Female: cleavage shadow line
-    if (g === 'female' && (breastSize === 'medium' || breastSize === 'large')) {
-      const bustStart = torsoTop + Math.floor(chestH * 0.30);
-      const bustEnd   = torsoTop + Math.floor(chestH * 0.65);
-      for (let y = bustStart; y <= bustEnd; y++) px(ctx, cx, y, shade(garb, -0.22));
+    // Female: cleavage + under-bust shadow — sits at the lowered bust peak (~0.55 of chest)
+    if (g === 'female' && breastSize !== 'none') {
+      const peakRow = Math.round(chestH * 0.55);
+      // Cleavage shadow centered on the peak: starts just above, runs a few rows below
+      if (breastSize === 'medium' || breastSize === 'large') {
+        const cStart = torsoTop + Math.max(2, peakRow - 1);
+        const cEnd   = torsoTop + Math.min(chestH - 1, peakRow + 2);
+        for (let y = cStart; y <= cEnd; y++) px(ctx, cx, y, shade(garb, -0.24));
+      }
+      // Under-bust horizontal shadow — implies the bust projects forward (sits in front of ribcage)
+      const underY = torsoTop + Math.min(chestH - 1, peakRow + 2);
+      const underHalf = Math.max(2, Math.floor(bustW / 2) - 2);
+      for (let dx = -underHalf; dx <= underHalf; dx++) {
+        if (Math.abs(dx) <= 1) continue; // skip the centerline (cleavage owns it)
+        px(ctx, cx + dx, underY, shade(garb, -0.16));
+      }
     }
 
     // ── Stomach section ──
@@ -864,8 +1220,9 @@
     const skinShade   = shade(skin, -0.12);
 
     const drawArm = (acx, side) => {
-      // Upper arm (sleeve)
-      for (let y = armTop; y < armMidY; y++) {
+      // Upper arm (sleeve). Skip the top rows that sit underneath the chest's
+      // shoulder cap — otherwise the arm pokes out above the rounded slope.
+      for (let y = armTop + SHOULDER_CAP_ROWS; y < armMidY; y++) {
         const t = (y - armTop) / Math.max(1, armMidY - armTop - 1);
         const hw = Math.max(1, Math.round(armUHalf * (1 - t * 0.15)));
         for (let dx = -hw; dx <= hw; dx++) {
