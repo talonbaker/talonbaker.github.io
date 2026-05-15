@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Talon Baker — Programmer • Designer • Artist</title>
+  <title>Talon Baker — Programmer · Designer · Artist</title>
+  <meta name="description" content="Talon Baker — programmer, game designer, and artist. Selected work, experience, and contact.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="assets/images/logos/bubbleicon.ico" type="image/x-icon">
@@ -16,13 +17,14 @@
 
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo">
-        <img src="assets/images/logos/bubbleicon.png" alt="Talon Baker" style="width:24px;height:24px;object-fit:contain;">
+      <a href="#home" class="nav-logo">
+        <img src="assets/images/logos/bubbleicon.png" alt="">
         <span>talonbaker.com</span>
-      </div>
+      </a>
       <ul class="nav-menu">
         <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#work" class="nav-link">Work</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
         <li><a href="#art" class="nav-link">Art</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -30,39 +32,73 @@
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <section id="home" class="hero">
-    <div class="hero-content">
-      <h1 class="hero-title">
-        <span class="line-1">Programmer</span>
-        <span class="line-2">Game Designer</span>
-        <span class="line-3">Artist</span>
-      </h1>
-      <p class="hero-subtitle">I build games, software, and art. Shipped on Steam. Designed for impact.</p>
-      <div class="hero-cta">
-        <a href="#work" class="btn btn-primary">View My Work</a>
-        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="hero-eyebrow">Portfolio · 2026</div>
+          <h1 class="hero-name">Talon Baker<span class="dot">.</span></h1>
+          <div class="hero-roles">
+            <span>Programmer</span>
+            <span>Game Designer</span>
+            <span>Artist</span>
+            <span>Storyteller</span>
+          </div>
+          <p class="hero-lede">
+            I build <strong>games, software, and visual systems</strong> — from VR titles shipped on Steam to custom shaders, AI agents, and hand-drawn illustration. UCSC Computer Science: Game Design.
+          </p>
+          <div class="hero-cta">
+            <a href="#work" class="btn btn-primary">View Work <span class="arrow">→</span></a>
+            <a href="#experience" class="btn btn-secondary">Experience</a>
+          </div>
+        </div>
+
+        <!-- Photo card. Drop a 4:5 portrait at assets/images/headshot.jpg to replace the initials. -->
+        <div class="hero-photo">
+          <div class="hero-photo-fallback">TB</div>
+          <img src="assets/images/headshot.jpg" alt="Talon Baker portrait" onerror="this.style.display='none'">
+          <span class="hero-photo-tag">Santa Cruz · CA</span>
+        </div>
       </div>
     </div>
-    <div class="hero-accent"></div>
   </section>
 
-  <!-- PROJECTS SECTION -->
-  <section id="work" class="work-section">
+  <!-- DISCIPLINES STRIP -->
+  <div class="disciplines">
     <div class="container">
-      <h2 class="section-title">Projects</h2>
+      <div class="disciplines-track">
+        <span>Programming</span>
+        <span>Game Design</span>
+        <span>Art</span>
+        <span>Design</span>
+        <span>Architecture</span>
+        <span>Storytelling</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work" class="section work-section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">01 — Selected Work</div>
+          <h2 class="section-title">Things I've shipped, broken, and built <span class="accent">from scratch</span>.</h2>
+        </div>
+        <a href="programming/" class="section-link">All projects →</a>
+      </div>
 
       <div class="projects-grid">
 
-        <!-- Wacktory -->
         <a class="project-card" href="programming/wacktory/">
           <div class="project-image">
             <img src="assets/images/programming/project_wacktory/WacktoryAwardBanner.png" alt="Wacktory">
           </div>
           <div class="project-info">
-            <h3>Wacktory — VR + Co-op</h3>
-            <p class="project-meta">Shipped on Steam • 12-person team • Producer & Programmer</p>
-            <p>Co-developed and shipped a VR cooperative game. Won Grand Prize at UCSC Games Showcase. Lead technical implementation and team coordination.</p>
+            <p class="project-meta">Steam · 12-person team · Producer & Programmer</p>
+            <h3>Wacktory — VR Co-op</h3>
+            <p>Co-developed and shipped a VR cooperative game on Steam. Won Grand Prize at the UCSC Games Showcase. Led technical implementation and team coordination.</p>
             <div class="project-tags">
               <span class="tag">VR</span>
               <span class="tag">C#</span>
@@ -71,14 +107,13 @@
           </div>
         </a>
 
-        <!-- Graphics & Systems -->
         <a class="project-card" href="programming/graphics-systems/">
           <div class="project-image">
             <img src="assets/images/programming/project_glsl_pixelationshader/glslShader_1.png" alt="GLSL Shader">
           </div>
           <div class="project-info">
+            <p class="project-meta">OpenGL · WebGL · GLSL · Three.js</p>
             <h3>Graphics & Systems</h3>
-            <p class="project-meta">OpenGL, WebGL, GLSL, Three.js</p>
             <p>Custom pixel art shaders, real-time graphics systems, and AI agents. Built low-level data structures and high-performance tools.</p>
             <div class="project-tags">
               <span class="tag">Graphics</span>
@@ -88,31 +123,45 @@
           </div>
         </a>
 
-        <!-- ARG -->
         <a class="project-card" href="programming/arg/">
           <div class="project-image">
             <img src="assets/images/programming/project_theguardiansofucsc/GoUCSCRiddlePoster.png" alt="Augmented Reality Game">
           </div>
           <div class="project-info">
-            <h3>Augmented Reality Game (ARG)</h3>
-            <p class="project-meta">ARG • Game Design • Production</p>
+            <p class="project-meta">ARG · Game Design · Production</p>
+            <h3>The Guardians of UCSC</h3>
             <p>Produced a campus-wide alternate reality game. Designed and shipped 6+ digital and analog games across the UCSC campus.</p>
             <div class="project-tags">
               <span class="tag">Game Design</span>
               <span class="tag">Production</span>
-              <span class="tag">Creative</span>
+              <span class="tag">Storytelling</span>
             </div>
           </div>
         </a>
 
-        <!-- OpenGL Hex Board -->
+        <a class="project-card" href="programming/cast-gen/">
+          <div class="project-image" style="background: linear-gradient(135deg, #0d0d10 0%, #1a1400 40%, #3a0000 100%); display:flex; align-items:center; justify-content:center;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:1.05rem; font-weight:500; letter-spacing:0.18em; color:#FFB347; text-shadow: 0 0 18px rgba(255,179,71,0.55);">CAST.GEN</span>
+          </div>
+          <div class="project-info">
+            <p class="project-meta">React · Procedural Gen · Web Audio API</p>
+            <h3>CAST.GEN, BODY.GEN & Face-Body-Create</h3>
+            <p>Browser-based character generators with a six-tier loot-drop rarity system. Rolls produce pixel-art portraits, full bodies, and downloadable ID badges with synthesized cinematic audio.</p>
+            <div class="project-tags">
+              <span class="tag">React</span>
+              <span class="tag">Canvas</span>
+              <span class="tag">Procedural</span>
+            </div>
+          </div>
+        </a>
+
         <a class="project-card" href="https://github.com/talonbaker/HexBoard" target="_blank" rel="noopener">
           <div class="project-image">
             <img src="assets/images/programming/project_opengl_hexboard/hexBoardImage.png" alt="OpenGL Hex Board">
           </div>
           <div class="project-info">
+            <p class="project-meta">C++ · OpenGL · Graph Theory</p>
             <h3>OpenGL — Hex Board</h3>
-            <p class="project-meta">C++ • OpenGL • Graph Theory</p>
             <p>The game of Hex on an 11×11 OpenGL board with random token placement. Determines the winner using a weighted graph for node traversal.</p>
             <div class="project-tags">
               <span class="tag">C++</span>
@@ -122,14 +171,13 @@
           </div>
         </a>
 
-        <!-- Conway's Game of Life -->
         <a class="project-card" href="https://github.com/talonbaker/Conwaygl" target="_blank" rel="noopener">
           <div class="project-image">
             <img src="assets/images/programming/project_opengl_conwaysgameoflife/conwaygl.png" alt="Conway's Game of Life">
           </div>
           <div class="project-info">
-            <h3>OpenGL — Conway's Game of Life</h3>
-            <p class="project-meta">C++ • OpenGL • Simulation</p>
+            <p class="project-meta">C++ · OpenGL · Simulation</p>
+            <h3>Conway's Game of Life</h3>
             <p>Every pixel on screen is a live cell interacting with every other in real time. A zero-player game running at full display resolution.</p>
             <div class="project-tags">
               <span class="tag">C++</span>
@@ -139,14 +187,13 @@
           </div>
         </a>
 
-        <!-- Python AI Agent -->
         <a class="project-card" href="programming/python-ai-agent/">
           <div class="project-image">
             <img src="assets/images/programming/project_python_pillow/generated_1.png" alt="Python AI Agent">
           </div>
           <div class="project-info">
-            <h3>Python AI Agent — Visual Intelligence</h3>
-            <p class="project-meta">Python • Pillow • AI / ML</p>
+            <p class="project-meta">Python · Pillow · AI / ML</p>
+            <h3>Visual Intelligence Agent</h3>
             <p>AI agent that uses visual pattern recognition to solve Raven's Progressive Matrices intelligence tests, built with Python and the Pillow image library.</p>
             <div class="project-tags">
               <span class="tag">Python</span>
@@ -156,14 +203,13 @@
           </div>
         </a>
 
-        <!-- Water Sort Puzzle Solver -->
         <a class="project-card" href="https://github.com/talonbaker/TubeSolver" target="_blank" rel="noopener">
           <div class="project-image">
             <img src="assets/images/programming/project_csharp_watersortpuzzle/WaterSortScreenshot.png" alt="Water Sort Puzzle Solver">
           </div>
           <div class="project-info">
-            <h3>Water Sort Puzzle Solver</h3>
-            <p class="project-meta">C# • BFS • AI Search</p>
+            <p class="project-meta">C# · BFS · AI Search</p>
+            <h3>Water Sort Solver</h3>
             <p>Given any Water Sort puzzle configuration, this agent solves it using BFS graph search and returns the exact sequence of moves needed to win.</p>
             <div class="project-tags">
               <span class="tag">C#</span>
@@ -173,31 +219,29 @@
           </div>
         </a>
 
-        <!-- Minesweeper -->
-        <a class="project-card" href="https://github.com/talonbaker/MinesweeperForms" target="_blank" rel="noopener">
+        <a class="project-card" href="https://github.com/talonbaker/Pingeon" target="_blank" rel="noopener">
           <div class="project-image">
-            <img src="assets/images/programming/project_winforms_minesweeper/MSFormsControlForm.png" alt="Minesweeper WinForms">
+            <img src="assets/images/programming/project_pingeon/pingeon_logo.png" alt="Pingeon">
           </div>
           <div class="project-info">
-            <h3>Minesweeper — WinForms</h3>
-            <p class="project-meta">C# • Windows Forms • .NET</p>
-            <p>Custom Minesweeper with configurable board size and mine count. Board generates randomly. Built to explore .NET Windows Forms application development.</p>
+            <p class="project-meta">Python · tkinter · Cloudflare Workers</p>
+            <h3>PINGEON!</h3>
+            <p>Calendar slot monitor that watches public Google Calendars and emails you the instant an appointment opens up. GUI + CLI, zero dependencies, one-line Windows install.</p>
             <div class="project-tags">
-              <span class="tag">C#</span>
-              <span class="tag">WinForms</span>
-              <span class="tag">.NET</span>
+              <span class="tag">Python</span>
+              <span class="tag">Automation</span>
+              <span class="tag">Open Source</span>
             </div>
           </div>
         </a>
 
-        <!-- Infinite Roller & Marbelous -->
         <a class="project-card" href="https://jeremylafond.itch.io/marbelous" target="_blank" rel="noopener">
           <div class="project-image">
             <img src="assets/images/programming/project_marbelous/marbelousImage.png" alt="Marbelous">
           </div>
           <div class="project-info">
+            <p class="project-meta">P5.js · JavaScript · Procedural Generation</p>
             <h3>Infinite Roller & Marbelous</h3>
-            <p class="project-meta">P5.js • JavaScript • Procedural Generation</p>
             <p>Infinite interactive rolling landscape generated with hash maps and P5.js. Marbelous is a collaborative marble game built on the same procedural system.</p>
             <div class="project-tags">
               <span class="tag">P5.js</span>
@@ -207,63 +251,14 @@
           </div>
         </a>
 
-        <!-- A Salt With A Deadly Weapon -->
-        <a class="project-card" href="https://tebaker.itch.io/salt" target="_blank" rel="noopener">
-          <div class="project-image">
-            <img src="assets/images/programming/project_aswadw/aswadwImage.png" alt="A Salt With A Deadly Weapon">
-          </div>
-          <div class="project-info">
-            <h3>A Salt With A Deadly Weapon</h3>
-            <p class="project-meta">Game Design • Itch.io</p>
-            <p>An indie game shipped on Itch.io. Designed, developed, and published independently as part of ongoing game design exploration and rapid prototyping.</p>
-            <div class="project-tags">
-              <span class="tag">Game Design</span>
-              <span class="tag">Indie</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Surrogate -->
-        <a class="project-card" href="https://tebaker.itch.io/surrogate" target="_blank" rel="noopener">
-          <div class="project-image">
-            <img src="assets/images/programming/project_surrogate/surrogateImage.png" alt="Surrogate">
-          </div>
-          <div class="project-info">
-            <h3>Surrogate</h3>
-            <p class="project-meta">Game Design • Itch.io</p>
-            <p>An indie game shipped on Itch.io. A creative exploration of unconventional game mechanics, player perspective, and narrative-driven experience design.</p>
-            <div class="project-tags">
-              <span class="tag">Game Design</span>
-              <span class="tag">Indie</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Fatty Bird -->
-        <a class="project-card" href="https://tebaker.itch.io/bakerrunner" target="_blank" rel="noopener">
-          <div class="project-image">
-            <img src="assets/images/programming/project_fattybird/fattyBirdImage.png" alt="Fatty Bird Learns to Fly">
-          </div>
-          <div class="project-info">
-            <h3>Fatty Bird Learns to Fly</h3>
-            <p class="project-meta">Game Design • Itch.io</p>
-            <p>A charming take on endless runner mechanics shipped on Itch.io. Designed and built as a solo game jam project with a focus on feel and polish.</p>
-            <div class="project-tags">
-              <span class="tag">Game Design</span>
-              <span class="tag">Indie</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Traditional Games -->
         <a class="project-card" href="programming/traditional-games/">
           <div class="project-image">
             <img src="assets/images/programming/project_ratsinasewer/riasImage.png" alt="Traditional Games">
           </div>
           <div class="project-info">
+            <p class="project-meta">Game Design · Analog & Physical</p>
             <h3>Traditional Games</h3>
-            <p class="project-meta">Game Design • Analog & Physical</p>
-            <p>A collection of analog and hybrid game designs: Rats in a Sewer, La Tour De Bike, and The Obsessive Hobbyist. Designed and playtested from scratch.</p>
+            <p>Analog and hybrid game designs: Rats in a Sewer, La Tour De Bike, and The Obsessive Hobbyist. Designed and playtested from scratch.</p>
             <div class="project-tags">
               <span class="tag">Game Design</span>
               <span class="tag">Analog</span>
@@ -272,36 +267,18 @@
           </div>
         </a>
 
-        <!-- PINGEON! -->
-        <a class="project-card" href="https://github.com/talonbaker/Pingeon" target="_blank" rel="noopener">
+        <a class="project-card" href="https://github.com/talonbaker/MinesweeperForms" target="_blank" rel="noopener">
           <div class="project-image">
-            <img src="assets/images/programming/project_pingeon/pingeon_logo.png" alt="Pingeon">
+            <img src="assets/images/programming/project_winforms_minesweeper/MSFormsControlForm.png" alt="Minesweeper WinForms">
           </div>
           <div class="project-info">
-            <h3>PINGEON!</h3>
-            <p class="project-meta">Python • tkinter • Cloudflare Workers</p>
-            <p>Calendar slot monitor that watches public Google Calendars and emails you the instant an appointment opens up. GUI + CLI modes, zero dependencies, one-line Windows install.</p>
+            <p class="project-meta">C# · Windows Forms · .NET</p>
+            <h3>Minesweeper — WinForms</h3>
+            <p>Custom Minesweeper with configurable board size and mine count. Random board generation. Built to explore .NET Windows Forms application development.</p>
             <div class="project-tags">
-              <span class="tag">Python</span>
-              <span class="tag">Automation</span>
-              <span class="tag">Open Source</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- CAST.GEN, BODY.GEN & Face-Body-Create -->
-        <a class="project-card" href="programming/cast-gen/">
-          <div class="project-image" style="background: linear-gradient(135deg, #0d0d10 0%, #1a1400 40%, #3a0000 100%); display:flex; align-items:center; justify-content:center; min-height:160px;">
-            <span style="font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700; letter-spacing:0.15em; color:#FFB347; text-shadow: 0 0 18px rgba(255,179,71,0.7);">CAST.GEN</span>
-          </div>
-          <div class="project-info">
-            <h3>CAST.GEN, BODY.GEN & Face-Body-Create</h3>
-            <p class="project-meta">React • Procedural Generation • Web Audio API</p>
-            <p>Suite of browser-based character generators with a six-tier loot-drop rarity system. Rolls produce a pixel-art portrait, full body, and downloadable ID badge — complete with synthesized cinematic audio on rare drops. Includes a layered face and body editor for fine-tuned character customization.</p>
-            <div class="project-tags">
-              <span class="tag">React</span>
-              <span class="tag">Canvas</span>
-              <span class="tag">Procedural</span>
+              <span class="tag">C#</span>
+              <span class="tag">WinForms</span>
+              <span class="tag">.NET</span>
             </div>
           </div>
         </a>
@@ -310,10 +287,156 @@
     </div>
   </section>
 
-  <!-- ART SECTION -->
-  <section id="art" class="art-section">
+  <!-- EXPERIENCE / RESUME -->
+  <section id="experience" class="section experience-section">
     <div class="container">
-      <h2 class="section-title">Art</h2>
+      <div class="experience-grid">
+        <aside class="experience-aside">
+          <div class="eyebrow">02 — Experience</div>
+          <h2 class="section-title">A track record of <span class="accent">shipping</span>.</h2>
+          <p>Selected roles, projects, and education across game development, software engineering, and creative production.</p>
+          <a href="https://www.linkedin.com/in/talon-baker-7a5bb0b5/" target="_blank" rel="noopener" class="btn btn-secondary" style="margin-top: 0.5rem;">LinkedIn <span class="arrow">↗</span></a>
+        </aside>
+
+        <div class="experience-list">
+
+          <div class="experience-item">
+            <div class="experience-date">2024 — 2025</div>
+            <div>
+              <div class="experience-role">Producer & Programmer — Wacktory</div>
+              <div class="experience-org">UCSC Game Design Capstone · 12-person team</div>
+              <p class="experience-desc">Co-led a 12-person team from concept to a shipped VR cooperative title on Steam. Maintained Agile/Scrum cadence, owned core gameplay systems, and shipped to launch. Won Grand Prize at the UCSC Games Showcase.</p>
+              <div class="experience-tags">
+                <span class="tag">Unity VR</span>
+                <span class="tag">C#</span>
+                <span class="tag">Steam SDK</span>
+                <span class="tag">Agile</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-date">2023 — 2024</div>
+            <div>
+              <div class="experience-role">Producer & Designer — The Guardians of UCSC</div>
+              <div class="experience-org">Campus-wide alternate reality game</div>
+              <p class="experience-desc">Produced a campus-wide ARG that ran for months across UC Santa Cruz. Designed and shipped 6+ interlocking digital and analog games, coordinated playtests, and built supporting puzzles and props.</p>
+              <div class="experience-tags">
+                <span class="tag">Production</span>
+                <span class="tag">Game Design</span>
+                <span class="tag">Storytelling</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-date">2022 — 2024</div>
+            <div>
+              <div class="experience-role">Graphics & Systems Engineering</div>
+              <div class="experience-org">Independent · Open Source</div>
+              <p class="experience-desc">Built custom GLSL pixel-art shaders, real-time OpenGL simulations (Conway, Hex), and AI agents in Python and C#. Contributed open-source tooling including PINGEON! (calendar slot monitor with GUI + CLI).</p>
+              <div class="experience-tags">
+                <span class="tag">OpenGL</span>
+                <span class="tag">GLSL</span>
+                <span class="tag">C++</span>
+                <span class="tag">Python</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-date">2022 — 2024</div>
+            <div>
+              <div class="experience-role">Indie Game Designer & Developer</div>
+              <div class="experience-org">Itch.io · Solo & Collab</div>
+              <p class="experience-desc">Designed, built, and published indie titles end-to-end — A Salt With A Deadly Weapon, Surrogate, Fatty Bird Learns to Fly, and Marbelous — exploring procedural systems, narrative mechanics, and rapid prototyping.</p>
+              <div class="experience-tags">
+                <span class="tag">Game Design</span>
+                <span class="tag">P5.js</span>
+                <span class="tag">Indie</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-date">2020 — 2024</div>
+            <div>
+              <div class="experience-role">B.S. Computer Science: Game Design</div>
+              <div class="experience-org">University of California, Santa Cruz</div>
+              <p class="experience-desc">Coursework spanning graphics programming, AI, data structures, software design, and game studio production. Capstone-track focus on shipping playable, polished work in cross-disciplinary teams.</p>
+              <div class="experience-tags">
+                <span class="tag">CS</span>
+                <span class="tag">Game Design</span>
+                <span class="tag">AI</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-date">Ongoing</div>
+            <div>
+              <div class="experience-role">Illustrator — @talonpencil</div>
+              <div class="experience-org">Personal practice · Instagram</div>
+              <p class="experience-desc">Ongoing digital illustration practice — character work, composition studies, and visual storytelling. Drives the visual sensibility behind my game and software work.</p>
+              <div class="experience-tags">
+                <span class="tag">Illustration</span>
+                <span class="tag">Character</span>
+                <span class="tag">Visual Design</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section id="skills" class="section skills-section">
+    <div class="container">
+      <div class="eyebrow">03 — Capabilities</div>
+      <h2 class="section-title">What I bring to a team.</h2>
+
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>Engineering</h3>
+          <ul class="skill-list">
+            <li>C# / C++ / Python</li>
+            <li>JavaScript / React</li>
+            <li>GLSL / WebGL / OpenGL</li>
+            <li>AI agents & graph search</li>
+            <li>Cross-platform desktop</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Game Development</h3>
+          <ul class="skill-list">
+            <li>Unity 3D / Unity VR</li>
+            <li>Steam SDK · Shipping</li>
+            <li>Real-time systems</li>
+            <li>Game design & playtesting</li>
+            <li>Production · Agile / Scrum</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Art & Design</h3>
+          <ul class="skill-list">
+            <li>Digital illustration</li>
+            <li>UI / UX & visual design</li>
+            <li>Pixel art & shaders</li>
+            <li>Animation</li>
+            <li>Storytelling & worldbuilding</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ART -->
+  <section id="art" class="section art-section">
+    <div class="container">
+      <div class="eyebrow">04 — Art</div>
+      <h2 class="section-title">Drawn things.</h2>
       <p class="art-subtitle">Digital art & illustration — <a href="https://www.instagram.com/talonpencil/" target="_blank" rel="noopener" class="art-instagram-link">@talonpencil on Instagram</a></p>
 
       <div class="carousel" id="art-carousel">
@@ -351,77 +474,48 @@
     </div>
   </section>
 
-  <!-- SKILLS SECTION -->
-  <section id="skills" class="skills-section">
+  <!-- ABOUT -->
+  <section id="about" class="section about-section">
     <div class="container">
-      <h2 class="section-title">Core Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-category">
-          <h3>Programming</h3>
-          <ul class="skill-list">
-            <li>C# / C++</li>
-            <li>Python</li>
-            <li>GLSL / WebGL</li>
-            <li>Web (React, JS)</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3>Game Development</h3>
-          <ul class="skill-list">
-            <li>Game Design</li>
-            <li>VR Development</li>
-            <li>Real-time Systems</li>
-            <li>Team Production</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3>Art & Design</h3>
-          <ul class="skill-list">
-            <li>Digital Art</li>
-            <li>UI/UX Design</li>
-            <li>Animation</li>
-            <li>Visual Communication</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+      <div class="eyebrow">05 — About</div>
+      <h2 class="section-title">A little more <span class="accent">context</span>.</h2>
 
-  <!-- ABOUT SECTION -->
-  <section id="about" class="about-section">
-    <div class="container">
-      <h2 class="section-title">About Me</h2>
       <div class="about-grid">
         <div class="about-text">
-          <p>I'm a Computer Science graduate from UC Santa Cruz with a focus on Game Design. I'm obsessed with the intersection of code, design, and art — that's where magic happens.</p>
-          <p>My work spans shipped VR games, custom graphics systems, AI agents, and full-stack software. I've also produced and designed games at scale, working with teams to ship polished experiences.</p>
-          <p>I'm building something in the gaming space and looking for opportunities where I can apply my full skill set to ship impactful work.</p>
+          <p>I'm a Computer Science graduate from <strong>UC Santa Cruz</strong> with a focus on Game Design. I'm obsessed with the intersection of code, design, and art — that's where the interesting work tends to live.</p>
+          <p>My work spans shipped VR games, custom graphics systems, AI agents, and full-stack software. I've also produced and designed games at scale, working with teams to ship polished experiences end-to-end.</p>
+          <p>I'm currently building in the gaming space and looking for opportunities where I can apply my full skill set to <strong>ship work that matters</strong>.</p>
         </div>
         <div class="about-stats">
           <div class="stat-block">
             <div class="stat-number">12+</div>
-            <div class="stat-label">Person Teams Led</div>
+            <div class="stat-label">Person teams led</div>
           </div>
           <div class="stat-block">
             <div class="stat-number">1</div>
-            <div class="stat-label">Game on Steam</div>
+            <div class="stat-label">Game shipped on Steam</div>
           </div>
           <div class="stat-block">
             <div class="stat-number">6+</div>
-            <div class="stat-label">Games Designed & Shipped</div>
+            <div class="stat-label">Games designed & shipped</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
-  <section id="contact" class="contact-section">
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
     <div class="container">
-      <h2 class="section-title">Let's Build Something</h2>
-      <p class="contact-subtitle">I'm open to interesting opportunities, collaborations, and conversations.</p>
+      <div class="eyebrow">06 — Contact</div>
+      <h2 class="section-title">Let's build <span class="accent">something</span>.</h2>
+      <p class="contact-subtitle">Open to interesting roles, collaborations, and conversations. Reach out on any of the following.</p>
 
       <div class="contact-grid">
+        <a href="mailto:tebaker7@gmail.com" class="contact-card">
+          <i class="fas fa-envelope"></i>
+          <span>Email</span>
+        </a>
         <a href="https://www.linkedin.com/in/talon-baker-7a5bb0b5/" target="_blank" rel="noopener" class="contact-card">
           <i class="fab fa-linkedin"></i>
           <span>LinkedIn</span>
@@ -436,11 +530,7 @@
         </a>
         <a href="https://www.instagram.com/talonpencil/" target="_blank" rel="noopener" class="contact-card">
           <i class="fab fa-instagram"></i>
-          <span>Art Instagram</span>
-        </a>
-        <a href="mailto:tebaker7@gmail.com" class="contact-card">
-          <i class="fas fa-envelope"></i>
-          <span>Email</span>
+          <span>Instagram</span>
         </a>
       </div>
     </div>
@@ -448,12 +538,11 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 Talon Baker. Built with code and passion.</p>
-      <p><a href="name-face-gen/index.html" style="color: #64ffda; text-decoration: none;">→ Fun Face Name Generator</a></p>
+      <p>&copy; 2026 Talon Baker</p>
+      <p><a href="name-face-gen/index.html">→ Fun Face Name Generator</a></p>
     </div>
   </footer>
 
-  <!-- Bottom-of-page pointer -->
   <img src="assets/images/point-up.png" alt="" class="point-up-hand" aria-hidden="true">
 
   <script src="js/script.js"></script>
