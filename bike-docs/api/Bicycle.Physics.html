@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace Bicycle.Physics | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace Bicycle.Physics | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Bicycle.Physics">
+
+  <h1 id="Bicycle_Physics" data-uid="Bicycle.Physics" class="text-break">Namespace Bicycle.Physics</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.BicycleSimulator.html">BicycleSimulator</a></dt>
+      <dd><p>Integrates the full nonlinear Whipple bicycle equations of motion for a single bike.
+Allocation-free on the hot path — all intermediate storage is stack-allocated or
+pre-allocated at construction time.</p>
+<p>Typical usage:</p>
+<pre><code class="lang-csharp">var sim = new BicycleSimulator(BicycleParameters.GameDefault);
+sim.Step(0.004, new ControlInputs { DriveTorque = -3.0 });
+ref readonly var snap = ref sim.CurrentSnapshot();
+// snap.RearFrame.Position gives the rear-frame centre-of-mass in world space (Moore frame)</code></pre>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.Integrator.html">Integrator</a></dt>
+      <dd><p>Sealed RK4 integrator over <a class="xref" href="Bicycle.Physics.BicycleState.html">BicycleState</a>. Caller supplies the
+derivative function. All scratch buffers are fields on this instance — no
+allocations during <a class="xref" href="Bicycle.Physics.Integrator.html#Bicycle_Physics_Integrator_Step_Bicycle_Physics_BicycleState__System_Double_Bicycle_Physics_Integrator_DerivativeProvider_">Step(ref BicycleState, double, DerivativeProvider)</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.ParametersJson.html">ParametersJson</a></dt>
+      <dd><p>JSON serialization helpers for <a class="xref" href="Bicycle.Physics.BicycleParameters.html">BicycleParameters</a>. Not compiled into Unity
+builds (guarded by <code>#if !UNITY_5_3_OR_NEWER</code>) because Unity's JSON tooling
+(<code>JsonUtility</code> or <code>Newtonsoft.Json</code>) is used there instead.</p>
+</dd>
+    </dl>
+    <h3 id="structs">
+Structs
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.BicycleParameters.html">BicycleParameters</a></dt>
+      <dd><p>Complete parameter set for the canonical Whipple bicycle model.
+Field values for <a class="xref" href="Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_MeijaardBenchmark">MeijaardBenchmark</a> follow Meijaard et al. 2007 Table 1.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.BicycleSnapshot.html">BicycleSnapshot</a></dt>
+      <dd><p>World-space pose and velocity of all four bicycle bodies, plus scalar
+summary fields. This is the contract the (future) Unity layer reads from.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.BicycleState.html">BicycleState</a></dt>
+      <dd><p>Integrated state of a bicycle. 8 generalized coordinates (Pitch is the dependent
+coordinate, kept consistent with the front-wheel-on-ground holonomic constraint
+by the integrator) plus the 3 independent generalized speeds (RollRate, SteerRate,
+RearWheelSpinRate).</p>
+<p>Bit-blittable POD: <code>MemoryMarshal.AsBytes(ref state)</code> is safe.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.BodyPose.html">BodyPose</a></dt>
+      <dd><p>World-space pose and velocity of a single rigid body.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.ControlInputs.html">ControlInputs</a></dt>
+      <dd><p>External torques applied to the bicycle for one integration step.
+All values default to zero. Positive sign conventions match Meijaard 2007.</p>
+<p>IMPORTANT — sign-convention inversions (gotchas #4 and #9):
+The generated EOM treats positive <a class="xref" href="Bicycle.Physics.ControlInputs.html#Bicycle_Physics_ControlInputs_DriveTorque">DriveTorque</a> as decelerating (sign is
+inverted from typical expectation). Similarly, positive <a class="xref" href="Bicycle.Physics.ControlInputs.html#Bicycle_Physics_ControlInputs_SteerTorque">SteerTorque</a> steers
+left from the rider's perspective. <code>FeelPreset.Default</code> in the <code>Bicycle.World</code>
+package compensates with negative scales (-3.0 for drive, -1.5 for steer). A proper fix
+is deferred to Phase 3.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.FrameBodyParameters.html">FrameBodyParameters</a></dt>
+      <dd><p>Inertia properties of a frame body (RearFrame or FrontFrame), expressed in the
+reference posture defined by Meijaard 2007 (upright, zero steer, ground at z = 0).
+Assumes a vertical symmetry plane, so only Ixx, Ixz, Iyy, Izz are needed.
+Mass-centre coordinates ComX, ComZ are in the reference frame's origin/axes.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.StateDerivative.html">StateDerivative</a></dt>
+      <dd><p>Time derivative of <a class="xref" href="Bicycle.Physics.BicycleState.html">BicycleState</a>. Internal type used by the integrator
+to carry intermediate stage values during RK4. Same layout as BicycleState so callers
+can iterate in lock-step.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.WheelBodyParameters.html">WheelBodyParameters</a></dt>
+      <dd><p>Inertia properties of an axisymmetric wheel (RearWheel or FrontWheel).</p>
+</dd>
+    </dl>
+    <h3 id="delegates">
+Delegates
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.Physics.Integrator.DerivativeProvider.html">Integrator.DerivativeProvider</a></dt>
+      <dd></dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

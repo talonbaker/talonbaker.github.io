@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct Vec3D | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct Vec3D | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Bicycle.Physics.Math.Vec3D">
+
+
+
+  <h1 id="Bicycle_Physics_Math_Vec3D" data-uid="Bicycle.Physics.Math.Vec3D" class="text-break">
+Struct Vec3D  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Bicycle.html">Bicycle</a>.<a class="xref" href="Bicycle.Physics.html">Physics</a>.<a class="xref" href="Bicycle.Physics.Math.html">Math</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Bicycle.Physics.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly struct Vec3D : IEquatable&lt;Vec3D&gt;</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Bicycle_Physics_Math_Vec3D__ctor_" data-uid="Bicycle.Physics.Math.Vec3D.#ctor*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D__ctor_System_Double_System_Double_System_Double_" data-uid="Bicycle.Physics.Math.Vec3D.#ctor(System.Double,System.Double,System.Double)">
+  Vec3D(double, double, double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vec3D(double x, double y, double z)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+    <dt><code>z</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_X" data-uid="Bicycle.Physics.Math.Vec3D.X">
+  X
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly double X</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Y" data-uid="Bicycle.Physics.Math.Vec3D.Y">
+  Y
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly double Y</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Z" data-uid="Bicycle.Physics.Math.Vec3D.Z">
+  Z
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly double Z</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Zero" data-uid="Bicycle.Physics.Math.Vec3D.Zero">
+  Zero
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Vec3D Zero</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_Length_" data-uid="Bicycle.Physics.Math.Vec3D.Length*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Length" data-uid="Bicycle.Physics.Math.Vec3D.Length">
+  Length
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Length { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_Cross_" data-uid="Bicycle.Physics.Math.Vec3D.Cross*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Cross_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.Cross(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)">
+  Cross(Vec3D, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vec3D Cross(Vec3D a, Vec3D b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_Dot_" data-uid="Bicycle.Physics.Math.Vec3D.Dot*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Dot_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.Dot(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)">
+  Dot(Vec3D, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double Dot(Vec3D a, Vec3D b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_Equals_" data-uid="Bicycle.Physics.Math.Vec3D.Equals*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Equals_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.Equals(Bicycle.Physics.Math.Vec3D)">
+  Equals(Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(Vec3D other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_Equals_" data-uid="Bicycle.Physics.Math.Vec3D.Equals*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_Equals_System_Object_" data-uid="Bicycle.Physics.Math.Vec3D.Equals(System.Object)">
+  Equals(object?)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether this instance and a specified object are equal.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The object to compare with the current instance.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_GetHashCode_" data-uid="Bicycle.Physics.Math.Vec3D.GetHashCode*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_GetHashCode" data-uid="Bicycle.Physics.Math.Vec3D.GetHashCode">
+  GetHashCode()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A 32-bit signed integer that is the hash code for this instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_ToString_" data-uid="Bicycle.Physics.Math.Vec3D.ToString*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_ToString" data-uid="Bicycle.Physics.Math.Vec3D.ToString">
+  ToString()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the fully qualified type name of this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The fully qualified type name.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_Addition_" data-uid="Bicycle.Physics.Math.Vec3D.op_Addition*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_Addition_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.op_Addition(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)">
+  operator +(Vec3D, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vec3D operator +(Vec3D a, Vec3D b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_Equality_" data-uid="Bicycle.Physics.Math.Vec3D.op_Equality*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_Equality_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.op_Equality(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)">
+  operator ==(Vec3D, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(Vec3D a, Vec3D b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_Inequality_" data-uid="Bicycle.Physics.Math.Vec3D.op_Inequality*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_Inequality_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.op_Inequality(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)">
+  operator !=(Vec3D, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(Vec3D a, Vec3D b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_Multiply_" data-uid="Bicycle.Physics.Math.Vec3D.op_Multiply*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_Multiply_Bicycle_Physics_Math_Vec3D_System_Double_" data-uid="Bicycle.Physics.Math.Vec3D.op_Multiply(Bicycle.Physics.Math.Vec3D,System.Double)">
+  operator *(Vec3D, double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vec3D operator *(Vec3D v, double s)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>s</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_Multiply_" data-uid="Bicycle.Physics.Math.Vec3D.op_Multiply*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_Multiply_System_Double_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.op_Multiply(System.Double,Bicycle.Physics.Math.Vec3D)">
+  operator *(double, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vec3D operator *(double s, Vec3D v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>s</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+    <dt><code>v</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_Subtraction_" data-uid="Bicycle.Physics.Math.Vec3D.op_Subtraction*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_Subtraction_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.op_Subtraction(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)">
+  operator -(Vec3D, Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vec3D operator -(Vec3D a, Vec3D b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_Math_Vec3D_op_UnaryNegation_" data-uid="Bicycle.Physics.Math.Vec3D.op_UnaryNegation*"></a>
+
+  <h3 id="Bicycle_Physics_Math_Vec3D_op_UnaryNegation_Bicycle_Physics_Math_Vec3D_" data-uid="Bicycle.Physics.Math.Vec3D.op_UnaryNegation(Bicycle.Physics.Math.Vec3D)">
+  operator -(Vec3D)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vec3D operator -(Vec3D v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.Math.Vec3D.html">Vec3D</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

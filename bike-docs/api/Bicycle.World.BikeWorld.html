@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BikeWorld | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BikeWorld | Bike — Whipple bicycle simulator + Unity game ">
+      
+      <meta name="description" content="Orchestrates N independent bike simulations behind a clean event-driven contract. Unity-side code calls  once per fixed update, then reacts to , , and  events on the main thread. Hard rules (see spec &#167;6.1):  Only one MonoBehaviour (BikeWorldRunner) ever holds a  reference. No Unity code calls  directly. Every method takes a  so N-bike operation is supported from day 1.  Event causal ordering (spec &#167;6.1):  Snapshot events fire AFTER all simulators have stepped (consistent world-state slice). Bump events fire immediately when injected (per-bike causal ordering).  Allocation-free design:   args are cached per-bike and updated in-place.  and  args are always newly allocated (rare events, not on the hot path). The step snapshot buffer is a List whose backing array is grown on AddBike and never shrinks, so no per-step heap allocation occurs.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Bicycle.World.BikeWorld">
+
+
+
+  <h1 id="Bicycle_World_BikeWorld" data-uid="Bicycle.World.BikeWorld" class="text-break">
+Class BikeWorld  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Bicycle.html">Bicycle</a>.<a class="xref" href="Bicycle.World.html">World</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Bicycle.World.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Orchestrates N independent bike simulations behind a clean event-driven
+contract. Unity-side code calls <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Step_System_Double_System_Collections_Generic_IReadOnlyDictionary_Bicycle_World_BikeId_Bicycle_Physics_ControlInputs__">Step(double, IReadOnlyDictionary&lt;BikeId, ControlInputs&gt;)</a> once per fixed update,
+then reacts to <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeSnapshot">OnBikeSnapshot</a>, <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeBump">OnBikeBump</a>, and
+<a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeReset">OnBikeReset</a> events on the main thread.</p>
+<p>Hard rules (see spec §6.1):</p>
+<ol>
+<li>Only one MonoBehaviour (<code>BikeWorldRunner</code>) ever holds a <a class="xref" href="Bicycle.World.BikeWorld.html">BikeWorld</a> reference.</li>
+<li>No Unity code calls <a class="xref" href="Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Step_System_Double_Bicycle_Physics_ControlInputs__System_Double_">Step(double, in ControlInputs, double)</a> directly.</li>
+<li>Every method takes a <a class="xref" href="Bicycle.World.BikeId.html">BikeId</a> so N-bike operation is supported from day 1.</li>
+</ol>
+<p>Event causal ordering (spec §6.1):</p>
+<ul>
+<li>Snapshot events fire AFTER all simulators have stepped (consistent world-state slice).</li>
+<li>Bump events fire immediately when injected (per-bike causal ordering).</li>
+</ul>
+<p>Allocation-free design:</p>
+<ul>
+<li><a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeSnapshot">OnBikeSnapshot</a> args are cached per-bike and updated in-place.</li>
+<li><a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeBump">OnBikeBump</a> and <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeReset">OnBikeReset</a> args are always newly allocated
+(rare events, not on the hot path).</li>
+<li>The step snapshot buffer is a List whose backing array is grown on AddBike and
+never shrinks, so no per-step heap allocation occurs.</li>
+</ul>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class BikeWorld</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">BikeWorld</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Bicycle_World_BikeWorld_AddBike_" data-uid="Bicycle.World.BikeWorld.AddBike*"></a>
+
+  <h3 id="Bicycle_World_BikeWorld_AddBike_Bicycle_World_BikeId_Bicycle_Physics_BicycleParameters__Bicycle_World_FeelPreset__" data-uid="Bicycle.World.BikeWorld.AddBike(Bicycle.World.BikeId,Bicycle.Physics.BicycleParameters@,Bicycle.World.FeelPreset@)">
+  AddBike(BikeId, in BicycleParameters, in FeelPreset)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Register a new bike with the given physics parameters and feel preset.
+The bike starts in an upright-at-zero-speed state with small Roll and Pitch
+perturbations applied (CLAUDE.md gotchas #3 and #8) to avoid the coordinate
+singularity at exact upright:</p>
+<ul>
+<li>Roll = 1e-3 rad: avoids the 1/sin(Roll) singularity in the EOM's yaw rate.</li>
+<li>Pitch = SteerAxisTilt + 1e-5: breaks the holonomic-constraint 0/0 at
+exact upright. See Phase 1 BehavioralScenarioTests.MakeInitialState for
+the canonical reference implementation of both perturbations.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddBike(BikeId id, in BicycleParameters parameters, in FeelPreset preset)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="Bicycle.World.BikeId.html">BikeId</a></dt>
+    <dd></dd>
+    <dt><code>parameters</code> <a class="xref" href="Bicycle.Physics.BicycleParameters.html">BicycleParameters</a></dt>
+    <dd></dd>
+    <dt><code>preset</code> <a class="xref" href="Bicycle.World.FeelPreset.html">FeelPreset</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown if <code class="paramref">id</code> is already present.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Bicycle_World_BikeWorld_RemoveBike_" data-uid="Bicycle.World.BikeWorld.RemoveBike*"></a>
+
+  <h3 id="Bicycle_World_BikeWorld_RemoveBike_Bicycle_World_BikeId_" data-uid="Bicycle.World.BikeWorld.RemoveBike(Bicycle.World.BikeId)">
+  RemoveBike(BikeId)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Deregister a bike and release its simulator. Idempotent: no-op if
+<code class="paramref">id</code> is not present.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveBike(BikeId id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="Bicycle.World.BikeId.html">BikeId</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_World_BikeWorld_Reset_" data-uid="Bicycle.World.BikeWorld.Reset*"></a>
+
+  <h3 id="Bicycle_World_BikeWorld_Reset_Bicycle_World_BikeId_" data-uid="Bicycle.World.BikeWorld.Reset(Bicycle.World.BikeId)">
+  Reset(BikeId)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Return the specified bike to its upright-at-speed initial state (speed = 0).
+Applies Roll + Pitch perturbations (CLAUDE.md gotchas #3 and #8).
+Raises <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeReset">OnBikeReset</a> after the state is applied.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reset(BikeId id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="Bicycle.World.BikeId.html">BikeId</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_World_BikeWorld_Step_" data-uid="Bicycle.World.BikeWorld.Step*"></a>
+
+  <h3 id="Bicycle_World_BikeWorld_Step_System_Double_System_Collections_Generic_IReadOnlyDictionary_Bicycle_World_BikeId_Bicycle_Physics_ControlInputs__" data-uid="Bicycle.World.BikeWorld.Step(System.Double,System.Collections.Generic.IReadOnlyDictionary{Bicycle.World.BikeId,Bicycle.Physics.ControlInputs})">
+  Step(double, IReadOnlyDictionary&lt;BikeId, ControlInputs&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Advance all registered bikes by <code class="paramref">dt</code> seconds, applying the
+control inputs from <code class="paramref">inputs</code> (bikes absent from the dictionary
+receive zero inputs). Raises <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeSnapshot">OnBikeSnapshot</a> for each bike after
+ALL bikes have been stepped (consistent world-state slice per spec §6.1).</p>
+<p>Hot path — allocation-free. See class XML doc for the design constraints.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Step(double dt, IReadOnlyDictionary&lt;BikeId, ControlInputs&gt; inputs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Integration step in seconds (typically 0.004 for 250 Hz).</p>
+</dd>
+    <dt><code>inputs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="Bicycle.World.BikeId.html">BikeId</a>, <a class="xref" href="Bicycle.Physics.ControlInputs.html">ControlInputs</a>&gt;</dt>
+    <dd><p>Map of per-bike inputs for this step. Read-only; callers may reuse the
+same dictionary across frames.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="Bicycle_World_BikeWorld_OnBikeBump" data-uid="Bicycle.World.BikeWorld.OnBikeBump">
+  OnBikeBump
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Raised when a bike contacts an obstacle in a way classified as a bump.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;BikeBumpEventArgs&gt;? OnBikeBump</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler-1">EventHandler</a>&lt;<a class="xref" href="Bicycle.World.Events.BikeBumpEventArgs.html">BikeBumpEventArgs</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="Bicycle_World_BikeWorld_OnBikeReset" data-uid="Bicycle.World.BikeWorld.OnBikeReset">
+  OnBikeReset
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Raised after a bike has been returned to its upright initial state.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;BikeResetEventArgs&gt;? OnBikeReset</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler-1">EventHandler</a>&lt;<a class="xref" href="Bicycle.World.Events.BikeResetEventArgs.html">BikeResetEventArgs</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="Bicycle_World_BikeWorld_OnBikeSnapshot" data-uid="Bicycle.World.BikeWorld.OnBikeSnapshot">
+  OnBikeSnapshot
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Raised after each <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Step_System_Double_System_Collections_Generic_IReadOnlyDictionary_Bicycle_World_BikeId_Bicycle_Physics_ControlInputs__">Step(double, IReadOnlyDictionary&lt;BikeId, ControlInputs&gt;)</a> for every registered bike, carrying
+the previous and current snapshots.</p>
+<p>IMPORTANT: Do not store a reference to the <a class="xref" href="Bicycle.World.Events.BikeSnapshotEventArgs.html">BikeSnapshotEventArgs</a>
+across event invocations. The same object is reused each step (allocation-free
+design). Copy data synchronously inside the handler.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;BikeSnapshotEventArgs&gt;? OnBikeSnapshot</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler-1">EventHandler</a>&lt;<a class="xref" href="Bicycle.World.Events.BikeSnapshotEventArgs.html">BikeSnapshotEventArgs</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

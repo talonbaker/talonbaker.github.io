@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Glossary | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Glossary | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="glossary">Glossary</h1>
+
+<p>Key terms used throughout this project. Code and prose use the <strong>descriptive English names</strong> (RearFrame, FrontWheel, etc.) — math notation from the literature appears only in derivation comments.</p>
+<hr>
+<h2 id="four-rigid-bodies">Four rigid bodies</h2>
+<p><strong>RearFrame</strong>
+The rear part of the frame plus the rider. The rider's mass is absorbed into RearFrame; there is no separate rider body. Also called &quot;body C&quot; in Moore's notation or &quot;body B/C&quot; in Meijaard's.</p>
+<p><strong>RearWheel</strong>
+The rear wheel. Axisymmetric, rolls without slipping on flat ground. Two inertia parameters: <code>IAxial</code> (spin axis) and <code>IDiametral</code> (any perpendicular axis). Also called &quot;body D&quot; in Moore's notation or &quot;body R&quot; in Meijaard's.</p>
+<p><strong>FrontFrame</strong>
+The fork, handlebars, and any front-mounted mass. Connected to RearFrame via a revolute joint about the steer axis. Also called &quot;body E&quot; in Moore's notation or &quot;body H&quot; in Meijaard's.</p>
+<p><strong>FrontWheel</strong>
+The front wheel. Same inertia structure as RearWheel. Connected to FrontFrame via a revolute joint about the wheel's hub. Also called &quot;body F&quot; in Moore's notation or &quot;body F&quot; in Meijaard's.</p>
+<hr>
+<h2 id="coordinate-systems">Coordinate systems</h2>
+<p><strong>Moore frame</strong>
+The coordinate system used by the generated equations of motion and by <code>BodyPose.Position</code>. +X is forward, +Y is right, <strong>+Z is down</strong> (into the ground). Named after Jason K. Moore, whose PhD thesis our derivation follows.</p>
+<p><strong>World frame (Unity)</strong>
+Unity's coordinate system: +X is right, +Y is up, +Z is forward (right-hand, Y-up). <code>PhysicsBridge.ToUnity</code> maps Moore <code>(X, Y, Z)</code> to Unity <code>(X, Z, -Y)</code>.</p>
+<p><strong>Steer axis</strong>
+The axis about which the front frame rotates relative to the rear frame. Tilted by the steer-axis tilt angle lambda from the world vertical. For the Meijaard benchmark bicycle, lambda = 18 degrees.</p>
+<hr>
+<h2 id="bicycle-model">Bicycle model</h2>
+<p><strong>Whipple model</strong>
+The canonical mathematical model of a bicycle, consisting of four rigid bodies connected by revolute joints and constrained to roll without slipping on flat ground. Originally formulated by Whipple (1899); the Meijaard 2007 paper provides the linearized benchmark we validate against.</p>
+<p><strong>Holonomic constraint</strong>
+A constraint on positions (not velocities). The Whipple model has one: the front-wheel contact point lies on the ground plane. After imposing this constraint, the front-frame pitch is determined by the other generalized coordinates.</p>
+<p><strong>Nonholonomic constraint</strong>
+A constraint on velocities that cannot be integrated to a position constraint. The Whipple model has four: no longitudinal slip per wheel (2) and no lateral slip per wheel (2). These reduce the number of independent generalized speeds from 6 to 3.</p>
+<p><strong>Generalized coordinates / speeds</strong>
+The Lagrangian description of the system state. 8 generalized coordinates in <code>BicycleState</code> (XGround, YGround, Yaw, Roll, Pitch, RearWheelAngle, Steer, FrontWheelAngle) with Pitch as a dependent coordinate. 3 independent generalized speeds: RollRate, SteerRate, RearWheelSpinRate.</p>
+<p><strong>Self-stable window</strong>
+The range of forward speeds at which all eigenvalues have negative real part — the bike spontaneously returns to upright after a perturbation without rider input. For the Meijaard benchmark bicycle: approximately 4.3 m/s to 6.05 m/s.</p>
+<p><strong>Weave mode</strong>
+The unstable oscillatory mode at low speeds. A complex conjugate pair with positive real part below the low end of the self-stable window (~4.3 m/s). Manifests as a growing side-to-side wobble.</p>
+<p><strong>Capsize mode</strong>
+The mildly unstable real mode at high speeds. A single real eigenvalue with small positive real part above the high end of the self-stable window (~6.05 m/s). Manifests as a slow lean to one side.</p>
+<p><strong>Caster mode</strong>
+The heavily damped real mode. Large negative real part at all speeds. Associated with the steer angle snapping back to center — the caster effect of the front fork geometry (trail).</p>
+<hr>
+<h2 id="kanes-method">Kane's method</h2>
+<p>The multibody dynamics formulation used to derive the equations of motion. Chooses generalized speeds, applies virtual velocities, and produces a compact form that is efficient for both symbolic derivation and numerical evaluation. Moore's thesis derives the full nonlinear bicycle EOM via Kane's method using PyDy.</p>
+<p><strong>SymPy + PyDy</strong>
+The Python libraries used for symbolic derivation. SymPy is the symbolic algebra engine; PyDy (<code>tools/eom-codegen/derive.py</code>) implements Kane's method on top of SymPy's reference-frame mechanics. The output is pickled symbolic expressions passed to <code>emit_csharp.py</code>.</p>
+<p><strong>Common-subexpression elimination (CSE)</strong>
+<code>sympy.cse()</code> factors out repeated subexpressions in the EOM, reducing the FLOP count by ~10x. The emitted C# declares numbered temporaries <code>x0, x1, ...</code> at the top of each function.</p>
+<hr>
+<h2 id="api--runtime">API / runtime</h2>
+<p><strong><code>BicycleSimulator</code></strong>
+The per-bike simulation object. Owns one <code>BicycleState</code>, one <code>Integrator</code>, and a cached <code>DerivativeProvider</code> delegate. The step cost is ~3 µs on a modern CPU.</p>
+<p><strong><code>BicycleParameters</code></strong>
+Geometry + inertia POD struct. <code>MeijaardBenchmark</code> is the locked benchmark preset. <code>GameDefault</code> is the tuning surface.</p>
+<p><strong><code>BicycleState</code></strong>
+The 11-double integrator state. 8 generalized coordinates + 3 generalized speeds. Bit-blittable — safe to use with <code>MemoryMarshal.AsBytes</code>.</p>
+<p><strong><code>ControlInputs</code></strong>
+The 3-double per-step torque inputs: <code>SteerTorque</code>, <code>DriveTorque</code>, <code>RiderLeanTorque</code>. See <a href="gotchas.html">Gotchas 4 + 9</a> for the sign-convention inversions.</p>
+<p><strong><code>BicycleSnapshot</code></strong>
+The per-step output: four <code>BodyPose</code> values (one per rigid body) plus <code>ForwardSpeed</code> and <code>SimulationTime</code>.</p>
+<p><strong><code>BodyPose</code></strong>
+Position + orientation + linear + angular velocity for one rigid body, in the Moore world frame.</p>
+<p><strong><code>BikeWorld</code></strong>
+The N-bike orchestrator in <code>Bicycle.World</code>. One <code>BikeWorld</code> instance per scene; only <code>BikeWorldRunner</code> holds a reference.</p>
+<p><strong><code>BikeId</code></strong>
+A stable per-bike integer identity. Every N-bike-facing API takes a <code>BikeId</code> to ensure multiplayer readiness.</p>
+<p><strong><code>FeelPreset</code></strong>
+Tunable feel parameters including <code>SteerTorqueScale</code> and <code>DriveTorqueScale</code>. <code>FeelPreset.Default</code> matches the empirically tuned Phase 2 values (-1.5 and -3.0 respectively) that compensate for the sign-convention inversions.</p>
+<hr>
+<h2 id="testing">Testing</h2>
+<p><strong>Eigenvalue benchmark</strong>
+The pass/fail gate comparing numerically linearized eigenvalues of the simulation to Meijaard 2007 Table 2. Tolerance: &lt;1% relative error (actual: ~1e-6). Run by <code>EigenvalueBenchmarkTests</code>.</p>
+<p><strong>Allocation-free gate</strong>
+<code>AllocationFreeTests</code> runs 100,000 <code>Step()</code> calls and asserts <code>GC.GetAllocatedBytesForCurrentThread()</code> is unchanged. Fails if any new managed heap allocation is introduced on the hot path.</p>
+<p><strong>Determinism gate</strong>
+<code>DeterminismTests</code> runs two simulators from identical initial states and asserts bit-identical output. Per-machine bit-exact; cross-machine bit-exactness is explicitly out of scope.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

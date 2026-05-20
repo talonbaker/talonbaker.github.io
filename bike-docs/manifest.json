@@ -1,0 +1,522 @@
+{
+  "source_base_path": "C:/repos/bike/worktrees/docfx-setup/docs/docfx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.BicycleParameters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.BicycleParameters.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.BicycleParameters",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.BicycleParameters.yml\" sourcestartlinenumber=\"1\">Complete parameter set for the canonical Whipple bicycle model.\nField values for <xref href=\"Bicycle.Physics.BicycleParameters.MeijaardBenchmark\" data-throw-if-not-resolved=\"false\"></xref> follow Meijaard et al. 2007 Table 1.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.BicycleSimulator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.BicycleSimulator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.BicycleSimulator",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.BicycleSimulator.yml\" sourcestartlinenumber=\"1\">Integrates the full nonlinear Whipple bicycle equations of motion for a single bike.\nAllocation-free on the hot path — all intermediate storage is stack-allocated or\npre-allocated at construction time.</p>\n<p sourcefile=\"api/Bicycle.Physics.BicycleSimulator.yml\" sourcestartlinenumber=\"5\">Typical usage:</p>\n<pre><code class=\"lang-csharp\">var sim = new BicycleSimulator(BicycleParameters.GameDefault);\nsim.Step(0.004, new ControlInputs { DriveTorque = -3.0 });\nref readonly var snap = ref sim.CurrentSnapshot();\n// snap.RearFrame.Position gives the rear-frame centre-of-mass in world space (Moore frame)</code></pre>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.BicycleSnapshot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.BicycleSnapshot.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.BicycleSnapshot",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.BicycleSnapshot.yml\" sourcestartlinenumber=\"1\">World-space pose and velocity of all four bicycle bodies, plus scalar\nsummary fields. This is the contract the (future) Unity layer reads from.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.BicycleState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.BicycleState.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.BicycleState",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.BicycleState.yml\" sourcestartlinenumber=\"1\">Integrated state of a bicycle. 8 generalized coordinates (Pitch is the dependent\ncoordinate, kept consistent with the front-wheel-on-ground holonomic constraint\nby the integrator) plus the 3 independent generalized speeds (RollRate, SteerRate,\nRearWheelSpinRate).</p>\n<p sourcefile=\"api/Bicycle.Physics.BicycleState.yml\" sourcestartlinenumber=\"6\">Bit-blittable POD: <code>MemoryMarshal.AsBytes(ref state)</code> is safe.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.BodyPose.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.BodyPose.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.BodyPose",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.BodyPose.yml\" sourcestartlinenumber=\"1\">World-space pose and velocity of a single rigid body.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.ControlInputs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.ControlInputs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.ControlInputs",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.ControlInputs.yml\" sourcestartlinenumber=\"1\">External torques applied to the bicycle for one integration step.\nAll values default to zero. Positive sign conventions match Meijaard 2007.</p>\n<p sourcefile=\"api/Bicycle.Physics.ControlInputs.yml\" sourcestartlinenumber=\"4\">IMPORTANT — sign-convention inversions (gotchas #4 and #9):\nThe generated EOM treats positive <xref href=\"Bicycle.Physics.ControlInputs.DriveTorque\" data-throw-if-not-resolved=\"false\"></xref> as decelerating (sign is\ninverted from typical expectation). Similarly, positive <xref href=\"Bicycle.Physics.ControlInputs.SteerTorque\" data-throw-if-not-resolved=\"false\"></xref> steers\nleft from the rider's perspective. <code>FeelPreset.Default</code> in the <code>Bicycle.World</code>\npackage compensates with negative scales (-3.0 for drive, -1.5 for steer). A proper fix\nis deferred to Phase 3.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.FrameBodyParameters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.FrameBodyParameters.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.FrameBodyParameters",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.FrameBodyParameters.yml\" sourcestartlinenumber=\"1\">Inertia properties of a frame body (RearFrame or FrontFrame), expressed in the\nreference posture defined by Meijaard 2007 (upright, zero steer, ground at z = 0).\nAssumes a vertical symmetry plane, so only Ixx, Ixz, Iyy, Izz are needed.\nMass-centre coordinates ComX, ComZ are in the reference frame's origin/axes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.Integrator.DerivativeProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.Integrator.DerivativeProvider.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.Integrator.DerivativeProvider",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.Integrator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.Integrator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.Integrator",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.Integrator.yml\" sourcestartlinenumber=\"1\">Sealed RK4 integrator over <xref href=\"Bicycle.Physics.BicycleState\" data-throw-if-not-resolved=\"false\"></xref>. Caller supplies the\nderivative function. All scratch buffers are fields on this instance — no\nallocations during <xref href=\"Bicycle.Physics.Integrator.Step(Bicycle.Physics.BicycleState%40%2cSystem.Double%2cBicycle.Physics.Integrator.DerivativeProvider)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.Math.QuatD.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.Math.QuatD.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.Math.QuatD",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.Math.Vec3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.Math.Vec3D.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.Math.Vec3D",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.Math.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.Math.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.Math",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.ParametersJson.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.ParametersJson.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.ParametersJson",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.ParametersJson.yml\" sourcestartlinenumber=\"1\">JSON serialization helpers for <xref href=\"Bicycle.Physics.BicycleParameters\" data-throw-if-not-resolved=\"false\"></xref>. Not compiled into Unity\nbuilds (guarded by <code>#if !UNITY_5_3_OR_NEWER</code>) because Unity's JSON tooling\n(<code>JsonUtility</code> or <code>Newtonsoft.Json</code>) is used there instead.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.StateDerivative.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.StateDerivative.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.StateDerivative",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.StateDerivative.yml\" sourcestartlinenumber=\"1\">Time derivative of <xref href=\"Bicycle.Physics.BicycleState\" data-throw-if-not-resolved=\"false\"></xref>. Internal type used by the integrator\nto carry intermediate stage values during RK4. Same layout as BicycleState so callers\ncan iterate in lock-step.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.WheelBodyParameters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.WheelBodyParameters.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics.WheelBodyParameters",
+      "Summary": "<p sourcefile=\"api/Bicycle.Physics.WheelBodyParameters.yml\" sourcestartlinenumber=\"1\">Inertia properties of an axisymmetric wheel (RearWheel or FrontWheel).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.Physics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.Physics.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.Physics",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.BikeId.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.BikeId.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.BikeId",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.BikeId.yml\" sourcestartlinenumber=\"1\">Stable identity for a single bike within a <xref href=\"Bicycle.World.BikeWorld\" data-throw-if-not-resolved=\"false\"></xref>.\nWraps an <a href=\"https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/integral-numeric-types\">int</a>; two <xref href=\"Bicycle.World.BikeId\" data-throw-if-not-resolved=\"false\"></xref> values are equal iff\ntheir underlying integers are equal.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.BikeSnapshot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.BikeSnapshot.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.BikeSnapshot",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.BikeSnapshot.yml\" sourcestartlinenumber=\"1\">World-space poses of all four bicycle bodies for a single bike at a single\npoint in simulation time. This is the per-bike equivalent of\n<xref href=\"Bicycle.Physics.BicycleSnapshot\" data-throw-if-not-resolved=\"false\"></xref> extended to carry identity information.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.BikeWorld.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.BikeWorld.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.BikeWorld",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"1\">Orchestrates N independent bike simulations behind a clean event-driven\ncontract. Unity-side code calls <xref href=\"Bicycle.World.BikeWorld.Step(System.Double%2cSystem.Collections.Generic.IReadOnlyDictionary%7bBicycle.World.BikeId%2cBicycle.Physics.ControlInputs%7d)\" data-throw-if-not-resolved=\"false\"></xref> once per fixed update,\nthen reacts to <xref href=\"Bicycle.World.BikeWorld.OnBikeSnapshot\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"Bicycle.World.BikeWorld.OnBikeBump\" data-throw-if-not-resolved=\"false\"></xref>, and\n<xref href=\"Bicycle.World.BikeWorld.OnBikeReset\" data-throw-if-not-resolved=\"false\"></xref> events on the main thread.</p>\n<p sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"6\">Hard rules (see spec §6.1):</p>\n<ol sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"7\">\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"7\">Only one MonoBehaviour (<code>BikeWorldRunner</code>) ever holds a <xref href=\"Bicycle.World.BikeWorld\" data-throw-if-not-resolved=\"false\"></xref> reference.</li>\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"8\">No Unity code calls <xref href=\"Bicycle.Physics.BicycleSimulator.Step(System.Double%2cBicycle.Physics.ControlInputs%40%2cSystem.Double)\" data-throw-if-not-resolved=\"false\"></xref> directly.</li>\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"9\">Every method takes a <xref href=\"Bicycle.World.BikeId\" data-throw-if-not-resolved=\"false\"></xref> so N-bike operation is supported from day 1.</li>\n</ol>\n<p sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"11\">Event causal ordering (spec §6.1):</p>\n<ul sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"12\">\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"12\">Snapshot events fire AFTER all simulators have stepped (consistent world-state slice).</li>\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"13\">Bump events fire immediately when injected (per-bike causal ordering).</li>\n</ul>\n<p sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"15\">Allocation-free design:</p>\n<ul sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"16\">\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"16\"><xref href=\"Bicycle.World.BikeWorld.OnBikeSnapshot\" data-throw-if-not-resolved=\"false\"></xref> args are cached per-bike and updated in-place.</li>\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"17\"><xref href=\"Bicycle.World.BikeWorld.OnBikeBump\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"Bicycle.World.BikeWorld.OnBikeReset\" data-throw-if-not-resolved=\"false\"></xref> args are always newly allocated\n(rare events, not on the hot path).</li>\n<li sourcefile=\"api/Bicycle.World.BikeWorld.yml\" sourcestartlinenumber=\"19\">The step snapshot buffer is a List whose backing array is grown on AddBike and\nnever shrinks, so no per-step heap allocation occurs.</li>\n</ul>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.BumpEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.BumpEvent.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.BumpEvent",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.BumpEvent.yml\" sourcestartlinenumber=\"1\">Describes a single bump interaction between a bike and an obstacle.\n<xref href=\"Bicycle.World.BumpEvent.Tier\" data-throw-if-not-resolved=\"false\"></xref> classifies the bump intensity (e.g. 1 = small tap, 2 = medium, 3 = hard).\n<xref href=\"Bicycle.World.BumpEvent.LeanSign\" data-throw-if-not-resolved=\"false\"></xref> indicates which side the bike was leaning toward on impact:\n+1 = leaning right, -1 = leaning left.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.Events.BikeBumpEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.Events.BikeBumpEventArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.Events.BikeBumpEventArgs",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.Events.BikeBumpEventArgs.yml\" sourcestartlinenumber=\"1\">Raised when a bike collides with an obstacle and the collision is classified\nas a bump (rather than a fall).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.Events.BikeResetEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.Events.BikeResetEventArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.Events.BikeResetEventArgs",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.Events.BikeResetEventArgs.yml\" sourcestartlinenumber=\"1\">Raised after a bike has been reset to its upright-at-speed initial state\nvia <xref href=\"Bicycle.World.BikeWorld.Reset(Bicycle.World.BikeId)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.Events.BikeSnapshotEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.Events.BikeSnapshotEventArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.Events.BikeSnapshotEventArgs",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.Events.BikeSnapshotEventArgs.yml\" sourcestartlinenumber=\"1\">Raised after every successful <xref href=\"Bicycle.World.BikeWorld.Step(System.Double%2cSystem.Collections.Generic.IReadOnlyDictionary%7bBicycle.World.BikeId%2cBicycle.Physics.ControlInputs%7d)\" data-throw-if-not-resolved=\"false\"></xref> for each bike,\ncarrying both the previous and current snapshots so subscribers can\ncompute deltas (velocity, angular change, etc.) without storing state.</p>\n<p sourcefile=\"api/Bicycle.World.Events.BikeSnapshotEventArgs.yml\" sourcestartlinenumber=\"5\">Allocation-free design: instances are cached per-bike inside <xref href=\"Bicycle.World.BikeWorld\" data-throw-if-not-resolved=\"false\"></xref>\nand updated in-place before each event raise (via <xref href=\"Bicycle.World.Events.BikeSnapshotEventArgs.Update(Bicycle.World.BikeId%2cBicycle.World.BikeSnapshot%40%2cBicycle.World.BikeSnapshot%40)\" data-throw-if-not-resolved=\"false\"></xref> — internal).\nSubscribers must not store a reference to this object across event calls; copy the\ndata they need from <xref href=\"Bicycle.World.Events.BikeSnapshotEventArgs.Previous\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"Bicycle.World.Events.BikeSnapshotEventArgs.Current\" data-throw-if-not-resolved=\"false\"></xref> synchronously.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.Events.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.Events.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.Events",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.FeelPreset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.FeelPreset.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World.FeelPreset",
+      "Summary": "<p sourcefile=\"api/Bicycle.World.FeelPreset.yml\" sourcestartlinenumber=\"1\">Pure-C# POD that describes all tunable parameters controlling how a bike\n&quot;feels&quot; to the rider. This struct is constructed directly in xUnit tests and\nconverted from a Unity ScriptableObject (<code>BikeFeelPresetAsset</code>) in the\npresentation layer.</p>\n<p sourcefile=\"api/Bicycle.World.FeelPreset.yml\" sourcestartlinenumber=\"6\">Placeholder set of 5 fields for v2.0; the full ~30-field surface is introduced\nincrementally in v2.9 as feel-tuning progresses.</p>\n<p sourcefile=\"api/Bicycle.World.FeelPreset.yml\" sourcestartlinenumber=\"9\">Polarity conventions match the gotcha documentation:\nSteerTorqueScale  negative = steer-right on right-arrow (gotcha #9)\nDriveTorqueScale  negative = accelerate on W (gotcha #4)</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Bicycle.World.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Bicycle.World.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bicycle.World",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/architecture.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/architecture.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/build-and-test.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/build-and-test.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/glossary.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/glossary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/gotchas.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/gotchas.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/how-to-resume.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/how-to-resume.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/phase-history.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/phase-history.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/whipple-model.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/whipple-model.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

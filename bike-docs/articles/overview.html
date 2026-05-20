@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Overview | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Overview | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="overview">Overview</h1>
+
+<blockquote>
+<p>A multiplayer bicycle game where the physics is honest and the game is hard.</p>
+</blockquote>
+<p>Bike is a small multiplayer game in the spirit of <strong>Flappy Bird, Getting Over It, and Baby Steps — but on a bike</strong>. The bike's balance comes from real bicycle dynamics, not Unity's stock rigidbody simulator. The difficulty comes from the rider's coordination problem: stay upright, pedal in rhythm, don't fall.</p>
+<h2 id="why-this-is-interesting">Why this is interesting</h2>
+<p>A real bicycle isn't balanced by the rider — it's balanced by <strong>physics</strong>. Hold it at the right speed and the bike will keep itself upright. Go too slow and it falls. Go too fast and you get high-frequency wobble. This genuinely surprising behavior emerges from a 4-body rigid-body system with no-slip rolling constraints, and it's what makes a bike interesting to ride. Capturing it correctly in a game is rarely done — most &quot;bike&quot; games use simplified inverted-pendulum hacks. This project uses the full equations.</p>
+<p>The system has <strong>four rigid bodies</strong> connected by <strong>two revolute joints</strong> and constrained to roll without slipping on flat ground:</p>
+<pre><code>                + steer axis (tilted by λ)
+               /
+              /
+┌─────FrontFrame─────┐
+│       │            │
+RearFrame│      FrontWheel
+│       │            │
+RearWheel●            ●
+●       │            │
+│   ════╪════════════╪════  ground (z = 0)
+        │            │
+</code></pre>
+<p>After applying the holonomic ground-contact constraint and the four nonholonomic rolling constraints, the system has <strong>three dynamic degrees of freedom</strong>:</p>
+<ul>
+<li>Roll angle of the rear frame (lean)</li>
+<li>Steer angle (front frame relative to rear)</li>
+<li>Rear wheel spin angle (forward speed)</li>
+</ul>
+<p>Everything else — yaw, pitch, position, front wheel spin — is determined by integrating these three plus the constraint equations.</p>
+<h2 id="game-vision">Game vision</h2>
+<p>The eventual product is a small multiplayer game where players struggle to keep their bikes upright while pedaling around a shared world. The design pillars:</p>
+<ul>
+<li><strong>Intentionally hard.</strong> Hard does NOT mean unfair — the bike's balance physics is honest; the difficulty comes from the rider's coordination problem.</li>
+<li><strong>Bike feel is the acceptance gate.</strong> Every phase is blocked on &quot;does the bike feel right?&quot; before the next phase starts.</li>
+<li><strong>Physics does the punishing.</strong> No game-logic fall triggers. The bike falls because the physics says it fell — lean past the stability envelope and the equations do the rest.</li>
+<li><strong>Performance headroom from day one.</strong> The physics runs at 250 Hz, allocation-free, at ~3 µs per step. The budget supports 100 bikes on screen simultaneously at 60 fps.</li>
+</ul>
+<h2 id="two-libraries-one-game">Two libraries, one game</h2>
+<p>The project is split into two pure-C# libraries and a Unity presentation layer:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Project</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Physics core</td>
+<td><code>Bicycle.Physics</code></td>
+<td>Deterministic, allocation-free Whipple EOM integration</td>
+</tr>
+<tr>
+<td>World orchestrator</td>
+<td><code>Bicycle.World</code></td>
+<td>N-bike event-driven contract, no Unity dependency</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td><code>unity-v2/</code></td>
+<td>MonoBehaviours, rendering, input, scene wiring</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="architecture.html">Architecture</a> for the full layer diagram and design rationale.</p>
+<h2 id="current-state-as-of-2026-05-20">Current state (as of 2026-05-20)</h2>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1: Physics core</td>
+<td>Done — 67 tests, eigenvalues match Meijaard 2007 to 6 decimal places</td>
+</tr>
+<tr>
+<td>Phase 2: Unity MVP</td>
+<td>Done — Sandbox scene, BicycleController, HUD, ragdoll fall</td>
+</tr>
+<tr>
+<td>Phase 2.5: DeskCourse MVP</td>
+<td>Done — first playable level, leaderboard</td>
+</tr>
+<tr>
+<td>v2.0 Walking Skeleton</td>
+<td>Done — clean unity-v2 rebuild on Unity 6 LTS + URP</td>
+</tr>
+<tr>
+<td>v2.1 Mobile / WebGL</td>
+<td>In progress</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="phase-history.html">Phase History</a> for the full milestone log.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Meijaard, Papadopoulos, Ruina, Schwab. <em>Linearized dynamics equations for the balance and steer of a bicycle: a benchmark and review.</em> Proc. R. Soc. A 463 (2007).</li>
+<li>Moore, J.K. <em>Human Control of a Bicycle.</em> PhD thesis, UC Davis, 2012.</li>
+<li>PyDy bicycle validation example: <a href="https://github.com/pydy/pydy/tree/master/examples/bicycle_validation">https://github.com/pydy/pydy/tree/master/examples/bicycle_validation</a></li>
+<li>Glenn Fiedler, &quot;Fix Your Timestep!&quot; <a href="https://gafferongames.com/post/fix_your_timestep/">https://gafferongames.com/post/fix_your_timestep/</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

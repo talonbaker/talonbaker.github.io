@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Gotchas | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Gotchas | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="gotchas">Gotchas</h1>
+
+<p>This page documents every known pitfall that cost real debugging time. Organized by phase. Closed issues are marked.</p>
+<blockquote>
+<p>These gotchas are canonical debugging shortcuts. Future developers (and dispatched agents): read the relevant section before touching the code.</p>
+</blockquote>
+<hr>
+<h2 id="phase-1-gotchas-physics-derivation">Phase 1 Gotchas (Physics derivation)</h2>
+<h3 id="gotcha-1-inertia-tensor-rotation-direction-inverted-in-derivepy">Gotcha 1: Inertia-tensor rotation direction inverted in <code>derive.py</code></h3>
+<p><strong>Status: Closed (fixed in Phase 1)</strong></p>
+<p>Moore's RearFrame/FrontFrame inertia is computed from Meijaard's via <code>R_y(lambda) * I * R_y(lambda)^T</code> where the rotation goes <strong>C-frame to world</strong>, not the other way around. The eigenvalue benchmark caught it (~16% error on a benchmark eigenvalue at v=0).</p>
+<p>If a large systematic discrepancy appears after a derivation change, suspect this first.</p>
+<hr>
+<h3 id="gotcha-2-pitch-convention-at-upright-is-pitch--steeraxistilt-not-pitch--0">Gotcha 2: Pitch convention at upright is <code>Pitch = SteerAxisTilt</code>, NOT <code>Pitch = 0</code></h3>
+<p><strong>Status: Closed (fixed in Phase 1)</strong></p>
+<p>The front-wheel-on-ground holonomic constraint with <code>Roll = Steer = 0</code> solves to <code>q5 = lambda</code> for the canonical benchmark geometry. <code>BicycleState.UprightStationary</code> correctly sets this.</p>
+<hr>
+<h3 id="gotcha-3-coordinate-singularity-at-exactly-roll--0">Gotcha 3: Coordinate singularity at exactly <code>Roll = 0</code></h3>
+<p><strong>Status: Open (by design — documented workaround)</strong></p>
+<p>The dependent yaw rate in the nonlinear EOM contains a <code>1/sin(Roll)</code> factor. Evaluating at exact upright produces NaN.</p>
+<p>Workarounds applied:</p>
+<ul>
+<li><code>LinearizationExtractor</code> perturbs by <code>baseRoll = 1e-3</code> rad before central differences.</li>
+<li>All behavioral and determinism tests perturb the initial state by <code>1e-3</code> rad in Roll.</li>
+<li><code>BikeWorld.AddBike</code> applies <code>Roll = 1e-3</code> automatically.</li>
+</ul>
+<hr>
+<h3 id="gotcha-4-controlinputsdrivetorque-sign-convention-is-inconsistent">Gotcha 4: <code>ControlInputs.DriveTorque</code> sign convention is inconsistent</h3>
+<p><strong>Status: Open (documented — scheduled for Phase 3 fix)</strong></p>
+<p>The docstring says &quot;Negative = brake&quot;, but the generated EOM treats <em>positive</em> DriveTorque as decelerating. Phase 1 behavioral test Scenario 5 papered over this by negating the test's input.</p>
+<p><code>FeelPreset.Default</code> uses <code>DriveTorqueScale = -3.0</code> to compensate. Any new input source must apply the same compensation until the EOM mapping is fixed in Phase 3.</p>
+<hr>
+<h3 id="gotcha-5-kanesmethod-returns-a-66-augmented-mass-matrix">Gotcha 5: <code>KanesMethod</code> returns a 6×6 augmented mass matrix</h3>
+<p><strong>Status: Closed (by design)</strong></p>
+<p><code>KanesMethod</code> returns a 6×6 augmented mass matrix when nonholonomic constraints are present, not the 3×3 reduced system the plan originally assumed. The generated code uses an in-place LU solve with <code>stackalloc Span&lt;double&gt;</code> to keep allocations zero.</p>
+<hr>
+<h3 id="gotcha-6-generated-c-is-huge">Gotcha 6: Generated C# is huge</h3>
+<p><strong>Status: Closed (by design)</strong></p>
+<p><code>WhippleEOM.cs</code> is ~1100 lines of straight-line FLOPs after SymPy CSE. Do not hand-edit; regenerate via <code>tools/eom-codegen/</code>. See <a href="build-and-test.html#codegen-pipeline">Build &amp; Test Reference</a>.</p>
+<hr>
+<h2 id="phase-2-gotchas-unity-integration">Phase 2 Gotchas (Unity integration)</h2>
+<h3 id="gotcha-7-moore-frame-is-z-down-not-up">Gotcha 7: Moore frame is +Z DOWN, not up</h3>
+<p><strong>Status: Closed for unity-v2 (PhysicsBridge round-trip tests gate this). Open for legacy <code>unity/</code>.</strong></p>
+<p>The comment on <code>BicycleParameters.ComZ</code> says &quot;paper places +Z up&quot; — true for <em>Meijaard</em>'s paper, but the <em>Moore frame</em> used internally by the generated EOM has +Z pointing down into the ground. <code>PhysicsBridge.ToUnity</code> maps physics <code>(X, Y, Z)</code> to Unity <code>(X, Z, -Y)</code>.</p>
+<p>If a body shows up underground in Unity, suspect this first.</p>
+<hr>
+<h3 id="gotcha-8-bicyclestateuprightatspeed-needs-pitch-perturbation">Gotcha 8: <code>BicycleState.UprightAtSpeed</code> needs Pitch perturbation</h3>
+<p><strong>Status: Open (documented workaround in <code>BikeWorld.AddBike</code>)</strong></p>
+<p><code>BehavioralScenarioTests.MakeInitialState</code> sets <code>s.Pitch = p.SteerAxisTilt + 1e-5</code> to break a 0/0 in the holonomic constraint at exact upright. Without this extra perturbation the simulator NaNs by the second step.</p>
+<p><code>BikeWorld.AddBike</code> applies both the Roll and Pitch perturbations automatically. Any new direct consumer of <code>UprightAtSpeed</code> must apply them too.</p>
+<hr>
+<h3 id="gotcha-9-steertorque-sign-convention-is-also-inverted">Gotcha 9: <code>SteerTorque</code> sign convention is also inverted</h3>
+<p><strong>Status: Open (documented — scheduled for Phase 3 fix)</strong></p>
+<p>Same issue as Gotcha 4 but for steer. <code>DebugInputProvider</code> works around it with <code>_steerTorqueScale = -1.5</code>. <code>FeelPreset.Default</code> uses <code>SteerTorqueScale = -1.5</code>.</p>
+<hr>
+<h3 id="gotcha-10-whipple-model-has-no-ground-contact-constraint-for-off-nominal-states">Gotcha 10: Whipple model has no ground-contact constraint for off-nominal states</h3>
+<p><strong>Status: Open (Phase 4 territory)</strong></p>
+<p>When <code>Roll</code> grows past ~30–40°, the model is outside its valid range. The integrator continues until <code>Roll = 0</code> is crossed and the <code>1/sin(Roll)</code> singularity NaNs everything. <code>BikeWorldRunner</code> auto-resets on NaN AND on <code>|Roll| &gt; 1 rad</code>.</p>
+<p>The bike does not physically rest on the ground after falling — that requires a contact extension (Phase 4).</p>
+<hr>
+<h3 id="gotcha-11-mcp-for-unitys-read_console-does-not-surface-debuglog-entries">Gotcha 11: MCP for Unity's <code>read_console</code> does not surface <code>Debug.Log</code> entries</h3>
+<p><strong>Status: Closed (workaround documented)</strong></p>
+<p>Only errors, warnings, and exceptions come through <code>read_console</code>. For runtime print debugging, tail <code>~/AppData/Local/Unity/Editor/Editor.log</code> directly — it captures everything.</p>
+<hr>
+<h3 id="gotcha-12-manage_prefabs-create_from_gameobject-cannot-overwrite-an-existing-prefab-path">Gotcha 12: <code>manage_prefabs create_from_gameobject</code> cannot overwrite an existing prefab path</h3>
+<p><strong>Status: Closed (workaround documented)</strong></p>
+<p>It silently creates a sibling <code>&lt;name&gt; 1.prefab</code> and leaves the old one in place. Pattern that works: ask the user to delete old, rename new, then <code>mcp__UnityMCP__refresh_unity --mode force</code>.</p>
+<hr>
+<h3 id="gotcha-13-prefabscene-reference-ids-reset-when-gameobjects-are-deleted-and-recreated">Gotcha 13: Prefab/scene reference IDs reset when GameObjects are deleted and recreated</h3>
+<p><strong>Status: Closed (workaround documented)</strong></p>
+<p>If you <code>manage_gameobject delete RearFrame</code> and create a new one, every component that referenced the old <code>RearFrame</code> Transform goes null. Re-wire via <code>set_property</code> after rebuilding.</p>
+<hr>
+<h3 id="gotcha-14-unity-primitive-cylinders-mesh-y-axis-is-its-height-axis">Gotcha 14: Unity primitive Cylinder's mesh +Y axis is its height axis</h3>
+<p><strong>Status: Closed (workaround documented)</strong></p>
+<p>For wheel visualization, treat the wheel GameObject as a parent driven by physics, with a child Cylinder primitive rotated <code>(0, 0, 90)</code> so the cylinder's height aligns with the spin axis. Driving the wheel directly with <code>BodyPose.Orientation</code> (which includes accumulated spin angle) makes the cylinder symmetry axis tumble.</p>
+<hr>
+<h3 id="gotcha-15-yaw-sign-bug-in-the-kinematics">Gotcha 15: Yaw sign bug in the kinematics</h3>
+<p><strong>Status: FIXED 2026-05-14</strong></p>
+<p>Root cause: SymPy's <code>frame.dcm(N)</code> returns a world→body rotation matrix, but the C# <code>QuatFromMatrix</code> helper expected body→world. The codegen was passing <code>C.dcm(N)</code> directly, producing an inverse rotation. Fixed by a transpose in <code>tools/eom-codegen/emit_csharp.py</code>.</p>
+<p>Regression test: <code>BehavioralScenarioTests.RearFrameForwardAlignsWithRearWheelVelocity_Under_Sustained_Steer</code>.</p>
+<hr>
+<h2 id="phase-26-gotchas-unity-v2-rebuild">Phase 2.6 Gotchas (Unity v2 rebuild)</h2>
+<h3 id="gotcha-16-do-not-pass--quit-to-unity-batchmode-when-using--runtests">Gotcha 16: Do NOT pass <code>-quit</code> to Unity batchmode when using <code>-runTests</code></h3>
+<p><strong>Status: Closed (documented)</strong></p>
+<p>Unity Test Framework manages its own exit lifecycle. Passing <code>-quit</code> causes Unity to shut down during initial asset import, before tests execute.</p>
+<ul>
+<li>Correct for <code>-runTests</code>: <code>Unity.exe -batchmode -nographics -projectPath &lt;path&gt; -runTests -testPlatform EditMode -testResults &lt;xml&gt; -logFile &lt;log&gt;</code> — no <code>-quit</code>.</li>
+<li>Correct for <code>-executeMethod</code>: include <code>-quit</code>.</li>
+</ul>
+<hr>
+<h3 id="gotcha-17-local-unity-6000315f1-rewrites-projectversiontxt-on-every-project-open">Gotcha 17: Local Unity 6000.3.15f1 rewrites <code>ProjectVersion.txt</code> on every project open</h3>
+<p><strong>Status: Closed (documented)</strong></p>
+<p>The pinned version in <code>unity-v2/ProjectSettings/ProjectVersion.txt</code> is 6000.0.40f1 (LTS). Local development on 6000.3.15f1 works but always run <code>git restore unity-v2/ProjectSettings/ProjectVersion.txt</code> before committing.</p>
+<hr>
+<h3 id="gotcha-18-unity-quaternion-is-single-precision-float-orientation-round-trip-tests-need-1e-6-tolerance">Gotcha 18: Unity <code>Quaternion</code> is single-precision float; orientation round-trip tests need <code>1e-6</code> tolerance</h3>
+<p><strong>Status: Closed (documented, tests use separate tolerance constants)</strong></p>
+<p>Position round-trips can stay at <code>1e-9</code> (sign flips + component swaps only). Orientation round-trips need <code>1e-6</code> tolerance due to float precision loss in <code>cos(pi/4)</code> / <code>sin(pi/4)</code>.</p>
+<hr>
+<h3 id="gotcha-19-unity-editor--executemethod-requires-fully-qualified-namespace">Gotcha 19: Unity Editor <code>-executeMethod</code> requires fully qualified namespace</h3>
+<p><strong>Status: Closed (documented)</strong></p>
+<p><code>-executeMethod SandboxSceneBuilder.BuildAll</code> fails silently with exit code 1. Correct form: <code>-executeMethod Bicycle.Editor.SandboxSceneBuilder.BuildAll</code>.</p>
+<hr>
+<h3 id="gotcha-20-inspector-wiring-is-not-yet-automated-for-sandboxunity">Gotcha 20: Inspector wiring is not yet automated for <code>Sandbox.unity</code></h3>
+<p><strong>Status: Open — scheduled for v2.1 polish</strong></p>
+<p>The scene exists with a <code>BikeWorldRunner</code> GameObject, but the <code>BikeConfig</code> list is empty. Press-Play in Editor will not yet show a moving bike until a <code>BikeConfig</code> is wired via Inspector. The PlayMode test bypasses this via runtime construction.</p>
+<hr>
+<h3 id="gotcha-21-keyboardinputsourcefeelpreset-null-fallback-uses-10-scales-not-the-negative-defaults">Gotcha 21: <code>KeyboardInputSource.FeelPreset</code> null fallback uses <code>1.0</code> scales, NOT the negative defaults</h3>
+<p><strong>Status: Open — scheduled for v2.1 polish</strong></p>
+<p>When no <code>BikeFeelPresetAsset</code> is assigned, the source defaults to scale = 1.0 — which means W decelerates and steer is inverted (per Gotchas 4 + 9). For correct keyboard mapping, you MUST assign a <code>BikeFeelPresetAsset</code> with explicit <code>SteerTorqueScale = -1.5</code>, <code>DriveTorqueScale = -3.0</code>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

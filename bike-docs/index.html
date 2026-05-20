@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Bike — Whipple bicycle simulator + Unity game | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Bike — Whipple bicycle simulator + Unity game | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="landing" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="bike--whipple-bicycle-simulator--unity-game">Bike — Whipple bicycle simulator + Unity game</h1>
+
+<p>A multiplayer bicycle game where the physics is honest and the game is hard.</p>
+<p>This repository builds a tiny multiplayer game in the spirit of <strong>Flappy Bird, Getting Over It, and Baby Steps — but on a bike</strong>. The bike's balance comes from real bicycle dynamics, not Unity's stock rigidbody simulator. The difficulty comes from the rider's coordination problem: stay upright, pedal in rhythm, don't fall.</p>
+<p>The physics is the canonical <strong>Whipple bicycle model</strong> — the same one used in the Meijaard et al. 2007 benchmark paper and Moore's 2012 PhD thesis on bicycle dynamics. The implementation matches published eigenvalues to <strong>six decimal places</strong>.</p>
+<h2 id="quick-links">Quick links</h2>
+<ul>
+<li><a href="articles/overview.html">Overview</a> — project vision, why it's interesting</li>
+<li><a href="articles/architecture.html">Architecture</a> — library layers, tick model, Unity integration</li>
+<li><a href="articles/whipple-model.html">Whipple Bicycle Model</a> — the math behind the physics</li>
+<li><a href="articles/build-and-test.html">Build &amp; Test Reference</a> — how to build, run tests, run the game</li>
+<li><a class="xref" href="api/Bicycle.Physics.html">API Reference</a> — <code>Bicycle.Physics</code> and <code>Bicycle.World</code> public APIs</li>
+<li><a href="articles/gotchas.html">Gotchas</a> — all known pitfalls, organized by phase</li>
+<li><a href="articles/phase-history.html">Phase History</a> — completed milestones and what they shipped</li>
+</ul>
+<h2 id="two-libraries-one-game">Two libraries, one game</h2>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="api/Bicycle.Physics.html"><code>Bicycle.Physics</code></a></td>
+<td>Deterministic, allocation-free C# physics core. Integrates the full nonlinear Whipple EOM at 250 Hz via RK4.</td>
+</tr>
+<tr>
+<td><a href="api/Bicycle.World.html"><code>Bicycle.World</code></a></td>
+<td>N-bike orchestrator. Wraps the physics library behind a clean event-driven contract consumed by Unity.</td>
+</tr>
+</tbody>
+</table>
+<p>The Unity layer (<code>unity-v2/</code>) sits on top of <code>Bicycle.World</code> and handles rendering, input, and scene lifecycle.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

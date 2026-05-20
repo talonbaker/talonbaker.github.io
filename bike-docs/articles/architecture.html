@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Architecture | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Architecture | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="architecture">Architecture</h1>
+
+<p>The project is split into three layers: a physics core library, a world orchestrator library, and a Unity presentation layer. Each layer has a strict contract with the layer below it.</p>
+<h2 id="layer-diagram">Layer diagram</h2>
+<pre><code>+----------------------------------------------------------------+
+|  Bicycle.Physics  (pure C#, .NET Standard 2.1)                 |
+|  +----------------------------------------------------------+  |
+|  |  BicycleSimulator (one per bike)                         |  |
+|  |    Step(dt, in ControlInputs)                            |  |
+|  |    Reset(in BicycleState)                                |  |
+|  |    CurrentSnapshot() -&gt; BicycleSnapshot                  |  |
+|  +----------------------------------------------------------+  |
++--------------------------------^-------------------------------+
+                                 | owns N of
++--------------------------------+-------------------------------+
+|  Bicycle.World  (pure C#, .NET Standard 2.1)                   |
+|  +----------------------------------------------------------+  |
+|  |  BikeWorld                                               |  |
+|  |    AddBike(BikeId, BicycleParameters, FeelPreset)        |  |
+|  |    RemoveBike(BikeId)                                    |  |
+|  |    Step(dt, IReadOnlyDictionary&lt;BikeId, ControlInputs&gt;)  |  |
+|  |    Reset(BikeId)                                         |  |
+|  |    event OnBikeSnapshot(BikeId, prev, current)           |  |
+|  |    event OnBikeBump(BikeId, BumpEvent)                   |  |
+|  |    event OnBikeReset(BikeId)                             |  |
+|  +----------------------------------------------------------+  |
++--------------------------------^-------------------------------+
+                                 | ticks at 250 Hz
++--------------------------------+-------------------------------+
+|  unity-v2/Assets/Bicycle/  (Unity 6 LTS + URP)                 |
+|  +----------------------------------------------------------+  |
+|  |  BikeWorldRunner  &lt;- ONLY MonoBehaviour touching BikeWorld|  |
+|  |  FixedUpdate ticks it; pulls inputs from IBikeInputSource;|  |
+|  |  re-broadcasts events to the Unity event bus.            |  |
+|  +----------------------------------------------------------+  |
+|         ^                  ^                   ^               |
+|         |                  |                   |               |
+|    BikeVisualizer      ChaseCamera         CourseDirector      |
+|    (per BikeId,        (follows a          (subscribes to      |
+|     subscribes for     target BikeId)       finish/void/bump,  |
+|     own snapshots)                          no singleton)      |
++----------------------------------------------------------------+
+</code></pre>
+<h2 id="hard-rules">Hard rules</h2>
+<p>These rules are invariants enforced by design. Violating them introduces the singleton / shared-mutable-state patterns that make multiplayer impossible:</p>
+<ol>
+<li><strong>Only <code>BikeWorldRunner</code> ever holds a <code>BikeWorld</code> reference.</strong> Nothing else touches the physics clock.</li>
+<li><strong>No Unity code calls <code>BicycleSimulator.Step()</code> directly.</strong> All simulation goes through <code>BikeWorld</code>.</li>
+<li><strong>No Unity component is a singleton.</strong> Every system takes a <code>BikeId</code> at Awake or subscribes to an event. Singletons break N-bike operation.</li>
+<li><strong>The pose stream contract is <code>BodyPose</code>.</strong> Unity does not bake in flat-ground assumptions. The 3D <code>Vec3D Position</code> + <code>QuatD Orientation</code> contract is valid for future terrain work.</li>
+</ol>
+<h2 id="tick-model">Tick model</h2>
+<p>The physics runs at a <strong>fixed 250 Hz</strong> (4 ms timestep). Unity's variable frame rate is decoupled from the physics step:</p>
+<ul>
+<li><code>BikeWorldRunner.FixedUpdate()</code> calls <code>BikeWorld.Step(Time.fixedDeltaTime, inputs)</code> once per physics step. <code>Time.fixedDeltaTime</code> is set to <code>0.004</code> in Project Settings.</li>
+<li><code>BikeVisualizer.Update()</code> interpolates between the previous and current snapshot for smooth rendering at any frame rate (&quot;Fix Your Timestep!&quot; pattern by Glenn Fiedler).</li>
+<li>The interpolation parameter <code>alpha = (Time.time - lastFixedTime) / Time.fixedDeltaTime</code> is computed per frame, kept in <code>[0, 1]</code>.</li>
+</ul>
+<h2 id="event-causal-ordering">Event causal ordering</h2>
+<p><code>BikeWorld.Step()</code> follows a two-phase event firing strategy (spec §6.1):</p>
+<ol>
+<li><strong>Phase 1:</strong> step all simulators, capture (prev, current) snapshot pairs.</li>
+<li><strong>Phase 2:</strong> fire <code>OnBikeSnapshot</code> for each bike — after ALL bikes have stepped. This ensures observers see a consistent world-state slice.</li>
+</ol>
+<p>Bump events (<code>OnBikeBump</code>) fire immediately when injected, not deferred, because they represent a causal per-bike occurrence rather than a world-state slice.</p>
+<h2 id="allocation-free-design">Allocation-free design</h2>
+<p>The hot path (250 Hz per bike) is allocation-free:</p>
+<ul>
+<li><code>BicycleSimulator.Step()</code> uses <code>stackalloc</code> for the LU solve and a cached delegate to avoid per-step GC pressure.</li>
+<li><code>BikeSnapshotEventArgs</code> is cached per-bike inside <code>BikeWorld</code> and updated in-place before each event raise. Subscribers must copy data synchronously — storing a reference across event calls will see stale data.</li>
+<li>The <code>_stepBuffer</code> list backing array is grown once on <code>AddBike</code> and never shrinks.</li>
+</ul>
+<p>The allocation-free invariant is CI-gated: a test runs 100,000 simulator steps and asserts <code>GC.GetAllocatedBytesForCurrentThread()</code> is unchanged.</p>
+<h2 id="repository-layout">Repository layout</h2>
+<pre><code>bike/
++-- src/
+|   +-- Bicycle.Physics/
+|   |   +-- Bicycle.Physics.csproj         (netstandard2.1)
+|   |   +-- Runtime/
+|   |       +-- BicycleSimulator.cs
+|   |       +-- BicycleParameters.cs
+|   |       +-- BicycleState.cs
+|   |       +-- BicycleSnapshot.cs
+|   |       +-- BodyPose.cs
+|   |       +-- ControlInputs.cs
+|   |       +-- ParametersJson.cs
+|   |       +-- Math/                      (Vec3D, QuatD)
+|   |       +-- Generated/                 (WhippleEOM.cs, WhippleKinematics.cs)
+|   +-- Bicycle.Physics.Tests/             (xUnit)
+|   +-- Bicycle.Physics.Benchmarks/        (BenchmarkDotNet)
+|   +-- Bicycle.Physics.PlaybackHarness/   (CLI replay tool)
+|   +-- Bicycle.World/
+|   |   +-- Bicycle.World.csproj           (netstandard2.1)
+|   |   +-- BikeWorld.cs
+|   |   +-- BikeId.cs
+|   |   +-- BikeSnapshot.cs
+|   |   +-- BumpEvent.cs
+|   |   +-- FeelPreset.cs
+|   |   +-- Events/
+|   +-- Bicycle.World.Tests/               (xUnit)
++-- unity-v2/
+|   +-- Assets/Bicycle/Runtime/            (MonoBehaviours, PhysicsBridge, etc.)
+|   +-- Assets/Bicycle/Tests/              (EditMode + PlayMode)
++-- unity/                                 (legacy Phase 2 project — reference only)
++-- tools/
+|   +-- eom-codegen/                       (Python: SymPy + PyDy -&gt; C#)
++-- docs/
+    +-- docfx/                             (this site source)
+    +-- superpowers/specs/                 (design specs per phase)
+    +-- superpowers/plans/                 (implementation plans per phase)
+</code></pre>
+<h2 id="coordinate-systems">Coordinate systems</h2>
+<p><strong>Moore frame (+Z down):</strong> The generated EOM and all <code>BodyPose.Position</code> values use the Moore frame where +Z points <strong>down</strong> into the ground. <code>+X</code> is forward, <code>+Y</code> is right, <code>+Z</code> is down.</p>
+<p><strong>Unity frame (+Y up):</strong> Unity uses right-hand coordinates with +Y up, +Z forward.</p>
+<p><code>PhysicsBridge.ToUnity()</code> maps Moore <code>(X, Y, Z)</code> to Unity <code>(X, Z, -Y)</code> — i.e., physics <code>+Z</code> (down) maps to Unity <code>-Y</code>. See <a href="gotchas.html#gotcha-7-moore-frame-is-z-down-not-up">Gotcha 7</a> for the full story and the round-trip test that gates this.</p>
+<h2 id="bicyclephysics-public-api-surface">Bicycle.Physics public API surface</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.BicycleSimulator.html"><code>BicycleSimulator</code></a></td>
+<td>Owns one bike's state. <code>Step</code>, <code>Reset</code>, <code>CurrentSnapshot</code>, <code>State</code>, <code>Parameters</code>.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.BicycleParameters.html"><code>BicycleParameters</code></a></td>
+<td>POD geometry + inertia. <code>MeijaardBenchmark</code> and <code>GameDefault</code> static presets.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.BicycleState.html"><code>BicycleState</code></a></td>
+<td>11-double POD. <code>UprightStationary</code> and <code>UprightAtSpeed</code> factory methods.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.ControlInputs.html"><code>ControlInputs</code></a></td>
+<td>3-double POD: <code>SteerTorque</code>, <code>DriveTorque</code>, <code>RiderLeanTorque</code>.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.BicycleSnapshot.html"><code>BicycleSnapshot</code></a></td>
+<td>Per-step output: four <code>BodyPose</code> values + <code>ForwardSpeed</code> + <code>SimulationTime</code>.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.BodyPose.html"><code>BodyPose</code></a></td>
+<td>World-space position + orientation + velocities for one rigid body.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.Physics.ParametersJson.html"><code>ParametersJson</code></a></td>
+<td>Save/Load helpers (non-Unity builds only).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bicycleworld-public-api-surface">Bicycle.World public API surface</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="xref" href="../api/Bicycle.World.BikeWorld.html"><code>BikeWorld</code></a></td>
+<td>N-bike orchestrator. <code>AddBike</code>, <code>RemoveBike</code>, <code>Step</code>, <code>Reset</code>, three events.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.World.BikeId.html"><code>BikeId</code></a></td>
+<td>Stable per-bike identity wrapping an <code>int</code>.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.World.BikeSnapshot.html"><code>BikeSnapshot</code></a></td>
+<td>Per-bike snapshot: four <code>BodyPose</code> values + <code>ForwardSpeed</code> + <code>SimulationTime</code>.</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.World.BumpEvent.html"><code>BumpEvent</code></a></td>
+<td>Obstacle bump descriptor: <code>Tier</code> (intensity 1-3) + <code>LeanSign</code> (±1).</td>
+</tr>
+<tr>
+<td><a class="xref" href="../api/Bicycle.World.FeelPreset.html"><code>FeelPreset</code></a></td>
+<td>Tunable feel parameters. <code>Default</code> matches Phase 2 empirical tuning.</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

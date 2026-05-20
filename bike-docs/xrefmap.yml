@@ -1,0 +1,1629 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Bicycle.Physics
+  name: Bicycle.Physics
+  href: api/Bicycle.Physics.html
+  commentId: N:Bicycle.Physics
+  fullName: Bicycle.Physics
+  nameWithType: Bicycle.Physics
+- uid: Bicycle.Physics.BicycleParameters
+  name: BicycleParameters
+  href: api/Bicycle.Physics.BicycleParameters.html
+  commentId: T:Bicycle.Physics.BicycleParameters
+  fullName: Bicycle.Physics.BicycleParameters
+  nameWithType: BicycleParameters
+- uid: Bicycle.Physics.BicycleParameters.FrontFrame
+  name: FrontFrame
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_FrontFrame
+  commentId: F:Bicycle.Physics.BicycleParameters.FrontFrame
+  fullName: Bicycle.Physics.BicycleParameters.FrontFrame
+  nameWithType: BicycleParameters.FrontFrame
+- uid: Bicycle.Physics.BicycleParameters.FrontWheel
+  name: FrontWheel
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_FrontWheel
+  commentId: F:Bicycle.Physics.BicycleParameters.FrontWheel
+  fullName: Bicycle.Physics.BicycleParameters.FrontWheel
+  nameWithType: BicycleParameters.FrontWheel
+- uid: Bicycle.Physics.BicycleParameters.GameDefault
+  name: GameDefault
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_GameDefault
+  commentId: F:Bicycle.Physics.BicycleParameters.GameDefault
+  fullName: Bicycle.Physics.BicycleParameters.GameDefault
+  nameWithType: BicycleParameters.GameDefault
+- uid: Bicycle.Physics.BicycleParameters.Gravity
+  name: Gravity
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_Gravity
+  commentId: F:Bicycle.Physics.BicycleParameters.Gravity
+  fullName: Bicycle.Physics.BicycleParameters.Gravity
+  nameWithType: BicycleParameters.Gravity
+- uid: Bicycle.Physics.BicycleParameters.MeijaardBenchmark
+  name: MeijaardBenchmark
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_MeijaardBenchmark
+  commentId: F:Bicycle.Physics.BicycleParameters.MeijaardBenchmark
+  fullName: Bicycle.Physics.BicycleParameters.MeijaardBenchmark
+  nameWithType: BicycleParameters.MeijaardBenchmark
+- uid: Bicycle.Physics.BicycleParameters.RearFrame
+  name: RearFrame
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_RearFrame
+  commentId: F:Bicycle.Physics.BicycleParameters.RearFrame
+  fullName: Bicycle.Physics.BicycleParameters.RearFrame
+  nameWithType: BicycleParameters.RearFrame
+- uid: Bicycle.Physics.BicycleParameters.RearWheel
+  name: RearWheel
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_RearWheel
+  commentId: F:Bicycle.Physics.BicycleParameters.RearWheel
+  fullName: Bicycle.Physics.BicycleParameters.RearWheel
+  nameWithType: BicycleParameters.RearWheel
+- uid: Bicycle.Physics.BicycleParameters.SteerAxisTilt
+  name: SteerAxisTilt
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_SteerAxisTilt
+  commentId: F:Bicycle.Physics.BicycleParameters.SteerAxisTilt
+  fullName: Bicycle.Physics.BicycleParameters.SteerAxisTilt
+  nameWithType: BicycleParameters.SteerAxisTilt
+- uid: Bicycle.Physics.BicycleParameters.Trail
+  name: Trail
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_Trail
+  commentId: F:Bicycle.Physics.BicycleParameters.Trail
+  fullName: Bicycle.Physics.BicycleParameters.Trail
+  nameWithType: BicycleParameters.Trail
+- uid: Bicycle.Physics.BicycleParameters.Wheelbase
+  name: Wheelbase
+  href: api/Bicycle.Physics.BicycleParameters.html#Bicycle_Physics_BicycleParameters_Wheelbase
+  commentId: F:Bicycle.Physics.BicycleParameters.Wheelbase
+  fullName: Bicycle.Physics.BicycleParameters.Wheelbase
+  nameWithType: BicycleParameters.Wheelbase
+- uid: Bicycle.Physics.BicycleSimulator
+  name: BicycleSimulator
+  href: api/Bicycle.Physics.BicycleSimulator.html
+  commentId: T:Bicycle.Physics.BicycleSimulator
+  fullName: Bicycle.Physics.BicycleSimulator
+  nameWithType: BicycleSimulator
+- uid: Bicycle.Physics.BicycleSimulator.#ctor(Bicycle.Physics.BicycleParameters@)
+  name: BicycleSimulator(in BicycleParameters)
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator__ctor_Bicycle_Physics_BicycleParameters__
+  commentId: M:Bicycle.Physics.BicycleSimulator.#ctor(Bicycle.Physics.BicycleParameters@)
+  name.vb: New(BicycleParameters)
+  fullName: Bicycle.Physics.BicycleSimulator.BicycleSimulator(in Bicycle.Physics.BicycleParameters)
+  fullName.vb: Bicycle.Physics.BicycleSimulator.New(Bicycle.Physics.BicycleParameters)
+  nameWithType: BicycleSimulator.BicycleSimulator(in BicycleParameters)
+  nameWithType.vb: BicycleSimulator.New(BicycleParameters)
+- uid: Bicycle.Physics.BicycleSimulator.#ctor*
+  name: BicycleSimulator
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator__ctor_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.Physics.BicycleSimulator.BicycleSimulator
+  fullName.vb: Bicycle.Physics.BicycleSimulator.New
+  nameWithType: BicycleSimulator.BicycleSimulator
+  nameWithType.vb: BicycleSimulator.New
+- uid: Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta(System.Double)
+  name: AddRearWheelSpinDelta(double)
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_AddRearWheelSpinDelta_System_Double_
+  commentId: M:Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta(System.Double)
+  name.vb: AddRearWheelSpinDelta(Double)
+  fullName: Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta(double)
+  fullName.vb: Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta(Double)
+  nameWithType: BicycleSimulator.AddRearWheelSpinDelta(double)
+  nameWithType.vb: BicycleSimulator.AddRearWheelSpinDelta(Double)
+- uid: Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta*
+  name: AddRearWheelSpinDelta
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_AddRearWheelSpinDelta_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta
+  nameWithType: BicycleSimulator.AddRearWheelSpinDelta
+- uid: Bicycle.Physics.BicycleSimulator.ClampSteer(System.Double)
+  name: ClampSteer(double)
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_ClampSteer_System_Double_
+  commentId: M:Bicycle.Physics.BicycleSimulator.ClampSteer(System.Double)
+  name.vb: ClampSteer(Double)
+  fullName: Bicycle.Physics.BicycleSimulator.ClampSteer(double)
+  fullName.vb: Bicycle.Physics.BicycleSimulator.ClampSteer(Double)
+  nameWithType: BicycleSimulator.ClampSteer(double)
+  nameWithType.vb: BicycleSimulator.ClampSteer(Double)
+- uid: Bicycle.Physics.BicycleSimulator.ClampSteer*
+  name: ClampSteer
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_ClampSteer_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.ClampSteer
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.ClampSteer
+  nameWithType: BicycleSimulator.ClampSteer
+- uid: Bicycle.Physics.BicycleSimulator.CurrentSnapshot
+  name: CurrentSnapshot()
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_CurrentSnapshot
+  commentId: M:Bicycle.Physics.BicycleSimulator.CurrentSnapshot
+  fullName: Bicycle.Physics.BicycleSimulator.CurrentSnapshot()
+  nameWithType: BicycleSimulator.CurrentSnapshot()
+- uid: Bicycle.Physics.BicycleSimulator.CurrentSnapshot*
+  name: CurrentSnapshot
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_CurrentSnapshot_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.CurrentSnapshot
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.CurrentSnapshot
+  nameWithType: BicycleSimulator.CurrentSnapshot
+- uid: Bicycle.Physics.BicycleSimulator.Parameters
+  name: Parameters
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Parameters
+  commentId: P:Bicycle.Physics.BicycleSimulator.Parameters
+  fullName: Bicycle.Physics.BicycleSimulator.Parameters
+  nameWithType: BicycleSimulator.Parameters
+- uid: Bicycle.Physics.BicycleSimulator.Parameters*
+  name: Parameters
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Parameters_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.Parameters
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.Parameters
+  nameWithType: BicycleSimulator.Parameters
+- uid: Bicycle.Physics.BicycleSimulator.Reset(Bicycle.Physics.BicycleState@)
+  name: Reset(in BicycleState)
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Reset_Bicycle_Physics_BicycleState__
+  commentId: M:Bicycle.Physics.BicycleSimulator.Reset(Bicycle.Physics.BicycleState@)
+  name.vb: Reset(BicycleState)
+  fullName: Bicycle.Physics.BicycleSimulator.Reset(in Bicycle.Physics.BicycleState)
+  fullName.vb: Bicycle.Physics.BicycleSimulator.Reset(Bicycle.Physics.BicycleState)
+  nameWithType: BicycleSimulator.Reset(in BicycleState)
+  nameWithType.vb: BicycleSimulator.Reset(BicycleState)
+- uid: Bicycle.Physics.BicycleSimulator.Reset*
+  name: Reset
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Reset_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.Reset
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.Reset
+  nameWithType: BicycleSimulator.Reset
+- uid: Bicycle.Physics.BicycleSimulator.State
+  name: State
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_State
+  commentId: P:Bicycle.Physics.BicycleSimulator.State
+  fullName: Bicycle.Physics.BicycleSimulator.State
+  nameWithType: BicycleSimulator.State
+- uid: Bicycle.Physics.BicycleSimulator.State*
+  name: State
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_State_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.State
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.State
+  nameWithType: BicycleSimulator.State
+- uid: Bicycle.Physics.BicycleSimulator.Step(System.Double,Bicycle.Physics.ControlInputs@,System.Double)
+  name: Step(double, in ControlInputs, double)
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Step_System_Double_Bicycle_Physics_ControlInputs__System_Double_
+  commentId: M:Bicycle.Physics.BicycleSimulator.Step(System.Double,Bicycle.Physics.ControlInputs@,System.Double)
+  name.vb: Step(Double, ControlInputs, Double)
+  fullName: Bicycle.Physics.BicycleSimulator.Step(double, in Bicycle.Physics.ControlInputs, double)
+  fullName.vb: Bicycle.Physics.BicycleSimulator.Step(Double, Bicycle.Physics.ControlInputs, Double)
+  nameWithType: BicycleSimulator.Step(double, in ControlInputs, double)
+  nameWithType.vb: BicycleSimulator.Step(Double, ControlInputs, Double)
+- uid: Bicycle.Physics.BicycleSimulator.Step*
+  name: Step
+  href: api/Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Step_
+  commentId: Overload:Bicycle.Physics.BicycleSimulator.Step
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleSimulator.Step
+  nameWithType: BicycleSimulator.Step
+- uid: Bicycle.Physics.BicycleSnapshot
+  name: BicycleSnapshot
+  href: api/Bicycle.Physics.BicycleSnapshot.html
+  commentId: T:Bicycle.Physics.BicycleSnapshot
+  fullName: Bicycle.Physics.BicycleSnapshot
+  nameWithType: BicycleSnapshot
+- uid: Bicycle.Physics.BicycleSnapshot.ForwardSpeed
+  name: ForwardSpeed
+  href: api/Bicycle.Physics.BicycleSnapshot.html#Bicycle_Physics_BicycleSnapshot_ForwardSpeed
+  commentId: F:Bicycle.Physics.BicycleSnapshot.ForwardSpeed
+  fullName: Bicycle.Physics.BicycleSnapshot.ForwardSpeed
+  nameWithType: BicycleSnapshot.ForwardSpeed
+- uid: Bicycle.Physics.BicycleSnapshot.FrontFrame
+  name: FrontFrame
+  href: api/Bicycle.Physics.BicycleSnapshot.html#Bicycle_Physics_BicycleSnapshot_FrontFrame
+  commentId: F:Bicycle.Physics.BicycleSnapshot.FrontFrame
+  fullName: Bicycle.Physics.BicycleSnapshot.FrontFrame
+  nameWithType: BicycleSnapshot.FrontFrame
+- uid: Bicycle.Physics.BicycleSnapshot.FrontWheel
+  name: FrontWheel
+  href: api/Bicycle.Physics.BicycleSnapshot.html#Bicycle_Physics_BicycleSnapshot_FrontWheel
+  commentId: F:Bicycle.Physics.BicycleSnapshot.FrontWheel
+  fullName: Bicycle.Physics.BicycleSnapshot.FrontWheel
+  nameWithType: BicycleSnapshot.FrontWheel
+- uid: Bicycle.Physics.BicycleSnapshot.RearFrame
+  name: RearFrame
+  href: api/Bicycle.Physics.BicycleSnapshot.html#Bicycle_Physics_BicycleSnapshot_RearFrame
+  commentId: F:Bicycle.Physics.BicycleSnapshot.RearFrame
+  fullName: Bicycle.Physics.BicycleSnapshot.RearFrame
+  nameWithType: BicycleSnapshot.RearFrame
+- uid: Bicycle.Physics.BicycleSnapshot.RearWheel
+  name: RearWheel
+  href: api/Bicycle.Physics.BicycleSnapshot.html#Bicycle_Physics_BicycleSnapshot_RearWheel
+  commentId: F:Bicycle.Physics.BicycleSnapshot.RearWheel
+  fullName: Bicycle.Physics.BicycleSnapshot.RearWheel
+  nameWithType: BicycleSnapshot.RearWheel
+- uid: Bicycle.Physics.BicycleSnapshot.SimulationTime
+  name: SimulationTime
+  href: api/Bicycle.Physics.BicycleSnapshot.html#Bicycle_Physics_BicycleSnapshot_SimulationTime
+  commentId: F:Bicycle.Physics.BicycleSnapshot.SimulationTime
+  fullName: Bicycle.Physics.BicycleSnapshot.SimulationTime
+  nameWithType: BicycleSnapshot.SimulationTime
+- uid: Bicycle.Physics.BicycleState
+  name: BicycleState
+  href: api/Bicycle.Physics.BicycleState.html
+  commentId: T:Bicycle.Physics.BicycleState
+  fullName: Bicycle.Physics.BicycleState
+  nameWithType: BicycleState
+- uid: Bicycle.Physics.BicycleState.FrontWheelAngle
+  name: FrontWheelAngle
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_FrontWheelAngle
+  commentId: F:Bicycle.Physics.BicycleState.FrontWheelAngle
+  fullName: Bicycle.Physics.BicycleState.FrontWheelAngle
+  nameWithType: BicycleState.FrontWheelAngle
+- uid: Bicycle.Physics.BicycleState.Pitch
+  name: Pitch
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_Pitch
+  commentId: F:Bicycle.Physics.BicycleState.Pitch
+  fullName: Bicycle.Physics.BicycleState.Pitch
+  nameWithType: BicycleState.Pitch
+- uid: Bicycle.Physics.BicycleState.RearWheelAngle
+  name: RearWheelAngle
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_RearWheelAngle
+  commentId: F:Bicycle.Physics.BicycleState.RearWheelAngle
+  fullName: Bicycle.Physics.BicycleState.RearWheelAngle
+  nameWithType: BicycleState.RearWheelAngle
+- uid: Bicycle.Physics.BicycleState.RearWheelSpinRate
+  name: RearWheelSpinRate
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_RearWheelSpinRate
+  commentId: F:Bicycle.Physics.BicycleState.RearWheelSpinRate
+  fullName: Bicycle.Physics.BicycleState.RearWheelSpinRate
+  nameWithType: BicycleState.RearWheelSpinRate
+- uid: Bicycle.Physics.BicycleState.Roll
+  name: Roll
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_Roll
+  commentId: F:Bicycle.Physics.BicycleState.Roll
+  fullName: Bicycle.Physics.BicycleState.Roll
+  nameWithType: BicycleState.Roll
+- uid: Bicycle.Physics.BicycleState.RollRate
+  name: RollRate
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_RollRate
+  commentId: F:Bicycle.Physics.BicycleState.RollRate
+  fullName: Bicycle.Physics.BicycleState.RollRate
+  nameWithType: BicycleState.RollRate
+- uid: Bicycle.Physics.BicycleState.Steer
+  name: Steer
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_Steer
+  commentId: F:Bicycle.Physics.BicycleState.Steer
+  fullName: Bicycle.Physics.BicycleState.Steer
+  nameWithType: BicycleState.Steer
+- uid: Bicycle.Physics.BicycleState.SteerRate
+  name: SteerRate
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_SteerRate
+  commentId: F:Bicycle.Physics.BicycleState.SteerRate
+  fullName: Bicycle.Physics.BicycleState.SteerRate
+  nameWithType: BicycleState.SteerRate
+- uid: Bicycle.Physics.BicycleState.UprightAtSpeed(System.Double,Bicycle.Physics.BicycleParameters@)
+  name: UprightAtSpeed(double, in BicycleParameters)
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_UprightAtSpeed_System_Double_Bicycle_Physics_BicycleParameters__
+  commentId: M:Bicycle.Physics.BicycleState.UprightAtSpeed(System.Double,Bicycle.Physics.BicycleParameters@)
+  name.vb: UprightAtSpeed(Double, BicycleParameters)
+  fullName: Bicycle.Physics.BicycleState.UprightAtSpeed(double, in Bicycle.Physics.BicycleParameters)
+  fullName.vb: Bicycle.Physics.BicycleState.UprightAtSpeed(Double, Bicycle.Physics.BicycleParameters)
+  nameWithType: BicycleState.UprightAtSpeed(double, in BicycleParameters)
+  nameWithType.vb: BicycleState.UprightAtSpeed(Double, BicycleParameters)
+- uid: Bicycle.Physics.BicycleState.UprightAtSpeed*
+  name: UprightAtSpeed
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_UprightAtSpeed_
+  commentId: Overload:Bicycle.Physics.BicycleState.UprightAtSpeed
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleState.UprightAtSpeed
+  nameWithType: BicycleState.UprightAtSpeed
+- uid: Bicycle.Physics.BicycleState.UprightStationary(Bicycle.Physics.BicycleParameters@)
+  name: UprightStationary(in BicycleParameters)
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_UprightStationary_Bicycle_Physics_BicycleParameters__
+  commentId: M:Bicycle.Physics.BicycleState.UprightStationary(Bicycle.Physics.BicycleParameters@)
+  name.vb: UprightStationary(BicycleParameters)
+  fullName: Bicycle.Physics.BicycleState.UprightStationary(in Bicycle.Physics.BicycleParameters)
+  fullName.vb: Bicycle.Physics.BicycleState.UprightStationary(Bicycle.Physics.BicycleParameters)
+  nameWithType: BicycleState.UprightStationary(in BicycleParameters)
+  nameWithType.vb: BicycleState.UprightStationary(BicycleParameters)
+- uid: Bicycle.Physics.BicycleState.UprightStationary*
+  name: UprightStationary
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_UprightStationary_
+  commentId: Overload:Bicycle.Physics.BicycleState.UprightStationary
+  isSpec: "True"
+  fullName: Bicycle.Physics.BicycleState.UprightStationary
+  nameWithType: BicycleState.UprightStationary
+- uid: Bicycle.Physics.BicycleState.XGround
+  name: XGround
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_XGround
+  commentId: F:Bicycle.Physics.BicycleState.XGround
+  fullName: Bicycle.Physics.BicycleState.XGround
+  nameWithType: BicycleState.XGround
+- uid: Bicycle.Physics.BicycleState.YGround
+  name: YGround
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_YGround
+  commentId: F:Bicycle.Physics.BicycleState.YGround
+  fullName: Bicycle.Physics.BicycleState.YGround
+  nameWithType: BicycleState.YGround
+- uid: Bicycle.Physics.BicycleState.Yaw
+  name: Yaw
+  href: api/Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_Yaw
+  commentId: F:Bicycle.Physics.BicycleState.Yaw
+  fullName: Bicycle.Physics.BicycleState.Yaw
+  nameWithType: BicycleState.Yaw
+- uid: Bicycle.Physics.BodyPose
+  name: BodyPose
+  href: api/Bicycle.Physics.BodyPose.html
+  commentId: T:Bicycle.Physics.BodyPose
+  fullName: Bicycle.Physics.BodyPose
+  nameWithType: BodyPose
+- uid: Bicycle.Physics.BodyPose.AngularVelocity
+  name: AngularVelocity
+  href: api/Bicycle.Physics.BodyPose.html#Bicycle_Physics_BodyPose_AngularVelocity
+  commentId: F:Bicycle.Physics.BodyPose.AngularVelocity
+  fullName: Bicycle.Physics.BodyPose.AngularVelocity
+  nameWithType: BodyPose.AngularVelocity
+- uid: Bicycle.Physics.BodyPose.LinearVelocity
+  name: LinearVelocity
+  href: api/Bicycle.Physics.BodyPose.html#Bicycle_Physics_BodyPose_LinearVelocity
+  commentId: F:Bicycle.Physics.BodyPose.LinearVelocity
+  fullName: Bicycle.Physics.BodyPose.LinearVelocity
+  nameWithType: BodyPose.LinearVelocity
+- uid: Bicycle.Physics.BodyPose.Orientation
+  name: Orientation
+  href: api/Bicycle.Physics.BodyPose.html#Bicycle_Physics_BodyPose_Orientation
+  commentId: F:Bicycle.Physics.BodyPose.Orientation
+  fullName: Bicycle.Physics.BodyPose.Orientation
+  nameWithType: BodyPose.Orientation
+- uid: Bicycle.Physics.BodyPose.Position
+  name: Position
+  href: api/Bicycle.Physics.BodyPose.html#Bicycle_Physics_BodyPose_Position
+  commentId: F:Bicycle.Physics.BodyPose.Position
+  fullName: Bicycle.Physics.BodyPose.Position
+  nameWithType: BodyPose.Position
+- uid: Bicycle.Physics.ControlInputs
+  name: ControlInputs
+  href: api/Bicycle.Physics.ControlInputs.html
+  commentId: T:Bicycle.Physics.ControlInputs
+  fullName: Bicycle.Physics.ControlInputs
+  nameWithType: ControlInputs
+- uid: Bicycle.Physics.ControlInputs.DriveTorque
+  name: DriveTorque
+  href: api/Bicycle.Physics.ControlInputs.html#Bicycle_Physics_ControlInputs_DriveTorque
+  commentId: F:Bicycle.Physics.ControlInputs.DriveTorque
+  fullName: Bicycle.Physics.ControlInputs.DriveTorque
+  nameWithType: ControlInputs.DriveTorque
+- uid: Bicycle.Physics.ControlInputs.RiderLeanTorque
+  name: RiderLeanTorque
+  href: api/Bicycle.Physics.ControlInputs.html#Bicycle_Physics_ControlInputs_RiderLeanTorque
+  commentId: F:Bicycle.Physics.ControlInputs.RiderLeanTorque
+  fullName: Bicycle.Physics.ControlInputs.RiderLeanTorque
+  nameWithType: ControlInputs.RiderLeanTorque
+- uid: Bicycle.Physics.ControlInputs.SteerTorque
+  name: SteerTorque
+  href: api/Bicycle.Physics.ControlInputs.html#Bicycle_Physics_ControlInputs_SteerTorque
+  commentId: F:Bicycle.Physics.ControlInputs.SteerTorque
+  fullName: Bicycle.Physics.ControlInputs.SteerTorque
+  nameWithType: ControlInputs.SteerTorque
+- uid: Bicycle.Physics.FrameBodyParameters
+  name: FrameBodyParameters
+  href: api/Bicycle.Physics.FrameBodyParameters.html
+  commentId: T:Bicycle.Physics.FrameBodyParameters
+  fullName: Bicycle.Physics.FrameBodyParameters
+  nameWithType: FrameBodyParameters
+- uid: Bicycle.Physics.FrameBodyParameters.ComX
+  name: ComX
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_ComX
+  commentId: F:Bicycle.Physics.FrameBodyParameters.ComX
+  fullName: Bicycle.Physics.FrameBodyParameters.ComX
+  nameWithType: FrameBodyParameters.ComX
+- uid: Bicycle.Physics.FrameBodyParameters.ComZ
+  name: ComZ
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_ComZ
+  commentId: F:Bicycle.Physics.FrameBodyParameters.ComZ
+  fullName: Bicycle.Physics.FrameBodyParameters.ComZ
+  nameWithType: FrameBodyParameters.ComZ
+- uid: Bicycle.Physics.FrameBodyParameters.Ixx
+  name: Ixx
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_Ixx
+  commentId: F:Bicycle.Physics.FrameBodyParameters.Ixx
+  fullName: Bicycle.Physics.FrameBodyParameters.Ixx
+  nameWithType: FrameBodyParameters.Ixx
+- uid: Bicycle.Physics.FrameBodyParameters.Ixz
+  name: Ixz
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_Ixz
+  commentId: F:Bicycle.Physics.FrameBodyParameters.Ixz
+  fullName: Bicycle.Physics.FrameBodyParameters.Ixz
+  nameWithType: FrameBodyParameters.Ixz
+- uid: Bicycle.Physics.FrameBodyParameters.Iyy
+  name: Iyy
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_Iyy
+  commentId: F:Bicycle.Physics.FrameBodyParameters.Iyy
+  fullName: Bicycle.Physics.FrameBodyParameters.Iyy
+  nameWithType: FrameBodyParameters.Iyy
+- uid: Bicycle.Physics.FrameBodyParameters.Izz
+  name: Izz
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_Izz
+  commentId: F:Bicycle.Physics.FrameBodyParameters.Izz
+  fullName: Bicycle.Physics.FrameBodyParameters.Izz
+  nameWithType: FrameBodyParameters.Izz
+- uid: Bicycle.Physics.FrameBodyParameters.Mass
+  name: Mass
+  href: api/Bicycle.Physics.FrameBodyParameters.html#Bicycle_Physics_FrameBodyParameters_Mass
+  commentId: F:Bicycle.Physics.FrameBodyParameters.Mass
+  fullName: Bicycle.Physics.FrameBodyParameters.Mass
+  nameWithType: FrameBodyParameters.Mass
+- uid: Bicycle.Physics.Integrator
+  name: Integrator
+  href: api/Bicycle.Physics.Integrator.html
+  commentId: T:Bicycle.Physics.Integrator
+  fullName: Bicycle.Physics.Integrator
+  nameWithType: Integrator
+- uid: Bicycle.Physics.Integrator.DerivativeProvider
+  name: Integrator.DerivativeProvider
+  href: api/Bicycle.Physics.Integrator.DerivativeProvider.html
+  commentId: T:Bicycle.Physics.Integrator.DerivativeProvider
+  fullName: Bicycle.Physics.Integrator.DerivativeProvider
+  nameWithType: Integrator.DerivativeProvider
+- uid: Bicycle.Physics.Integrator.Step(Bicycle.Physics.BicycleState@,System.Double,Bicycle.Physics.Integrator.DerivativeProvider)
+  name: Step(ref BicycleState, double, DerivativeProvider)
+  href: api/Bicycle.Physics.Integrator.html#Bicycle_Physics_Integrator_Step_Bicycle_Physics_BicycleState__System_Double_Bicycle_Physics_Integrator_DerivativeProvider_
+  commentId: M:Bicycle.Physics.Integrator.Step(Bicycle.Physics.BicycleState@,System.Double,Bicycle.Physics.Integrator.DerivativeProvider)
+  name.vb: Step(BicycleState, Double, DerivativeProvider)
+  fullName: Bicycle.Physics.Integrator.Step(ref Bicycle.Physics.BicycleState, double, Bicycle.Physics.Integrator.DerivativeProvider)
+  fullName.vb: Bicycle.Physics.Integrator.Step(Bicycle.Physics.BicycleState, Double, Bicycle.Physics.Integrator.DerivativeProvider)
+  nameWithType: Integrator.Step(ref BicycleState, double, Integrator.DerivativeProvider)
+  nameWithType.vb: Integrator.Step(BicycleState, Double, Integrator.DerivativeProvider)
+- uid: Bicycle.Physics.Integrator.Step*
+  name: Step
+  href: api/Bicycle.Physics.Integrator.html#Bicycle_Physics_Integrator_Step_
+  commentId: Overload:Bicycle.Physics.Integrator.Step
+  isSpec: "True"
+  fullName: Bicycle.Physics.Integrator.Step
+  nameWithType: Integrator.Step
+- uid: Bicycle.Physics.Math
+  name: Bicycle.Physics.Math
+  href: api/Bicycle.Physics.Math.html
+  commentId: N:Bicycle.Physics.Math
+  fullName: Bicycle.Physics.Math
+  nameWithType: Bicycle.Physics.Math
+- uid: Bicycle.Physics.Math.QuatD
+  name: QuatD
+  href: api/Bicycle.Physics.Math.QuatD.html
+  commentId: T:Bicycle.Physics.Math.QuatD
+  fullName: Bicycle.Physics.Math.QuatD
+  nameWithType: QuatD
+- uid: Bicycle.Physics.Math.QuatD.#ctor(System.Double,System.Double,System.Double,System.Double)
+  name: QuatD(double, double, double, double)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD__ctor_System_Double_System_Double_System_Double_System_Double_
+  commentId: M:Bicycle.Physics.Math.QuatD.#ctor(System.Double,System.Double,System.Double,System.Double)
+  name.vb: New(Double, Double, Double, Double)
+  fullName: Bicycle.Physics.Math.QuatD.QuatD(double, double, double, double)
+  fullName.vb: Bicycle.Physics.Math.QuatD.New(Double, Double, Double, Double)
+  nameWithType: QuatD.QuatD(double, double, double, double)
+  nameWithType.vb: QuatD.New(Double, Double, Double, Double)
+- uid: Bicycle.Physics.Math.QuatD.#ctor*
+  name: QuatD
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD__ctor_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.Physics.Math.QuatD.QuatD
+  fullName.vb: Bicycle.Physics.Math.QuatD.New
+  nameWithType: QuatD.QuatD
+  nameWithType.vb: QuatD.New
+- uid: Bicycle.Physics.Math.QuatD.Equals(Bicycle.Physics.Math.QuatD)
+  name: Equals(QuatD)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Equals_Bicycle_Physics_Math_QuatD_
+  commentId: M:Bicycle.Physics.Math.QuatD.Equals(Bicycle.Physics.Math.QuatD)
+  fullName: Bicycle.Physics.Math.QuatD.Equals(Bicycle.Physics.Math.QuatD)
+  nameWithType: QuatD.Equals(QuatD)
+- uid: Bicycle.Physics.Math.QuatD.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Equals_System_Object_
+  commentId: M:Bicycle.Physics.Math.QuatD.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Bicycle.Physics.Math.QuatD.Equals(object?)
+  fullName.vb: Bicycle.Physics.Math.QuatD.Equals(Object)
+  nameWithType: QuatD.Equals(object?)
+  nameWithType.vb: QuatD.Equals(Object)
+- uid: Bicycle.Physics.Math.QuatD.Equals*
+  name: Equals
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Equals_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.Equals
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.Equals
+  nameWithType: QuatD.Equals
+- uid: Bicycle.Physics.Math.QuatD.FromAxisAngle(Bicycle.Physics.Math.Vec3D,System.Double)
+  name: FromAxisAngle(Vec3D, double)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_FromAxisAngle_Bicycle_Physics_Math_Vec3D_System_Double_
+  commentId: M:Bicycle.Physics.Math.QuatD.FromAxisAngle(Bicycle.Physics.Math.Vec3D,System.Double)
+  name.vb: FromAxisAngle(Vec3D, Double)
+  fullName: Bicycle.Physics.Math.QuatD.FromAxisAngle(Bicycle.Physics.Math.Vec3D, double)
+  fullName.vb: Bicycle.Physics.Math.QuatD.FromAxisAngle(Bicycle.Physics.Math.Vec3D, Double)
+  nameWithType: QuatD.FromAxisAngle(Vec3D, double)
+  nameWithType.vb: QuatD.FromAxisAngle(Vec3D, Double)
+- uid: Bicycle.Physics.Math.QuatD.FromAxisAngle*
+  name: FromAxisAngle
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_FromAxisAngle_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.FromAxisAngle
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.FromAxisAngle
+  nameWithType: QuatD.FromAxisAngle
+- uid: Bicycle.Physics.Math.QuatD.FromRpyZyx(System.Double,System.Double,System.Double)
+  name: FromRpyZyx(double, double, double)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_FromRpyZyx_System_Double_System_Double_System_Double_
+  commentId: M:Bicycle.Physics.Math.QuatD.FromRpyZyx(System.Double,System.Double,System.Double)
+  name.vb: FromRpyZyx(Double, Double, Double)
+  fullName: Bicycle.Physics.Math.QuatD.FromRpyZyx(double, double, double)
+  fullName.vb: Bicycle.Physics.Math.QuatD.FromRpyZyx(Double, Double, Double)
+  nameWithType: QuatD.FromRpyZyx(double, double, double)
+  nameWithType.vb: QuatD.FromRpyZyx(Double, Double, Double)
+- uid: Bicycle.Physics.Math.QuatD.FromRpyZyx*
+  name: FromRpyZyx
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_FromRpyZyx_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.FromRpyZyx
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.FromRpyZyx
+  nameWithType: QuatD.FromRpyZyx
+- uid: Bicycle.Physics.Math.QuatD.GetHashCode
+  name: GetHashCode()
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_GetHashCode
+  commentId: M:Bicycle.Physics.Math.QuatD.GetHashCode
+  fullName: Bicycle.Physics.Math.QuatD.GetHashCode()
+  nameWithType: QuatD.GetHashCode()
+- uid: Bicycle.Physics.Math.QuatD.GetHashCode*
+  name: GetHashCode
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_GetHashCode_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.GetHashCode
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.GetHashCode
+  nameWithType: QuatD.GetHashCode
+- uid: Bicycle.Physics.Math.QuatD.Identity
+  name: Identity
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Identity
+  commentId: F:Bicycle.Physics.Math.QuatD.Identity
+  fullName: Bicycle.Physics.Math.QuatD.Identity
+  nameWithType: QuatD.Identity
+- uid: Bicycle.Physics.Math.QuatD.Normalized
+  name: Normalized()
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Normalized
+  commentId: M:Bicycle.Physics.Math.QuatD.Normalized
+  fullName: Bicycle.Physics.Math.QuatD.Normalized()
+  nameWithType: QuatD.Normalized()
+- uid: Bicycle.Physics.Math.QuatD.Normalized*
+  name: Normalized
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Normalized_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.Normalized
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.Normalized
+  nameWithType: QuatD.Normalized
+- uid: Bicycle.Physics.Math.QuatD.Rotate(Bicycle.Physics.Math.Vec3D)
+  name: Rotate(Vec3D)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Rotate_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.QuatD.Rotate(Bicycle.Physics.Math.Vec3D)
+  fullName: Bicycle.Physics.Math.QuatD.Rotate(Bicycle.Physics.Math.Vec3D)
+  nameWithType: QuatD.Rotate(Vec3D)
+- uid: Bicycle.Physics.Math.QuatD.Rotate*
+  name: Rotate
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Rotate_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.Rotate
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.Rotate
+  nameWithType: QuatD.Rotate
+- uid: Bicycle.Physics.Math.QuatD.ToString
+  name: ToString()
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_ToString
+  commentId: M:Bicycle.Physics.Math.QuatD.ToString
+  fullName: Bicycle.Physics.Math.QuatD.ToString()
+  nameWithType: QuatD.ToString()
+- uid: Bicycle.Physics.Math.QuatD.ToString*
+  name: ToString
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_ToString_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.ToString
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.QuatD.ToString
+  nameWithType: QuatD.ToString
+- uid: Bicycle.Physics.Math.QuatD.W
+  name: W
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_W
+  commentId: F:Bicycle.Physics.Math.QuatD.W
+  fullName: Bicycle.Physics.Math.QuatD.W
+  nameWithType: QuatD.W
+- uid: Bicycle.Physics.Math.QuatD.X
+  name: X
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_X
+  commentId: F:Bicycle.Physics.Math.QuatD.X
+  fullName: Bicycle.Physics.Math.QuatD.X
+  nameWithType: QuatD.X
+- uid: Bicycle.Physics.Math.QuatD.Y
+  name: Y
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Y
+  commentId: F:Bicycle.Physics.Math.QuatD.Y
+  fullName: Bicycle.Physics.Math.QuatD.Y
+  nameWithType: QuatD.Y
+- uid: Bicycle.Physics.Math.QuatD.Z
+  name: Z
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_Z
+  commentId: F:Bicycle.Physics.Math.QuatD.Z
+  fullName: Bicycle.Physics.Math.QuatD.Z
+  nameWithType: QuatD.Z
+- uid: Bicycle.Physics.Math.QuatD.op_Equality(Bicycle.Physics.Math.QuatD,Bicycle.Physics.Math.QuatD)
+  name: operator ==(QuatD, QuatD)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_op_Equality_Bicycle_Physics_Math_QuatD_Bicycle_Physics_Math_QuatD_
+  commentId: M:Bicycle.Physics.Math.QuatD.op_Equality(Bicycle.Physics.Math.QuatD,Bicycle.Physics.Math.QuatD)
+  name.vb: =(QuatD, QuatD)
+  fullName: Bicycle.Physics.Math.QuatD.operator ==(Bicycle.Physics.Math.QuatD, Bicycle.Physics.Math.QuatD)
+  fullName.vb: Bicycle.Physics.Math.QuatD.=(Bicycle.Physics.Math.QuatD, Bicycle.Physics.Math.QuatD)
+  nameWithType: QuatD.operator ==(QuatD, QuatD)
+  nameWithType.vb: QuatD.=(QuatD, QuatD)
+- uid: Bicycle.Physics.Math.QuatD.op_Equality*
+  name: operator ==
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_op_Equality_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.op_Equality
+  isSpec: "True"
+  name.vb: =
+  fullName: Bicycle.Physics.Math.QuatD.operator ==
+  fullName.vb: Bicycle.Physics.Math.QuatD.=
+  nameWithType: QuatD.operator ==
+  nameWithType.vb: QuatD.=
+- uid: Bicycle.Physics.Math.QuatD.op_Inequality(Bicycle.Physics.Math.QuatD,Bicycle.Physics.Math.QuatD)
+  name: operator !=(QuatD, QuatD)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_op_Inequality_Bicycle_Physics_Math_QuatD_Bicycle_Physics_Math_QuatD_
+  commentId: M:Bicycle.Physics.Math.QuatD.op_Inequality(Bicycle.Physics.Math.QuatD,Bicycle.Physics.Math.QuatD)
+  name.vb: <>(QuatD, QuatD)
+  fullName: Bicycle.Physics.Math.QuatD.operator !=(Bicycle.Physics.Math.QuatD, Bicycle.Physics.Math.QuatD)
+  fullName.vb: Bicycle.Physics.Math.QuatD.<>(Bicycle.Physics.Math.QuatD, Bicycle.Physics.Math.QuatD)
+  nameWithType: QuatD.operator !=(QuatD, QuatD)
+  nameWithType.vb: QuatD.<>(QuatD, QuatD)
+- uid: Bicycle.Physics.Math.QuatD.op_Inequality*
+  name: operator !=
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_op_Inequality_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.op_Inequality
+  isSpec: "True"
+  name.vb: <>
+  fullName: Bicycle.Physics.Math.QuatD.operator !=
+  fullName.vb: Bicycle.Physics.Math.QuatD.<>
+  nameWithType: QuatD.operator !=
+  nameWithType.vb: QuatD.<>
+- uid: Bicycle.Physics.Math.QuatD.op_Multiply(Bicycle.Physics.Math.QuatD,Bicycle.Physics.Math.QuatD)
+  name: operator *(QuatD, QuatD)
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_op_Multiply_Bicycle_Physics_Math_QuatD_Bicycle_Physics_Math_QuatD_
+  commentId: M:Bicycle.Physics.Math.QuatD.op_Multiply(Bicycle.Physics.Math.QuatD,Bicycle.Physics.Math.QuatD)
+  name.vb: '*(QuatD, QuatD)'
+  fullName: Bicycle.Physics.Math.QuatD.operator *(Bicycle.Physics.Math.QuatD, Bicycle.Physics.Math.QuatD)
+  fullName.vb: Bicycle.Physics.Math.QuatD.*(Bicycle.Physics.Math.QuatD, Bicycle.Physics.Math.QuatD)
+  nameWithType: QuatD.operator *(QuatD, QuatD)
+  nameWithType.vb: QuatD.*(QuatD, QuatD)
+- uid: Bicycle.Physics.Math.QuatD.op_Multiply*
+  name: operator *
+  href: api/Bicycle.Physics.Math.QuatD.html#Bicycle_Physics_Math_QuatD_op_Multiply_
+  commentId: Overload:Bicycle.Physics.Math.QuatD.op_Multiply
+  isSpec: "True"
+  name.vb: '*'
+  fullName: Bicycle.Physics.Math.QuatD.operator *
+  fullName.vb: Bicycle.Physics.Math.QuatD.*
+  nameWithType: QuatD.operator *
+  nameWithType.vb: QuatD.*
+- uid: Bicycle.Physics.Math.Vec3D
+  name: Vec3D
+  href: api/Bicycle.Physics.Math.Vec3D.html
+  commentId: T:Bicycle.Physics.Math.Vec3D
+  fullName: Bicycle.Physics.Math.Vec3D
+  nameWithType: Vec3D
+- uid: Bicycle.Physics.Math.Vec3D.#ctor(System.Double,System.Double,System.Double)
+  name: Vec3D(double, double, double)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D__ctor_System_Double_System_Double_System_Double_
+  commentId: M:Bicycle.Physics.Math.Vec3D.#ctor(System.Double,System.Double,System.Double)
+  name.vb: New(Double, Double, Double)
+  fullName: Bicycle.Physics.Math.Vec3D.Vec3D(double, double, double)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.New(Double, Double, Double)
+  nameWithType: Vec3D.Vec3D(double, double, double)
+  nameWithType.vb: Vec3D.New(Double, Double, Double)
+- uid: Bicycle.Physics.Math.Vec3D.#ctor*
+  name: Vec3D
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D__ctor_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.Physics.Math.Vec3D.Vec3D
+  fullName.vb: Bicycle.Physics.Math.Vec3D.New
+  nameWithType: Vec3D.Vec3D
+  nameWithType.vb: Vec3D.New
+- uid: Bicycle.Physics.Math.Vec3D.Cross(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name: Cross(Vec3D, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Cross_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.Cross(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.Cross(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.Cross(Vec3D, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.Cross*
+  name: Cross
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Cross_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.Cross
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.Vec3D.Cross
+  nameWithType: Vec3D.Cross
+- uid: Bicycle.Physics.Math.Vec3D.Dot(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name: Dot(Vec3D, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Dot_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.Dot(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.Dot(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.Dot(Vec3D, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.Dot*
+  name: Dot
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Dot_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.Dot
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.Vec3D.Dot
+  nameWithType: Vec3D.Dot
+- uid: Bicycle.Physics.Math.Vec3D.Equals(Bicycle.Physics.Math.Vec3D)
+  name: Equals(Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Equals_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.Equals(Bicycle.Physics.Math.Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.Equals(Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.Equals(Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Equals_System_Object_
+  commentId: M:Bicycle.Physics.Math.Vec3D.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Bicycle.Physics.Math.Vec3D.Equals(object?)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.Equals(Object)
+  nameWithType: Vec3D.Equals(object?)
+  nameWithType.vb: Vec3D.Equals(Object)
+- uid: Bicycle.Physics.Math.Vec3D.Equals*
+  name: Equals
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Equals_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.Equals
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.Vec3D.Equals
+  nameWithType: Vec3D.Equals
+- uid: Bicycle.Physics.Math.Vec3D.GetHashCode
+  name: GetHashCode()
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_GetHashCode
+  commentId: M:Bicycle.Physics.Math.Vec3D.GetHashCode
+  fullName: Bicycle.Physics.Math.Vec3D.GetHashCode()
+  nameWithType: Vec3D.GetHashCode()
+- uid: Bicycle.Physics.Math.Vec3D.GetHashCode*
+  name: GetHashCode
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_GetHashCode_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.GetHashCode
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.Vec3D.GetHashCode
+  nameWithType: Vec3D.GetHashCode
+- uid: Bicycle.Physics.Math.Vec3D.Length
+  name: Length
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Length
+  commentId: P:Bicycle.Physics.Math.Vec3D.Length
+  fullName: Bicycle.Physics.Math.Vec3D.Length
+  nameWithType: Vec3D.Length
+- uid: Bicycle.Physics.Math.Vec3D.Length*
+  name: Length
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Length_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.Length
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.Vec3D.Length
+  nameWithType: Vec3D.Length
+- uid: Bicycle.Physics.Math.Vec3D.ToString
+  name: ToString()
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_ToString
+  commentId: M:Bicycle.Physics.Math.Vec3D.ToString
+  fullName: Bicycle.Physics.Math.Vec3D.ToString()
+  nameWithType: Vec3D.ToString()
+- uid: Bicycle.Physics.Math.Vec3D.ToString*
+  name: ToString
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_ToString_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.ToString
+  isSpec: "True"
+  fullName: Bicycle.Physics.Math.Vec3D.ToString
+  nameWithType: Vec3D.ToString
+- uid: Bicycle.Physics.Math.Vec3D.X
+  name: X
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_X
+  commentId: F:Bicycle.Physics.Math.Vec3D.X
+  fullName: Bicycle.Physics.Math.Vec3D.X
+  nameWithType: Vec3D.X
+- uid: Bicycle.Physics.Math.Vec3D.Y
+  name: Y
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Y
+  commentId: F:Bicycle.Physics.Math.Vec3D.Y
+  fullName: Bicycle.Physics.Math.Vec3D.Y
+  nameWithType: Vec3D.Y
+- uid: Bicycle.Physics.Math.Vec3D.Z
+  name: Z
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Z
+  commentId: F:Bicycle.Physics.Math.Vec3D.Z
+  fullName: Bicycle.Physics.Math.Vec3D.Z
+  nameWithType: Vec3D.Z
+- uid: Bicycle.Physics.Math.Vec3D.Zero
+  name: Zero
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_Zero
+  commentId: F:Bicycle.Physics.Math.Vec3D.Zero
+  fullName: Bicycle.Physics.Math.Vec3D.Zero
+  nameWithType: Vec3D.Zero
+- uid: Bicycle.Physics.Math.Vec3D.op_Addition(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name: operator +(Vec3D, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Addition_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_Addition(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name.vb: +(Vec3D, Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.operator +(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.+(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.operator +(Vec3D, Vec3D)
+  nameWithType.vb: Vec3D.+(Vec3D, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.op_Addition*
+  name: operator +
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Addition_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.op_Addition
+  isSpec: "True"
+  name.vb: +
+  fullName: Bicycle.Physics.Math.Vec3D.operator +
+  fullName.vb: Bicycle.Physics.Math.Vec3D.+
+  nameWithType: Vec3D.operator +
+  nameWithType.vb: Vec3D.+
+- uid: Bicycle.Physics.Math.Vec3D.op_Equality(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name: operator ==(Vec3D, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Equality_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_Equality(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name.vb: =(Vec3D, Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.operator ==(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.=(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.operator ==(Vec3D, Vec3D)
+  nameWithType.vb: Vec3D.=(Vec3D, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.op_Equality*
+  name: operator ==
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Equality_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.op_Equality
+  isSpec: "True"
+  name.vb: =
+  fullName: Bicycle.Physics.Math.Vec3D.operator ==
+  fullName.vb: Bicycle.Physics.Math.Vec3D.=
+  nameWithType: Vec3D.operator ==
+  nameWithType.vb: Vec3D.=
+- uid: Bicycle.Physics.Math.Vec3D.op_Inequality(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name: operator !=(Vec3D, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Inequality_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_Inequality(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name.vb: <>(Vec3D, Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.operator !=(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.<>(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.operator !=(Vec3D, Vec3D)
+  nameWithType.vb: Vec3D.<>(Vec3D, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.op_Inequality*
+  name: operator !=
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Inequality_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.op_Inequality
+  isSpec: "True"
+  name.vb: <>
+  fullName: Bicycle.Physics.Math.Vec3D.operator !=
+  fullName.vb: Bicycle.Physics.Math.Vec3D.<>
+  nameWithType: Vec3D.operator !=
+  nameWithType.vb: Vec3D.<>
+- uid: Bicycle.Physics.Math.Vec3D.op_Multiply(Bicycle.Physics.Math.Vec3D,System.Double)
+  name: operator *(Vec3D, double)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Multiply_Bicycle_Physics_Math_Vec3D_System_Double_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_Multiply(Bicycle.Physics.Math.Vec3D,System.Double)
+  name.vb: '*(Vec3D, Double)'
+  fullName: Bicycle.Physics.Math.Vec3D.operator *(Bicycle.Physics.Math.Vec3D, double)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.*(Bicycle.Physics.Math.Vec3D, Double)
+  nameWithType: Vec3D.operator *(Vec3D, double)
+  nameWithType.vb: Vec3D.*(Vec3D, Double)
+- uid: Bicycle.Physics.Math.Vec3D.op_Multiply(System.Double,Bicycle.Physics.Math.Vec3D)
+  name: operator *(double, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Multiply_System_Double_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_Multiply(System.Double,Bicycle.Physics.Math.Vec3D)
+  name.vb: '*(Double, Vec3D)'
+  fullName: Bicycle.Physics.Math.Vec3D.operator *(double, Bicycle.Physics.Math.Vec3D)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.*(Double, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.operator *(double, Vec3D)
+  nameWithType.vb: Vec3D.*(Double, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.op_Multiply*
+  name: operator *
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Multiply_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.op_Multiply
+  isSpec: "True"
+  name.vb: '*'
+  fullName: Bicycle.Physics.Math.Vec3D.operator *
+  fullName.vb: Bicycle.Physics.Math.Vec3D.*
+  nameWithType: Vec3D.operator *
+  nameWithType.vb: Vec3D.*
+- uid: Bicycle.Physics.Math.Vec3D.op_Subtraction(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name: operator -(Vec3D, Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Subtraction_Bicycle_Physics_Math_Vec3D_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_Subtraction(Bicycle.Physics.Math.Vec3D,Bicycle.Physics.Math.Vec3D)
+  name.vb: -(Vec3D, Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.operator -(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.-(Bicycle.Physics.Math.Vec3D, Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.operator -(Vec3D, Vec3D)
+  nameWithType.vb: Vec3D.-(Vec3D, Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.op_Subtraction*
+  name: operator -
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_Subtraction_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.op_Subtraction
+  isSpec: "True"
+  name.vb: '-'
+  fullName: Bicycle.Physics.Math.Vec3D.operator -
+  fullName.vb: Bicycle.Physics.Math.Vec3D.-
+  nameWithType: Vec3D.operator -
+  nameWithType.vb: Vec3D.-
+- uid: Bicycle.Physics.Math.Vec3D.op_UnaryNegation(Bicycle.Physics.Math.Vec3D)
+  name: operator -(Vec3D)
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_UnaryNegation_Bicycle_Physics_Math_Vec3D_
+  commentId: M:Bicycle.Physics.Math.Vec3D.op_UnaryNegation(Bicycle.Physics.Math.Vec3D)
+  name.vb: -(Vec3D)
+  fullName: Bicycle.Physics.Math.Vec3D.operator -(Bicycle.Physics.Math.Vec3D)
+  fullName.vb: Bicycle.Physics.Math.Vec3D.-(Bicycle.Physics.Math.Vec3D)
+  nameWithType: Vec3D.operator -(Vec3D)
+  nameWithType.vb: Vec3D.-(Vec3D)
+- uid: Bicycle.Physics.Math.Vec3D.op_UnaryNegation*
+  name: operator -
+  href: api/Bicycle.Physics.Math.Vec3D.html#Bicycle_Physics_Math_Vec3D_op_UnaryNegation_
+  commentId: Overload:Bicycle.Physics.Math.Vec3D.op_UnaryNegation
+  isSpec: "True"
+  name.vb: '-'
+  fullName: Bicycle.Physics.Math.Vec3D.operator -
+  fullName.vb: Bicycle.Physics.Math.Vec3D.-
+  nameWithType: Vec3D.operator -
+  nameWithType.vb: Vec3D.-
+- uid: Bicycle.Physics.ParametersJson
+  name: ParametersJson
+  href: api/Bicycle.Physics.ParametersJson.html
+  commentId: T:Bicycle.Physics.ParametersJson
+  fullName: Bicycle.Physics.ParametersJson
+  nameWithType: ParametersJson
+- uid: Bicycle.Physics.ParametersJson.Load(System.String)
+  name: Load(string)
+  href: api/Bicycle.Physics.ParametersJson.html#Bicycle_Physics_ParametersJson_Load_System_String_
+  commentId: M:Bicycle.Physics.ParametersJson.Load(System.String)
+  name.vb: Load(String)
+  fullName: Bicycle.Physics.ParametersJson.Load(string)
+  fullName.vb: Bicycle.Physics.ParametersJson.Load(String)
+  nameWithType: ParametersJson.Load(string)
+  nameWithType.vb: ParametersJson.Load(String)
+- uid: Bicycle.Physics.ParametersJson.Load*
+  name: Load
+  href: api/Bicycle.Physics.ParametersJson.html#Bicycle_Physics_ParametersJson_Load_
+  commentId: Overload:Bicycle.Physics.ParametersJson.Load
+  isSpec: "True"
+  fullName: Bicycle.Physics.ParametersJson.Load
+  nameWithType: ParametersJson.Load
+- uid: Bicycle.Physics.ParametersJson.LoadFromFile(System.String)
+  name: LoadFromFile(string)
+  href: api/Bicycle.Physics.ParametersJson.html#Bicycle_Physics_ParametersJson_LoadFromFile_System_String_
+  commentId: M:Bicycle.Physics.ParametersJson.LoadFromFile(System.String)
+  name.vb: LoadFromFile(String)
+  fullName: Bicycle.Physics.ParametersJson.LoadFromFile(string)
+  fullName.vb: Bicycle.Physics.ParametersJson.LoadFromFile(String)
+  nameWithType: ParametersJson.LoadFromFile(string)
+  nameWithType.vb: ParametersJson.LoadFromFile(String)
+- uid: Bicycle.Physics.ParametersJson.LoadFromFile*
+  name: LoadFromFile
+  href: api/Bicycle.Physics.ParametersJson.html#Bicycle_Physics_ParametersJson_LoadFromFile_
+  commentId: Overload:Bicycle.Physics.ParametersJson.LoadFromFile
+  isSpec: "True"
+  fullName: Bicycle.Physics.ParametersJson.LoadFromFile
+  nameWithType: ParametersJson.LoadFromFile
+- uid: Bicycle.Physics.ParametersJson.Save(Bicycle.Physics.BicycleParameters@)
+  name: Save(in BicycleParameters)
+  href: api/Bicycle.Physics.ParametersJson.html#Bicycle_Physics_ParametersJson_Save_Bicycle_Physics_BicycleParameters__
+  commentId: M:Bicycle.Physics.ParametersJson.Save(Bicycle.Physics.BicycleParameters@)
+  name.vb: Save(BicycleParameters)
+  fullName: Bicycle.Physics.ParametersJson.Save(in Bicycle.Physics.BicycleParameters)
+  fullName.vb: Bicycle.Physics.ParametersJson.Save(Bicycle.Physics.BicycleParameters)
+  nameWithType: ParametersJson.Save(in BicycleParameters)
+  nameWithType.vb: ParametersJson.Save(BicycleParameters)
+- uid: Bicycle.Physics.ParametersJson.Save*
+  name: Save
+  href: api/Bicycle.Physics.ParametersJson.html#Bicycle_Physics_ParametersJson_Save_
+  commentId: Overload:Bicycle.Physics.ParametersJson.Save
+  isSpec: "True"
+  fullName: Bicycle.Physics.ParametersJson.Save
+  nameWithType: ParametersJson.Save
+- uid: Bicycle.Physics.StateDerivative
+  name: StateDerivative
+  href: api/Bicycle.Physics.StateDerivative.html
+  commentId: T:Bicycle.Physics.StateDerivative
+  fullName: Bicycle.Physics.StateDerivative
+  nameWithType: StateDerivative
+- uid: Bicycle.Physics.StateDerivative.FrontWheelAngleDot
+  name: FrontWheelAngleDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_FrontWheelAngleDot
+  commentId: F:Bicycle.Physics.StateDerivative.FrontWheelAngleDot
+  fullName: Bicycle.Physics.StateDerivative.FrontWheelAngleDot
+  nameWithType: StateDerivative.FrontWheelAngleDot
+- uid: Bicycle.Physics.StateDerivative.PitchDot
+  name: PitchDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_PitchDot
+  commentId: F:Bicycle.Physics.StateDerivative.PitchDot
+  fullName: Bicycle.Physics.StateDerivative.PitchDot
+  nameWithType: StateDerivative.PitchDot
+- uid: Bicycle.Physics.StateDerivative.RearWheelAngleDot
+  name: RearWheelAngleDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_RearWheelAngleDot
+  commentId: F:Bicycle.Physics.StateDerivative.RearWheelAngleDot
+  fullName: Bicycle.Physics.StateDerivative.RearWheelAngleDot
+  nameWithType: StateDerivative.RearWheelAngleDot
+- uid: Bicycle.Physics.StateDerivative.RearWheelAngularAccel
+  name: RearWheelAngularAccel
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_RearWheelAngularAccel
+  commentId: F:Bicycle.Physics.StateDerivative.RearWheelAngularAccel
+  fullName: Bicycle.Physics.StateDerivative.RearWheelAngularAccel
+  nameWithType: StateDerivative.RearWheelAngularAccel
+- uid: Bicycle.Physics.StateDerivative.RollAcceleration
+  name: RollAcceleration
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_RollAcceleration
+  commentId: F:Bicycle.Physics.StateDerivative.RollAcceleration
+  fullName: Bicycle.Physics.StateDerivative.RollAcceleration
+  nameWithType: StateDerivative.RollAcceleration
+- uid: Bicycle.Physics.StateDerivative.RollDot
+  name: RollDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_RollDot
+  commentId: F:Bicycle.Physics.StateDerivative.RollDot
+  fullName: Bicycle.Physics.StateDerivative.RollDot
+  nameWithType: StateDerivative.RollDot
+- uid: Bicycle.Physics.StateDerivative.SteerAcceleration
+  name: SteerAcceleration
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_SteerAcceleration
+  commentId: F:Bicycle.Physics.StateDerivative.SteerAcceleration
+  fullName: Bicycle.Physics.StateDerivative.SteerAcceleration
+  nameWithType: StateDerivative.SteerAcceleration
+- uid: Bicycle.Physics.StateDerivative.SteerDot
+  name: SteerDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_SteerDot
+  commentId: F:Bicycle.Physics.StateDerivative.SteerDot
+  fullName: Bicycle.Physics.StateDerivative.SteerDot
+  nameWithType: StateDerivative.SteerDot
+- uid: Bicycle.Physics.StateDerivative.XGroundDot
+  name: XGroundDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_XGroundDot
+  commentId: F:Bicycle.Physics.StateDerivative.XGroundDot
+  fullName: Bicycle.Physics.StateDerivative.XGroundDot
+  nameWithType: StateDerivative.XGroundDot
+- uid: Bicycle.Physics.StateDerivative.YGroundDot
+  name: YGroundDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_YGroundDot
+  commentId: F:Bicycle.Physics.StateDerivative.YGroundDot
+  fullName: Bicycle.Physics.StateDerivative.YGroundDot
+  nameWithType: StateDerivative.YGroundDot
+- uid: Bicycle.Physics.StateDerivative.YawDot
+  name: YawDot
+  href: api/Bicycle.Physics.StateDerivative.html#Bicycle_Physics_StateDerivative_YawDot
+  commentId: F:Bicycle.Physics.StateDerivative.YawDot
+  fullName: Bicycle.Physics.StateDerivative.YawDot
+  nameWithType: StateDerivative.YawDot
+- uid: Bicycle.Physics.WheelBodyParameters
+  name: WheelBodyParameters
+  href: api/Bicycle.Physics.WheelBodyParameters.html
+  commentId: T:Bicycle.Physics.WheelBodyParameters
+  fullName: Bicycle.Physics.WheelBodyParameters
+  nameWithType: WheelBodyParameters
+- uid: Bicycle.Physics.WheelBodyParameters.IAxial
+  name: IAxial
+  href: api/Bicycle.Physics.WheelBodyParameters.html#Bicycle_Physics_WheelBodyParameters_IAxial
+  commentId: F:Bicycle.Physics.WheelBodyParameters.IAxial
+  fullName: Bicycle.Physics.WheelBodyParameters.IAxial
+  nameWithType: WheelBodyParameters.IAxial
+- uid: Bicycle.Physics.WheelBodyParameters.IDiametral
+  name: IDiametral
+  href: api/Bicycle.Physics.WheelBodyParameters.html#Bicycle_Physics_WheelBodyParameters_IDiametral
+  commentId: F:Bicycle.Physics.WheelBodyParameters.IDiametral
+  fullName: Bicycle.Physics.WheelBodyParameters.IDiametral
+  nameWithType: WheelBodyParameters.IDiametral
+- uid: Bicycle.Physics.WheelBodyParameters.Mass
+  name: Mass
+  href: api/Bicycle.Physics.WheelBodyParameters.html#Bicycle_Physics_WheelBodyParameters_Mass
+  commentId: F:Bicycle.Physics.WheelBodyParameters.Mass
+  fullName: Bicycle.Physics.WheelBodyParameters.Mass
+  nameWithType: WheelBodyParameters.Mass
+- uid: Bicycle.Physics.WheelBodyParameters.Radius
+  name: Radius
+  href: api/Bicycle.Physics.WheelBodyParameters.html#Bicycle_Physics_WheelBodyParameters_Radius
+  commentId: F:Bicycle.Physics.WheelBodyParameters.Radius
+  fullName: Bicycle.Physics.WheelBodyParameters.Radius
+  nameWithType: WheelBodyParameters.Radius
+- uid: Bicycle.World
+  name: Bicycle.World
+  href: api/Bicycle.World.html
+  commentId: N:Bicycle.World
+  fullName: Bicycle.World
+  nameWithType: Bicycle.World
+- uid: Bicycle.World.BikeId
+  name: BikeId
+  href: api/Bicycle.World.BikeId.html
+  commentId: T:Bicycle.World.BikeId
+  fullName: Bicycle.World.BikeId
+  nameWithType: BikeId
+- uid: Bicycle.World.BikeId.#ctor(System.Int32)
+  name: BikeId(int)
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId__ctor_System_Int32_
+  commentId: M:Bicycle.World.BikeId.#ctor(System.Int32)
+  name.vb: New(Integer)
+  fullName: Bicycle.World.BikeId.BikeId(int)
+  fullName.vb: Bicycle.World.BikeId.New(Integer)
+  nameWithType: BikeId.BikeId(int)
+  nameWithType.vb: BikeId.New(Integer)
+- uid: Bicycle.World.BikeId.#ctor*
+  name: BikeId
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId__ctor_
+  commentId: Overload:Bicycle.World.BikeId.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.World.BikeId.BikeId
+  fullName.vb: Bicycle.World.BikeId.New
+  nameWithType: BikeId.BikeId
+  nameWithType.vb: BikeId.New
+- uid: Bicycle.World.BikeId.Equals(Bicycle.World.BikeId)
+  name: Equals(BikeId)
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_Equals_Bicycle_World_BikeId_
+  commentId: M:Bicycle.World.BikeId.Equals(Bicycle.World.BikeId)
+  fullName: Bicycle.World.BikeId.Equals(Bicycle.World.BikeId)
+  nameWithType: BikeId.Equals(BikeId)
+- uid: Bicycle.World.BikeId.Equals(System.Object)
+  name: Equals(object?)
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_Equals_System_Object_
+  commentId: M:Bicycle.World.BikeId.Equals(System.Object)
+  name.vb: Equals(Object)
+  fullName: Bicycle.World.BikeId.Equals(object?)
+  fullName.vb: Bicycle.World.BikeId.Equals(Object)
+  nameWithType: BikeId.Equals(object?)
+  nameWithType.vb: BikeId.Equals(Object)
+- uid: Bicycle.World.BikeId.Equals*
+  name: Equals
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_Equals_
+  commentId: Overload:Bicycle.World.BikeId.Equals
+  isSpec: "True"
+  fullName: Bicycle.World.BikeId.Equals
+  nameWithType: BikeId.Equals
+- uid: Bicycle.World.BikeId.GetHashCode
+  name: GetHashCode()
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_GetHashCode
+  commentId: M:Bicycle.World.BikeId.GetHashCode
+  fullName: Bicycle.World.BikeId.GetHashCode()
+  nameWithType: BikeId.GetHashCode()
+- uid: Bicycle.World.BikeId.GetHashCode*
+  name: GetHashCode
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_GetHashCode_
+  commentId: Overload:Bicycle.World.BikeId.GetHashCode
+  isSpec: "True"
+  fullName: Bicycle.World.BikeId.GetHashCode
+  nameWithType: BikeId.GetHashCode
+- uid: Bicycle.World.BikeId.ToString
+  name: ToString()
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_ToString
+  commentId: M:Bicycle.World.BikeId.ToString
+  fullName: Bicycle.World.BikeId.ToString()
+  nameWithType: BikeId.ToString()
+- uid: Bicycle.World.BikeId.ToString*
+  name: ToString
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_ToString_
+  commentId: Overload:Bicycle.World.BikeId.ToString
+  isSpec: "True"
+  fullName: Bicycle.World.BikeId.ToString
+  nameWithType: BikeId.ToString
+- uid: Bicycle.World.BikeId.Value
+  name: Value
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_Value
+  commentId: F:Bicycle.World.BikeId.Value
+  fullName: Bicycle.World.BikeId.Value
+  nameWithType: BikeId.Value
+- uid: Bicycle.World.BikeId.op_Equality(Bicycle.World.BikeId,Bicycle.World.BikeId)
+  name: operator ==(BikeId, BikeId)
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_op_Equality_Bicycle_World_BikeId_Bicycle_World_BikeId_
+  commentId: M:Bicycle.World.BikeId.op_Equality(Bicycle.World.BikeId,Bicycle.World.BikeId)
+  name.vb: =(BikeId, BikeId)
+  fullName: Bicycle.World.BikeId.operator ==(Bicycle.World.BikeId, Bicycle.World.BikeId)
+  fullName.vb: Bicycle.World.BikeId.=(Bicycle.World.BikeId, Bicycle.World.BikeId)
+  nameWithType: BikeId.operator ==(BikeId, BikeId)
+  nameWithType.vb: BikeId.=(BikeId, BikeId)
+- uid: Bicycle.World.BikeId.op_Equality*
+  name: operator ==
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_op_Equality_
+  commentId: Overload:Bicycle.World.BikeId.op_Equality
+  isSpec: "True"
+  name.vb: =
+  fullName: Bicycle.World.BikeId.operator ==
+  fullName.vb: Bicycle.World.BikeId.=
+  nameWithType: BikeId.operator ==
+  nameWithType.vb: BikeId.=
+- uid: Bicycle.World.BikeId.op_Inequality(Bicycle.World.BikeId,Bicycle.World.BikeId)
+  name: operator !=(BikeId, BikeId)
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_op_Inequality_Bicycle_World_BikeId_Bicycle_World_BikeId_
+  commentId: M:Bicycle.World.BikeId.op_Inequality(Bicycle.World.BikeId,Bicycle.World.BikeId)
+  name.vb: <>(BikeId, BikeId)
+  fullName: Bicycle.World.BikeId.operator !=(Bicycle.World.BikeId, Bicycle.World.BikeId)
+  fullName.vb: Bicycle.World.BikeId.<>(Bicycle.World.BikeId, Bicycle.World.BikeId)
+  nameWithType: BikeId.operator !=(BikeId, BikeId)
+  nameWithType.vb: BikeId.<>(BikeId, BikeId)
+- uid: Bicycle.World.BikeId.op_Inequality*
+  name: operator !=
+  href: api/Bicycle.World.BikeId.html#Bicycle_World_BikeId_op_Inequality_
+  commentId: Overload:Bicycle.World.BikeId.op_Inequality
+  isSpec: "True"
+  name.vb: <>
+  fullName: Bicycle.World.BikeId.operator !=
+  fullName.vb: Bicycle.World.BikeId.<>
+  nameWithType: BikeId.operator !=
+  nameWithType.vb: BikeId.<>
+- uid: Bicycle.World.BikeSnapshot
+  name: BikeSnapshot
+  href: api/Bicycle.World.BikeSnapshot.html
+  commentId: T:Bicycle.World.BikeSnapshot
+  fullName: Bicycle.World.BikeSnapshot
+  nameWithType: BikeSnapshot
+- uid: Bicycle.World.BikeSnapshot.#ctor(Bicycle.Physics.BodyPose@,Bicycle.Physics.BodyPose@,Bicycle.Physics.BodyPose@,Bicycle.Physics.BodyPose@,System.Double,System.Double)
+  name: BikeSnapshot(in BodyPose, in BodyPose, in BodyPose, in BodyPose, double, double)
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot__ctor_Bicycle_Physics_BodyPose__Bicycle_Physics_BodyPose__Bicycle_Physics_BodyPose__Bicycle_Physics_BodyPose__System_Double_System_Double_
+  commentId: M:Bicycle.World.BikeSnapshot.#ctor(Bicycle.Physics.BodyPose@,Bicycle.Physics.BodyPose@,Bicycle.Physics.BodyPose@,Bicycle.Physics.BodyPose@,System.Double,System.Double)
+  name.vb: New(BodyPose, BodyPose, BodyPose, BodyPose, Double, Double)
+  fullName: Bicycle.World.BikeSnapshot.BikeSnapshot(in Bicycle.Physics.BodyPose, in Bicycle.Physics.BodyPose, in Bicycle.Physics.BodyPose, in Bicycle.Physics.BodyPose, double, double)
+  fullName.vb: Bicycle.World.BikeSnapshot.New(Bicycle.Physics.BodyPose, Bicycle.Physics.BodyPose, Bicycle.Physics.BodyPose, Bicycle.Physics.BodyPose, Double, Double)
+  nameWithType: BikeSnapshot.BikeSnapshot(in BodyPose, in BodyPose, in BodyPose, in BodyPose, double, double)
+  nameWithType.vb: BikeSnapshot.New(BodyPose, BodyPose, BodyPose, BodyPose, Double, Double)
+- uid: Bicycle.World.BikeSnapshot.#ctor*
+  name: BikeSnapshot
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot__ctor_
+  commentId: Overload:Bicycle.World.BikeSnapshot.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.World.BikeSnapshot.BikeSnapshot
+  fullName.vb: Bicycle.World.BikeSnapshot.New
+  nameWithType: BikeSnapshot.BikeSnapshot
+  nameWithType.vb: BikeSnapshot.New
+- uid: Bicycle.World.BikeSnapshot.ForwardSpeed
+  name: ForwardSpeed
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot_ForwardSpeed
+  commentId: F:Bicycle.World.BikeSnapshot.ForwardSpeed
+  fullName: Bicycle.World.BikeSnapshot.ForwardSpeed
+  nameWithType: BikeSnapshot.ForwardSpeed
+- uid: Bicycle.World.BikeSnapshot.FrontFrame
+  name: FrontFrame
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot_FrontFrame
+  commentId: F:Bicycle.World.BikeSnapshot.FrontFrame
+  fullName: Bicycle.World.BikeSnapshot.FrontFrame
+  nameWithType: BikeSnapshot.FrontFrame
+- uid: Bicycle.World.BikeSnapshot.FrontWheel
+  name: FrontWheel
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot_FrontWheel
+  commentId: F:Bicycle.World.BikeSnapshot.FrontWheel
+  fullName: Bicycle.World.BikeSnapshot.FrontWheel
+  nameWithType: BikeSnapshot.FrontWheel
+- uid: Bicycle.World.BikeSnapshot.RearFrame
+  name: RearFrame
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot_RearFrame
+  commentId: F:Bicycle.World.BikeSnapshot.RearFrame
+  fullName: Bicycle.World.BikeSnapshot.RearFrame
+  nameWithType: BikeSnapshot.RearFrame
+- uid: Bicycle.World.BikeSnapshot.RearWheel
+  name: RearWheel
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot_RearWheel
+  commentId: F:Bicycle.World.BikeSnapshot.RearWheel
+  fullName: Bicycle.World.BikeSnapshot.RearWheel
+  nameWithType: BikeSnapshot.RearWheel
+- uid: Bicycle.World.BikeSnapshot.SimulationTime
+  name: SimulationTime
+  href: api/Bicycle.World.BikeSnapshot.html#Bicycle_World_BikeSnapshot_SimulationTime
+  commentId: F:Bicycle.World.BikeSnapshot.SimulationTime
+  fullName: Bicycle.World.BikeSnapshot.SimulationTime
+  nameWithType: BikeSnapshot.SimulationTime
+- uid: Bicycle.World.BikeWorld
+  name: BikeWorld
+  href: api/Bicycle.World.BikeWorld.html
+  commentId: T:Bicycle.World.BikeWorld
+  fullName: Bicycle.World.BikeWorld
+  nameWithType: BikeWorld
+- uid: Bicycle.World.BikeWorld.AddBike(Bicycle.World.BikeId,Bicycle.Physics.BicycleParameters@,Bicycle.World.FeelPreset@)
+  name: AddBike(BikeId, in BicycleParameters, in FeelPreset)
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_AddBike_Bicycle_World_BikeId_Bicycle_Physics_BicycleParameters__Bicycle_World_FeelPreset__
+  commentId: M:Bicycle.World.BikeWorld.AddBike(Bicycle.World.BikeId,Bicycle.Physics.BicycleParameters@,Bicycle.World.FeelPreset@)
+  name.vb: AddBike(BikeId, BicycleParameters, FeelPreset)
+  fullName: Bicycle.World.BikeWorld.AddBike(Bicycle.World.BikeId, in Bicycle.Physics.BicycleParameters, in Bicycle.World.FeelPreset)
+  fullName.vb: Bicycle.World.BikeWorld.AddBike(Bicycle.World.BikeId, Bicycle.Physics.BicycleParameters, Bicycle.World.FeelPreset)
+  nameWithType: BikeWorld.AddBike(BikeId, in BicycleParameters, in FeelPreset)
+  nameWithType.vb: BikeWorld.AddBike(BikeId, BicycleParameters, FeelPreset)
+- uid: Bicycle.World.BikeWorld.AddBike*
+  name: AddBike
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_AddBike_
+  commentId: Overload:Bicycle.World.BikeWorld.AddBike
+  isSpec: "True"
+  fullName: Bicycle.World.BikeWorld.AddBike
+  nameWithType: BikeWorld.AddBike
+- uid: Bicycle.World.BikeWorld.OnBikeBump
+  name: OnBikeBump
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeBump
+  commentId: E:Bicycle.World.BikeWorld.OnBikeBump
+  fullName: Bicycle.World.BikeWorld.OnBikeBump
+  nameWithType: BikeWorld.OnBikeBump
+- uid: Bicycle.World.BikeWorld.OnBikeReset
+  name: OnBikeReset
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeReset
+  commentId: E:Bicycle.World.BikeWorld.OnBikeReset
+  fullName: Bicycle.World.BikeWorld.OnBikeReset
+  nameWithType: BikeWorld.OnBikeReset
+- uid: Bicycle.World.BikeWorld.OnBikeSnapshot
+  name: OnBikeSnapshot
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeSnapshot
+  commentId: E:Bicycle.World.BikeWorld.OnBikeSnapshot
+  fullName: Bicycle.World.BikeWorld.OnBikeSnapshot
+  nameWithType: BikeWorld.OnBikeSnapshot
+- uid: Bicycle.World.BikeWorld.RemoveBike(Bicycle.World.BikeId)
+  name: RemoveBike(BikeId)
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_RemoveBike_Bicycle_World_BikeId_
+  commentId: M:Bicycle.World.BikeWorld.RemoveBike(Bicycle.World.BikeId)
+  fullName: Bicycle.World.BikeWorld.RemoveBike(Bicycle.World.BikeId)
+  nameWithType: BikeWorld.RemoveBike(BikeId)
+- uid: Bicycle.World.BikeWorld.RemoveBike*
+  name: RemoveBike
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_RemoveBike_
+  commentId: Overload:Bicycle.World.BikeWorld.RemoveBike
+  isSpec: "True"
+  fullName: Bicycle.World.BikeWorld.RemoveBike
+  nameWithType: BikeWorld.RemoveBike
+- uid: Bicycle.World.BikeWorld.Reset(Bicycle.World.BikeId)
+  name: Reset(BikeId)
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Reset_Bicycle_World_BikeId_
+  commentId: M:Bicycle.World.BikeWorld.Reset(Bicycle.World.BikeId)
+  fullName: Bicycle.World.BikeWorld.Reset(Bicycle.World.BikeId)
+  nameWithType: BikeWorld.Reset(BikeId)
+- uid: Bicycle.World.BikeWorld.Reset*
+  name: Reset
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Reset_
+  commentId: Overload:Bicycle.World.BikeWorld.Reset
+  isSpec: "True"
+  fullName: Bicycle.World.BikeWorld.Reset
+  nameWithType: BikeWorld.Reset
+- uid: Bicycle.World.BikeWorld.Step(System.Double,System.Collections.Generic.IReadOnlyDictionary{Bicycle.World.BikeId,Bicycle.Physics.ControlInputs})
+  name: Step(double, IReadOnlyDictionary<BikeId, ControlInputs>)
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Step_System_Double_System_Collections_Generic_IReadOnlyDictionary_Bicycle_World_BikeId_Bicycle_Physics_ControlInputs__
+  commentId: M:Bicycle.World.BikeWorld.Step(System.Double,System.Collections.Generic.IReadOnlyDictionary{Bicycle.World.BikeId,Bicycle.Physics.ControlInputs})
+  name.vb: Step(Double, IReadOnlyDictionary(Of BikeId, ControlInputs))
+  fullName: Bicycle.World.BikeWorld.Step(double, System.Collections.Generic.IReadOnlyDictionary<Bicycle.World.BikeId, Bicycle.Physics.ControlInputs>)
+  fullName.vb: Bicycle.World.BikeWorld.Step(Double, System.Collections.Generic.IReadOnlyDictionary(Of Bicycle.World.BikeId, Bicycle.Physics.ControlInputs))
+  nameWithType: BikeWorld.Step(double, IReadOnlyDictionary<BikeId, ControlInputs>)
+  nameWithType.vb: BikeWorld.Step(Double, IReadOnlyDictionary(Of BikeId, ControlInputs))
+- uid: Bicycle.World.BikeWorld.Step*
+  name: Step
+  href: api/Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Step_
+  commentId: Overload:Bicycle.World.BikeWorld.Step
+  isSpec: "True"
+  fullName: Bicycle.World.BikeWorld.Step
+  nameWithType: BikeWorld.Step
+- uid: Bicycle.World.BumpEvent
+  name: BumpEvent
+  href: api/Bicycle.World.BumpEvent.html
+  commentId: T:Bicycle.World.BumpEvent
+  fullName: Bicycle.World.BumpEvent
+  nameWithType: BumpEvent
+- uid: Bicycle.World.BumpEvent.#ctor(System.Int32,System.Int32)
+  name: BumpEvent(int, int)
+  href: api/Bicycle.World.BumpEvent.html#Bicycle_World_BumpEvent__ctor_System_Int32_System_Int32_
+  commentId: M:Bicycle.World.BumpEvent.#ctor(System.Int32,System.Int32)
+  name.vb: New(Integer, Integer)
+  fullName: Bicycle.World.BumpEvent.BumpEvent(int, int)
+  fullName.vb: Bicycle.World.BumpEvent.New(Integer, Integer)
+  nameWithType: BumpEvent.BumpEvent(int, int)
+  nameWithType.vb: BumpEvent.New(Integer, Integer)
+- uid: Bicycle.World.BumpEvent.#ctor*
+  name: BumpEvent
+  href: api/Bicycle.World.BumpEvent.html#Bicycle_World_BumpEvent__ctor_
+  commentId: Overload:Bicycle.World.BumpEvent.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.World.BumpEvent.BumpEvent
+  fullName.vb: Bicycle.World.BumpEvent.New
+  nameWithType: BumpEvent.BumpEvent
+  nameWithType.vb: BumpEvent.New
+- uid: Bicycle.World.BumpEvent.LeanSign
+  name: LeanSign
+  href: api/Bicycle.World.BumpEvent.html#Bicycle_World_BumpEvent_LeanSign
+  commentId: F:Bicycle.World.BumpEvent.LeanSign
+  fullName: Bicycle.World.BumpEvent.LeanSign
+  nameWithType: BumpEvent.LeanSign
+- uid: Bicycle.World.BumpEvent.Tier
+  name: Tier
+  href: api/Bicycle.World.BumpEvent.html#Bicycle_World_BumpEvent_Tier
+  commentId: F:Bicycle.World.BumpEvent.Tier
+  fullName: Bicycle.World.BumpEvent.Tier
+  nameWithType: BumpEvent.Tier
+- uid: Bicycle.World.Events
+  name: Bicycle.World.Events
+  href: api/Bicycle.World.Events.html
+  commentId: N:Bicycle.World.Events
+  fullName: Bicycle.World.Events
+  nameWithType: Bicycle.World.Events
+- uid: Bicycle.World.Events.BikeBumpEventArgs
+  name: BikeBumpEventArgs
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html
+  commentId: T:Bicycle.World.Events.BikeBumpEventArgs
+  fullName: Bicycle.World.Events.BikeBumpEventArgs
+  nameWithType: BikeBumpEventArgs
+- uid: Bicycle.World.Events.BikeBumpEventArgs.#ctor(Bicycle.World.BikeId,Bicycle.World.BumpEvent@)
+  name: BikeBumpEventArgs(BikeId, in BumpEvent)
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html#Bicycle_World_Events_BikeBumpEventArgs__ctor_Bicycle_World_BikeId_Bicycle_World_BumpEvent__
+  commentId: M:Bicycle.World.Events.BikeBumpEventArgs.#ctor(Bicycle.World.BikeId,Bicycle.World.BumpEvent@)
+  name.vb: New(BikeId, BumpEvent)
+  fullName: Bicycle.World.Events.BikeBumpEventArgs.BikeBumpEventArgs(Bicycle.World.BikeId, in Bicycle.World.BumpEvent)
+  fullName.vb: Bicycle.World.Events.BikeBumpEventArgs.New(Bicycle.World.BikeId, Bicycle.World.BumpEvent)
+  nameWithType: BikeBumpEventArgs.BikeBumpEventArgs(BikeId, in BumpEvent)
+  nameWithType.vb: BikeBumpEventArgs.New(BikeId, BumpEvent)
+- uid: Bicycle.World.Events.BikeBumpEventArgs.#ctor*
+  name: BikeBumpEventArgs
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html#Bicycle_World_Events_BikeBumpEventArgs__ctor_
+  commentId: Overload:Bicycle.World.Events.BikeBumpEventArgs.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.World.Events.BikeBumpEventArgs.BikeBumpEventArgs
+  fullName.vb: Bicycle.World.Events.BikeBumpEventArgs.New
+  nameWithType: BikeBumpEventArgs.BikeBumpEventArgs
+  nameWithType.vb: BikeBumpEventArgs.New
+- uid: Bicycle.World.Events.BikeBumpEventArgs.BikeId
+  name: BikeId
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html#Bicycle_World_Events_BikeBumpEventArgs_BikeId
+  commentId: P:Bicycle.World.Events.BikeBumpEventArgs.BikeId
+  fullName: Bicycle.World.Events.BikeBumpEventArgs.BikeId
+  nameWithType: BikeBumpEventArgs.BikeId
+- uid: Bicycle.World.Events.BikeBumpEventArgs.BikeId*
+  name: BikeId
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html#Bicycle_World_Events_BikeBumpEventArgs_BikeId_
+  commentId: Overload:Bicycle.World.Events.BikeBumpEventArgs.BikeId
+  isSpec: "True"
+  fullName: Bicycle.World.Events.BikeBumpEventArgs.BikeId
+  nameWithType: BikeBumpEventArgs.BikeId
+- uid: Bicycle.World.Events.BikeBumpEventArgs.Bump
+  name: Bump
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html#Bicycle_World_Events_BikeBumpEventArgs_Bump
+  commentId: P:Bicycle.World.Events.BikeBumpEventArgs.Bump
+  fullName: Bicycle.World.Events.BikeBumpEventArgs.Bump
+  nameWithType: BikeBumpEventArgs.Bump
+- uid: Bicycle.World.Events.BikeBumpEventArgs.Bump*
+  name: Bump
+  href: api/Bicycle.World.Events.BikeBumpEventArgs.html#Bicycle_World_Events_BikeBumpEventArgs_Bump_
+  commentId: Overload:Bicycle.World.Events.BikeBumpEventArgs.Bump
+  isSpec: "True"
+  fullName: Bicycle.World.Events.BikeBumpEventArgs.Bump
+  nameWithType: BikeBumpEventArgs.Bump
+- uid: Bicycle.World.Events.BikeResetEventArgs
+  name: BikeResetEventArgs
+  href: api/Bicycle.World.Events.BikeResetEventArgs.html
+  commentId: T:Bicycle.World.Events.BikeResetEventArgs
+  fullName: Bicycle.World.Events.BikeResetEventArgs
+  nameWithType: BikeResetEventArgs
+- uid: Bicycle.World.Events.BikeResetEventArgs.#ctor(Bicycle.World.BikeId)
+  name: BikeResetEventArgs(BikeId)
+  href: api/Bicycle.World.Events.BikeResetEventArgs.html#Bicycle_World_Events_BikeResetEventArgs__ctor_Bicycle_World_BikeId_
+  commentId: M:Bicycle.World.Events.BikeResetEventArgs.#ctor(Bicycle.World.BikeId)
+  name.vb: New(BikeId)
+  fullName: Bicycle.World.Events.BikeResetEventArgs.BikeResetEventArgs(Bicycle.World.BikeId)
+  fullName.vb: Bicycle.World.Events.BikeResetEventArgs.New(Bicycle.World.BikeId)
+  nameWithType: BikeResetEventArgs.BikeResetEventArgs(BikeId)
+  nameWithType.vb: BikeResetEventArgs.New(BikeId)
+- uid: Bicycle.World.Events.BikeResetEventArgs.#ctor*
+  name: BikeResetEventArgs
+  href: api/Bicycle.World.Events.BikeResetEventArgs.html#Bicycle_World_Events_BikeResetEventArgs__ctor_
+  commentId: Overload:Bicycle.World.Events.BikeResetEventArgs.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.World.Events.BikeResetEventArgs.BikeResetEventArgs
+  fullName.vb: Bicycle.World.Events.BikeResetEventArgs.New
+  nameWithType: BikeResetEventArgs.BikeResetEventArgs
+  nameWithType.vb: BikeResetEventArgs.New
+- uid: Bicycle.World.Events.BikeResetEventArgs.BikeId
+  name: BikeId
+  href: api/Bicycle.World.Events.BikeResetEventArgs.html#Bicycle_World_Events_BikeResetEventArgs_BikeId
+  commentId: P:Bicycle.World.Events.BikeResetEventArgs.BikeId
+  fullName: Bicycle.World.Events.BikeResetEventArgs.BikeId
+  nameWithType: BikeResetEventArgs.BikeId
+- uid: Bicycle.World.Events.BikeResetEventArgs.BikeId*
+  name: BikeId
+  href: api/Bicycle.World.Events.BikeResetEventArgs.html#Bicycle_World_Events_BikeResetEventArgs_BikeId_
+  commentId: Overload:Bicycle.World.Events.BikeResetEventArgs.BikeId
+  isSpec: "True"
+  fullName: Bicycle.World.Events.BikeResetEventArgs.BikeId
+  nameWithType: BikeResetEventArgs.BikeId
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs
+  name: BikeSnapshotEventArgs
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html
+  commentId: T:Bicycle.World.Events.BikeSnapshotEventArgs
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs
+  nameWithType: BikeSnapshotEventArgs
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs.BikeId
+  name: BikeId
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html#Bicycle_World_Events_BikeSnapshotEventArgs_BikeId
+  commentId: P:Bicycle.World.Events.BikeSnapshotEventArgs.BikeId
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs.BikeId
+  nameWithType: BikeSnapshotEventArgs.BikeId
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs.BikeId*
+  name: BikeId
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html#Bicycle_World_Events_BikeSnapshotEventArgs_BikeId_
+  commentId: Overload:Bicycle.World.Events.BikeSnapshotEventArgs.BikeId
+  isSpec: "True"
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs.BikeId
+  nameWithType: BikeSnapshotEventArgs.BikeId
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs.Current
+  name: Current
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html#Bicycle_World_Events_BikeSnapshotEventArgs_Current
+  commentId: P:Bicycle.World.Events.BikeSnapshotEventArgs.Current
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs.Current
+  nameWithType: BikeSnapshotEventArgs.Current
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs.Current*
+  name: Current
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html#Bicycle_World_Events_BikeSnapshotEventArgs_Current_
+  commentId: Overload:Bicycle.World.Events.BikeSnapshotEventArgs.Current
+  isSpec: "True"
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs.Current
+  nameWithType: BikeSnapshotEventArgs.Current
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs.Previous
+  name: Previous
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html#Bicycle_World_Events_BikeSnapshotEventArgs_Previous
+  commentId: P:Bicycle.World.Events.BikeSnapshotEventArgs.Previous
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs.Previous
+  nameWithType: BikeSnapshotEventArgs.Previous
+- uid: Bicycle.World.Events.BikeSnapshotEventArgs.Previous*
+  name: Previous
+  href: api/Bicycle.World.Events.BikeSnapshotEventArgs.html#Bicycle_World_Events_BikeSnapshotEventArgs_Previous_
+  commentId: Overload:Bicycle.World.Events.BikeSnapshotEventArgs.Previous
+  isSpec: "True"
+  fullName: Bicycle.World.Events.BikeSnapshotEventArgs.Previous
+  nameWithType: BikeSnapshotEventArgs.Previous
+- uid: Bicycle.World.FeelPreset
+  name: FeelPreset
+  href: api/Bicycle.World.FeelPreset.html
+  commentId: T:Bicycle.World.FeelPreset
+  fullName: Bicycle.World.FeelPreset
+  nameWithType: FeelPreset
+- uid: Bicycle.World.FeelPreset.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single)
+  name: FeelPreset(float, float, float, float, float)
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset__ctor_System_Single_System_Single_System_Single_System_Single_System_Single_
+  commentId: M:Bicycle.World.FeelPreset.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single)
+  name.vb: New(Single, Single, Single, Single, Single)
+  fullName: Bicycle.World.FeelPreset.FeelPreset(float, float, float, float, float)
+  fullName.vb: Bicycle.World.FeelPreset.New(Single, Single, Single, Single, Single)
+  nameWithType: FeelPreset.FeelPreset(float, float, float, float, float)
+  nameWithType.vb: FeelPreset.New(Single, Single, Single, Single, Single)
+- uid: Bicycle.World.FeelPreset.#ctor*
+  name: FeelPreset
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset__ctor_
+  commentId: Overload:Bicycle.World.FeelPreset.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: Bicycle.World.FeelPreset.FeelPreset
+  fullName.vb: Bicycle.World.FeelPreset.New
+  nameWithType: FeelPreset.FeelPreset
+  nameWithType.vb: FeelPreset.New
+- uid: Bicycle.World.FeelPreset.AutoBalanceLeanGain
+  name: AutoBalanceLeanGain
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_AutoBalanceLeanGain
+  commentId: F:Bicycle.World.FeelPreset.AutoBalanceLeanGain
+  fullName: Bicycle.World.FeelPreset.AutoBalanceLeanGain
+  nameWithType: FeelPreset.AutoBalanceLeanGain
+- uid: Bicycle.World.FeelPreset.BumpDecayPerSecond
+  name: BumpDecayPerSecond
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_BumpDecayPerSecond
+  commentId: F:Bicycle.World.FeelPreset.BumpDecayPerSecond
+  fullName: Bicycle.World.FeelPreset.BumpDecayPerSecond
+  nameWithType: FeelPreset.BumpDecayPerSecond
+- uid: Bicycle.World.FeelPreset.Default
+  name: Default
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_Default
+  commentId: P:Bicycle.World.FeelPreset.Default
+  fullName: Bicycle.World.FeelPreset.Default
+  nameWithType: FeelPreset.Default
+- uid: Bicycle.World.FeelPreset.Default*
+  name: Default
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_Default_
+  commentId: Overload:Bicycle.World.FeelPreset.Default
+  isSpec: "True"
+  fullName: Bicycle.World.FeelPreset.Default
+  nameWithType: FeelPreset.Default
+- uid: Bicycle.World.FeelPreset.DriveTorqueScale
+  name: DriveTorqueScale
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_DriveTorqueScale
+  commentId: F:Bicycle.World.FeelPreset.DriveTorqueScale
+  fullName: Bicycle.World.FeelPreset.DriveTorqueScale
+  nameWithType: FeelPreset.DriveTorqueScale
+- uid: Bicycle.World.FeelPreset.RiderLeanTorqueScale
+  name: RiderLeanTorqueScale
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_RiderLeanTorqueScale
+  commentId: F:Bicycle.World.FeelPreset.RiderLeanTorqueScale
+  fullName: Bicycle.World.FeelPreset.RiderLeanTorqueScale
+  nameWithType: FeelPreset.RiderLeanTorqueScale
+- uid: Bicycle.World.FeelPreset.SteerTorqueScale
+  name: SteerTorqueScale
+  href: api/Bicycle.World.FeelPreset.html#Bicycle_World_FeelPreset_SteerTorqueScale
+  commentId: F:Bicycle.World.FeelPreset.SteerTorqueScale
+  fullName: Bicycle.World.FeelPreset.SteerTorqueScale
+  nameWithType: FeelPreset.SteerTorqueScale

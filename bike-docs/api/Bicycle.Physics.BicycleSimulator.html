@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BicycleSimulator | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BicycleSimulator | Bike — Whipple bicycle simulator + Unity game ">
+      
+      <meta name="description" content="Integrates the full nonlinear Whipple bicycle equations of motion for a single bike. Allocation-free on the hot path — all intermediate storage is stack-allocated or pre-allocated at construction time. Typical usage: var sim = new BicycleSimulator(BicycleParameters.GameDefault); sim.Step(0.004, new ControlInputs { DriveTorque = -3.0 }); ref readonly var snap = ref sim.CurrentSnapshot(); // snap.RearFrame.Position gives the rear-frame centre-of-mass in world space (Moore frame)">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Bicycle.Physics.BicycleSimulator">
+
+
+
+  <h1 id="Bicycle_Physics_BicycleSimulator" data-uid="Bicycle.Physics.BicycleSimulator" class="text-break">
+Class BicycleSimulator  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Bicycle.html">Bicycle</a>.<a class="xref" href="Bicycle.Physics.html">Physics</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Bicycle.Physics.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Integrates the full nonlinear Whipple bicycle equations of motion for a single bike.
+Allocation-free on the hot path — all intermediate storage is stack-allocated or
+pre-allocated at construction time.</p>
+<p>Typical usage:</p>
+<pre><code class="lang-csharp">var sim = new BicycleSimulator(BicycleParameters.GameDefault);
+sim.Step(0.004, new ControlInputs { DriveTorque = -3.0 });
+ref readonly var snap = ref sim.CurrentSnapshot();
+// snap.RearFrame.Position gives the rear-frame centre-of-mass in world space (Moore frame)</code></pre>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class BicycleSimulator</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">BicycleSimulator</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Bicycle_Physics_BicycleSimulator__ctor_" data-uid="Bicycle.Physics.BicycleSimulator.#ctor*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator__ctor_Bicycle_Physics_BicycleParameters__" data-uid="Bicycle.Physics.BicycleSimulator.#ctor(Bicycle.Physics.BicycleParameters@)">
+  BicycleSimulator(in BicycleParameters)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BicycleSimulator(in BicycleParameters parameters)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parameters</code> <a class="xref" href="Bicycle.Physics.BicycleParameters.html">BicycleParameters</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_Parameters_" data-uid="Bicycle.Physics.BicycleSimulator.Parameters*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_Parameters" data-uid="Bicycle.Physics.BicycleSimulator.Parameters">
+  Parameters
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the physics parameters this simulator was constructed with.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ref readonly BicycleParameters Parameters { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.BicycleParameters.html">BicycleParameters</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_State_" data-uid="Bicycle.Physics.BicycleSimulator.State*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_State" data-uid="Bicycle.Physics.BicycleSimulator.State">
+  State
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the current integrator state by reference (no copy).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ref readonly BicycleState State { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.BicycleState.html">BicycleState</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_AddRearWheelSpinDelta_" data-uid="Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_AddRearWheelSpinDelta_System_Double_" data-uid="Bicycle.Physics.BicycleSimulator.AddRearWheelSpinDelta(System.Double)">
+  AddRearWheelSpinDelta(double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>One-shot external impulse: add <code class="paramref">deltaRadPerSec</code> to the rear-wheel
+spin rate. Used by game-side bump physics to bleed forward speed when the bike
+brushes an obstacle. NOT used inside the integrator; consumers call this between
+Step() calls. Convention: RearWheelSpinRate is negative for forward motion, so
+positive delta = slowdown.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddRearWheelSpinDelta(double deltaRadPerSec)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>deltaRadPerSec</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_ClampSteer_" data-uid="Bicycle.Physics.BicycleSimulator.ClampSteer*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_ClampSteer_System_Double_" data-uid="Bicycle.Physics.BicycleSimulator.ClampSteer(System.Double)">
+  ClampSteer(double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clamps Steer to ±maxAbsRadians and zeroes SteerRate only when the wheel
+is being driven further into the limit. One-sided so the wheel can
+still swing back toward neutral once it hits the wall. Intended to be
+called once per step, after Step(), for game-feel steer-stop behavior.
+Like rolling friction, this is applied OUTSIDE the integrator on purpose.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClampSteer(double maxAbsRadians)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>maxAbsRadians</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_CurrentSnapshot_" data-uid="Bicycle.Physics.BicycleSimulator.CurrentSnapshot*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_CurrentSnapshot" data-uid="Bicycle.Physics.BicycleSimulator.CurrentSnapshot">
+  CurrentSnapshot()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the world-space poses of all four rigid bodies (Moore frame, +Z down) for the
+current state. The snapshot is cached and recomputed lazily only when the state has
+changed since the last call. Returns a reference to avoid struct copies on the hot path.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ref readonly BicycleSnapshot CurrentSnapshot()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Bicycle.Physics.BicycleSnapshot.html">BicycleSnapshot</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_Reset_" data-uid="Bicycle.Physics.BicycleSimulator.Reset*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_Reset_Bicycle_Physics_BicycleState__" data-uid="Bicycle.Physics.BicycleSimulator.Reset(Bicycle.Physics.BicycleState@)">
+  Reset(in BicycleState)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resets the simulator to the given state, clearing the snapshot cache.
+Call this after constructing <a class="xref" href="Bicycle.Physics.BicycleState.html#Bicycle_Physics_BicycleState_UprightAtSpeed_System_Double_Bicycle_Physics_BicycleParameters__">UprightAtSpeed(double, in BicycleParameters)</a> to apply
+the Roll and Pitch perturbations required to avoid the coordinate singularity
+(gotchas #3 and #8). <code>BikeWorld.AddBike</code> in the <code>Bicycle.World</code> package
+does this automatically — prefer it over calling Reset directly in game code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reset(in BicycleState initialState)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>initialState</code> <a class="xref" href="Bicycle.Physics.BicycleState.html">BicycleState</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Bicycle_Physics_BicycleSimulator_Step_" data-uid="Bicycle.Physics.BicycleSimulator.Step*"></a>
+
+  <h3 id="Bicycle_Physics_BicycleSimulator_Step_System_Double_Bicycle_Physics_ControlInputs__System_Double_" data-uid="Bicycle.Physics.BicycleSimulator.Step(System.Double,Bicycle.Physics.ControlInputs@,System.Double)">
+  Step(double, in ControlInputs, double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Advances the simulation by <code class="paramref">dt</code> seconds using a single RK4 step.
+Hot path — allocation-free. Callers should use <code class="paramref">dt</code> = 0.004 (250 Hz).</p>
+<p><code class="paramref">rollingFrictionCoefficient</code> applies a post-step linear decay to the
+rear-wheel spin rate: <code>spinRate *= (1 - k * dt)</code>. Defaults to 0 (frictionless) so
+existing callers see unchanged behavior. Applied outside the integrator to preserve the
+Meijaard eigenvalue benchmark.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Step(double dt, in ControlInputs inputs, double rollingFrictionCoefficient = 0)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+    <dt><code>inputs</code> <a class="xref" href="Bicycle.Physics.ControlInputs.html">ControlInputs</a></dt>
+    <dd></dd>
+    <dt><code>rollingFrictionCoefficient</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

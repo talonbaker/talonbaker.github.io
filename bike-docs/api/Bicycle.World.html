@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace Bicycle.World | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace Bicycle.World | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Bicycle.World">
+
+  <h1 id="Bicycle_World" data-uid="Bicycle.World" class="text-break">Namespace Bicycle.World</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.World.BikeWorld.html">BikeWorld</a></dt>
+      <dd><p>Orchestrates N independent bike simulations behind a clean event-driven
+contract. Unity-side code calls <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_Step_System_Double_System_Collections_Generic_IReadOnlyDictionary_Bicycle_World_BikeId_Bicycle_Physics_ControlInputs__">Step(double, IReadOnlyDictionary&lt;BikeId, ControlInputs&gt;)</a> once per fixed update,
+then reacts to <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeSnapshot">OnBikeSnapshot</a>, <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeBump">OnBikeBump</a>, and
+<a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeReset">OnBikeReset</a> events on the main thread.</p>
+<p>Hard rules (see spec §6.1):</p>
+<ol>
+<li>Only one MonoBehaviour (<code>BikeWorldRunner</code>) ever holds a <a class="xref" href="Bicycle.World.BikeWorld.html">BikeWorld</a> reference.</li>
+<li>No Unity code calls <a class="xref" href="Bicycle.Physics.BicycleSimulator.html#Bicycle_Physics_BicycleSimulator_Step_System_Double_Bicycle_Physics_ControlInputs__System_Double_">Step(double, in ControlInputs, double)</a> directly.</li>
+<li>Every method takes a <a class="xref" href="Bicycle.World.BikeId.html">BikeId</a> so N-bike operation is supported from day 1.</li>
+</ol>
+<p>Event causal ordering (spec §6.1):</p>
+<ul>
+<li>Snapshot events fire AFTER all simulators have stepped (consistent world-state slice).</li>
+<li>Bump events fire immediately when injected (per-bike causal ordering).</li>
+</ul>
+<p>Allocation-free design:</p>
+<ul>
+<li><a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeSnapshot">OnBikeSnapshot</a> args are cached per-bike and updated in-place.</li>
+<li><a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeBump">OnBikeBump</a> and <a class="xref" href="Bicycle.World.BikeWorld.html#Bicycle_World_BikeWorld_OnBikeReset">OnBikeReset</a> args are always newly allocated
+(rare events, not on the hot path).</li>
+<li>The step snapshot buffer is a List whose backing array is grown on AddBike and
+never shrinks, so no per-step heap allocation occurs.</li>
+</ul>
+</dd>
+    </dl>
+    <h3 id="structs">
+Structs
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.World.BikeId.html">BikeId</a></dt>
+      <dd><p>Stable identity for a single bike within a <a class="xref" href="Bicycle.World.BikeWorld.html">BikeWorld</a>.
+Wraps an <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/integral-numeric-types">int</a>; two <a class="xref" href="Bicycle.World.BikeId.html">BikeId</a> values are equal iff
+their underlying integers are equal.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.World.BikeSnapshot.html">BikeSnapshot</a></dt>
+      <dd><p>World-space poses of all four bicycle bodies for a single bike at a single
+point in simulation time. This is the per-bike equivalent of
+<a class="xref" href="Bicycle.Physics.BicycleSnapshot.html">BicycleSnapshot</a> extended to carry identity information.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.World.BumpEvent.html">BumpEvent</a></dt>
+      <dd><p>Describes a single bump interaction between a bike and an obstacle.
+<a class="xref" href="Bicycle.World.BumpEvent.html#Bicycle_World_BumpEvent_Tier">Tier</a> classifies the bump intensity (e.g. 1 = small tap, 2 = medium, 3 = hard).
+<a class="xref" href="Bicycle.World.BumpEvent.html#Bicycle_World_BumpEvent_LeanSign">LeanSign</a> indicates which side the bike was leaning toward on impact:
++1 = leaning right, -1 = leaning left.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Bicycle.World.FeelPreset.html">FeelPreset</a></dt>
+      <dd><p>Pure-C# POD that describes all tunable parameters controlling how a bike
+&quot;feels&quot; to the rider. This struct is constructed directly in xUnit tests and
+converted from a Unity ScriptableObject (<code>BikeFeelPresetAsset</code>) in the
+presentation layer.</p>
+<p>Placeholder set of 5 fields for v2.0; the full ~30-field surface is introduced
+incrementally in v2.9 as feel-tuning progresses.</p>
+<p>Polarity conventions match the gotcha documentation:
+SteerTorqueScale  negative = steer-right on right-arrow (gotcha #9)
+DriveTorqueScale  negative = accelerate on W (gotcha #4)</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

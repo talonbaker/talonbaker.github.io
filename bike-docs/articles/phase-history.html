@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Phase History | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Phase History | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="phase-history">Phase History</h1>
+
+<p>A chronological record of completed milestones with what they shipped and where they live.</p>
+<hr>
+<h2 id="phase-1-physics-core">Phase 1: Physics Core</h2>
+<p><strong>Status:</strong> Done — merged to <code>main</code>
+<strong>GitHub:</strong> [Epic closed — see PR history for individual stories]</p>
+<p><strong>What shipped:</strong></p>
+<ul>
+<li><code>Bicycle.Physics</code> library — pure C#, .NET Standard 2.1, allocation-free</li>
+<li><code>BicycleSimulator</code> — single-bike integrator with RK4 at 250 Hz</li>
+<li><code>BicycleParameters</code> — POD geometry + inertia with <code>MeijaardBenchmark</code> and <code>GameDefault</code> presets</li>
+<li><code>BicycleState</code>, <code>BicycleSnapshot</code>, <code>BodyPose</code>, <code>ControlInputs</code> — full public API surface</li>
+<li><code>ParametersJson</code> — Save/Load helpers</li>
+<li><code>WhippleEOM.cs</code> + <code>WhippleKinematics.cs</code> — generated from SymPy + PyDy + Kane's method</li>
+<li>42 xUnit tests: eigenvalue benchmark, allocation-free gate, determinism gate, behavioral scenarios</li>
+</ul>
+<p><strong>Key results:</strong></p>
+<ul>
+<li>Eigenvalues match Meijaard 2007 Table 2 to <strong>6 decimal places</strong></li>
+<li>Zero managed-heap allocations in <code>Step()</code> — CI-gated</li>
+<li>~3 µs/step on i7-13700K</li>
+</ul>
+<p><strong>Spec:</strong> <code>docs/superpowers/specs/2026-05-09-bicycle-physics-core-design.md</code></p>
+<hr>
+<h2 id="phase-2-unity-mvp">Phase 2: Unity MVP</h2>
+<p><strong>Status:</strong> Done — merged to <code>main</code>
+<strong>GitHub:</strong> [feat/bicycle-unity-integration]</p>
+<p><strong>What shipped:</strong></p>
+<ul>
+<li>Unity 2022.3 LTS integration — <code>Bicycle.Physics</code> consumed as a local Unity package</li>
+<li><code>Sandbox.unity</code> scene — color-coded primitive bicycle, press Play and ride</li>
+<li><code>BicycleController</code> — FixedUpdate tick, 250 Hz physics, interpolated rendering in Update</li>
+<li><code>DebugInputProvider</code> — WASD/arrow keyboard controls with documented sign-convention workarounds</li>
+<li><code>BicycleVisualizer</code> — four-body pose-driven primitive geometry</li>
+<li><code>ChaseCamera</code> — smooth follow camera</li>
+<li>HUD — forward speed, roll, steer debug overlay</li>
+<li>Auto-reset on fall (|Roll| &gt; 1 rad or NaN)</li>
+<li><code>BicycleRagdoll</code> — visible fall cinematic (rider limbs via CharacterJoint chain)</li>
+<li>Fixed yaw sign bug in kinematics (Gotcha 15)</li>
+</ul>
+<p><strong>Spec:</strong> <code>docs/superpowers/specs/2026-05-10-bicycle-unity-integration-design.md</code></p>
+<hr>
+<h2 id="phase-25-deskcourse-mvp">Phase 2.5: DeskCourse MVP</h2>
+<p><strong>Status:</strong> Done — merged to <code>main</code>
+<strong>GitHub:</strong> [feat/desk-course-mvp]</p>
+<p><strong>What shipped:</strong></p>
+<ul>
+<li><code>DeskCourse.unity</code> — first playable level: two desks + ruler bridge obstacle layout</li>
+<li>Bump-and-recover obstacle physics (<code>ObstacleBumpDispatcher</code>, <code>BumpProfile</code> ScriptableObject)</li>
+<li>Time trial loop with finish detection</li>
+<li>Cloudflare-backed leaderboard (rate-limited submission, offline fallback &quot;saved locally&quot; banner)</li>
+<li>15 additional xUnit tests for T1–T7 (57 total)</li>
+<li>Keyboard polish pass</li>
+</ul>
+<p><strong>Spec:</strong> <code>docs/superpowers/specs/2026-05-17-desk-course-mvp-design.md</code>
+<strong>Plan:</strong> <code>docs/superpowers/plans/2026-05-17-desk-course-mvp.md</code></p>
+<hr>
+<h2 id="phase-26-v20-walking-skeleton-unity-v2-rebuild">Phase 2.6: v2.0 Walking Skeleton (Unity v2 rebuild)</h2>
+<p><strong>Status:</strong> Done — merged to <code>main</code>
+<strong>GitHub:</strong> [Epic #42 — 10 Stories merged]</p>
+<p><strong>What shipped:</strong></p>
+<ul>
+<li><code>unity-v2/</code> — greenfield Unity 6 LTS + URP project alongside legacy <code>unity/</code></li>
+<li><code>Bicycle.World</code> — new pure-C# library: <code>BikeWorld</code> N-bike orchestrator, <code>BikeId</code>, <code>BikeSnapshot</code>, <code>BumpEvent</code>, <code>FeelPreset</code>, <code>Events/</code></li>
+<li>5 xUnit tests for <code>Bicycle.World</code></li>
+<li><code>BikeWorldRunner</code> MonoBehaviour — the only Unity component that touches <code>BikeWorld</code></li>
+<li><code>PhysicsBridge</code> — Moore-frame ↔ Unity coordinate conversion with EditMode round-trip tests</li>
+<li><code>BikeVisualizer</code> — primitive-body renderer, subscribes to <code>OnBikeSnapshot</code></li>
+<li><code>KeyboardInputSource</code> — keyboard input with <code>IBikeInputSource</code> contract</li>
+<li><code>SandboxSceneBuilder</code> — Editor script to build <code>Sandbox.unity</code> headlessly</li>
+<li><code>Sandbox.unity</code> — walkable skeleton scene with one bike</li>
+<li>22 EditMode tests + 1 PlayMode test</li>
+<li><code>BikeConfig</code> ScriptableObject wiring for bike parameters</li>
+</ul>
+<p><strong>Key gotchas introduced:</strong> See <a href="gotchas.html#phase-26-gotchas-unity-v2-rebuild">Gotchas — Phase 2.6</a> for gotchas 16–21 introduced during this phase.</p>
+<p><strong>Spec:</strong> <code>docs/superpowers/specs/2026-05-19-unity-v2-rebuild-design.md</code></p>
+<hr>
+<h2 id="v201-sandbox-wiring-patch">v2.0.1: Sandbox Wiring Patch</h2>
+<p><strong>Status:</strong> Done — merged to <code>main</code>
+<strong>GitHub:</strong> <a href="https://github.com/talonbaker/bike/pull/68">PR #68</a></p>
+<p><strong>What shipped:</strong></p>
+<ul>
+<li><code>BikeConfig</code> MonoBehaviour wired in <code>Sandbox.unity</code></li>
+<li><code>KeyboardInputSource</code> null fallback documented (Gotcha 21)</li>
+<li>Minor test fixture cleanup</li>
+</ul>
+<hr>
+<h2 id="v21-mobile--webgl-in-progress">v2.1: Mobile / WebGL (in progress)</h2>
+<p><strong>Status:</strong> In progress
+<strong>GitHub:</strong> <a href="https://github.com/talonbaker/bike/issues/69">Epic #69</a></p>
+<p><strong>Planned work:</strong></p>
+<ul>
+<li>WebGL build target enabled</li>
+<li>Mobile touch input source</li>
+<li>Performance profiling pass for WebGL budget</li>
+<li>Deployment to talonbaker.github.io/bike</li>
+</ul>
+<hr>
+<h2 id="phase-50-wire-format--multiplayer-foundation-design">Phase 5.0: Wire format / Multiplayer Foundation (design)</h2>
+<p><strong>Status:</strong> DRAFT
+<strong>GitHub:</strong> <a href="https://github.com/talonbaker/bike/pull/8">PR #8 (DRAFT)</a> on <code>feat/multiplayer-foundation-1</code></p>
+<p><strong>What's locked:</strong></p>
+<ul>
+<li><code>StateWire</code> 89 B / <code>ControlInputsWire</code> 25 B / <code>SnapshotWire</code> 433 B</li>
+<li>Server-authoritative + client prediction + reconciliation, 8-player target, 30 Hz snapshot</li>
+<li>LiteNetLib transport</li>
+<li>Bike-vs-bike collision pass-through for v1</li>
+</ul>
+<p><strong>Spec:</strong> <code>docs/superpowers/specs/2026-05-16-networked-multiplayer-design.md</code>
+<strong>Plan:</strong> <code>docs/superpowers/plans/2026-05-16-networked-multiplayer.md</code></p>
+<p>Gated on v2.1 Epic landing.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

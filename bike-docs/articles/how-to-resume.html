@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>How to Resume | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="How to Resume | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="how-to-resume">How to Resume</h1>
+
+<p>This page explains how to pick up the project from a clean checkout on any machine.</p>
+<h2 id="step-0-sanity-check">Step 0: Sanity check</h2>
+<pre><code class="lang-powershell">git status
+git log --oneline -5
+gh pr list --state open
+</code></pre>
+<p>Confirm you're on the right branch and that the baseline tests still pass before touching anything.</p>
+<h2 id="picking-up-phase-1-physics-core">Picking up Phase 1 (Physics core)</h2>
+<p>Phase 1 is complete and merged. No active work. If you need to verify the baseline:</p>
+<pre><code class="lang-powershell">dotnet test src/Bicycle.Physics.Tests    # expect 67/67 passing
+</code></pre>
+<p>If the eigenvalue gate fails, see <a href="gotchas.html#phase-1-gotchas-physics-derivation">Gotchas 1-6</a> — inertia tensor rotation direction is the most likely culprit.</p>
+<h2 id="picking-up-phase-2--25-legacy-unity">Picking up Phase 2 / 2.5 (legacy <code>unity/</code>)</h2>
+<p>Phase 2 and 2.5 are complete and merged to main. The legacy <code>unity/</code> project is reference-only.</p>
+<ol>
+<li>Open <code>unity/</code> in Unity Hub with <strong>Unity 2022.3.50f1</strong> (pinned in <code>unity/ProjectSettings/ProjectVersion.txt</code>).</li>
+<li>Open <code>Assets/Bicycle/Scenes/DeskCourse.unity</code> for the playable level, or <code>Sandbox.unity</code> for the feel test bench.</li>
+<li>Press Play.</li>
+<li>Verify baseline: <code>dotnet test src/Bicycle.Physics.Tests</code> must report 67/67 passing.</li>
+</ol>
+<p>If the <strong>MCP for Unity</strong> package is installed (<code>com.coplaydev.unity-mcp</code> in <code>unity/Packages/manifest.json</code>), you can drive the Editor remotely via MCP tools. Set the active instance with <code>set_active_instance</code> and check <code>mcpforunity://editor/state</code> for readiness. Note: <code>Debug.Log</code> output does NOT appear in <code>read_console</code> — tail <code>~/AppData/Local/Unity/Editor/Editor.log</code> instead.</p>
+<h2 id="picking-up-phase-26-unity-v2">Picking up Phase 2.6 (unity-v2)</h2>
+<p>The v2.0 Walking Skeleton is merged. Open PRs are the active work surface.</p>
+<pre><code class="lang-powershell">gh pr list --state open                   # current PRs
+gh issue list --state open                # current Stories / Decisions
+git checkout main
+git pull
+</code></pre>
+<ol>
+<li>Read the design spec: <code>docs/superpowers/specs/2026-05-19-unity-v2-rebuild-design.md</code></li>
+<li>Open <code>unity-v2/</code> in Unity Hub with <strong>Unity 6000.0.40f1</strong> (LTS, pinned in <code>unity-v2/ProjectSettings/ProjectVersion.txt</code>).</li>
+<li>Open <code>Assets/Bicycle/Scenes/Sandbox.unity</code> and press Play. The bike should initialize and sit at upright.</li>
+<li>Unity batchmode verification: <code>&amp; &quot;C:\Program Files\Unity\Hub\Editor\6000.3.15f1\Editor\Unity.exe&quot; -batchmode -nographics -projectPath unity-v2 -runTests -testPlatform EditMode -testResults out.xml -logFile -</code> (see <a href="gotchas.html#gotcha-16-do-not-pass--quit-to-unity-batchmode-when-using--runtests">Gotcha 16</a> — no <code>-quit</code> with <code>-runTests</code>).</li>
+<li>Restore <code>ProjectVersion.txt</code> before committing: <code>git restore unity-v2/ProjectSettings/ProjectVersion.txt</code> (see <a href="gotchas.html#gotcha-17-local-unity-6000315f1-rewrites-projectversiontxt-on-every-project-open">Gotcha 17</a>).</li>
+</ol>
+<h2 id="picking-up-feel-iteration-phase-3-territory">Picking up feel iteration (Phase 3 territory)</h2>
+<p>The Phase 2 + 2.5 + 2.6 baseline is on main. Open PRs are the active work surface for feel-tuning.</p>
+<p>Before starting new feel work:</p>
+<ol>
+<li>Check <code>gh pr list --state open</code> — confirm no in-flight PR already covers the same area.</li>
+<li>Play-test the current baseline to identify the actual feel bottleneck.</li>
+<li>Use the <code>superpowers:brainstorming</code> skill for any new feel-design work.</li>
+</ol>
+<p>The current <code>FeelPreset.Default</code> values (<code>SteerTorqueScale = -1.5</code>, <code>DriveTorqueScale = -3.0</code>) are the empirically tuned baseline from Phase 2. Diverge from them only after a play-test identifies a specific problem.</p>
+<h2 id="picking-up-multiplayer-phase-5">Picking up multiplayer (Phase 5)</h2>
+<p>Phase 5 design is locked in <code>docs/superpowers/specs/2026-05-16-networked-multiplayer-design.md</code>. Implementation is gated on:</p>
+<ul>
+<li>v2.1 Epic landing (active)</li>
+<li>Phase 5.0 wire-format PR merging (DRAFT PR #8 on <code>feat/multiplayer-foundation-1</code>)</li>
+</ul>
+<p>Do not start Phase 5 implementation until those gates clear.</p>
+<h2 id="just-running-existing-work">Just running existing work</h2>
+<pre><code class="lang-powershell"># Build everything
+dotnet build Bike.sln
+
+# Physics tests (expect 67/67)
+dotnet test src/Bicycle.Physics.Tests
+
+# World tests (expect 5/5)
+dotnet test src/Bicycle.World.Tests
+
+# Perf baseline (~1 minute)
+dotnet run -c Release --project src/Bicycle.Physics.Benchmarks
+
+# Replay a recorded input trace to CSV
+dotnet run --project src/Bicycle.Physics.PlaybackHarness -- inputs.json out.csv
+
+# Build the docs site
+docfx docs/docfx/docfx.json
+
+# Serve the docs locally (opens at http://localhost:8080)
+docfx docs/docfx/docfx.json --serve
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

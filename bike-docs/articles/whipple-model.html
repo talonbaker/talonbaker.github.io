@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Whipple Bicycle Model | Bike — Whipple bicycle simulator + Unity game </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Whipple Bicycle Model | Bike — Whipple bicycle simulator + Unity game ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Bike">
+            Bike
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="whipple-bicycle-model">Whipple Bicycle Model</h1>
+
+<p>The physics core implements the canonical <strong>Whipple bicycle model</strong> — the same model used in the Meijaard et al. 2007 benchmark paper and Moore's 2012 PhD thesis. Our implementation matches the published eigenvalues to <strong>six decimal places</strong>.</p>
+<h2 id="the-four-rigid-bodies">The four rigid bodies</h2>
+<p>The bicycle is modeled as four rigid bodies:</p>
+<pre><code>                + steer axis (tilted by lambda)
+               /
+              /
++---------FrontFrame---------+
+|           |                |
+RearFrame   |         FrontWheel
+|           |                |
+RearWheel   *                *
+*           |                |
+|   ========+================+====  ground (z = 0)
+            |                |
+</code></pre>
+<ul>
+<li><strong>RearFrame</strong> — the rear part of the frame + rider (rider mass absorbed into RearFrame)</li>
+<li><strong>RearWheel</strong> — axisymmetric wheel, rolls without slipping on flat ground</li>
+<li><strong>FrontFrame</strong> — fork + handlebars + front mass</li>
+<li><strong>FrontWheel</strong> — axisymmetric wheel, rolls without slipping on flat ground</li>
+</ul>
+<p>The two frames are connected by a revolute joint about the steer axis (tilted by the steer-axis tilt angle lambda from world Z). Each wheel is a revolute joint about its hub.</p>
+<h2 id="degrees-of-freedom">Degrees of freedom</h2>
+<p>After applying:</p>
+<ul>
+<li>1 holonomic constraint (front wheel contact point lies on the ground plane)</li>
+<li>4 nonholonomic constraints (no longitudinal slip per wheel, no lateral slip per wheel)</li>
+</ul>
+<p>The system has <strong>3 dynamic degrees of freedom</strong>:</p>
+<ul>
+<li><span class="math">\(\phi\)</span> — lean (roll) of the rear frame</li>
+<li><span class="math">\(\delta\)</span> — steer angle (front frame relative to rear)</li>
+<li><span class="math">\(\theta_R\)</span> — rear wheel spin angle (sets forward speed via the rolling constraint)</li>
+</ul>
+<p>Everything else — yaw, pitch, XY ground position, front wheel spin — is determined by integrating these three plus the constraint equations.</p>
+<h2 id="linearized-dynamics-meijaard-2007">Linearized dynamics (Meijaard 2007)</h2>
+<p>Near the upright equilibrium, the lean/steer dynamics reduce to a 2-DOF linear system that depends only on forward speed <span class="math">\(v\)</span> and gravity <span class="math">\(g\)</span>:</p>
+<div class="math">
+\[
+\mathbf{M}\,\ddot{\mathbf{q}} + v\,\mathbf{C}_1\,\dot{\mathbf{q}} + \left(g\,\mathbf{K}_0 + v^2\,\mathbf{K}_2\right)\,\mathbf{q} = \mathbf{f},
+\qquad
+\mathbf{q} = \begin{bmatrix}\phi\\\delta\end{bmatrix},
+\qquad
+\mathbf{f} = \begin{bmatrix}T_\phi\\T_\delta\end{bmatrix}
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="math">\(\mathbf{M}\)</span> is the symmetric positive-definite mass matrix</li>
+<li><span class="math">\(\mathbf{C}_1\)</span> captures gyroscopic and centrifugal effects (scales linearly with <span class="math">\(v\)</span>)</li>
+<li><span class="math">\(\mathbf{K}_0\)</span> is the gravity-driven stiffness/instability matrix</li>
+<li><span class="math">\(\mathbf{K}_2\)</span> captures castering forces (scales with <span class="math">\(v^2\)</span>)</li>
+</ul>
+<p>All four are constant 2×2 matrices computed once from the bike's geometry and inertia parameters.</p>
+<h2 id="self-stability-the-key-result">Self-stability: the key result</h2>
+<p>The free-response eigenvalues come from:</p>
+<div class="math">
+\[
+\det\left(\lambda^2\,\mathbf{M} + \lambda\,v\,\mathbf{C}_1 + g\,\mathbf{K}_0 + v^2\,\mathbf{K}_2\right) = 0
+\]</div>
+<p>Plot the real parts against forward speed <span class="math">\(v\)</span> for the benchmark bicycle:</p>
+<pre><code> Re(lambda)
+   |
+ 5 | \              &lt;- capsize mode (real)
+   |  \\                   weave mode (real part of complex pair)
+ 0 |---\----\----------------------------/---- &lt;- stable (Re &lt; 0)
+   |    \    \                        /
+-5 |     \    \-----------------------
+   |      \      caster      &lt;- caster mode
+-10|       \___________________
+   |       |   |   |   |   |   |
+   0  v_w ~4.3   v_c ~6.05   10   v (m/s)
+              &lt;-- self-stable --&gt;
+</code></pre>
+<p>Between approximately <span class="math">\(v_w \approx 4.3\)</span> m/s and <span class="math">\(v_c \approx 6.05\)</span> m/s, <strong>every eigenvalue has negative real part</strong> — the bike spontaneously returns to upright after a perturbation. This is not a game mechanic; it falls out of the equations.</p>
+<h2 id="full-nonlinear-equations-what-we-integrate">Full nonlinear equations (what we integrate)</h2>
+<p>The linearized form is for analysis. For the game we integrate the <strong>full nonlinear equations from Kane's method</strong>. After choosing three independent generalized speeds — roll rate, steer rate, rear-wheel spin rate — the dynamics reduce to:</p>
+<div class="math">
+\[
+\mathbf{M}(\mathbf{q})\,\dot{\mathbf{u}}_{\text{ind}} = \mathbf{f}\left(\mathbf{q}, \mathbf{u}_{\text{ind}}, \mathbf{T}\right)
+\]</div>
+<p>Where <span class="math">\(\mathbf{M}\)</span> is a configuration-dependent 3×3 mass matrix and <span class="math">\(\mathbf{f}\)</span> packs gravity, gyroscopic, centripetal, and applied-torque terms.</p>
+<p>The expressions for <span class="math">\(\mathbf{M}\)</span> and <span class="math">\(\mathbf{f}\)</span> are enormous — pages of symbolic algebra — but they're derived once by SymPy + PyDy, simplified with common-subexpression elimination, and emitted as straight-line C# (~3000 FLOPs, zero branches). See <a href="build-and-test.html#codegen-pipeline">Build &amp; Test Reference</a> for the codegen pipeline.</p>
+<h2 id="rolling-constraints">Rolling constraints</h2>
+<p>The wheels obey no-slip rolling on the ground:</p>
+<div class="math">
+\[
+v = -\omega_R\,r_R, \qquad v_F = -\omega_F\,r_F
+\]</div>
+<p>The sign is a convention — forward motion produces a &quot;negative&quot; spin rate under our right-hand-rule choice about the wheel's spin axis. This produces the <code>ControlInputs.DriveTorque</code> sign-convention gotcha documented in <a href="gotchas.html#gotcha-4-controlinputsdrivetorque-sign-convention-is-inconsistent">Gotcha 4</a>.</p>
+<h2 id="rk4-integration">RK4 integration</h2>
+<p>Fixed-timestep classical Runge-Kutta 4th order:</p>
+<div class="math">
+\[
+\begin{aligned}
+\mathbf{k}_1 &amp;= \mathbf{f}(t_n,\,\mathbf{y}_n) \\
+\mathbf{k}_2 &amp;= \mathbf{f}\!\left(t_n + \tfrac{h}{2},\,\mathbf{y}_n + \tfrac{h}{2}\mathbf{k}_1\right) \\
+\mathbf{k}_3 &amp;= \mathbf{f}\!\left(t_n + \tfrac{h}{2},\,\mathbf{y}_n + \tfrac{h}{2}\mathbf{k}_2\right) \\
+\mathbf{k}_4 &amp;= \mathbf{f}(t_n + h,\,\mathbf{y}_n + h\,\mathbf{k}_3) \\
+\mathbf{y}_{n+1} &amp;= \mathbf{y}_n + \tfrac{h}{6}\!\left(\mathbf{k}_1 + 2\mathbf{k}_2 + 2\mathbf{k}_3 + \mathbf{k}_4\right)
+\end{aligned}
+\]</div>
+<p>With <span class="math">\(h = 4\)</span> ms (250 Hz). RK4's truncation error is <span class="math">\(O(h^5)\)</span> per step / <span class="math">\(O(h^4)\)</span> global; for bike dynamics (slowest modes ~1 Hz), this is wildly oversampled.</p>
+<h2 id="eigenvalue-verification">Eigenvalue verification</h2>
+<p>After implementing the full nonlinear dynamics, we numerically linearize via central differences and compute eigenvalues with MathNet's EVD routine. At <span class="math">\(v = 0\)</span>:</p>
+<div class="math">
+\[
+\lambda = \pm 3.131642336,\; \pm 5.530940783 \quad [\text{rad/s}]
+\]</div>
+<p>vs. the published Meijaard 2007 values <span class="math">\(\pm 3.131643247906{56},\; \pm 5.530943717653{93}\)</span>. <strong>Six-decimal agreement.</strong> This is the <code>EigenvalueBenchmarkTests</code> gate.</p>
+<h2 id="coordinate-singularity">Coordinate singularity</h2>
+<p>The nonlinear EOM contains a <span class="math">\(1/\sin(\phi)\)</span> factor in the dependent yaw rate (from the rolling constraint with lateral slip = 0). This diverges at <span class="math">\(\phi = 0\)</span> (exactly upright). Workarounds applied throughout the codebase:</p>
+<ul>
+<li><code>BicycleState.UprightStationary</code> sets <code>Roll = 0</code>, but callers must perturb by ~<code>1e-3</code> rad before simulating.</li>
+<li><code>BicycleState.UprightAtSpeed</code> sets <code>RearWheelSpinRate</code> correctly; callers must also set <code>Pitch = SteerAxisTilt + 1e-5</code> (see <a href="gotchas.html#gotcha-8-bicyclestateuprightatspeed-needs-pitch-perturbation">Gotcha 8</a>).</li>
+<li><code>BikeWorld.AddBike</code> applies both perturbations automatically (Roll = 1e-3, Pitch = SteerAxisTilt + 1e-5). See <a href="gotchas.html#gotcha-8-bicyclestateuprightatspeed-needs-pitch-perturbation">Gotcha 8</a>.</li>
+</ul>
+<h2 id="parameter-set">Parameter set</h2>
+<p>The <a class="xref" href="../api/Bicycle.Physics.BicycleParameters.html"><code>BicycleParameters</code></a> struct holds the full geometry and inertia set. The static <code>MeijaardBenchmark</code> preset is transcribed verbatim from Meijaard et al. 2007 Table 1 and must not be changed — it is validated by the eigenvalue gate.</p>
+<p><code>GameDefault</code> starts equal to <code>MeijaardBenchmark</code> and is the tuning surface for feel iteration.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Meijaard, Papadopoulos, Ruina, Schwab. <em>Linearized dynamics equations for the balance and steer of a bicycle: a benchmark and review.</em> Proc. R. Soc. A 463 (2007). Local copy: <code>mubo9707.pdf</code>.</li>
+<li>Moore, J.K. <em>Human Control of a Bicycle.</em> PhD thesis, UC Davis, 2012.</li>
+<li>PyDy bicycle validation example: <a href="https://github.com/pydy/pydy/tree/master/examples/bicycle_validation">https://github.com/pydy/pydy/tree/master/examples/bicycle_validation</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Bike project — <a href='https://github.com/talonbaker/bike'>GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
