@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LÖVE Prototypes — Talon Baker</title>
+<meta name="description" content="Card-fling prototypes built in LÖVE2D, running in-browser via WebAssembly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/images/logos/bubbleicon.ico" type="image/x-icon">
+<style>
+  :root {
+    --bg-0: #0b0b0e;
+    --bg-1: #111116;
+    --bg-2: #16161c;
+    --text: #ededea;
+    --text-dim: #9a9aa3;
+    --text-faint: #5a5a64;
+    --accent: #7ee5c5;
+    --accent-soft: rgba(126, 229, 197, 0.12);
+    --accent-line: rgba(126, 229, 197, 0.28);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-0);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 4rem 1.5rem 5rem;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); max-width: 60ch; line-height: 1.6; margin-bottom: 3rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .card {
+    background: var(--bg-1);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover { border-color: var(--accent-line); transform: translateY(-2px); }
+  .card h2 { margin: 0; font-size: 1.2rem; }
+  .card p { margin: 0; color: var(--text-dim); font-size: 0.92rem; line-height: 1.55; flex-grow: 1; }
+  .card a.play {
+    align-self: flex-start;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--bg-0);
+    background: var(--accent);
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    text-decoration: none;
+    margin-top: 0.4rem;
+  }
+  .card a.play:hover { opacity: 0.85; }
+  .note {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+  .note a { color: var(--text-dim); }
+  .back { display: inline-block; margin-bottom: 2rem; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-decoration: none; }
+  .back:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html">&larr; talonbaker.com</a>
+    <div class="eyebrow">Prototypes · LÖVE2D → WebAssembly</div>
+    <h1>Card-Fling Prototypes</h1>
+    <p class="lede">
+      A run of LÖVE2D look-dev and gameplay prototypes exploring a single idea: flinging cards.
+      Compiled to WebAssembly via love.js and running in your browser, unmodified from the native builds.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Shiny</h2>
+        <p>Lit finishes look-dev: fire, foil, glass, ice, wax, and gold materials reacting to a real light source. Glass truly refracts the backdrop; fire's flicker spills onto foil. Press 1–4 to switch scenes.</p>
+        <a class="play" href="shiny/index.html">Play →</a>
+      </div>
+      <div class="card">
+        <h2>Goblin</h2>
+        <p>Possibilist, prototype #0 — a hand of cards fanned out like poker. Drag up to throw a card at the goblin, drag sideways to reorder your hand. R restarts, ESC quits.</p>
+        <a class="play" href="goblin/index.html">Play →</a>
+      </div>
+      <div class="card">
+        <h2>Wheel</h2>
+        <p>Probabilist, proto #1 — the press-your-luck pot. Fling a card into the half-buried wheel; where it lands stamps its finish and pays into an unbanked pot you can bust. Bank with B/Enter.</p>
+        <a class="play" href="wheel/index.html">Play →</a>
+      </div>
+      <div class="card">
+        <h2>Swinging Light</h2>
+        <p>A warm lamp swinging on a rope and cool morning window light, each casting real, independently-computed shadows in a 2.5D isometric diorama. Toggle the lights with 1/2.</p>
+        <a class="play" href="swinginglight/index.html">Play →</a>
+      </div>
+    </div>
+
+    <div class="note">
+      Running in "compatibility mode" (no SharedArrayBuffer / pthreads) so it works without special
+      server headers — audio may be a little rough as a result. Best in a recent desktop Chrome or
+      Firefox; click the canvas once to let audio start. These are throwaway prototypes exploring
+      feel, not finished games.
+    </div>
+  </div>
+</body>
+</html>
