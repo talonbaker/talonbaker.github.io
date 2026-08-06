@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CardFlingGame — browser mirror</title>
+<meta name="description" content="A browser mirror of the Godot CardFlingGame feel sandbox: the same gesture and flight math, running in canvas so the feel can be judged without a native build.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/images/logos/bubbleicon.ico" type="image/x-icon">
+<style>
+  :root {
+    --bg-0: #0b0b0e; --bg-1: #111116; --bg-2: #16161c;
+    --text: #ededea; --text-dim: #9a9aa3; --text-faint: #5a5a64;
+    --accent: #7ee5c5; --accent-soft: rgba(126,229,197,0.12); --accent-line: rgba(126,229,197,0.28);
+    --warn: #e5c77e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg-0); color: var(--text);
+    font-family: 'Space Grotesk', sans-serif; padding: 2rem 1.25rem 4rem;
+  }
+  .wrap { max-width: 1400px; margin: 0 auto; }
+  .back { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-faint); text-decoration:none; }
+  .back:hover { color: var(--accent); }
+  .eyebrow { font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:.78rem;
+             letter-spacing:.08em; text-transform:uppercase; margin:.9rem 0 .5rem; }
+  h1 { font-size: clamp(1.6rem,3.4vw,2.3rem); margin:0 0 .4rem; }
+  .lede { color:var(--text-dim); max-width:70ch; line-height:1.6; margin:0 0 1rem; font-size:.95rem; }
+  .banner {
+    border:1px solid rgba(229,199,126,.35); background:rgba(229,199,126,.07);
+    border-radius:10px; padding:.85rem 1rem; margin:0 0 1.5rem; max-width:80ch;
+    color:#e9dcbb; font-size:.87rem; line-height:1.55;
+  }
+  .banner strong { color: var(--warn); }
+  .stage { display:flex; gap:1.25rem; align-items:flex-start; flex-wrap:wrap; }
+  .canvaswrap { background:#000; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.07);
+                line-height:0; flex:1 1 720px; min-width:min(100%,560px); }
+  canvas { width:100%; height:auto; display:block; touch-action:none; cursor:crosshair; }
+  .panel {
+    flex:0 0 300px; background:var(--bg-1); border:1px solid rgba(255,255,255,.07);
+    border-radius:12px; padding:1rem 1.1rem; font-size:.82rem;
+    max-height:720px; overflow-y:auto;
+  }
+  .panel h3 { margin:.2rem 0 .7rem; font-size:.8rem; font-family:'JetBrains Mono',monospace;
+              text-transform:uppercase; letter-spacing:.08em; color:var(--accent); }
+  .panel h3:not(:first-child) { margin-top:1.4rem; border-top:1px solid rgba(255,255,255,.07); padding-top:1.1rem; }
+  .row { margin-bottom:.7rem; }
+  .row label { display:flex; justify-content:space-between; color:var(--text-dim); margin-bottom:.25rem; gap:.5rem; }
+  .row label b { color:var(--text); font-family:'JetBrains Mono',monospace; font-weight:500; }
+  input[type=range] { width:100%; accent-color:var(--accent); }
+  .toggles { display:flex; flex-direction:column; gap:.5rem; }
+  .toggles label { display:flex; align-items:center; gap:.5rem; color:var(--text-dim); cursor:pointer; }
+  button {
+    font-family:'Space Grotesk',sans-serif; font-size:.82rem; background:var(--bg-2); color:var(--text);
+    border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:.45rem .7rem; cursor:pointer; width:100%;
+  }
+  button:hover { border-color:var(--accent-line); color:var(--accent); }
+  .btnrow { display:flex; gap:.5rem; margin-top:.6rem; }
+  .keys { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-faint);
+          margin-top:1rem; line-height:1.7; }
+  .keys b { color:var(--text-dim); font-weight:500; }
+  .readout { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--text-faint);
+             margin-top:.8rem; line-height:1.6; }
+  .readout span { color:var(--accent); }
+  .note { margin-top:2rem; color:var(--text-faint); font-size:.82rem; line-height:1.6; max-width:80ch; }
+  .note code { color:var(--text-dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html" onclick="return true">&larr; LÖVE prototypes</a>
+  <div class="eyebrow">CardFlingGame · browser mirror</div>
+  <h1>Forward dealing — feel mirror</h1>
+  <p class="lede">
+    Drag off a card and flick it forward across the table. It arcs, slows under air drag, falls,
+    lands, slides with momentum, and settles face-down. <b>Where you grab the card decides how it
+    spins.</b>
+  </p>
+
+  <div class="banner">
+    <strong>This is a mirror, not the build.</strong> The real sandbox is Godot 4.7 / C#, and Godot's
+    .NET export ships no web target — a C# project physically cannot run in a browser. So this page
+    re-implements the <em>same math</em>: Layer A's gesture verbatim in 1280×720 design pixels, and
+    Layer B's exact semi-implicit Euler integrator with the same constants. What it is good for is
+    judging feel and dialling the numbers. What it is not is the binary — browser input timing and
+    frame pacing differ, so treat the <em>gesture</em> as faithful and the <em>timing</em> as close.
+  </div>
+
+  <div class="stage">
+    <div class="canvaswrap"><canvas id="c" width="1280" height="720"></canvas></div>
+    <div class="panel">
+      <h3>Framing</h3>
+      <div class="row"><label>Camera pitch <b id="v_pitch"></b></label><input type="range" id="s_pitch" min="10" max="89" step="1"></div>
+      <div class="row"><label>Camera height <b id="v_height"></b></label><input type="range" id="s_height" min="0.4" max="3" step="0.05"></div>
+      <div class="row"><label>Field of view <b id="v_fov"></b></label><input type="range" id="s_fov" min="35" max="90" step="1"></div>
+
+      <h3>Flight</h3>
+      <div class="row"><label>Launch elevation <b id="v_elev"></b></label><input type="range" id="s_elev" min="5" max="60" step="1"></div>
+      <div class="row"><label>Launch gain <b id="v_gain"></b></label><input type="range" id="s_gain" min="0.005" max="0.05" step="0.001"></div>
+      <div class="row"><label>Max launch <b id="v_max"></b></label><input type="range" id="s_max" min="3" max="18" step="0.1"></div>
+      <div class="row"><label>Gravity <b id="v_grav"></b></label><input type="range" id="s_grav" min="8" max="45" step="0.5"></div>
+      <div class="row"><label>Friction (slide) <b id="v_fric"></b></label><input type="range" id="s_fric" min="1" max="25" step="0.5"></div>
+      <div class="row"><label>Landing grip <b id="v_grip"></b></label><input type="range" id="s_grip" min="0.2" max="1" step="0.02"></div>
+      <div class="row"><label>Restitution <b id="v_rest"></b></label><input type="range" id="s_rest" min="0" max="0.5" step="0.01"></div>
+
+      <h3>Spin</h3>
+      <div class="row"><label>Spin gain <b id="v_sgain"></b></label><input type="range" id="s_sgain" min="0" max="4" step="0.05"></div>
+      <div class="row"><label>Spin decay <b id="v_sdecay"></b></label><input type="range" id="s_sdecay" min="0" max="10" step="0.1"></div>
+      <div class="toggles"><label><input type="checkbox" id="t_hand"> Flip spin handedness</label></div>
+
+      <h3>Try</h3>
+      <div class="toggles">
+        <label><input type="checkbox" id="t_deck"> Single deck instead of a fan</label>
+        <label><input type="checkbox" id="t_trails" checked> Trajectory trails</label>
+        <label><input type="checkbox" id="t_seats" checked> Seat markers</label>
+      </div>
+      <div class="btnrow">
+        <button id="b_reset">Reset (R)</button>
+        <button id="b_defaults">Defaults</button>
+      </div>
+      <div class="readout" id="readout"></div>
+
+      <div class="keys">
+        <b>drag</b> from a card → throw<br>
+        <b>drag down 25°+</b> → reorder (fan) / cancel (deck)<br>
+        <b>right-click</b> → cancel<br>
+        <b>back inside 22 px</b> → un-commit<br>
+        <b>R</b> → reset
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <p><b>What to look for.</b> Grab a card dead-centre and flick straight up — it should deal flat
+    and clean, with almost no spin. Now grab one by a corner and flick hard: fast, readable spin that
+    survives the landing, keeps turning through the slide, and dies as it settles. The spin scales
+    with both how off-centre you grabbed and how hard you flicked.</p>
+    <p><b>The held breath.</b> Press a card and drag slowly. The card does <em>not</em> follow the
+    cursor — it stays in its slot and drifts 14% of the way toward the drag, leaning as you move
+    sideways. That partial-follow is the single most identity-defining moment in the gesture, and it
+    is the thing to compare against <a href="goblin/index.html" style="color:var(--accent)">Goblin</a>,
+    the LÖVE original.</p>
+    <p><b>Open question this page can answer.</b> Spin handedness. Grab a card by its
+    <em>right edge</em>, flick straight up, and note which way it turns. Do the same in Goblin. They
+    must match — if they don't, tick <code>Flip spin handedness</code> and that is the answer.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ─────────────────────────────────────────────────────────────────────────────────────────────
+// A browser mirror of the Godot CardFlingGame sandbox.
+//
+// Layer A (the gesture) is LOCKED and ported verbatim from the signed-off LOVE2D prototype: all of
+// it works in a virtual 1280x720 design space, so a threshold means the same thing at any window
+// size. Layer B (flight) is the same semi-implicit Euler integrator in world metres.
+//
+// The one thing this file must never do is "improve" a constant. Every number below is either
+// carried verbatim from the 2D original or is a documented Layer B tunable.
+// ─────────────────────────────────────────────────────────────────────────────────────────────
+
+// ── Layer A — LOCKED. Design pixels. Do not retune. ──────────────────────────────────────────
+const DW = 1280, DH = 720;
+const CARD_W = 150, CARD_H = 210;
+const FAN_PIVOT_Y = DH + 300;
+const FAN_RADIUS = 1300;
+const ANGLE_STEP = 0.062;
+const MAX_ANGLE = 0.46;
+const HAND_SCALE = 8 / 9;
+const HAND_CX = DW * 0.46;
+const HAND_CY = DH * 0.86;
+const HAND_EASE = 16;
+const THROW_THRESHOLD = 22;      // px neutral zone around the grab point
+const REORDER_MIN_DROP = 25;     // degrees below horizontal
+const WINDUP_FOLLOW = 0.14;      // the "held breath" partial-follow
+const WINDUP_LEAN = 0.0009;      // radians per px of HORIZONTAL drag (dx only)
+const RETURN_SPEED = 7;
+const LIFT_RISE = 18, LIFT_SCALE = 0.03, LIFT_SPEED = 14;
+const FAN_CENTER_Y = FAN_PIVOT_Y - FAN_RADIUS;
+const SLOT_COUNT = 6;
+const RETURN_SNAP_POS = 1.5, RETURN_SNAP_ROT = 0.02;
+
+// The deck variant's anchor — one stack instead of a fan.
+const DECK_CX = DW * 0.46, DECK_CY = DH * 0.84;
+
+// ── Layer B — TRANSLATED. World metres, live-tunable. ────────────────────────────────────────
+const DEFAULTS = {
+  pitch: 48, height: 1.35, fov: 55,        // framing
+  elev: 32, gain: 0.018, max: 7.8,         // launch  (higher arc, shorter travel)
+  grav: 25, fric: 11, grip: 0.7, rest: 0.12,
+  sgain: 1.1, sdecay: 3,
+};
+const AIR_DRAG = 0.2;        // verbatim from the 2D original
+const SPIN_DIV = 40;         // rescaled for the unit change
+const MAX_SPIN = 22;         // verbatim from the 2D original
+const BOUNCE_MIN = 1.5;
+const REST_SPEED_EPS = 0.05, REST_SPIN_EPS = 0.5;
+const CARD_WM = 0.09525, CARD_HM = 0.13335;   // 1.5x a real poker card
+const MAX_STEP = 1 / 30;     // frame dt clamp
+const DEALT_CAP = 40;
+
+const T = Object.assign({}, DEFAULTS);
+let flipHand = false, useDeck = false, showTrails = true, showSeats = true;
+
+// ── canvas / design-space mapping ────────────────────────────────────────────────────────────
+const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+function designFromEvent(e) {
+  const r = cv.getBoundingClientRect();
+  // The canvas backing store is exactly the design space, so this is a pure scale.
+  return { x: (e.clientX - r.left) * (DW / r.width), y: (e.clientY - r.top) * (DH / r.height) };
+}
+
+// ── the fan (slot-fixed: a slot's pose never depends on how many cards are in hand) ──────────
+function slotPos(slot) {
+  const n = SLOT_COUNT;
+  const step = Math.min(ANGLE_STEP, (2 * MAX_ANGLE) / Math.max(1, n - 1));
+  const angle = (slot - (n + 1) / 2) * step;
+  const cx = DW / 2 + Math.sin(angle) * FAN_RADIUS;
+  const cy = FAN_PIVOT_Y - Math.cos(angle) * FAN_RADIUS;
+  return { x: HAND_CX + (cx - DW / 2) * HAND_SCALE, y: HAND_CY + (cy - FAN_CENTER_Y) * HAND_SCALE, a: angle };
+}
+function restPose(card) { return useDeck ? { x: DECK_CX, y: DECK_CY, a: 0 } : slotPos(card.slot); }
+
+function hitCard(card, px, py) {
+  const p = restPose(card);                    // ALWAYS the rest pose, so a lifted card can't flicker
+  const dx = px - p.x, dy = py - p.y;
+  const c = Math.cos(-p.a), s = Math.sin(-p.a);
+  const lx = dx * c - dy * s, ly = dx * s + dy * c;
+  return Math.abs(lx) <= CARD_W / 2 * HAND_SCALE && Math.abs(ly) <= CARD_H / 2 * HAND_SCALE;
+}
+function nearestSlot(x) {
+  let best = 1, bd = Infinity;
+  for (let s = 1; s <= SLOT_COUNT; s++) { const d = Math.abs(slotPos(s).x - x); if (d < bd) { bd = d; best = s; } }
+  return best;
+}
+function dragPitch(dx, dy, dist) {
+  if (dist < 1) return 0;
+  let s = -dy / dist; s = Math.max(-1, Math.min(1, s));
+  return Math.asin(s) * 180 / Math.PI;
+}
+function wrapAngle(a) { a -= 2 * Math.PI * Math.floor(a / (2 * Math.PI)); return a > Math.PI ? a - 2 * Math.PI : a; }
+function angDelta(from, to) { return wrapAngle(to - from); }
+
+// ── camera & projection ──────────────────────────────────────────────────────────────────────
+// Camera at (0, height, 0) pitched DOWN by `pitch`, looking along -Z. Right-handed, Y up.
+let cam = {};
+function updateCamera() {
+  const p = T.pitch * Math.PI / 180;
+  cam.pos = { x: 0, y: T.height, z: 0 };
+  cam.X = { x: 1, y: 0, z: 0 };
+  cam.Y = { x: 0, y: Math.cos(p), z: -Math.sin(p) };
+  cam.Z = { x: 0, y: Math.sin(p), z: Math.cos(p) };   // camera looks along -Z_cam
+  cam.f = (DH / 2) / Math.tan((T.fov * Math.PI / 180) / 2);   // focal length, design px
+}
+function dot(a, b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
+function project(P) {
+  const v = { x: P.x - cam.pos.x, y: P.y - cam.pos.y, z: P.z - cam.pos.z };
+  const xc = dot(v, cam.X), yc = dot(v, cam.Y), zc = dot(v, cam.Z);
+  const d = -zc;                                   // depth in front of the camera
+  if (d <= 0.02) return null;                      // behind or in the near plane
+  return { x: DW / 2 + cam.f * xc / d, y: DH / 2 - cam.f * yc / d, d: d };
+}
+function unproject(sx, sy, d) {
+  const xc = (sx - DW / 2) * d / cam.f, yc = -(sy - DH / 2) * d / cam.f;
+  return {
+    x: cam.pos.x + xc * cam.X.x + yc * cam.Y.x - d * cam.Z.x,
+    y: cam.pos.y + xc * cam.X.y + yc * cam.Y.y - d * cam.Z.y,
+    z: cam.pos.z + xc * cam.X.z + yc * cam.Y.z - d * cam.Z.z,
+  };
+}
+// The hand plane sits at the depth where a card's real width spans exactly CARD_W*HAND_SCALE
+// design px. Any other depth would make the card change size at the instant of launch — the pop
+// the two-layer architecture exists to prevent.
+function viewmodelDepth() { return CARD_WM * cam.f / (CARD_W * HAND_SCALE); }
+
+// ── state ────────────────────────────────────────────────────────────────────────────────────
+let cards = [], dealt = [], trails = [], aim = null, hovered = -1, nextDealOrder = 0, nextId = 0;
+
+function makeCard(slot) {
+  return {
+    id: nextId++, slot: slot, mode: "hand",
+    x: 0, y: 0, rot: 0, hx: 0, hy: 0, hrot: 0, lift: 0, offX: 0, offY: 0,
+    pos: { x: 0, y: 0, z: 0 }, vel: { x: 0, y: 0, z: 0 }, spin: 0, vrot: 0,
+    dealOrder: -1, trail: null,
+  };
+}
+function reset() {
+  cards = []; dealt = []; trails = []; aim = null; hovered = -1; nextDealOrder = 0;
+  const n = useDeck ? 1 : SLOT_COUNT;
+  for (let i = 1; i <= n; i++) {
+    const c = makeCard(i), p = restPose(c);
+    c.x = c.hx = p.x; c.y = c.hy = p.y; c.rot = c.hrot = p.a;
+    cards.push(c);
+  }
+}
+
+// ── the gesture machine (Layer A) ────────────────────────────────────────────────────────────
+function press(px, py) {
+  let pick = -1, top = -1;
+  for (let i = 0; i < cards.length; i++) {
+    const c = cards[i];
+    if (c.mode === "hand" && c.slot > top && hitCard(c, px, py)) { top = c.slot; pick = i; }
+  }
+  if (pick < 0) { aim = null; return; }
+  const c = cards[pick], p = restPose(c);
+  c.mode = "grabbed"; c.x = p.x; c.y = p.y; c.rot = p.a;
+  // THE SPIN LEVER — grab point relative to the card's centre, captured once, in design px.
+  c.offX = px - p.x; c.offY = py - p.y;
+  aim = { i: pick, sx: px, sy: py, mode: null, moved: false, target: 0 };
+}
+
+function updateAim(px, py, dt) {
+  if (!aim) return;
+  const c = cards[aim.i], dx = px - aim.sx, dy = py - aim.sy;
+  const dist = Math.hypot(dx, dy);
+
+  if (dist <= THROW_THRESHOLD) {
+    aim.mode = null;                    // ROLLING CANCEL — un-commits an already-classified throw
+  } else {
+    aim.moved = true;
+    if (!aim.mode) {                    // CLASSIFY ONCE, on the first frame outside the zone
+      aim.mode = dragPitch(dx, dy, dist) <= -REORDER_MIN_DROP ? "reorder" : "throw";
+    }
+  }
+
+  if (aim.mode === "reorder" && !useDeck) {
+    c.mode = "reordering";
+    c.x = px - c.offX; c.y = py - c.offY;
+    aim.target = nearestSlot(c.x);
+    c.rot += angDelta(c.rot, 0) * Math.min(1, dt * HAND_EASE);
+  } else {
+    // THROW WINDUP, and equally the neutral hold. The card does NOT follow the cursor: it sits at
+    // its rest pose and drifts a fraction of the drag. The lean reads dx ONLY.
+    c.mode = "grabbed";
+    const p = restPose(c);
+    c.x = p.x + dx * WINDUP_FOLLOW;
+    c.y = p.y + dy * WINDUP_FOLLOW;
+    c.rot = p.a + dx * WINDUP_LEAN;
+  }
+}
+
+function release(px, py) {
+  if (!aim) return;
+  const c = cards[aim.i], dx = px - aim.sx, dy = py - aim.sy, dist = Math.hypot(dx, dy);
+  // RELEASE-FRAME FALLBACK: an ultra-fast flick may never get an update frame, so the neutral-zone
+  // check AND the classification are re-run here from scratch. Without this, the hardest flicks —
+  // the ones that should feel best — silently cancel.
+  let mode = aim.mode;
+  if (dist <= THROW_THRESHOLD) mode = null;
+  else if (!mode) mode = dragPitch(dx, dy, dist) <= -REORDER_MIN_DROP ? "reorder" : "throw";
+
+  if (mode === "throw") {
+    launch(c, dx, dy, dist);
+  } else if (mode === "reorder" && !useDeck) {
+    const dst = aim.target > 0 ? aim.target : c.slot;
+    if (dst !== c.slot) {
+      for (const o of cards) {
+        if (o !== c && o.slot === dst && (o.mode === "hand" || o.mode === "returning")) {
+          o.x = o.hx; o.y = o.hy; o.rot = o.hrot; o.slot = c.slot; o.mode = "returning"; break;
+        }
+      }
+      c.slot = dst;
+    }
+    c.mode = "returning";
+  } else {
+    // Neutral, or a downward drag in deck mode: a clean cancel.
+    c.mode = "hand"; c.hx = c.x; c.hy = c.y; c.hrot = c.rot;
+  }
+  aim = null;
+}
+
+function cancelHeld() {
+  if (aim) { cards[aim.i].mode = "returning"; aim = null; }
+}
+
+// ── launch + flight (Layer B) ────────────────────────────────────────────────────────────────
+function launch(c, dx, dy, dist) {
+  // Seed the world pose from where the card is being DRAWN right now, then hand over. The sim
+  // never writes position, so the switch is pose-continuous — no pop.
+  const p = { x: c.x, y: c.y };
+  c.pos = unproject(p.x, p.y, viewmodelDepth());
+
+  // Drag direction becomes direction on the table. Screen Y is DOWN, so dragging UP deals AHEAD.
+  const az = Math.atan2(dx, -dy);
+  const speed = Math.min(dist * T.gain, T.max);
+  const e = T.elev * Math.PI / 180;
+  const horiz = speed * Math.cos(e);
+  c.vel = { x: horiz * Math.sin(az), y: speed * Math.sin(e), z: -horiz * Math.cos(az) };
+
+  // THE SPIN — torque = r x F, kept in the 2D formula's shape. vx is lateral, vy is -forward so
+  // that "up the screen" is negative exactly as in the 2D original. The world answer is the
+  // negation of the screen answer (Godot's +Y yaw reads counter-clockwise from the dealer's seat).
+  const hand = flipHand ? 1 : -1;
+  const cross = c.offX * c.vel.z - c.offY * c.vel.x;
+  c.vrot = Math.max(-MAX_SPIN, Math.min(MAX_SPIN, hand * T.sgain * cross / SPIN_DIV));
+
+  c.spin = 0; c.dealOrder = -1; c.mode = "flying";
+  c.trail = showTrails ? [{ x: c.pos.x, y: c.pos.y, z: c.pos.z }] : null;
+  if (c.trail) { trails.push(c.trail); if (trails.length > 8) trails.shift(); }
+
+  if (useDeck) {
+    // The deck never runs out — the next card is already waiting.
+    const nc = makeCard(1), rp = restPose(nc);
+    nc.x = nc.hx = rp.x; nc.y = nc.hy = rp.y; nc.rot = nc.hrot = rp.a;
+    cards.push(nc);
+  }
+  retireCard(c);
+}
+function retireCard(c) {
+  const i = cards.indexOf(c);
+  if (i >= 0) cards.splice(i, 1);
+  dealt.push(c);
+  if (dealt.length > DEALT_CAP) dealt.shift();   // fixed ring; the table never grows without bound
+  if (aim) aim = null;
+}
+
+function stepFlight(c, dt) {
+  if (dt <= 0) return;
+  dt = Math.min(dt, MAX_STEP);
+  if (c.mode === "flying") {
+    // THE SIGNED-OFF ORDER: gravity -> damp -> move -> rotate. Do not reorder.
+    c.vel.y += -T.grav * dt;
+    const damp = Math.max(0, 1 - AIR_DRAG * dt);
+    c.vel.x *= damp; c.vel.y *= damp; c.vel.z *= damp;
+    c.pos.x += c.vel.x * dt; c.pos.y += c.vel.y * dt; c.pos.z += c.vel.z * dt;
+    c.spin += c.vrot * dt;
+    if (c.trail) c.trail.push({ x: c.pos.x, y: c.pos.y, z: c.pos.z });
+
+    if (c.pos.y <= 0 && c.vel.y < 0) {
+      if (Math.abs(c.vel.y) > BOUNCE_MIN && T.rest > 0) {
+        c.pos.y = 0; c.vel.y = -c.vel.y * T.rest;      // one low skip
+      } else {
+        c.pos.y = 0; c.vel.y = 0;
+        c.vel.x *= T.grip; c.vel.z *= T.grip;          // LANDING_GRIP
+        c.mode = "sliding";
+      }
+    }
+  } else if (c.mode === "sliding") {
+    const sp = Math.hypot(c.vel.x, c.vel.z);
+    if (sp > 0) {
+      const ns = Math.max(0, sp - T.fric * dt);        // constant decel, clamped, never reversing
+      const k = ns / sp; c.vel.x *= k; c.vel.z *= k;
+    }
+    c.pos.x += c.vel.x * dt; c.pos.z += c.vel.z * dt;
+    c.vrot *= Math.max(0, 1 - T.sdecay * dt);
+    c.spin += c.vrot * dt;
+    if (c.trail) c.trail.push({ x: c.pos.x, y: 0, z: c.pos.z });
+    if (Math.hypot(c.vel.x, c.vel.z) < REST_SPEED_EPS && Math.abs(c.vrot) < REST_SPIN_EPS) {
+      c.vel.x = c.vel.z = 0; c.vrot = 0; c.mode = "dealt"; c.dealOrder = nextDealOrder++;
+    }
+  }
+}
+
+// ── per-frame update ─────────────────────────────────────────────────────────────────────────
+let mouse = { x: DW / 2, y: DH / 2 };
+function update(dt) {
+  updateCamera();
+
+  hovered = -1;
+  if (!aim) {
+    let top = -1;
+    for (let i = 0; i < cards.length; i++) {
+      const c = cards[i];
+      if (c.mode === "hand" && c.slot > top && hitCard(c, mouse.x, mouse.y)) { top = c.slot; hovered = i; }
+    }
+  }
+  updateAim(mouse.x, mouse.y, dt);
+
+  const kr = Math.min(1, dt * RETURN_SPEED);
+  for (const c of cards) {
+    if (c.mode !== "returning") continue;
+    const p = restPose(c);
+    c.x += (p.x - c.x) * kr; c.y += (p.y - c.y) * kr; c.rot += angDelta(c.rot, p.a) * kr;
+    if (Math.abs(p.x - c.x) < RETURN_SNAP_POS && Math.abs(p.y - c.y) < RETURN_SNAP_POS
+        && Math.abs(angDelta(c.rot, p.a)) < RETURN_SNAP_ROT) {
+      c.x = p.x; c.y = p.y; c.rot = p.a; c.hx = c.x; c.hy = c.y; c.hrot = c.rot; c.mode = "hand";
+    }
+  }
+
+  const kl = Math.min(1, dt * LIFT_SPEED), ke = Math.min(1, dt * HAND_EASE);
+  for (let i = 0; i < cards.length; i++) {
+    const c = cards[i];
+    if (c.mode !== "hand") { c.lift = 0; continue; }
+    const p = restPose(c);
+    c.hx += (p.x - c.hx) * ke; c.hy += (p.y - c.hy) * ke; c.hrot += angDelta(c.hrot, p.a) * ke;
+    c.lift += ((i === hovered ? 1 : 0) - c.lift) * kl;
+  }
+
+  for (const c of dealt) stepFlight(c, dt);
+}
+
+// ── rendering ────────────────────────────────────────────────────────────────────────────────
+function tableQuad(c) {
+  // A dealt card, flat on the table, yawed by its accumulated spin. Godot's +Y yaw takes +X
+  // toward -Z, which reads counter-clockwise from the dealer's seat.
+  const a = c.spin, hw = CARD_WM / 2, hh = CARD_HM / 2;
+  const ax = { x: Math.cos(a) * hw, z: -Math.sin(a) * hw };
+  const az = { x: Math.sin(a) * hh, z: Math.cos(a) * hh };
+  const y = 0.0004 + (c.dealOrder >= 0 ? c.dealOrder % DEALT_CAP : nextDealOrder) * 0.0009;
+  return [
+    { x: c.pos.x - ax.x - az.x, y: c.pos.y + y, z: c.pos.z - ax.z - az.z },
+    { x: c.pos.x + ax.x - az.x, y: c.pos.y + y, z: c.pos.z + ax.z - az.z },
+    { x: c.pos.x + ax.x + az.x, y: c.pos.y + y, z: c.pos.z + ax.z + az.z },
+    { x: c.pos.x - ax.x + az.x, y: c.pos.y + y, z: c.pos.z - ax.z + az.z },
+  ];
+}
+function fillPoly(pts, fill, stroke) {
+  if (pts.some(p => p === null)) return;
+  ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+  ctx.closePath();
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1.4; ctx.stroke(); }
+}
+
+function draw() {
+  ctx.fillStyle = "#07080a"; ctx.fillRect(0, 0, DW, DH);
+
+  // Felt: a big quad on y=0, drawn far enough back to fill the frame at any pitch.
+  const felt = [
+    project({ x: -6, y: 0, z: 0.6 }), project({ x: 6, y: 0, z: 0.6 }),
+    project({ x: 6, y: 0, z: -14 }), project({ x: -6, y: 0, z: -14 }),
+  ];
+  if (!felt.some(p => p === null)) {
+    const g = ctx.createLinearGradient(0, DH, 0, 0);
+    g.addColorStop(0, "#20362b"); g.addColorStop(1, "#0d1712");
+    fillPoly(felt, g, null);
+  }
+
+  if (showSeats) {
+    ctx.lineWidth = 2;
+    for (const z of [-1.0, -1.8, -2.6]) drawRing(0, z, 0.22);
+    drawRing(1.0, -1.6, 0.22);
+  }
+
+  if (showTrails) {
+    for (const t of trails) {
+      if (t.length < 2) continue;
+      ctx.beginPath(); let started = false;
+      for (const p of t) {
+        const s = project(p); if (!s) { started = false; continue; }
+        if (!started) { ctx.moveTo(s.x, s.y); started = true; } else ctx.lineTo(s.x, s.y);
+      }
+      ctx.strokeStyle = "rgba(230,170,90,0.55)"; ctx.lineWidth = 1.6; ctx.stroke();
+    }
+  }
+
+  // Dealt cards, far to near so nearer ones overlap correctly.
+  const sorted = dealt.slice().sort((a, b) => a.pos.z - b.pos.z);
+  for (const c of sorted) {
+    const pts = tableQuad(c).map(project);
+    fillPoly(pts, c.mode === "dealt" ? "#6d2a33" : "#7d3039", "rgba(20,16,14,0.9)");
+  }
+
+  // Hand / deck cards. Their plane is parallel to the image plane, so design px map affinely to
+  // the screen and they can be drawn directly — no projection needed, and the fan matches the
+  // LOVE original exactly.
+  const order = cards.slice().sort((a, b) => a.slot - b.slot);
+  for (const c of order) {
+    const lifted = c.mode === "hand";
+    const s = HAND_SCALE * (lifted ? 1 + LIFT_SCALE * c.lift : 1);
+    const x = lifted ? c.hx : c.x;
+    const y = (lifted ? c.hy : c.y) - (lifted ? LIFT_RISE * HAND_SCALE * c.lift : 0);
+    const a = lifted ? c.hrot : c.rot;
+    ctx.save();
+    ctx.translate(x, y); ctx.rotate(a); ctx.scale(s, s);
+    ctx.fillStyle = "#eee7d8";
+    ctx.strokeStyle = "#1b1815"; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.rect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H);
+    ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+
+  // Aim helper: the neutral zone, so the 22 px threshold is visible while learning it.
+  if (aim) {
+    ctx.beginPath(); ctx.arc(aim.sx, aim.sy, THROW_THRESHOLD, 0, Math.PI * 2);
+    ctx.strokeStyle = aim.mode ? "rgba(126,229,197,0.5)" : "rgba(230,190,110,0.75)";
+    ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(aim.sx, aim.sy); ctx.lineTo(mouse.x, mouse.y);
+    ctx.strokeStyle = "rgba(255,255,255,0.22)"; ctx.lineWidth = 1.5; ctx.stroke();
+  }
+}
+function drawRing(x, z, r) {
+  ctx.beginPath(); let started = false;
+  for (let i = 0; i <= 48; i++) {
+    const t = i / 48 * Math.PI * 2;
+    const s = project({ x: x + Math.cos(t) * r, y: 0.001, z: z + Math.sin(t) * r });
+    if (!s) { started = false; continue; }
+    if (!started) { ctx.moveTo(s.x, s.y); started = true; } else ctx.lineTo(s.x, s.y);
+  }
+  ctx.strokeStyle = "rgba(150,175,158,0.45)"; ctx.stroke();
+}
+
+// ── loop ─────────────────────────────────────────────────────────────────────────────────────
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min((now - last) / 1000, MAX_STEP);
+  last = now;
+  update(dt); draw(); updateReadout();
+  requestAnimationFrame(frame);
+}
+
+// ── input ────────────────────────────────────────────────────────────────────────────────────
+cv.addEventListener("contextmenu", e => e.preventDefault());
+cv.addEventListener("pointerdown", e => {
+  const p = designFromEvent(e); mouse = p;
+  if (e.button === 2) { cancelHeld(); return; }
+  if (e.button === 0) { cv.setPointerCapture(e.pointerId); press(p.x, p.y); }
+});
+cv.addEventListener("pointermove", e => { mouse = designFromEvent(e); });
+cv.addEventListener("pointerup", e => {
+  const p = designFromEvent(e); mouse = p;
+  if (e.button === 0) release(p.x, p.y);
+});
+window.addEventListener("keydown", e => { if (e.key === "r" || e.key === "R") reset(); });
+
+// ── panel wiring ─────────────────────────────────────────────────────────────────────────────
+const SLIDERS = [
+  ["pitch", "s_pitch", "v_pitch", v => v.toFixed(0) + "°"],
+  ["height", "s_height", "v_height", v => v.toFixed(2) + " m"],
+  ["fov", "s_fov", "v_fov", v => v.toFixed(0) + "°"],
+  ["elev", "s_elev", "v_elev", v => v.toFixed(0) + "°"],
+  ["gain", "s_gain", "v_gain", v => v.toFixed(3)],
+  ["max", "s_max", "v_max", v => v.toFixed(1) + " m/s"],
+  ["grav", "s_grav", "v_grav", v => v.toFixed(1)],
+  ["fric", "s_fric", "v_fric", v => v.toFixed(1)],
+  ["grip", "s_grip", "v_grip", v => v.toFixed(2)],
+  ["rest", "s_rest", "v_rest", v => v.toFixed(2)],
+  ["sgain", "s_sgain", "v_sgain", v => v.toFixed(2)],
+  ["sdecay", "s_sdecay", "v_sdecay", v => v.toFixed(1)],
+];
+function syncSliders() {
+  for (const [key, sid, vid, fmt] of SLIDERS) {
+    const s = document.getElementById(sid);
+    s.value = T[key];
+    document.getElementById(vid).textContent = fmt(T[key]);
+  }
+}
+for (const [key, sid, vid, fmt] of SLIDERS) {
+  document.getElementById(sid).addEventListener("input", e => {
+    T[key] = parseFloat(e.target.value);
+    document.getElementById(vid).textContent = fmt(T[key]);
+  });
+}
+document.getElementById("t_hand").addEventListener("change", e => { flipHand = e.target.checked; });
+document.getElementById("t_deck").addEventListener("change", e => { useDeck = e.target.checked; reset(); });
+document.getElementById("t_trails").addEventListener("change", e => { showTrails = e.target.checked; if (!showTrails) trails = []; });
+document.getElementById("t_seats").addEventListener("change", e => { showSeats = e.target.checked; });
+document.getElementById("b_reset").addEventListener("click", reset);
+document.getElementById("b_defaults").addEventListener("click", () => { Object.assign(T, DEFAULTS); syncSliders(); });
+
+// A live range readout, because "how far does a full-commit fling actually go" is the number this
+// whole page exists to settle. Integrated with the real sim rather than a closed-form estimate —
+// the closed form is what got the range wrong in the spec in the first place (it omits the slide).
+function measureRange() {
+  const e = T.elev * Math.PI / 180;
+  let vy = T.max * Math.sin(e), vh = T.max * Math.cos(e);
+  let y = 0.25, x = 0, hops = 0, t = 0, apex = y;
+  const dt = 1 / 240;
+  while (y > 0 && t < 10) {
+    vy += -T.grav * dt;
+    const d = Math.max(0, 1 - AIR_DRAG * dt); vy *= d; vh *= d;
+    y += vy * dt; x += vh * dt; t += dt; apex = Math.max(apex, y);
+    if (y <= 0 && vy < 0) {
+      if (Math.abs(vy) > BOUNCE_MIN && T.rest > 0 && hops < 8) { vy = -vy * T.rest; y = 0; hops++; }
+      else break;
+    }
+  }
+  const land = vh * T.grip;
+  const slide = land * land / (2 * T.fric);
+  return { flight: x, slide: slide, total: x + slide, apex: apex, air: t };
+}
+function updateReadout() {
+  const r = measureRange();
+  document.getElementById("readout").innerHTML =
+    "full-commit fling<br>flight <span>" + r.flight.toFixed(2) + " m</span> + slide <span>" +
+    r.slide.toFixed(2) + " m</span><br>total <span>" + r.total.toFixed(2) +
+    " m</span> · apex <span>" + r.apex.toFixed(2) + " m</span> · air <span>" + r.air.toFixed(2) + " s</span>";
+}
+
+syncSliders(); updateCamera(); reset(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
