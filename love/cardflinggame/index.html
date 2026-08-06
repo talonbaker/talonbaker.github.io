@@ -193,8 +193,13 @@ const DEFAULTS = {
   sgain: 1.1, sdecay: 3,
 };
 const AIR_DRAG = 0.2;        // verbatim from the 2D original
-const SPIN_DIV = 40;         // rescaled for the unit change
 const MAX_SPIN = 22;         // verbatim from the 2D original
+
+// SpinDiv is DERIVED from the launch gain, never set independently: the 2D original used
+// SPIN_DIV 7000 at LAUNCH_GAIN 6.0, and it is the RATIO that sets spin-per-drag. Pin it to a
+// constant and dragging the gain slider silently scales every spin with it — halve the gain and
+// you halve the spin, which would quietly gut the one feel element that matters most here.
+function spinDiv() { return 7000 * T.gain / 6.0; }
 const BOUNCE_MIN = 1.5;
 const REST_SPEED_EPS = 0.05, REST_SPIN_EPS = 0.5;
 const CARD_WM = 0.09525, CARD_HM = 0.13335;   // 1.5x a real poker card
@@ -394,7 +399,7 @@ function launch(c, dx, dy, dist) {
   // negation of the screen answer (Godot's +Y yaw reads counter-clockwise from the dealer's seat).
   const hand = flipHand ? 1 : -1;
   const cross = c.offX * c.vel.z - c.offY * c.vel.x;
-  c.vrot = Math.max(-MAX_SPIN, Math.min(MAX_SPIN, hand * T.sgain * cross / SPIN_DIV));
+  c.vrot = Math.max(-MAX_SPIN, Math.min(MAX_SPIN, hand * T.sgain * cross / spinDiv()));
 
   c.spin = 0; c.dealOrder = -1; c.mode = "flying";
   c.trail = showTrails ? [{ x: c.pos.x, y: c.pos.y, z: c.pos.z }] : null;
