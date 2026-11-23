@@ -109,12 +109,133 @@ input[type=text] { font-family: var(--num); font-size: 13px; padding: 5px 6px; b
 .over { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 20 }
 .over .panel { text-align: center; padding: 18px 24px; font-family: var(--num); max-width: 420px; width: 100% }
 .over .big { font-size: 28px; font-weight: 700; font-family: var(--display) }
+.erow { display: flex; gap: 6px; align-items: stretch }
+.erow .entry { flex: 1; min-width: 0 }
+.ibtn { flex: 0 0 auto; width: 34px; min-height: 34px; border: 1px solid var(--accent); color: var(--accent); background: var(--panel); border-radius: 50%; font-family: Georgia, serif; font-style: italic; font-weight: 700; font-size: 16px; align-self: center }
+.info-over { z-index: 30 }
+.over .panel.info { text-align: left; font-family: var(--display); max-width: 560px; max-height: 88vh; overflow-y: auto; font-size: 14px; line-height: 1.45 }
+.info p { margin: 4px 0 10px }
 .boot { max-width: 520px; margin: 40px auto; text-align: center; font-family: var(--num) }
 @media (prefers-reduced-motion: no-preference) { .chip { animation: pop .25s ease-out } @keyframes pop { from { transform: scale(.8); opacity: .3 } } }
 </style>
 
 <div id="app"><div class="boot panel">starting the C# engine…</div></div>
 
+<script id="info">
+// The playtest hub's help, one card per entry: what it is, what it is testing for, what to watch, how it plays.
+// Plain words for a tester who has never seen the game. Pasted into hub.html by build.sh (between the INFO markers).
+const ABOUT = {
+  title: 'About this playtest',
+  lines: [
+    'Simmili & Co. is an office card game in the making: you build a team from cards, merge them into stronger ones, and keep the office happy week after week.',
+    'Each entry on the menu is one version of a rule. We change one thing at a time and ask you how it feels.',
+  ],
+  rate: [
+    'Pick an entry, play until the run ends (or until you are bored: that is an answer too), then tap a number from 1 (dull) to 5 (great fun).',
+    'Write one line about why. "I never knew what to do" helps as much as "loved it".',
+    'Outside Claude, your ratings stay in this browser: press "send feedback" to post them, or "copy feedback" to paste them to us.',
+  ],
+  helps: [
+    'When you felt excited, tense, bored or lost, and what was on the table at that moment.',
+    'Anything you could not understand from the screen.',
+    'Whether it felt too easy or too hard, and in which week.',
+    'Your seed (shown at the top) if something odd happened, so we can replay it exactly.',
+  ],
+};
+
+const WATCH = 'Was it fun? Note when you felt excited, tense, bored or confused, and whether it was too easy or too hard.';
+
+const BU_HOW = [
+  'Tap a card in your hand, then a slot. A 1 starts an empty slot. Two cards with the same number merge into one higher card. A card can also go on a stack whose top card is exactly one lower. A 1 can tuck in behind a stack.',
+  'PUNCH ends the turn: each stack makes the number shown under it. That work first hits the office card above the stack, then counts toward the week\'s target (top bar).',
+  'Red ✕ numbers are blame. Blame knocks down the lowest card of that stack first. Blame on an empty slot hits you, and 10 of it is a strike.',
+  'Reach the week\'s target within the turns shown, or take a strike. Three strikes end the run; last 9 weeks to win.',
+  'Money: packs bring new cards; a card of level 2+ costs money once when you place it; every Friday your table earns its bills and pays its salaries. You can borrow, but the debt grows 60% a week and is due at each boss week.',
+];
+
+const BU_COLOURS = 'Colours: a stack whose top card matches the colour of the cards behind it works harder. Mixing colours makes new colours with their own effects (the legend on the right).';
+
+// [what this version is, what it is testing for, what is different from entry 1 (optional), extra thing to watch (optional)]
+const INFO = {
+  'bu-default': ['Build Up as it stands today: paint-mixing colours, white interns, a $500 start with a random bonus, a shop, a credit line.', 'Is building one big stack toward a rare card you cannot play yet exciting, and is the money a real decision?', '', 'Did you ever wait for a card you could not place yet? Did borrowing feel worth the risk?'],
+  'bu-flush': ['Colours work like suits instead of paint: same-colour cards behind the top card add 25% each.', 'Are simple matching colours more fun than mixing paint?', 'Colours never mix: a merge of two colours turns the card grey.'],
+  'bu-colour-interns': ['Interns (the 1s) carry their department\'s colour instead of white.', 'Do coloured interns make the colour game easier to read and more fun?', 'Every intern is red, blue or yellow from the start.'],
+  'bu-free-removal': ['Firing a card from your deck costs nothing.', 'Does free firing make the deck too easy to tune, or more fun to shape?', 'The fire button is free.'],
+  'bu-no-beige': ['No Corporate Beige cards: the brown-plus-beige x2.5 trick is gone.', 'Does the game miss its weirdest route, or is it cleaner without it?'],
+  'bu-no-credit': ['No borrowing at all.', 'Does removing the credit line make the game dull or tense?', 'There is no borrow button: you can only spend what you have.'],
+  'bu-risk-off': ['An older economy: random start, one flat-price pack a turn, no loans, no bonus for big weeks.', 'Was the game better before we added risk and the shop?', 'One pack a turn at a fixed price; no loans; no bonus.'],
+  'bu-old-shop': ['The old shop: one flat-price pack a turn, no advanced packs.', 'Does a bigger, pricier shop beat a simple one?', 'At most one pack a turn.'],
+  'bu-random-start': ['You start with random cards and no bonus instead of the same five interns.', 'Is a known start fairer and more fun than a random one?', 'Your first hand is random.'],
+  'bu-keep-hand': ['No deck to draw from: you keep a hand of up to 10 cards.', 'Is drawing 5 a turn from a deck better than holding everything?', 'Cards stay in your hand until you play them; no roster.'],
+  'bu-fixed-week': ['Every week lasts 5 turns, even after you hit the target.', 'Does ending a week early when you hit the target make it more exciting?', 'Weeks never end early.'],
+  'bu-no-colours': ['No colours at all: every card is grey.', 'How much of the fun comes from colours?', 'Only numbers and merges matter.'],
+  'bu-no-office': ['No office cards or bosses: just the target and the posted blame.', 'How much do the office cards add, and do you miss them?', 'Nothing sits above your stacks.'],
+  'bu-see-all': ['Every office card shows what it will do.', 'Is it more fun to see everything, or does hidden information add tension?', 'No "?" cards.'],
+  'bu-r17': ['The first playable version: no money, no deck, no colours, fixed 5-turn weeks.', 'How far has the game come? Is anything better in the simple version?', 'No money, no colours; packs cost nickels (n).'],
+  'bu-encounters': ['Each floor brings named fights: the Night Crew, a Sales rival, then the boss. Winning a fight lets you recruit one of its cards.', 'Is the Night Crew fun to survive, and is recruiting your enemies exciting?', 'Night Crew week: there is no target; keep enough stacks alive until the last turn while cleaning crew cards break things and leave mess (each mess: −5% work). A brown top card can sweep. Sales week: hit 125% of the target in 4 turns; red stacks work ×1.5, blue ones ×½. After a won fight, pick one of two cards or skip.', 'Did the Night Crew feel like a fight you could plan for?'],
+  'bu-enc-no-recruits': ['The same fights, but winning one gives no card.', 'How much does the recruit reward add to the fights?', 'No recruit offer after a fight.'],
+  'bu-enc-four-inks': ['The fights, on the four-colour wheel with department actions.', 'Do the fights and the four colours work together, or is it too much at once?', 'See entries 16 and 19: fights plus four colours and their buttons.'],
+  'bu-four-inks': ['Four colours on a painter\'s wheel (red, yellow, green, blue), each a department with its own action.', 'Are four colours and their actions more interesting than three?', 'Blue top card: put its stack on one office card (×2). Yellow: bank this turn\'s work and release it later at ×1.5. Green: promise a number on day 1; hit it to get paid, miss it and take blame. Red: move a card from behind one stack to another.'],
+  'bu-encounters-b': ['The harder fights: the Night Crew wants more stacks each floor, its cards come back stronger, and recruits have their own actions.', 'Do harder fights with stronger recruits make the run more tense and rewarding?', 'Night Crew: keep 2, then 3, then 4 stacks. A crew card that acts returns stronger. Recruited crew (LB) can sweep; closers (CL) can double one stack\'s work once a week.'],
+  'bu-enc-b-no-verbs': ['The harder fights, but recruits have no actions.', 'Are recruit actions what makes recruiting worth it?', 'Recruits cannot sweep or close.'],
+  'bu-v-noeconomy': ['No hiring costs, salaries or bills.', 'Does the money make the game better or just busier?', 'Money only buys packs.'],
+  'bu-v-provisionaleconomy': ['An earlier money table: work earns money, salaries are steeper.', 'Does earning money from work feel better than Friday bills?', 'Money comes in as you work.'],
+  'bu-v-oldpacks': ['Older pack odds: more middle cards, fewer rare highs.', 'Are steady middle cards more fun than chasing rare high ones?'],
+  'bu-v-mergeonly': ['Only merging: two of a number make one higher.', 'Is stacking in order (a card on one lower) needed?', 'A card cannot go on one exactly lower.'],
+  'bu-v-orderonly': ['Only stacking in order: a card goes on one exactly lower.', 'Is merging needed?', 'Two cards of the same number cannot merge.'],
+  'bu-v-freeplay': ['Any card goes on top of any lower card.', 'Do the placement rules make it a puzzle, or just get in the way?', 'Place any card on any lower top card.'],
+  'bu-v-notuck': ['A 1 cannot join the back of a stack.', 'Is tucking interns behind a stack important?', 'No tuck.'],
+  'bu-v-reseteachfloor': ['Your table and hand are cleared at every new floor.', 'Does keeping your team between floors matter for fun?', 'Every 3 weeks you start over.'],
+  'bu-v-clearance6': ['Hidden office cards need a 6 on your table to read.', 'Is it fun to work toward seeing hidden threats?', 'Hidden cards need a 6, not a 4.'],
+  'bu-v-sightnoone': ['Hidden office cards stay hidden whatever you hold.', 'Does never seeing hidden threats feel unfair or exciting?'],
+  'bu-v-allclassifiedeveryone': ['Every office card is a "secret" card, but you see them all.', 'A comparison row: secret cards are nastier; is it fun when you can see them?'],
+  'bu-v-allclassifiednoone': ['Every office card is hidden.', 'Is playing blind fun or frustrating?'],
+  'bu-v-problemsclassified4': ['Which stack each posted blame will hit is hidden until you have a 4.', 'Is hidden blame more tense, or just confusing?', 'Blame shows "→?" until you hold a 4.'],
+  'bu-v-problemsclassifiednoone': ['Which stack each posted blame will hit is never shown.', 'Can you still plan when blame lands anywhere?'],
+  'bu-v-nobonus': ['No extra pay for a week of double or triple the target.', 'Does the bonus for a huge week matter to you?'],
+  'bu-v-notoploss': ['Top cards (7-9) pay for themselves.', 'Are very high cards more fun when they are not a money risk?'],
+  'bu-v-fourinksv': ['The first four-colour wheel, before tuning.', 'Compare with entry 19: which reads better?', 'More cards turn brown.'],
+  'bu-v-fourinkseven': ['Four colours spaced evenly around the wheel.', 'Do evenly spaced colours mix more clearly?'],
+  'bu-v-fourinksbrown25': ['Four colours; fewer mixes turn brown.', 'How much brown feels right?'],
+  'bu-v-fourinksbrown45': ['Four colours; more mixes turn brown.', 'How much brown feels right?'],
+  'bu-v-fourinksnoverbs': ['Four colours without department actions.', 'Are the colour actions worth learning?', 'No assign, bank, promise or move buttons.'],
+  'bu-v-fourinkscolouredinterns': ['Four colours with coloured interns.', 'Do coloured interns help on the four-colour wheel?'],
+  'bu-v-fourinksrusset': ['Four colours where red + green makes its own colour (russet) instead of brown.', 'Does an extra colour add choice or just clutter?'],
+  'bu-v-encountersnostance': ['The fights without the Sales rival\'s grudge (red ×1.5, blue ×½).', 'Does the grudge make Sales week interesting?'],
+  'bu-v-encountersbnobar': ['The harder fights, but the Night Crew always wants 2 stacks.', 'Is a rising survival target needed?'],
+  'bu-v-encountersbnopressure': ['The harder fights, but crew cards leave after acting.', 'Do returning crew cards add good pressure or just pain?'],
+  'bu-v-encountersbnocrewmerge': ['The harder fights, but a crew card merged into another is lost.', 'Does keeping crew through merges matter to you?'],
+  'bu-v-seatson': ['Safety seats: blame shows as a range (2±2), and different colours on your table share the risk.', 'Is it fun to gamble on a range instead of a fixed number?', 'Blame lands somewhere in the range shown. More different colours on your table ("pool") make the range smaller; the cards behind your stacks catch blame that would hit you.'],
+  'bu-v-seatsnopool': ['Safety seats without colours sharing the risk.', 'Does sharing risk across colours matter?'],
+  'bu-v-seatsnobench': ['Safety seats without the back cards catching overflow.', 'Does the safety net matter?'],
+  'bu-v-seatsnodeptspread': ['Safety seats where colours do not change the range.', 'Do colours changing the range add choice?'],
+  'bu-v-seatsencountersb': ['Safety seats with the harder fights.', 'Do the two ideas work together?'],
+  'bu-v-seatswidespread': ['Safety seats with wider swings (±60%).', 'How swingy is fun?'],
+  'bu-v-seatscolouredinterns': ['Safety seats with coloured interns.', 'Do coloured interns make sharing risk easier?'],
+  'bu-v-seatscolouredwide': ['Safety seats, coloured interns, the widest swings (±100%).', 'Is a very swingy game exciting or random?'],
+  'bu-v-seatsanywhere': ['Safety seats where any colour anywhere on the table shares risk.', 'Is it clearer when every card counts?'],
+  'bu-v-seatspalekeeps': ['Safety seats where a white top card shows its team\'s colour.', 'Does this make the table easier to read?'],
+  'bu-v-seatsboth': ['Safety seats with both changes above.', 'Is this the clearest version of safety seats?'],
+  'sc-chain-of-command': ['A team tree: you manage two managers who each manage two; orders take time to travel down.', 'Is planning ahead around slow orders fun?'],
+  'sc-clearance': ['A team tree where problems come face down; higher clearance lets you see them days ahead.', 'Is seeing further ahead a good reward?'],
+  'sc-head-office-intends': ['Head Office posts its moves two days ahead; you plan around them.', 'Is a rival that tells you its plans fun to outwit?'],
+  'sc-line-of-sight': ['A column of desks: whoever sits behind a worker watches them, adding work and strain.', 'Is arranging who watches whom an interesting puzzle?'],
+  'sc-off-the-books': ['You choose how much surplus to report each Friday and hide the rest.', 'Is hiding results and skimming tense and tempting?'],
+  'sc-org-tree': ['The basic team tree: you manage two; managers lift their staff.', 'Is building a reporting tree fun on its own?'],
+  'sc-paper-or-email': ['Each task is done on paper or by email, and office cards punish one or the other.', 'Is choosing paper or email a real decision?'],
+  'sc-performance-review': ['The first office deck game: hit weekly targets while office cards cause trouble.', 'Is the basic office fight fun?'],
+  'sc-personal-guarantee': ['Each Monday you pledge cards as a guarantee; meet the week and they come back stronger.', 'Is betting your own cards exciting?'],
+  'sc-spot-check': ['The Hand marks desks each day; whoever sits there is taken after the punch.', 'Is dodging the marks with temps and red tape fun?'],
+  'sc-the-agenda': ['You plan the order of upcoming weeks with agenda cards.', 'Is shaping your own schedule interesting?'],
+  'sc-the-baseline': ['A tug of war: your paper against the Hand\'s demand, a rope each punch.', 'Is a steady tug of war tense enough?'],
+  'sc-the-desk-across': ['The Auditor faces your four columns lane by lane each punch.', 'Is a one-on-one opponent more fun than a pile of problems?'],
+  'sc-the-gumball-window': ['Thirty capsules for the whole run; pulling costs more each time.', 'Is a shared, shrinking prize machine exciting?'],
+  'sc-the-inbox': ['Problems land on your team\'s branches; work closes them, the rest flows up to you.', 'Is attack and defend on a team tree fun?'],
+  'sc-the-rotation': ['Every new worker pushes everyone one desk along; desk 5 goes home.', 'Is a rolling seating chart a good puzzle?'],
+  'sc-triplicate': ['Sheets run through your six desks in order; each desk stamps or spoils them.', 'Is arranging a little assembly line satisfying?'],
+  'sc-use-it-or-lose-it': ['Unspent budget is cut next week, so you must spend it well or pad it.', 'Is "spend it or lose it" a fun pressure?'],
+};
+</script>
 <script type="module">
 // The playtest hub (round 21). The rules are the C# core itself, compiled to WebAssembly (net/), so every prototype
 // plays exactly as the lab measured it. This page decides nothing: it sends command words and draws the engine's view.
@@ -122,6 +243,10 @@ const app = document.getElementById('app');
 const KEY = 'simmili-hub-r21';
 let E, menu = [], cur = null, view = null, sel = null, chips = [], msg = '', cmds = [], seed = '1';
 let ratings = {}, myId = null, db = null, dbState = 'connecting';
+let infoKey = null; // the help card open: an entry's key, or 'about'
+const SEEN = 'simmili-hub-seen';
+const seenInfo = () => { try { return JSON.parse(localStorage.getItem(SEEN) || '{}') || {}; } catch (e) { return {}; } };
+const markSeen = k => { try { const x = seenInfo(); x[k] = 1; localStorage.setItem(SEEN, JSON.stringify(x)); } catch (e) {} };
 
 const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ key: cur && cur.key, seed, cmds })); } catch (e) {} };
@@ -266,11 +391,33 @@ const sw = (bg, label) => '<span><i class="sw" style="background:' + bg + '"></i
 // ---- render --------------------------------------------------------------------------------------------------------
 function render() {
   if (!E) return;
+  renderBody();
+  if (infoKey) app.insertAdjacentHTML('beforeend', infoHtml());
+}
+function infoHtml() {
+  const ul = xs => '<ul style="margin:4px 0 10px;padding-left:18px">' + xs.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>';
+  let h = '<div class="over info-over"><div class="panel info">';
+  if (infoKey === 'about') {
+    h += '<div class="big" style="font-size:20px">' + esc(ABOUT.title) + '</div>' + ABOUT.lines.map(l => '<p>' + esc(l) + '</p>').join('') +
+      '<div class="label">how to rate</div>' + ul(ABOUT.rate) + '<div class="label">feedback that helps</div>' + ul(ABOUT.helps);
+  } else {
+    const m = menu.find(x => x.key === infoKey) || { title: infoKey, line: '' }, i = INFO[infoKey] || [m.line, ''], n = menu.indexOf(m) + 1;
+    const bu = infoKey.startsWith('bu-'), rules = bu ? BU_HOW : (m.rules || []);
+    h += '<div class="big" style="font-size:20px">' + n + '. ' + esc(m.title) + '</div><p>' + esc(i[0] || m.line) + '</p>';
+    if (i[1]) h += '<div class="label">we are testing</div><p style="font-weight:700">' + esc(i[1]) + '</p>';
+    h += '<div class="label">pay attention to</div><p>' + esc((i[3] ? i[3] + ' ' : '') + WATCH) + '</p>';
+    h += '<div class="label">how to play' + (bu && infoKey !== 'bu-default' ? ' (Build Up)' : '') + '</div>' + (i[2] ? '<p><b>In this version:</b> ' + esc(i[2]) + '</p>' : '') + '<ol style="margin:4px 0 10px;padding-left:18px">' + rules.map(l => '<li>' + esc(l) + '</li>').join('') + '</ol>';
+    if (bu && infoKey !== 'bu-no-colours' && infoKey !== 'bu-r17') h += '<p class="dim">' + esc(BU_COLOURS) + '</p>';
+  }
+  h += '<div class="row" style="justify-content:flex-end"><button class="btn punch" style="flex:0" data-closeinfo="1">got it</button></div></div></div>';
+  return h;
+}
+function renderBody() {
   if (!cur) { renderMenu(); return; }
   if (view.generic) { renderGeneric(); return; }
   const v = view;
   let h = '<div class="app"><div class="panel">';
-  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><span class="dim num" style="font-size:12px">seed ' + esc(seed) + '</span></div>';
+  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="how to play">i</button><span class="dim num" style="font-size:12px">seed ' + esc(seed) + '</span></div>';
   h += '<div class="status">';
   h += '<span>wk <b>' + v.week + '</b>/' + v.weeksToWin + ' · fl ' + v.floor + ' · turn <b>' + v.turn + '</b>/' + v.turns + '</span>';
   if (v.fight) h += '<span class="rule">' + esc(v.fight.toUpperCase()) + '</span>';
@@ -390,7 +537,7 @@ function verbsOf(help) {
 function renderGeneric() {
   const v = view;
   let h = '<div class="app"><div class="panel">';
-  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><span class="dim num" style="font-size:12px">seed ' + esc(seed) + ' · ' + v.weeks + '/' + v.weeksToWin + '</span></div>';
+  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="how to play">i</button><span class="dim num" style="font-size:12px">seed ' + esc(seed) + ' · ' + v.weeks + '/' + v.weeksToWin + '</span></div>';
   h += '<pre class="num" style="white-space:pre-wrap;font-size:13px;line-height:1.45;margin:6px 0;overflow-x:auto">' + esc(v.status) + '</pre>';
   h += '<div class="feed">' + chips.map(c => '<span class="chip ' + c[0] + '">' + esc(c[1]) + '</span>').join('') + '</div><div class="msg">' + esc(msg) + '</div>';
   h += '<div class="row" style="margin-top:6px">' + verbsOf(v.help).map(x => '<button class="btn" title="' + esc(x.desc) + '" ' + (x.run ? 'data-cmd="' + esc(x.run) + '"' : 'data-fill="' + esc(x.fill) + '"') + '>' + esc(x.label) + '</button>').join('') + '</div>';
@@ -405,14 +552,14 @@ function renderGeneric() {
 }
 function copyArea() { return copyBox ? '<textarea id="copybox" readonly style="width:100%;height:7em;margin-top:6px;font-family:var(--num);font-size:12px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px">' + esc(copyBox) + '</textarea>' : ''; }
 function renderMenu() {
-  let h = '<div class="menu"><h1>Simmili playtest</h1><div class="dim num" style="font-size:12px">pick one, play, rate it, come back. ✓ = played' + (dbState === 'off' ? ' · ratings kept in this browser: send them with "send feedback"' : '') + '</div>';
+  let h = '<div class="menu"><div class="row" style="justify-content:space-between"><h1>Simmili playtest</h1><button class="btn" data-info="about">About this playtest</button></div><div class="dim num" style="font-size:12px">pick one, play, rate it, come back. ✓ = played' + (dbState === 'off' ? ' · ratings kept in this browser: send them with "send feedback"' : '') + '</div>';
   if (dbState === 'off' && Object.keys(ratings).length) h += '<div class="row"><button class="btn" data-copyall="1">copy all my feedback</button><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://github.com/' + FEEDBACK_REPO + '/issues/new?title=' + encodeURIComponent('Simmili playtest: all') + '&body=' + encodeURIComponent(allFeedback().slice(0, 6000)) + '">send all as one issue</a>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea();
   let group = '';
   menu.forEach((m, i) => {
     if (m.group !== group) { group = m.group; h += '<h2 style="font-size:15px;margin:10px 0 0">' + esc(group) + '</h2>'; }
     const r = ratings[m.key];
-    h += '<button class="entry" data-open="' + esc(m.key) + '"><span class="n">' + (i + 1) + '</span><span class="t">' + esc(m.title) + '</span><span class="r">' +
-      (r && r.plays ? '<b>✓</b> ' + r.plays + 'x · best ' + r.best + 'wk' : '') + (r && r.fun ? '<br><span class="stars">' + '★'.repeat(r.fun) + '</span>' + '☆'.repeat(5 - r.fun) : '') + '</span><span class="l">' + esc(m.line) + '</span></button>';
+    h += '<div class="erow"><button class="entry" data-open="' + esc(m.key) + '"><span class="n">' + (i + 1) + '</span><span class="t">' + esc(m.title) + '</span><span class="r">' +
+      (r && r.plays ? '<b>✓</b> ' + r.plays + 'x · best ' + r.best + 'wk' : '') + (r && r.fun ? '<br><span class="stars">' + '★'.repeat(r.fun) + '</span>' + '☆'.repeat(5 - r.fun) : '') + '</span><span class="l">' + esc(m.line) + '</span></button><button class="ibtn" data-info="' + esc(m.key) + '" aria-label="about entry ' + (i + 1) + '">i</button></div>';
   });
   h += '</div>';
   app.innerHTML = h;
@@ -428,7 +575,9 @@ app.addEventListener('click', ev => {
   const el = ev.target.closest('button');
   if (!el) return;
   const d = el.dataset;
-  if (d.open) { flash = ''; copyBox = ''; start(d.open, newSeed(), []); return; }
+  if (d.open) { flash = ''; copyBox = ''; start(d.open, newSeed(), []); if (!seenInfo()[d.open]) { infoKey = d.open; render(); } return; }
+  if (d.info) { infoKey = d.info; render(); return; }
+  if (d.closeinfo) { if (infoKey !== 'about') markSeen(infoKey); else markSeen('about'); infoKey = null; render(); return; }
   if (d.copyfb) { copyText(feedbackText(d.copyfb)); return; }
   if (d.copyall) { copyText(allFeedback()); return; }
   if (d.fill != null) { const c = document.getElementById('cmd'); c.value = d.fill; c.focus(); return; }
@@ -458,10 +607,11 @@ app.addEventListener('click', ev => {
   if (d.again) { start(cur.key, seed, []); return; }
 });
 document.addEventListener('keydown', e => {
+  if (infoKey && e.key !== 'Escape') return;
   if (e.target.id === 'cmd' && e.key === 'Enter') { const t = e.target.value.trim().toLowerCase(); if (t) act(t); return; }
   if (!cur || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || (view && view.generic)) return;
   if ((e.key === ' ' || e.key === 'Enter') && !view.over) { e.preventDefault(); act('punch'); }
-  if (e.key === 'Escape') { sel = null; render(); }
+  if (e.key === 'Escape') { if (infoKey) { markSeen(infoKey); infoKey = null; } sel = null; render(); }
 });
 boot();
 </script>
