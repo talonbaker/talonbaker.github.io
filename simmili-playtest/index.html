@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>html,body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
 </head>
 <body>
 <title>Simmili Playtest Hub</title>
@@ -163,6 +164,7 @@ function start(key, s, replay) {
 function act(words) {
   const r = JSON.parse(E.Do(words));
   if (!r.ok) { msg = r.why; render(); return; }
+  if (view && view.generic) chips = [];
   msg = ''; sel = null; cmds.push(words); apply(r); save();
   if (view.over) recordPlay();
   render();
@@ -170,22 +172,53 @@ function act(words) {
 function showMenu() { cur = null; view = null; save(); render(); }
 
 // ---- ratings (shared db: Claude reads them back) ------------------------------------------------------------------
+// outside Claude (a static host such as GitHub Pages) there is no db: ratings stay in this browser, and the tester sends
+// them as a GitHub issue (or copies them)
+const RKEY = 'simmili-hub-ratings';
+const FEEDBACK_REPO = 'talonbaker/talonbaker.github.io';
+function offline() {
+  dbState = 'off'; db = null;
+  try { ratings = JSON.parse(localStorage.getItem(RKEY) || '{}') || {}; } catch (e) { ratings = {}; }
+  render();
+}
+function feedbackText(key) {
+  const m = menu.find(x => x.key === key) || { title: key }, r = ratings[key] || {};
+  return 'Entry: ' + (menu.indexOf(m) + 1) + '. ' + m.title + ' (' + key + ')\n' +
+    'Fun: ' + (r.fun ? r.fun + '/5' : '-') + '\nNote: ' + (r.note || '-') + '\n' +
+    'Plays: ' + (r.plays || 0) + ', best: ' + (r.best || 0) + ' weeks, wins: ' + (r.wins || 0) + '\n' +
+    'Last seed: ' + (r.lastSeed || seed) + (r.lastWeeks != null ? ' (' + r.lastWeeks + ' weeks)' : '') + '\n';
+}
+function issueUrl(key) {
+  const m = menu.find(x => x.key === key) || { title: key };
+  return 'https://github.com/' + FEEDBACK_REPO + '/issues/new?title=' + encodeURIComponent('Simmili playtest: ' + m.title) + '&body=' + encodeURIComponent(feedbackText(key));
+}
+function allFeedback() { return menu.filter(m => ratings[m.key]).map(m => feedbackText(m.key)).join('\n'); }
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); msg = ''; flash = 'copied'; }
+  catch (e) { flash = ''; copyBox = text; }
+  render();
+}
+let flash = '', copyBox = '';
 async function connectDb() {
-  const timer = setTimeout(() => { if (dbState === 'connecting') { dbState = 'off'; render(); } }, 10000);
+  const timer = setTimeout(() => { if (dbState === 'connecting') offline(); }, 10000);
   try {
     const [d, u] = await Promise.all([window.claude?.use?.('db'), window.claude?.use?.('user')]);
-    if (!d || !u) { dbState = 'off'; clearTimeout(timer); render(); return; }
+    if (!d || !u) { clearTimeout(timer); offline(); return; }
     db = d; myId = await u.id();
     db.collection('ratings').onSnapshot(snap => {
       clearTimeout(timer);
       ratings = {};
       snap.docs.forEach(doc => { const x = doc.data(); if (x && x.user === myId) ratings[x.key] = x; });
       dbState = 'on'; render();
-    }, () => { clearTimeout(timer); dbState = 'off'; render(); });
-  } catch (e) { clearTimeout(timer); dbState = 'off'; render(); }
+    }, () => { clearTimeout(timer); offline(); });
+  } catch (e) { clearTimeout(timer); offline(); }
 }
 async function writeRating(key, patch) {
-  if (!db || !myId) { msg = 'ratings are not saved in this view'; render(); return; }
+  if (!db || !myId) {
+    ratings[key] = Object.assign({ key, fun: 0, note: '', plays: 0, best: 0, wins: 0 }, ratings[key] || {}, patch, { key, at: new Date().toISOString() });
+    try { localStorage.setItem(RKEY, JSON.stringify(ratings)); } catch (e) {}
+    render(); return;
+  }
   const prev = ratings[key] || { key, user: myId, fun: 0, note: '', plays: 0, best: 0, wins: 0 };
   const next = Object.assign({}, prev, patch, { key, user: myId, title: (menu.find(m => m.key === key) || {}).title || key, at: new Date().toISOString() });
   ratings[key] = next; render();
@@ -234,6 +267,7 @@ const sw = (bg, label) => '<span><i class="sw" style="background:' + bg + '"></i
 function render() {
   if (!E) return;
   if (!cur) { renderMenu(); return; }
+  if (view.generic) { renderGeneric(); return; }
   const v = view;
   let h = '<div class="app"><div class="panel">';
   h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><span class="dim num" style="font-size:12px">seed ' + esc(seed) + '</span></div>';
@@ -246,12 +280,13 @@ function render() {
   h += '<span>strikes <span class="pips">' + '●'.repeat(v.strikes) + '○'.repeat(Math.max(0, v.strikesAllowed + 1 - v.strikes)) + '</span></span>';
   h += '<span>you ✕' + v.blame + '/' + v.blamePerStrike + '</span>';
   if (v.verbs && (v.ledger || v.quote)) h += '<span>' + (v.ledger ? 'ledger ' + v.ledger + (v.releasing ? ' (releasing x1.5)' : '') : '') + (v.quote ? ' quote ' + v.quote : '') + '</span>';
+  if (v.pool) h += '<span title="colours pooling the risk">pool ' + v.pool + '</span>';
   if (v.friday) h += '<span class="dim">Fri ' + esc(v.friday) + '</span>';
   if (v.rule) h += '<span class="rule">BOSS: ' + esc(v.rule) + '</span>';
   else if (v.bossRule) h += '<span class="dim">' + esc(v.encounter) + ' · boss wk ' + v.bossWeek + ': ' + esc(v.bossRule) + '</span>';
   if (v.frozen) h += '<span class="rule">' + esc(v.frozen) + ' frozen</span>';
   h += '</div><div class="days" style="--days:' + v.turns + '">';
-  v.problems.forEach((p, i) => { const d = i + 1; h += '<div class="day' + (d === v.turn ? ' now' : d < v.turn ? ' done' : '') + '">' + (p.size ? '<b>✕' + p.size + '</b>→' + (p.slot || '?') : '·') + '</div>'; });
+  v.problems.forEach((p, i) => { const d = i + 1; h += '<div class="day' + (d === v.turn ? ' now' : d < v.turn ? ' done' : '') + '">' + (p.size ? '<b>✕' + p.size + (p.spread ? '±' + p.spread : '') + '</b>→' + (p.slot || '?') : '·') + '</div>'; });
   h += '</div>';
   if (v.offer.length) {
     h += '<div class="row" style="margin-top:8px"><span class="label" style="margin:0">recruit 1 of ' + v.offer.length + '</span>';
@@ -331,14 +366,50 @@ function verbsFor(t, k) {
 }
 function ratingPanel(key, inOverlay) {
   const r = ratings[key] || {};
-  let h = (inOverlay ? '<div style="margin-top:12px">' : '<div class="panel">') + '<div class="label">fun? ' + (dbState === 'on' ? '' : dbState === 'off' ? '(not saved here)' : '(connecting)') + '</div><div class="row rate">';
+  let h = (inOverlay ? '<div style="margin-top:12px">' : '<div class="panel">') + '<div class="label">fun? ' + (dbState === 'on' ? '' : dbState === 'off' ? '(kept in this browser)' : '(connecting)') + '</div><div class="row rate">';
   for (let i = 1; i <= 5; i++) h += '<button data-fun="' + i + '" class="' + (r.fun >= i ? 'on' : '') + '" aria-label="fun ' + i + ' of 5">' + i + '</button>';
-  h += '</div><div class="row" style="margin-top:6px"><input type="text" id="note' + (inOverlay ? '2' : '') + '" maxlength="200" placeholder="one line" value="' + esc(r.note || '') + '" style="flex:1;min-width:10ch"><button class="btn" data-note="' + (inOverlay ? 'note2' : 'note') + '">save</button></div></div>';
+  h += '</div><div class="row" style="margin-top:6px"><input type="text" id="note' + (inOverlay ? '2' : '') + '" maxlength="200" placeholder="one line" value="' + esc(r.note || '') + '" style="flex:1;min-width:10ch"><button class="btn" data-note="' + (inOverlay ? 'note2' : 'note') + '">save</button></div>' +
+    (dbState === 'off' ? '<div class="row" style="margin-top:6px"><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(issueUrl(key)) + '">send feedback</a><button class="btn" data-copyfb="' + esc(key) + '">copy feedback</button>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea() : '') + '</div>';
   return h;
 }
+// any other scenario: its own Status as numbers, a button per Help verb, and a text box
+function verbsOf(help) {
+  const out = [];
+  help.split('\n').map(l => l.trim()).filter(Boolean).forEach(line => {
+    const usage = line.split(/\s{2,}/)[0], desc = line.slice(usage.length).trim();
+    usage.split(/\s*[,|]\s*/).forEach(u => {
+      u = u.replace(/[()]/g, '').trim();
+      if (!u || !/^[a-z]/.test(u)) return;
+      const words = u.split(/\s+/), fixed = [];
+      for (const x of words) { if (/^[a-z][a-z-]*$/.test(x)) fixed.push(x); else break; }
+      out.push({ label: u, run: fixed.length === words.length ? fixed.join(' ') : '', fill: fixed.join(' ') + ' ', desc });
+    });
+  });
+  return out;
+}
+function renderGeneric() {
+  const v = view;
+  let h = '<div class="app"><div class="panel">';
+  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><span class="dim num" style="font-size:12px">seed ' + esc(seed) + ' · ' + v.weeks + '/' + v.weeksToWin + '</span></div>';
+  h += '<pre class="num" style="white-space:pre-wrap;font-size:13px;line-height:1.45;margin:6px 0;overflow-x:auto">' + esc(v.status) + '</pre>';
+  h += '<div class="feed">' + chips.map(c => '<span class="chip ' + c[0] + '">' + esc(c[1]) + '</span>').join('') + '</div><div class="msg">' + esc(msg) + '</div>';
+  h += '<div class="row" style="margin-top:6px">' + verbsOf(v.help).map(x => '<button class="btn" title="' + esc(x.desc) + '" ' + (x.run ? 'data-cmd="' + esc(x.run) + '"' : 'data-fill="' + esc(x.fill) + '"') + '>' + esc(x.label) + '</button>').join('') + '</div>';
+  h += '<div class="row" style="margin-top:6px"><input type="text" id="cmd" autocomplete="off" placeholder="type a command, e.g. ' + esc((verbsOf(v.help)[0] || { label: 'help' }).label) + '" style="flex:1;min-width:12ch"><button class="btn punch" style="flex:0" data-go="1">do</button></div></div>';
+  h += '<div class="side">' + ratingPanel(cur.key) + '<div class="panel"><ol class="rules">' + v.rules.map(l => '<li>' + esc(l) + '</li>').join('') + '</ol></div>';
+  h += '<div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button></div></div></div>';
+  if (v.over) h += '<div class="over"><div class="panel"><div class="big">' + (v.won ? 'WON' : 'OVER') + '</div><div>' + v.weeks + '/' + v.weeksToWin + ' · seed ' + esc(seed) + '</div>' + ratingPanel(cur.key, true) +
+    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-again="1">same seed</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  const focus = document.activeElement && document.activeElement.id === 'cmd';
+  app.innerHTML = h;
+  if (focus) document.getElementById('cmd')?.focus();
+}
+function copyArea() { return copyBox ? '<textarea id="copybox" readonly style="width:100%;height:7em;margin-top:6px;font-family:var(--num);font-size:12px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px">' + esc(copyBox) + '</textarea>' : ''; }
 function renderMenu() {
-  let h = '<div class="menu"><h1>Simmili playtest</h1><div class="dim num" style="font-size:12px">pick one, play, rate it, come back. ✓ = played' + (dbState === 'off' ? ' · ratings not saved in this view' : '') + '</div>';
+  let h = '<div class="menu"><h1>Simmili playtest</h1><div class="dim num" style="font-size:12px">pick one, play, rate it, come back. ✓ = played' + (dbState === 'off' ? ' · ratings kept in this browser: send them with "send feedback"' : '') + '</div>';
+  if (dbState === 'off' && Object.keys(ratings).length) h += '<div class="row"><button class="btn" data-copyall="1">copy all my feedback</button><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://github.com/' + FEEDBACK_REPO + '/issues/new?title=' + encodeURIComponent('Simmili playtest: all') + '&body=' + encodeURIComponent(allFeedback().slice(0, 6000)) + '">send all as one issue</a>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea();
+  let group = '';
   menu.forEach((m, i) => {
+    if (m.group !== group) { group = m.group; h += '<h2 style="font-size:15px;margin:10px 0 0">' + esc(group) + '</h2>'; }
     const r = ratings[m.key];
     h += '<button class="entry" data-open="' + esc(m.key) + '"><span class="n">' + (i + 1) + '</span><span class="t">' + esc(m.title) + '</span><span class="r">' +
       (r && r.plays ? '<b>✓</b> ' + r.plays + 'x · best ' + r.best + 'wk' : '') + (r && r.fun ? '<br><span class="stars">' + '★'.repeat(r.fun) + '</span>' + '☆'.repeat(5 - r.fun) : '') + '</span><span class="l">' + esc(m.line) + '</span></button>';
@@ -357,8 +428,12 @@ app.addEventListener('click', ev => {
   const el = ev.target.closest('button');
   if (!el) return;
   const d = el.dataset;
-  if (d.open) { start(d.open, newSeed(), []); return; }
-  if (d.back) { showMenu(); return; }
+  if (d.open) { flash = ''; copyBox = ''; start(d.open, newSeed(), []); return; }
+  if (d.copyfb) { copyText(feedbackText(d.copyfb)); return; }
+  if (d.copyall) { copyText(allFeedback()); return; }
+  if (d.fill != null) { const c = document.getElementById('cmd'); c.value = d.fill; c.focus(); return; }
+  if (d.go) { const c = document.getElementById('cmd'), t = c.value.trim().toLowerCase(); if (t) act(t); return; }
+  if (d.back) { flash = ''; copyBox = ''; showMenu(); return; }
   if (d.cmd) { act(d.cmd); return; }
   if (d.fun) { writeRating(cur.key, { fun: +d.fun }); return; }
   if (d.note) { writeRating(cur.key, { note: document.getElementById(d.note).value.slice(0, 200) }); return; }
@@ -383,7 +458,8 @@ app.addEventListener('click', ev => {
   if (d.again) { start(cur.key, seed, []); return; }
 });
 document.addEventListener('keydown', e => {
-  if (!cur || e.target.tagName === 'INPUT') return;
+  if (e.target.id === 'cmd' && e.key === 'Enter') { const t = e.target.value.trim().toLowerCase(); if (t) act(t); return; }
+  if (!cur || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || (view && view.generic)) return;
   if ((e.key === ' ' || e.key === 'Enter') && !view.over) { e.preventDefault(); act('punch'); }
   if (e.key === 'Escape') { sel = null; render(); }
 });

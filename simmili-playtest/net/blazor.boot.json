@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "hub",
   "resources": {
-    "hash": "sha256-Ubgz2nPbcyGVoFGUyC64uZZtUwyg86/xPTuFUFaCyxU=",
+    "hash": "sha256-d2/nvo+PlwTCVYcYlb0N2jc3NVn2ckHF1bF2XomR8f4=",
     "jsModuleNative": {
       "dotnet.native.8.0.34.cism9v9sh3.js": "sha256-Uc+HxggmSGuU1CkPjbVFhBiqRQ6cUsH1lnQ1keONjkE="
     },
@@ -12,7 +12,7 @@
       "dotnet.native.wasm": "sha256-Eofly44dOWyqm38tXM2+LqiuBkNn/1PBVC2DqWqZYkI="
     },
     "assembly": {
-      "hub.wasm": "sha256-THnUjtlOP8DeM2IViL43nIRoHTc7ewj30zYTKIDr5ks=",
+      "hub.wasm": "sha256-Uw00bVpZJHADGG9rwSPFZ8s71g7yvRnJ1buKiyuzab0=",
       "SimmiliAndCo.Core.wasm": "sha256-6AAbad27jljr1rcnVo2VN1fYXrvuD2bDz3La9qH00LA=",
       "System.Collections.Concurrent.wasm": "sha256-5F7DFBuAenSQELhEZ5N1sVGc27Azg3/62nr74rVmTC8=",
       "System.Collections.wasm": "sha256-SiczvreAR6jc5YHDYHKwJ2R1vTPcoxnUSPAK86jjTJU=",
