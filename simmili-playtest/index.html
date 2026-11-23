@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Simmili Playtest Hub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a numbered menu of prototypes; a prototype opens as one table (office over four stacks) beside a side
+   panel (hand, shop, punch, rating); stacked on a portrait phone. Colours and numbers only. */
+:root {
+  --bg: #eef0f3; --panel: #ffffff; --line: #cfd4dc; --fg: #1b1f27; --dim: #687080; --accent: #1d6fe0; --ok: #1f8a4c; --bad: #c8362e;
+  --office: #2a2f3a; --office-fg: #f2f4f8; --stripe: #555c6b;
+  --r: #d7322e; --bl: #2459d1; --y: #f0bf1f; --p: #7b3fb8; --o: #ee7a1c; --g: #2c9a4a; --n: #7a5335; --beige: #d9c7a2; --grey: #9aa1ad; --w: #f4f4f0;
+  --display: "Space Grotesk", system-ui, sans-serif; --num: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --ch: clamp(20px, 5.4vh, 34px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12151b; --panel: #1b2029; --line: #313846; --fg: #e8ebf1; --dim: #8b93a3; --accent: #5b9bff; --ok: #3cc073; --bad: #ff6a5f;
+  --office: #3a4150; --office-fg: #f2f4f8; --stripe: #59606f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12151b; --panel: #1b2029; --line: #313846; --fg: #e8ebf1; --dim: #8b93a3; --accent: #5b9bff; --ok: #3cc073; --bad: #ff6a5f;
+  --office: #3a4150; --office-fg: #f2f4f8; --stripe: #59606f; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--display); padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); padding-block: 8px; font-variant-numeric: tabular-nums }
+button { font: inherit; color: inherit; cursor: pointer }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px; min-width: 0 }
+.dim { color: var(--dim) }
+.num { font-family: var(--num) }
+/* menu */
+.menu { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px }
+.menu h1 { font-size: 20px; margin: 4px 0; text-wrap: balance }
+.entry { display: grid; grid-template-columns: 2.2em minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100% }
+.entry:hover { border-color: var(--accent) }
+.entry .n { font-family: var(--num); font-size: 18px; font-weight: 700; color: var(--accent) }
+.entry .t { font-weight: 700 }
+.entry .l { grid-column: 2; font-size: 13px; color: var(--dim) }
+.entry .r { grid-row: 1 / span 2; grid-column: 3; font-family: var(--num); font-size: 12px; text-align: right; color: var(--dim) }
+.entry .r b { color: var(--ok) }
+.stars { color: var(--y); letter-spacing: 1px }
+/* play */
+.app { display: grid; gap: 10px; max-width: 1280px; margin: 0 auto }
+@media (min-aspect-ratio: 4/3) and (min-width: 620px) { .app { grid-template-columns: minmax(0, 1fr) minmax(260px, 34%); align-items: start } }
+.top { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap }
+.top .name { font-weight: 700 }
+.status { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; font-family: var(--num); font-size: 13px }
+.status b { font-size: 15px }
+.bar { position: relative; width: 110px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; display: inline-block; vertical-align: middle }
+.bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent) }
+.bar.met i { background: var(--ok) }
+.pips { letter-spacing: 2px; color: var(--bad) }
+.rule { background: var(--bad); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 12px }
+.days { display: grid; grid-template-columns: repeat(var(--days, 6), 1fr); gap: 4px; margin-top: 6px }
+.day { border: 1px solid var(--line); border-radius: 4px; text-align: center; font-family: var(--num); font-size: 12px; padding: 1px 0; color: var(--dim) }
+.day.now { border-color: var(--accent); color: var(--fg); box-shadow: inset 0 0 0 1px var(--accent) }
+.day.done { opacity: .4 }
+.day b { color: var(--bad) }
+.table { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px }
+.col { display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.offices { display: flex; gap: 3px; min-height: calc(var(--ch) * 1.7) }
+.oc { flex: 1; min-width: 0; background: var(--office); color: var(--office-fg); border-radius: 5px; padding: 2px 4px; font-family: var(--num); font-size: 11px; line-height: 1.25; display: flex; flex-direction: column; justify-content: center; overflow: hidden }
+.oc .sz { font-size: 16px; font-weight: 700 }
+.oc.boss { box-shadow: inset 0 0 0 2px var(--bad) }
+.oc.hidden { background: repeating-linear-gradient(135deg, var(--office), var(--office) 6px, var(--stripe) 6px, var(--stripe) 12px) }
+.acts { display: flex; gap: 3px; min-height: 26px }
+.acts button { flex: 1; min-width: 0; border: 1px solid var(--accent); background: transparent; color: var(--accent); border-radius: 4px; font-size: 12px; padding: 2px 0; font-family: var(--num) }
+.acts button.go { background: var(--accent); color: #fff }
+.stack { display: flex; flex-direction: column-reverse; gap: 2px; min-height: calc(var(--ch) * 6 + 10px); border: 1px dashed var(--line); border-radius: 6px; padding: 2px; background: none; width: 100% }
+.stack.sel { border: 2px solid var(--accent) }
+.card { height: var(--ch); border-radius: 4px; display: flex; align-items: center; justify-content: space-between; padding: 0 5px; font-family: var(--num); font-weight: 700; font-size: calc(var(--ch) * .55); color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.35); min-width: 0 }
+.card small { font-size: 10px; font-weight: 500; opacity: .9 }
+.card.lightc { color: #24201a; text-shadow: none }
+.card.frozen { opacity: .45; outline: 2px dashed var(--bad); outline-offset: -2px }
+.stack .card.front { height: calc(var(--ch) * 1.25); font-size: calc(var(--ch) * .75); box-shadow: 0 0 0 2px var(--fg) }
+.foot { font-family: var(--num); font-size: 12px; text-align: center; color: var(--dim) }
+.foot b { color: var(--fg); font-size: 14px }
+.foot .jam { color: var(--bad) }
+.feed { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; min-height: 22px; font-family: var(--num); font-size: 12px }
+.chip { border: 1px solid var(--line); border-radius: 10px; padding: 1px 7px }
+.chip.good { border-color: var(--ok); color: var(--ok) }
+.chip.bad { border-color: var(--bad); color: var(--bad) }
+.chip.big { background: var(--fg); color: var(--bg); border-color: var(--fg) }
+.chip.friday { border-color: var(--accent); color: var(--accent) }
+.msg { color: var(--bad); font-family: var(--num); font-size: 12px; min-height: 16px; margin-top: 4px }
+.side { display: flex; flex-direction: column; gap: 10px }
+.hand { display: flex; flex-wrap: wrap; gap: 5px }
+.hand .h { width: calc(var(--ch) * 1.9); height: calc(var(--ch) * 2.3); flex-direction: column; justify-content: center; gap: 2px; border: none; font-size: calc(var(--ch) * .8) }
+.hand .h.sel { outline: 3px solid var(--fg); outline-offset: 2px }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center }
+.btn { border: 1px solid var(--line); background: var(--bg); border-radius: 6px; padding: 6px 10px; font-family: var(--num); font-size: 13px }
+.btn:disabled { opacity: .4; cursor: default }
+.btn.punch { background: var(--accent); color: #fff; border-color: var(--accent); font-size: 16px; font-weight: 700; padding: 8px 18px; flex: 1 }
+.label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); margin-bottom: 4px }
+.rules { font-size: 12px; line-height: 1.45; margin: 0; padding-left: 16px }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 8px; font-family: var(--num); font-size: 11px; margin-top: 6px }
+.legend span { display: inline-flex; align-items: center; gap: 3px }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 1px solid var(--line) }
+input[type=text] { font-family: var(--num); font-size: 13px; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); min-width: 0 }
+#seed { width: 13ch }
+#note { flex: 1; min-width: 12ch }
+.rate button { border: 1px solid var(--line); background: var(--bg); border-radius: 6px; width: 34px; height: 30px; font-family: var(--num); font-weight: 700 }
+.rate button.on { background: var(--y); color: #24201a; border-color: var(--y) }
+.over { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 20 }
+.over .panel { text-align: center; padding: 18px 24px; font-family: var(--num); max-width: 420px; width: 100% }
+.over .big { font-size: 28px; font-weight: 700; font-family: var(--display) }
+.boot { max-width: 520px; margin: 40px auto; text-align: center; font-family: var(--num) }
+@media (prefers-reduced-motion: no-preference) { .chip { animation: pop .25s ease-out } @keyframes pop { from { transform: scale(.8); opacity: .3 } } }
+</style>
+
+<div id="app"><div class="boot panel">starting the C# engine…</div></div>
+
+<script type="module">
+// The playtest hub (round 21). The rules are the C# core itself, compiled to WebAssembly (net/), so every prototype
+// plays exactly as the lab measured it. This page decides nothing: it sends command words and draws the engine's view.
+const app = document.getElementById('app');
+const KEY = 'simmili-hub-r21';
+let E, menu = [], cur = null, view = null, sel = null, chips = [], msg = '', cmds = [], seed = '1';
+let ratings = {}, myId = null, db = null, dbState = 'connecting';
+
+const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ key: cur && cur.key, seed, cmds })); } catch (e) {} };
+const newSeed = () => String(Math.floor(Math.random() * 1e9)); // picks a seed for a new run; the run itself is seeded
+
+// ---- the engine ------------------------------------------------------------------------------------------------
+async function boot() {
+  try {
+    const { dotnet } = await import('./net/dotnet.js');
+    const rt = await dotnet.create();
+    const ex = await rt.getAssemblyExports(rt.getConfig().mainAssemblyName);
+    E = ex.Hub;
+    menu = JSON.parse(E.Menu());
+  } catch (err) {
+    app.innerHTML = '<div class="boot panel">The C# engine could not start in this browser.<br><span class="dim">' + esc(err && err.message || err) + '</span></div>';
+    return;
+  }
+  let d = window.claude?.hot?.data?.key ? window.claude.hot.data : null;
+  if (!d) { try { d = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { d = null; } }
+  if (d && d.key && menu.some(m => m.key === d.key) && /^\d{1,20}$/.test(d.seed || '')) start(d.key, d.seed, d.cmds || []);
+  else showMenu();
+  connectDb();
+}
+window.claude?.hot?.snapshot?.(() => ({ key: cur && cur.key, seed, cmds }));
+
+function apply(r) {
+  view = r.view;
+  r.events.forEach(e => {
+    if (e.kind === 'punch' || e.kind === 'reset') chips = [];
+    if (e.text) chips.push([e.kind, e.text]);
+  });
+}
+function start(key, s, replay) {
+  cur = menu.find(m => m.key === key) || menu[0];
+  seed = String(s); cmds = []; chips = []; sel = null; msg = '';
+  apply(JSON.parse(E.New(cur.key, seed)));
+  (replay || []).forEach(w => { const r = JSON.parse(E.Do(w)); if (r.ok) { cmds.push(w); apply(r); } });
+  save(); render();
+}
+function act(words) {
+  const r = JSON.parse(E.Do(words));
+  if (!r.ok) { msg = r.why; render(); return; }
+  msg = ''; sel = null; cmds.push(words); apply(r); save();
+  if (view.over) recordPlay();
+  render();
+}
+function showMenu() { cur = null; view = null; save(); render(); }
+
+// ---- ratings (shared db: Claude reads them back) ------------------------------------------------------------------
+async function connectDb() {
+  const timer = setTimeout(() => { if (dbState === 'connecting') { dbState = 'off'; render(); } }, 10000);
+  try {
+    const [d, u] = await Promise.all([window.claude?.use?.('db'), window.claude?.use?.('user')]);
+    if (!d || !u) { dbState = 'off'; clearTimeout(timer); render(); return; }
+    db = d; myId = await u.id();
+    db.collection('ratings').onSnapshot(snap => {
+      clearTimeout(timer);
+      ratings = {};
+      snap.docs.forEach(doc => { const x = doc.data(); if (x && x.user === myId) ratings[x.key] = x; });
+      dbState = 'on'; render();
+    }, () => { clearTimeout(timer); dbState = 'off'; render(); });
+  } catch (e) { clearTimeout(timer); dbState = 'off'; render(); }
+}
+async function writeRating(key, patch) {
+  if (!db || !myId) { msg = 'ratings are not saved in this view'; render(); return; }
+  const prev = ratings[key] || { key, user: myId, fun: 0, note: '', plays: 0, best: 0, wins: 0 };
+  const next = Object.assign({}, prev, patch, { key, user: myId, title: (menu.find(m => m.key === key) || {}).title || key, at: new Date().toISOString() });
+  ratings[key] = next; render();
+  try { await db.doc('ratings/' + key + '--' + myId).set(next); } catch (e) { msg = 'rating not saved: ' + (e && e.code || e); render(); }
+}
+function recordPlay() {
+  const r = ratings[cur.key] || {};
+  writeRating(cur.key, { plays: (r.plays || 0) + 1, best: Math.max(r.best || 0, view.weeks), wins: (r.wins || 0) + (view.won ? 1 : 0), lastSeed: seed, lastWeeks: view.weeks });
+}
+
+// ---- colour ----------------------------------------------------------------------------------------------------------
+const PRIM = ['var(--r)', 'var(--bl)', 'var(--y)', 'var(--w)'];
+// the four-ink wheel's 12 sectors (red 0 ... magenta 11) and russet (12), as displayed
+const WHEEL = ['var(--r)', '#e4512a', 'var(--o)', '#f2a218', 'var(--y)', '#9cc72a', 'var(--g)', '#1f9a92', 'var(--bl)', '#3b3fae', 'var(--p)', '#c2308a', '#8e3b2c'];
+const SEC = { '0,1': 'var(--p)', '0,2': 'var(--o)', '1,2': 'var(--g)' };
+function colour(c) {
+  if (c.beige) return { bg: 'var(--beige)', light: true };
+  switch (c.hue) {
+    case 'Dept': return { bg: PRIM[c.a], light: c.a === 2 };
+    case 'Pure': return { bg: PRIM[c.a], light: c.a === 2 };
+    case 'Secondary': { const k = [Math.min(c.a, c.b), Math.max(c.a, c.b)].join(','); return { bg: SEC[k], light: k === '0,2' }; }
+    case 'Tint': {
+      const other = c.b === 3 ? 'var(--w)' : SEC[[Math.min(c.a, c.b), Math.max(c.a, c.b)].join(',')];
+      return { bg: 'color-mix(in oklab, ' + PRIM[c.a] + ' ' + (c.b === 3 ? 55 : 62) + '%, ' + other + ')', light: c.a === 2 || c.b === 3 };
+    }
+    case 'Wheel': {
+      if (c.brown) return { bg: c.pale ? 'color-mix(in oklab, var(--n) 60%, var(--w))' : 'var(--n)', light: c.pale };
+      if (c.a < 0) return { bg: 'var(--w)', light: true };
+      const base = WHEEL[c.a], light = c.pale || [3, 4, 5].includes(c.a);
+      return { bg: c.pale ? 'color-mix(in oklab, ' + base + ' 55%, var(--w))' : base, light };
+    }
+    case 'Brown': return { bg: 'var(--n)' };
+    case 'None': return c.code === 'W' ? { bg: 'var(--w)', light: true } : { bg: 'var(--grey)' };
+  }
+  return { bg: 'var(--grey)' };
+}
+function cardHtml(c, cls, tag, attrs, extra) {
+  const k = colour(c);
+  if (c.loadBearing) extra = (extra || '') + ' LB';
+  if (c.closer) extra = (extra || '') + ' CL';
+  return '<' + (tag || 'div') + ' class="card ' + (cls || '') + (k.light ? ' lightc' : '') + (c.frozen ? ' frozen' : '') + '" style="background:' + k.bg + '"' + (attrs || '') + '><span>' + c.level + (c.leader ? '★' : '') + '</span><small>' + esc(c.code) + (extra || '') + '</small></' + (tag || 'div') + '>';
+}
+const sw = (bg, label) => '<span><i class="sw" style="background:' + bg + '"></i>' + esc(label) + '</span>';
+
+// ---- render --------------------------------------------------------------------------------------------------------
+function render() {
+  if (!E) return;
+  if (!cur) { renderMenu(); return; }
+  const v = view;
+  let h = '<div class="app"><div class="panel">';
+  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><span class="dim num" style="font-size:12px">seed ' + esc(seed) + '</span></div>';
+  h += '<div class="status">';
+  h += '<span>wk <b>' + v.week + '</b>/' + v.weeksToWin + ' · fl ' + v.floor + ' · turn <b>' + v.turn + '</b>/' + v.turns + '</span>';
+  if (v.fight) h += '<span class="rule">' + esc(v.fight.toUpperCase()) + '</span>';
+  if (v.goal) h += '<span><b>' + v.stacks + '</b> stacks · ' + esc(v.goal) + (v.dumpster ? ' · dumpster ' + v.dumpster : '') + '</span>';
+  else h += '<span><b>' + v.output + '</b>/' + v.quota + ' <span class="bar' + (v.output >= v.quota ? ' met' : '') + '"><i style="width:' + Math.min(100, v.quota ? v.output / v.quota * 100 : 0) + '%"></i></span></span>';
+  h += '<span><b>' + esc(v.money) + '</b>' + (v.debt ? ' <span style="color:var(--bad)">debt ' + esc(v.debt) + '</span>' : '') + '</span>';
+  h += '<span>strikes <span class="pips">' + '●'.repeat(v.strikes) + '○'.repeat(Math.max(0, v.strikesAllowed + 1 - v.strikes)) + '</span></span>';
+  h += '<span>you ✕' + v.blame + '/' + v.blamePerStrike + '</span>';
+  if (v.verbs && (v.ledger || v.quote)) h += '<span>' + (v.ledger ? 'ledger ' + v.ledger + (v.releasing ? ' (releasing x1.5)' : '') : '') + (v.quote ? ' quote ' + v.quote : '') + '</span>';
+  if (v.friday) h += '<span class="dim">Fri ' + esc(v.friday) + '</span>';
+  if (v.rule) h += '<span class="rule">BOSS: ' + esc(v.rule) + '</span>';
+  else if (v.bossRule) h += '<span class="dim">' + esc(v.encounter) + ' · boss wk ' + v.bossWeek + ': ' + esc(v.bossRule) + '</span>';
+  if (v.frozen) h += '<span class="rule">' + esc(v.frozen) + ' frozen</span>';
+  h += '</div><div class="days" style="--days:' + v.turns + '">';
+  v.problems.forEach((p, i) => { const d = i + 1; h += '<div class="day' + (d === v.turn ? ' now' : d < v.turn ? ' done' : '') + '">' + (p.size ? '<b>✕' + p.size + '</b>→' + (p.slot || '?') : '·') + '</div>'; });
+  h += '</div>';
+  if (v.offer.length) {
+    h += '<div class="row" style="margin-top:8px"><span class="label" style="margin:0">recruit 1 of ' + v.offer.length + '</span>';
+    v.offer.forEach((c, i) => { h += cardHtml(c, 'h', 'button', ' data-cmd="recruit ' + (i + 1) + '" style="width:auto;min-width:60px"'); });
+    h += '<button class="btn" data-cmd="skip">skip</button></div>';
+  }
+  h += '<div class="table">';
+  v.table.forEach((t, k) => {
+    h += '<div class="col"><div class="offices">';
+    v.office.filter(c => c.slot === k + 1).forEach(c => {
+      const oi = v.office.indexOf(c) + 1;
+      h += '<div class="oc' + (c.boss ? ' boss' : '') + (c.seen ? '' : ' hidden') + '"><span class="sz">' + (v.verbs ? '<small style="font-size:10px;opacity:.7">#' + oi + ' </small>' : '') + esc(c.face) + c.size + '</span><span>' + (c.passive ? '' : 't' + c.timer + ' ') + (c.signed ? 'signed ' : '') + esc(c.intent.replace('blame', '✕')) + (c.target ? ' →' + c.target : '') + '</span></div>';
+    });
+    h += '</div><div class="acts">' + actsFor(k) + '</div>';
+    h += '<button class="stack' + (sel && sel.slot === k ? ' sel' : '') + '" data-slot="' + k + '" aria-label="slot ' + (k + 1) + '">';
+    t.cards.forEach((c, i) => { h += cardHtml(c, (i === t.cards.length - 1 ? 'front' : '') + (sel && sel.slot === k && sel.ci === i ? ' sel' : ''), 'div', ' data-ci="' + i + '"' + (sel && sel.slot === k && sel.ci === i ? ' style="outline:3px solid var(--fg)"' : '')); });
+    h += '</button><div class="foot">' + (t.cards.length ? '<b>' + t.work + '</b> ' + esc(t.effect) : (k + 1)) + (t.jam ? ' <span class="jam">jam ' + t.jam + '</span>' : '') +
+      (t.mess ? ' <span class="jam">mess ' + t.mess + ' (−' + (5 * t.mess) + '%)</span>' : '') + (t.locked ? ' <span class="jam">shut</span>' : '') + (t.sign ? ' <span>sign out</span>' : '') +
+      (t.booked ? ' <span>booked</span>' : '') + (t.closing ? ' <span>closing x2</span>' : '') + (t.assigned ? ' <span>on #' + t.assigned + '</span>' : '') + (t.dept ? '<br><span>' + esc(t.dept) + '</span>' : '') + '</div>' + verbsFor(t, k) + '</div>';
+  });
+  h += '</div><div class="feed">' + chips.map(c => '<span class="chip ' + c[0] + '">' + esc(c[1]) + '</span>').join('') + '</div><div class="msg">' + esc(msg) + '</div></div>';
+
+  // side: hand, shop, punch, rating, rules
+  h += '<div class="side"><div class="panel"><div class="label">hand' + (v.draw ? ' · roster ' + v.roster : '') + '</div><div class="hand">';
+  v.hand.forEach((x, i) => { h += cardHtml(x.card, 'h' + (sel && sel.hand === i ? ' sel' : ''), 'button', ' data-hand="' + i + '"', x.cost ? ' ' + x.cost : ''); });
+  if (!v.hand.length) h += '<span class="dim num">—</span>';
+  h += '</div>';
+  if (sel && sel.hand != null) h += '<div class="row" style="margin-top:6px"><button class="btn" data-cmd="drop ' + (sel.hand + 1) + '"' + dis(v.shop.fireWhy) + '>fire for good (' + esc(v.shop.fire) + ')</button><span class="dim num" style="font-size:12px">or tap a slot</span></div>';
+  h += '</div><div class="panel"><div class="row">';
+  h += btn('buy', 'pack', v.shop.pack) + btn('buy adv', 'adv', v.shop.adv) + btn('borrow', 'borrow +', v.shop.borrow, v.shop.line) + btn('repay', 'repay', v.shop.repay);
+  h += '</div><div class="row" style="margin-top:8px"><button class="btn punch" data-cmd="punch">PUNCH +' + v.makes + '</button></div></div>';
+  if (v.verbs) h += '<div class="panel row"><button class="btn" data-cmd="release"' + dis(v.releaseWhy) + '>release ledger ' + v.ledger + ' x1.5</button><input type="text" id="quoteN" inputmode="numeric" style="width:8ch" value="' + v.quota + '"><button class="btn" data-quote="1"' + dis(v.quoteWhy) + '>quote</button></div>';
+  h += ratingPanel(cur.key);
+  h += '<div class="panel"><ol class="rules">' +
+    '<li>Tap a hand card, then a slot: a 1 starts a slot; N+N merge to N+1; an N goes on an N−1; a 1 can tuck behind.</li>' +
+    '<li>PUNCH: each stack works (number under it), hits the office card above it first; the rest counts to the quota.</li>' +
+    '<li>✕ blame hits a stack\'s lowest card first; an empty slot sends it to you: ' + v.blamePerStrike + ' = a strike. ? cards need a higher card on the table to read.</li>' +
+    '<li>Meet the quota within ' + v.turns + ' turns or a strike; ' + (v.strikesAllowed + 1) + ' strikes end it. ' + v.weeksToWin + ' weeks wins.</li>' +
+    '<li>Hires cost once; Friday pays bills − salaries. Loan: +60% a week, due in the boss week.</li></ol>';
+  if (v.colours && !v.fourInks) h += '<div class="legend">' + (v.pigment
+    ? sw('var(--r)', 'R') + sw('var(--bl)', 'B') + sw('var(--y)', 'Y') + '<span>+10% per same</span>' + sw('color-mix(in oklab, var(--r) 55%, var(--w))', 'tint +6%') + sw('var(--p)', 'P x2 office') + sw('var(--o)', 'O +12%') + sw('var(--g)', 'G −1✕') + sw('var(--n)', 'N') + sw('var(--beige)', '^ with N x2.5') + sw('var(--w)', 'W intern')
+    : sw('var(--r)', 'R') + sw('var(--bl)', 'B') + sw('var(--y)', 'Y') + '<span>+25% per same behind · ★ x2</span>' + sw('var(--grey)', 'mixed')) + '</div>';
+  if (v.fourInks) h += '<div class="legend">' + WHEEL.slice(0, 12).map((c, i) => '<i class="sw" style="background:' + c + '" title="sector ' + i + '"></i>').join('') + sw('var(--n)', 'brown') + '<span>verbs: B assign · Y book/release x1.5 · G quote · R reassign (tap a back card)</span></div>';
+  if (v.encounters) h += '<div class="legend"><span>mess −5% each · sweep needs a brown front · LB = load-bearing crew (every colour; sweeps in encounters-b) · CL = closer (close: a stack x2 once a week)</span></div>';
+  h += '</div><div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button></div></div></div>';
+
+  if (v.over) h += '<div class="over"><div class="panel"><div class="big">' + (v.won ? 'WON' : 'OVER') + '</div><div>' + v.weeks + '/' + v.weeksToWin + ' weeks · seed ' + esc(seed) + '</div>' + ratingPanel(cur.key, true) +
+    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-again="1">same seed</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  app.innerHTML = h;
+}
+function btn(cmd, label, b, extra) {
+  if (!b.sold) return '';
+  return '<button class="btn" data-cmd="' + cmd + '"' + dis(b.why) + '>' + esc(label) + (b.price ? ' ' + esc(b.price) : '') + (extra ? ' <span class="dim">' + esc(extra) + '</span>' : '') + '</button>';
+}
+const dis = why => why ? ' disabled title="' + esc(why) + '"' : '';
+function actsFor(k) {
+  let out = '';
+  if (sel && sel.hand != null) {
+    const s = view.hand[sel.hand].slots[k];
+    if (s.play) out += '<button class="go" data-cmd="play ' + (sel.hand + 1) + ' ' + (k + 1) + '">' + s.play + (s.price ? ' ' + esc(s.price) : '') + '</button>';
+    if (s.tuck) out += '<button data-cmd="tuck ' + (sel.hand + 1) + ' ' + (k + 1) + '">tuck</button>';
+  } else if (sel && sel.ci != null) {
+    if (view.table[sel.slot].reassign[sel.ci].includes(k + 1)) out += '<button class="go" data-cmd="reassign ' + (sel.slot + 1) + ' ' + (sel.ci + 1) + ' ' + (k + 1) + '">reassign here</button>';
+  } else if (sel && sel.slot != null && view.moves[sel.slot][k]) {
+    out += '<button class="go" data-cmd="move ' + (sel.slot + 1) + ' ' + (k + 1) + '">' + view.moves[sel.slot][k] + ' here</button>';
+  }
+  return out;
+}
+function verbsFor(t, k) {
+  let b = '';
+  if (t.canClose) b += '<button data-cmd="close ' + (k + 1) + '">close x2</button>';
+  if (t.canBook) b += '<button data-cmd="book ' + (k + 1) + '">book</button>';
+  t.assign.forEach(o => { const c = view.office[o - 1]; b += '<button data-cmd="assign ' + (k + 1) + ' ' + o + '">on #' + o + ' ' + esc(c.face) + c.size + '</button>'; });
+  if (t.sweepMess) b += '<button data-cmd="sweep mess ' + (k + 1) + '">sweep mess</button>';
+  if (t.sweepSign) b += '<button data-cmd="sweep sign ' + (k + 1) + '">sign</button>';
+  return b ? '<div class="acts" style="flex-wrap:wrap">' + b + '</div>' : '';
+}
+function ratingPanel(key, inOverlay) {
+  const r = ratings[key] || {};
+  let h = (inOverlay ? '<div style="margin-top:12px">' : '<div class="panel">') + '<div class="label">fun? ' + (dbState === 'on' ? '' : dbState === 'off' ? '(not saved here)' : '(connecting)') + '</div><div class="row rate">';
+  for (let i = 1; i <= 5; i++) h += '<button data-fun="' + i + '" class="' + (r.fun >= i ? 'on' : '') + '" aria-label="fun ' + i + ' of 5">' + i + '</button>';
+  h += '</div><div class="row" style="margin-top:6px"><input type="text" id="note' + (inOverlay ? '2' : '') + '" maxlength="200" placeholder="one line" value="' + esc(r.note || '') + '" style="flex:1;min-width:10ch"><button class="btn" data-note="' + (inOverlay ? 'note2' : 'note') + '">save</button></div></div>';
+  return h;
+}
+function renderMenu() {
+  let h = '<div class="menu"><h1>Simmili playtest</h1><div class="dim num" style="font-size:12px">pick one, play, rate it, come back. ✓ = played' + (dbState === 'off' ? ' · ratings not saved in this view' : '') + '</div>';
+  menu.forEach((m, i) => {
+    const r = ratings[m.key];
+    h += '<button class="entry" data-open="' + esc(m.key) + '"><span class="n">' + (i + 1) + '</span><span class="t">' + esc(m.title) + '</span><span class="r">' +
+      (r && r.plays ? '<b>✓</b> ' + r.plays + 'x · best ' + r.best + 'wk' : '') + (r && r.fun ? '<br><span class="stars">' + '★'.repeat(r.fun) + '</span>' + '☆'.repeat(5 - r.fun) : '') + '</span><span class="l">' + esc(m.line) + '</span></button>';
+  });
+  h += '</div>';
+  app.innerHTML = h;
+}
+
+// ---- input ------------------------------------------------------------------------------------------------------------
+app.addEventListener('click', ev => {
+  const ci = ev.target.closest('[data-ci]');
+  if (ci && !(sel && sel.hand != null) && !(sel && sel.slot != null && sel.ci == null && +ci.closest('[data-slot]').dataset.slot !== sel.slot)) {
+    const k = +ci.closest('[data-slot]').dataset.slot, i = +ci.dataset.ci, t = view.table[k];
+    if (i < t.cards.length - 1 && t.reassign[i] && t.reassign[i].length) { sel = sel && sel.slot === k && sel.ci === i ? null : { slot: k, ci: i }; msg = ''; render(); return; }
+  }
+  const el = ev.target.closest('button');
+  if (!el) return;
+  const d = el.dataset;
+  if (d.open) { start(d.open, newSeed(), []); return; }
+  if (d.back) { showMenu(); return; }
+  if (d.cmd) { act(d.cmd); return; }
+  if (d.fun) { writeRating(cur.key, { fun: +d.fun }); return; }
+  if (d.note) { writeRating(cur.key, { note: document.getElementById(d.note).value.slice(0, 200) }); return; }
+  if (d.quote) { const n = document.getElementById('quoteN').value.trim(); if (!/^\d{1,9}$/.test(n)) { msg = 'quote a number'; render(); return; } act('quote ' + n); return; }
+  if (d.hand != null) { const i = +d.hand; sel = sel && sel.hand === i ? null : { hand: i }; msg = ''; render(); return; }
+  if (d.slot != null) {
+    const k = +d.slot;
+    if (sel && sel.hand != null) {
+      const s = view.hand[sel.hand].slots[k];
+      if (s.play) act('play ' + (sel.hand + 1) + ' ' + (k + 1));
+      else if (s.tuck) act('tuck ' + (sel.hand + 1) + ' ' + (k + 1));
+      else { msg = s.why; render(); }
+      return;
+    }
+    if (sel && sel.ci != null) { if (view.table[sel.slot].reassign[sel.ci].includes(k + 1)) act('reassign ' + (sel.slot + 1) + ' ' + (sel.ci + 1) + ' ' + (k + 1)); else { sel = null; render(); } return; }
+    if (sel && sel.slot != null && sel.slot !== k) { act('move ' + (sel.slot + 1) + ' ' + (k + 1)); return; }
+    sel = sel && sel.slot === k ? null : (view.table[k].cards.length ? { slot: k } : null);
+    msg = ''; render(); return;
+  }
+  if (d.new) { const s = document.getElementById('seed').value.trim(); if (!/^\d{1,20}$/.test(s) || BigInt(s) > 18446744073709551615n) { msg = 'a seed is a whole number'; render(); return; } start(cur.key, s, []); return; }
+  if (d.rand) { start(cur.key, newSeed(), []); return; }
+  if (d.again) { start(cur.key, seed, []); return; }
+});
+document.addEventListener('keydown', e => {
+  if (!cur || e.target.tagName === 'INPUT') return;
+  if ((e.key === ' ' || e.key === 'Enter') && !view.over) { e.preventDefault(); act('punch'); }
+  if (e.key === 'Escape') { sel = null; render(); }
+});
+boot();
+</script>
+
+</body>
+</html>
