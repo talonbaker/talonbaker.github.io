@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "hub",
   "resources": {
-    "hash": "sha256-mcwRGIoXbVOGCPR9u1BAcg4JKTM8Yk6FLTxKaNOM4EM=",
+    "hash": "sha256-/5WxAy5SI9/LFNzRpgzRuiMIdJVyMuvoQ5vrP5DRo+U=",
     "jsModuleNative": {
       "dotnet.native.8.0.34.cism9v9sh3.js": "sha256-Uc+HxggmSGuU1CkPjbVFhBiqRQ6cUsH1lnQ1keONjkE="
     },
@@ -12,16 +12,16 @@
       "dotnet.native.wasm": "sha256-Eofly44dOWyqm38tXM2+LqiuBkNn/1PBVC2DqWqZYkI="
     },
     "assembly": {
-      "hub.wasm": "sha256-iArbQC8GLkactmK/ylNu77wT8TZDuzbB3iTDY9WSM6U=",
-      "SimmiliAndCo.Core.wasm": "sha256-AyA3EtgAh+1hQGrwZhB0DUnMDrl0/jzdU2VW3fDM0Kk=",
+      "hub.wasm": "sha256-uLpWvioPkLhGQSgTC/8JOGGXnYXnCwgHDP/ZkUeHPus=",
+      "SimmiliAndCo.Core.wasm": "sha256-UYHYa1lEj2aN2ER/Ks6v1flftOeskmv9hG3//+Yuxaw=",
       "System.Collections.Concurrent.wasm": "sha256-5F7DFBuAenSQELhEZ5N1sVGc27Azg3/62nr74rVmTC8=",
       "System.Collections.wasm": "sha256-SiczvreAR6jc5YHDYHKwJ2R1vTPcoxnUSPAK86jjTJU=",
       "System.Console.wasm": "sha256-2J2DSMd5GwhBpvElqrGI+xlui85xQlpztgPUXjiJKr8=",
-      "System.Linq.wasm": "sha256-Zq3kEp9T1X5MZl3tYkdfV8tgoJ3zjcNeZQX1neDZQG8=",
+      "System.Linq.wasm": "sha256-3JnYTfkb3YtmMOh4bXwTATjdXFyZUAtvI7rrNUKq47I=",
       "System.Memory.wasm": "sha256-2IKs0hAL2Plye1Sn9K966orkpRZJ6bi6v6Cjrm78WSc=",
-      "System.Private.CoreLib.wasm": "sha256-E314M4cD0y5pdNy0thohDNl7RJuNcfe1QOdZ3w3T26E=",
+      "System.Private.CoreLib.wasm": "sha256-6CjjjOW5uQws1OA1NuT+SlnuQFLJ5ZPcbfH0X1OghjQ=",
       "System.Runtime.InteropServices.JavaScript.wasm": "sha256-qt4y78iVYMyKc6/02n56r+4xseNaYydeRfqa2L0n0Fk=",
-      "System.Runtime.wasm": "sha256-V+jfSq1jUsZC3558zIdI11ywdCBrGrSC4Lm+Rf0ANLo=",
+      "System.Runtime.wasm": "sha256-T34T9DjhegEAKQ8dzhWl+LbF1S04UPP3rgnybpqJVsY=",
       "System.Text.Encodings.Web.wasm": "sha256-wjD3IZeDQL4CaaO3Y2kR0IgU7P4jNRXjkIE6vic3BC8=",
       "System.Text.Json.wasm": "sha256-k9QdhL53ErmCBpQTU6ZhdUa35ppOKnPcbJ7zJDcGRD8=",
       "System.Text.RegularExpressions.wasm": "sha256-zzBEVWVXf0AGKbbIJax+J6JMPaTAN0aO3Apheq6Ervs=",

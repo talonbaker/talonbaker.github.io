@@ -89,9 +89,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .chip.friday { border-color: var(--accent); color: var(--accent) }
 .msg { color: var(--bad); font-family: var(--num); font-size: 12px; min-height: 16px; margin-top: 4px }
 .side { display: flex; flex-direction: column; gap: 10px }
-.hand { display: flex; flex-wrap: wrap; gap: 5px }
+.hand { display: flex; flex-wrap: wrap; gap: 5px; padding-top: 10px }
 .hand .h { width: calc(var(--ch) * 1.9); height: calc(var(--ch) * 2.3); flex-direction: column; justify-content: center; gap: 2px; border: none; font-size: calc(var(--ch) * .8) }
-.hand .h.sel { outline: 3px solid var(--fg); outline-offset: 2px }
+.hand .h.sel { outline: 4px solid var(--fg); outline-offset: 2px; transform: translateY(-8px); box-shadow: 0 8px 14px rgba(0,0,0,.35) }
 .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center }
 .btn { border: 1px solid var(--line); background: var(--bg); border-radius: 6px; padding: 6px 10px; font-family: var(--num); font-size: 13px }
 .btn:disabled { opacity: .4; cursor: default }
@@ -117,6 +117,46 @@ input[type=text] { font-family: var(--num); font-size: 13px; padding: 5px 6px; b
 .info p { margin: 4px 0 10px }
 .boot { max-width: 520px; margin: 40px auto; text-align: center; font-family: var(--num) }
 @media (prefers-reduced-motion: no-preference) { .chip { animation: pop .25s ease-out } @keyframes pop { from { transform: scale(.8); opacity: .3 } } }
+/* round 24 (lane T): lessons, watch a bot, highlights, hints, plain words */
+.ex { text-decoration: underline dotted; text-underline-offset: 3px; cursor: help }
+.hand .h.noplace { opacity: .42 }
+.day i { display: block; font-style: normal; font-size: 10px; color: var(--dim) }
+.day.now i { color: var(--accent); font-weight: 700 }
+.weekend .panel { text-align: left; font-family: var(--display); font-size: 14px; line-height: 1.45 }
+.weekend .big { text-align: center }
+.weekend .bad { color: var(--bad); font-weight: 700 }
+.weekend .good { color: var(--ok); font-weight: 700 }
+.oc { cursor: help }
+.menu h2 { font-size: 15px; margin: 14px 0 0 }
+.menu .sub { font-size: 13px; color: var(--dim); margin: 0 0 2px }
+.entry.lesson .n { font-size: 15px }
+.entry.done { border-color: var(--ok) }
+details.exp > summary { cursor: pointer; font-weight: 700; font-size: 15px; padding: 8px 2px; list-style-position: inside }
+details.exp[open] > summary { margin-bottom: 4px }
+.wbtn { flex: 0 0 auto; width: 34px; min-height: 34px; border: 1px solid var(--line); color: var(--dim); background: var(--panel); border-radius: 50%; font-size: 12px; align-self: center }
+.goalbar { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; background: var(--bg); border: 2px solid var(--accent); border-radius: 8px; padding: 6px 10px; margin: 4px 0 6px }
+.goalbar .g { font-weight: 700 }
+.goalbar .say { color: var(--accent); font-weight: 700; flex-basis: 100%; min-height: 2.9em }
+.goalbar .dots { font-family: var(--num); font-size: 12px; color: var(--dim) }
+@keyframes ping { 0%, 100% { box-shadow: 0 0 0 0 var(--accent) } 50% { box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent) 35%, transparent) } }
+.point { outline: 3px dashed var(--accent) !important; outline-offset: 3px; animation: ping 1.1s ease-in-out infinite }
+@media (prefers-reduced-motion: reduce) { .point { animation: none } }
+.stack.can { border: 2px solid var(--ok); background: color-mix(in oklab, var(--ok) 8%, transparent) }
+.becomes { font-family: var(--num); font-size: 12px; color: var(--ok); font-weight: 700; text-align: center; min-height: 16px }
+.log { margin-top: 8px; font-size: 13px; line-height: 1.4; min-height: 20px }
+.log div { padding: 1px 0 }
+.log .bad { color: var(--bad) }
+.log .good { color: var(--ok) }
+.log .friday { color: var(--accent) }
+.hint { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 25; max-width: min(520px, calc(100vw - 32px)); background: var(--fg); color: var(--bg); border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; font-size: 14px; box-shadow: 0 4px 16px rgba(0,0,0,.3) }
+.hint .btn { background: var(--bg); color: var(--fg); flex: 0 0 auto }
+.botbox { border: 2px solid var(--accent); border-radius: 8px; padding: 6px 10px; margin: 4px 0 6px; font-size: 14px; min-height: 44px }
+.botbox .why { color: var(--dim); font-size: 13px; margin-top: 2px }
+.oc .nm { font-size: 10px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.dayl { font-size: 11px; color: var(--dim); margin-top: 6px }
+select { font: inherit; font-family: var(--num); font-size: 13px; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg) }
+details.how > summary { cursor: pointer; font-size: 12px; color: var(--dim) }
+.legend.words span { margin-right: 4px }
 </style>
 
 <div id="app"><div class="boot panel">starting the C# engine…</div></div>
@@ -131,9 +171,10 @@ const ABOUT = {
     'Each entry on the menu is one version of a rule. We change one thing at a time and ask you how it feels.',
   ],
   rate: [
+    'New to the game? Start with the lessons at the top of the menu: one rule each, about a minute apiece.',
     'Pick an entry, play until the run ends (or until you are bored: that is an answer too), then tap a number from 1 (dull) to 5 (great fun).',
     'Write one line about why. "I never knew what to do" helps as much as "loved it".',
-    'Outside Claude, your ratings stay in this browser: press "send feedback" to post them, or "copy feedback" to paste them to us.',
+    'Outside Claude, your ratings stay in this browser: press "copy feedback" (or "copy all my feedback" on the menu) then send it to the person who gave you this link.',
   ],
   helps: [
     'When you felt excited, tense, bored or lost, and what was on the table at that moment.',
@@ -147,7 +188,7 @@ const WATCH = 'Was it fun? Note when you felt excited, tense, bored or confused,
 
 const BU_HOW = [
   'Tap a card in your hand, then a slot. A 1 starts an empty slot. Two cards with the same number merge into one higher card. A card can also go on a stack whose top card is exactly one lower. A 1 can tuck in behind a stack.',
-  'PUNCH ends the turn: each stack makes the number shown under it. That work first hits the office card above the stack, then counts toward the week\'s target (top bar).',
+  'End turn ends the turn: each stack makes the number shown under it. That work first hits the office card above the stack, then counts toward the week\'s target (top bar).',
   'Red ✕ numbers are blame. Blame knocks down the lowest card of that stack first. Blame on an empty slot hits you, and 10 of it is a strike.',
   'Reach the week\'s target within the turns shown, or take a strike. Three strikes end the run; last 9 weeks to win.',
   'Money: packs bring new cards; a card of level 2+ costs money once when you place it; every Friday your table earns its bills and pays its salaries. You can borrow, but the debt grows 60% a week and is due at each boss week.',
@@ -237,20 +278,38 @@ const INFO = {
 };
 </script>
 <script type="module">
-// The playtest hub (round 21). The rules are the C# core itself, compiled to WebAssembly (net/), so every prototype
-// plays exactly as the lab measured it. This page decides nothing: it sends command words and draws the engine's view.
+// The playtest hub (round 21; round 24 lane T: lessons, watch a bot, plain words). The rules are the C# core itself,
+// compiled to WebAssembly (net/), so every prototype plays exactly as the lab measured it. This page decides nothing:
+// it sends command words and draws the engine's view. Where a card can go, what it would become, where a lesson's
+// pointer is, whether a lesson is done, and why a bot moved all come from the engine.
 const app = document.getElementById('app');
 const KEY = 'simmili-hub-r21';
-let E, menu = [], cur = null, view = null, sel = null, chips = [], msg = '', cmds = [], seed = '1';
+let E, menu = [], lessons = [], cur = null, view = null, sel = null, log = [], msg = '', cmds = [], seed = '1';
+let mode = 'menu'; // 'menu' | 'play' | 'lesson' | 'watch'
+let les = null, lesKey = '', botInfo = null, botName = 'Careful', auto = null, speed = 700, hint = null, overlayShut = false;
+let weekEnd = [], explain = null; // the last week's end in lines (until dismissed); the number being explained
+const hintsShown = {}; // also in memory: a hint shows once even where localStorage is blocked
 let ratings = {}, myId = null, db = null, dbState = 'connecting';
 let infoKey = null; // the help card open: an entry's key, or 'about'
-const SEEN = 'simmili-hub-seen';
-const seenInfo = () => { try { return JSON.parse(localStorage.getItem(SEEN) || '{}') || {}; } catch (e) { return {}; } };
-const markSeen = k => { try { const x = seenInfo(); x[k] = 1; localStorage.setItem(SEEN, JSON.stringify(x)); } catch (e) {} };
+const SEEN = 'simmili-hub-seen', HINTS = 'simmili-hub-hints', LDONE = 'simmili-hub-lessons';
+const readMap = k => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
+const markMap = (k, x) => { try { const m = readMap(k); m[x] = 1; localStorage.setItem(k, JSON.stringify(m)); } catch (e) {} };
+const seenInfo = () => readMap(SEEN);
+const markSeen = k => markMap(SEEN, k);
 
 const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ key: cur && cur.key, seed, cmds })); } catch (e) {} };
+const tip = t => ' title="' + esc(t) + '"';
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ mode, key: cur && cur.key, seed, cmds, lesson: lesKey })); } catch (e) {} };
 const newSeed = () => String(Math.floor(Math.random() * 1e9)); // picks a seed for a new run; the run itself is seeded
+
+// one-time hints: the first time each new thing happens (the engine tags the event), never twice in this browser
+const HINT = {
+  merge: ['Merge', 'Two of the same number made the next one up. It works more than the two did.'],
+  blame: ['Blame', 'Blame hits a stack\'s back card first: a 1 leaves, a higher card drops one. On an empty slot it hits you. Tip: a 1 on every empty slot and a spare 1 behind a good stack take blame for you.'],
+  strike: ['Strike', 'A strike: a missed target, 10 blame on you, or an unpaid loan. The third strike ends the run. Tip: a 1 on every empty slot and a spare 1 behind a good stack keep blame off you.'],
+  friday: ['Friday', 'The week closed: your table\'s bills came in, salaries went out, HQ added its budget.'],
+  classified: ['Hidden card', 'A hidden office card: you see what it does once your table holds a card of its level (most need a 4, the boss a 6).'],
+};
 
 // ---- the engine ------------------------------------------------------------------------------------------------
 async function boot() {
@@ -260,47 +319,88 @@ async function boot() {
     const ex = await rt.getAssemblyExports(rt.getConfig().mainAssemblyName);
     E = ex.Hub;
     menu = JSON.parse(E.Menu());
+    lessons = JSON.parse(E.Lessons());
   } catch (err) {
     app.innerHTML = '<div class="boot panel">The C# engine could not start in this browser.<br><span class="dim">' + esc(err && err.message || err) + '</span></div>';
     return;
   }
-  let d = window.claude?.hot?.data?.key ? window.claude.hot.data : null;
+  window.hubEngine = E; // for the hub's own browser test (bench/demo-r21/hub/test-hub.mjs)
+  let d = window.claude?.hot?.data?.mode ? window.claude.hot.data : null;
   if (!d) { try { d = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { d = null; } }
-  if (d && d.key && menu.some(m => m.key === d.key) && /^\d{1,20}$/.test(d.seed || '')) start(d.key, d.seed, d.cmds || []);
+  if (d && d.mode === 'lesson' && lessons.some(l => l.key === d.lesson)) startLesson(d.lesson, d.cmds || []);
+  else if (d && d.mode === 'play' && d.key && menu.some(m => m.key === d.key) && /^\d{1,20}$/.test(d.seed || '')) start(d.key, d.seed, d.cmds || []);
   else showMenu();
   connectDb();
 }
-window.claude?.hot?.snapshot?.(() => ({ key: cur && cur.key, seed, cmds }));
+window.claude?.hot?.snapshot?.(() => ({ mode, key: cur && cur.key, seed, cmds, lesson: lesKey }));
 
-function apply(r) {
+function apply(r, quiet) {
   view = r.view;
-  r.events.forEach(e => {
-    if (e.kind === 'punch' || e.kind === 'reset') chips = [];
-    if (e.text) chips.push([e.kind, e.text]);
-  });
+  les = r.lesson || null;
+  botInfo = r.bot || null;
+  const said = r.events.filter(e => e.say || e.text);
+  if (said.length) log = said.map(e => [e.kind, e.say || e.text, e.text]);
+  if (r.weekEnd && r.weekEnd.length) {
+    if (mode === 'watch') log = r.weekEnd.map((l, i) => [i ? '' : 'friday', l, '']).concat(log);
+    else if (!quiet) { weekEnd = r.weekEnd; overlayShut = false; }
+  }
+  if (quiet || mode === 'watch') return;
+  for (const e of r.events) if (e.tag && HINT[e.tag] && !hintsShown[e.tag] && !readMap(HINTS)[e.tag] && !hint) { hint = e.tag; hintsShown[e.tag] = 1; markMap(HINTS, e.tag); }
 }
+function stopAuto() { if (auto) { clearInterval(auto); auto = null; } }
 function start(key, s, replay) {
+  stopAuto();
+  mode = 'play'; lesKey = ''; overlayShut = false; weekEnd = []; explain = null;
   cur = menu.find(m => m.key === key) || menu[0];
-  seed = String(s); cmds = []; chips = []; sel = null; msg = '';
-  apply(JSON.parse(E.New(cur.key, seed)));
-  (replay || []).forEach(w => { const r = JSON.parse(E.Do(w)); if (r.ok) { cmds.push(w); apply(r); } });
+  seed = String(s); cmds = []; log = []; sel = null; msg = '';
+  apply(JSON.parse(E.New(cur.key, seed)), true);
+  (replay || []).forEach(w => { const r = JSON.parse(E.Do(w)); if (r.ok) { cmds.push(w); apply(r, true); } });
   save(); render();
 }
-function act(words) {
-  const r = JSON.parse(E.Do(words));
-  if (!r.ok) { msg = r.why; render(); return; }
-  if (view && view.generic) chips = [];
-  msg = ''; sel = null; cmds.push(words); apply(r); save();
-  if (view.over) recordPlay();
+function startLesson(key, replay) {
+  stopAuto();
+  mode = 'lesson'; lesKey = key; overlayShut = false; weekEnd = []; explain = null;
+  const r0 = JSON.parse(E.Lesson(key));
+  cur = menu.find(m => m.key === r0.lesson.entry) || menu[0];
+  seed = '-'; cmds = []; log = []; sel = null; msg = '';
+  apply(r0, true);
+  (replay || []).forEach(w => { const r = JSON.parse(E.Do(w)); if (r.ok) { cmds.push(w); apply(r, true); } });
+  save(); render();
+}
+function startWatch(key, s, bot) {
+  stopAuto();
+  mode = 'watch'; lesKey = ''; overlayShut = false; weekEnd = []; explain = null;
+  cur = menu.find(m => m.key === key) || menu[0];
+  botName = cur.bots.includes(bot) ? bot : cur.bots[0];
+  seed = String(s); cmds = []; log = []; sel = null; msg = '';
+  apply(JSON.parse(E.Watch(cur.key, seed, botName)));
+  save(); render();
+}
+function botNext() {
+  if (!view || view.over) { stopAuto(); render(); return; }
+  const r = JSON.parse(E.BotNext());
+  if (view.generic) log = [];
+  apply(r);
+  if (view.over) stopAuto();
   render();
 }
-function showMenu() { cur = null; view = null; save(); render(); }
+function act(words) {
+  if (mode === 'watch') return;
+  const r = JSON.parse(E.Do(words));
+  if (!r.ok) { msg = r.why; render(); return; }
+  const wasDone = les && les.done;
+  msg = ''; sel = null; cmds.push(words); apply(r); save();
+  if (les && les.done && !wasDone) markMap(LDONE, les.key);
+  if (mode === 'play' && cmds.length === 1) { const rr = ratings[cur.key] || {}; writeRating(cur.key, { plays: (rr.plays || 0) + 1, lastSeed: seed }); }
+  if (mode === 'play' && view.over) recordPlay();
+  render();
+}
+function showMenu() { stopAuto(); mode = 'menu'; cur = null; view = null; les = null; lesKey = ''; save(); render(); }
 
 // ---- ratings (shared db: Claude reads them back) ------------------------------------------------------------------
-// outside Claude (a static host such as GitHub Pages) there is no db: ratings stay in this browser, and the tester sends
-// them as a GitHub issue (or copies them)
+// outside Claude (a static host such as GitHub Pages) there is no db: ratings stay in this browser, and the tester copies
+// them and sends them to Talon however they like
 const RKEY = 'simmili-hub-ratings';
-const FEEDBACK_REPO = 'talonbaker/talonbaker.github.io';
 function offline() {
   dbState = 'off'; db = null;
   try { ratings = JSON.parse(localStorage.getItem(RKEY) || '{}') || {}; } catch (e) { ratings = {}; }
@@ -313,14 +413,11 @@ function feedbackText(key) {
     'Plays: ' + (r.plays || 0) + ', best: ' + (r.best || 0) + ' weeks, wins: ' + (r.wins || 0) + '\n' +
     'Last seed: ' + (r.lastSeed || seed) + (r.lastWeeks != null ? ' (' + r.lastWeeks + ' weeks)' : '') + '\n';
 }
-function issueUrl(key) {
-  const m = menu.find(x => x.key === key) || { title: key };
-  return 'https://github.com/' + FEEDBACK_REPO + '/issues/new?title=' + encodeURIComponent('Simmili playtest: ' + m.title) + '&body=' + encodeURIComponent(feedbackText(key));
-}
 function allFeedback() { return menu.filter(m => ratings[m.key]).map(m => feedbackText(m.key)).join('\n'); }
 async function copyText(text) {
-  try { await navigator.clipboard.writeText(text); msg = ''; flash = 'copied'; }
-  catch (e) { flash = ''; copyBox = text; }
+  // a clipboard that never answers (a blocked permission) falls back to the text box after 1.5 s
+  try { await Promise.race([navigator.clipboard.writeText(text), new Promise((_, no) => setTimeout(() => no(new Error('no answer')), 1500))]); msg = ''; flash = 'copied: now send it to the person who gave you this link'; copyBox = ''; }
+  catch (e) { flash = 'select the text below and copy it, then send it to the person who gave you this link'; copyBox = text; }
   render();
 }
 let flash = '', copyBox = '';
@@ -351,7 +448,7 @@ async function writeRating(key, patch) {
 }
 function recordPlay() {
   const r = ratings[cur.key] || {};
-  writeRating(cur.key, { plays: (r.plays || 0) + 1, best: Math.max(r.best || 0, view.weeks), wins: (r.wins || 0) + (view.won ? 1 : 0), lastSeed: seed, lastWeeks: view.weeks });
+  writeRating(cur.key, { best: Math.max(r.best || 0, view.weeks), wins: (r.wins || 0) + (view.won ? 1 : 0), lastSeed: seed, lastWeeks: view.weeks });
 }
 
 // ---- colour ----------------------------------------------------------------------------------------------------------
@@ -380,19 +477,29 @@ function colour(c) {
   }
   return { bg: 'var(--grey)' };
 }
+// a card's colour code in words (naming only: the engine gives the code)
+const CODE = { R: 'red', B: 'blue', Y: 'yellow', W: 'white (an intern)', P: 'purple', O: 'orange', G: 'green', N: 'brown' };
+function codeWords(code) {
+  const m = /^([a-z])~([a-z])$/.exec(code || '');
+  if (m) return code + ': mostly ' + (CODE[m[1].toUpperCase()] || m[1]) + ', mixed with ' + (CODE[m[2].toUpperCase()] || m[2]).replace(' (an intern)', '');
+  const c = (code || '').replace('^', '');
+  return CODE[c] ? code + ': ' + CODE[c] + ((code || '').includes('^') ? ', Corporate Beige' : '') : (code || '').includes('^') ? 'Corporate Beige' : '';
+}
 function cardHtml(c, cls, tag, attrs, extra) {
   const k = colour(c);
   if (c.loadBearing) extra = (extra || '') + ' LB';
   if (c.closer) extra = (extra || '') + ' CL';
-  return '<' + (tag || 'div') + ' class="card ' + (cls || '') + (k.light ? ' lightc' : '') + (c.frozen ? ' frozen' : '') + '" style="background:' + k.bg + '"' + (attrs || '') + '><span>' + c.level + (c.leader ? '★' : '') + '</span><small>' + esc(c.code) + (extra || '') + '</small></' + (tag || 'div') + '>';
+  return '<' + (tag || 'div') + ' class="card ' + (cls || '') + (k.light ? ' lightc' : '') + (c.frozen ? ' frozen' : '') + '" style="background:' + k.bg + '"' + (attrs || '') + '><span>' + c.level + (c.leader ? '<span title="★ a department leader: each card of its colour behind it counts ' + ((view && view.leaderTimes) || 2) + ' times">★</span>' : '') + '</span><small' + (codeWords(c.code) ? ' title="' + esc(codeWords(c.code)) + '"' : '') + '>' + esc(c.code) + (extra || '') + '</small></' + (tag || 'div') + '>';
 }
-const sw = (bg, label) => '<span><i class="sw" style="background:' + bg + '"></i>' + esc(label) + '</span>';
+const sw = (bg, label) => '<span><i class="sw" style="background:' + bg + '"></i> ' + esc(label) + '</span>';
 
 // ---- render --------------------------------------------------------------------------------------------------------
 function render() {
   if (!E) return;
   renderBody();
   if (infoKey) app.insertAdjacentHTML('beforeend', infoHtml());
+  else if (explain && mode !== 'menu') app.insertAdjacentHTML('beforeend', '<div class="hint" role="status"><div>' + esc(explainText(explain)) + '</div><button class="btn" data-explainok="1">OK</button></div>');
+  else if (hint && mode !== 'menu') app.insertAdjacentHTML('beforeend', '<div class="hint" role="status"><div><b>' + esc(HINT[hint][0]) + ':</b> ' + esc(HINT[hint][1]) + '</div><button class="btn" data-hintok="1">OK</button></div>');
 }
 function infoHtml() {
   const ul = xs => '<ul style="margin:4px 0 10px;padding-left:18px">' + xs.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>';
@@ -407,34 +514,118 @@ function infoHtml() {
     if (i[1]) h += '<div class="label">we are testing</div><p style="font-weight:700">' + esc(i[1]) + '</p>';
     h += '<div class="label">pay attention to</div><p>' + esc((i[3] ? i[3] + ' ' : '') + WATCH) + '</p>';
     h += '<div class="label">how to play' + (bu && infoKey !== 'bu-default' ? ' (Build Up)' : '') + '</div>' + (i[2] ? '<p><b>In this version:</b> ' + esc(i[2]) + '</p>' : '') + '<ol style="margin:4px 0 10px;padding-left:18px">' + rules.map(l => '<li>' + esc(l) + '</li>').join('') + '</ol>';
+    if (bu) h += '<p class="dim">New to the game? The lessons at the top of the menu teach it one rule at a time.</p>';
     if (bu && infoKey !== 'bu-no-colours' && infoKey !== 'bu-r17') h += '<p class="dim">' + esc(BU_COLOURS) + '</p>';
   }
   h += '<div class="row" style="justify-content:flex-end"><button class="btn punch" style="flex:0" data-closeinfo="1">got it</button></div></div></div>';
   return h;
 }
+// tap-to-explain: every number on the table says what it is (the numbers in it come from the engine's view)
+function explainText(x) {
+  const v = view, w = v.workByLevel || [];
+  switch (x.k) {
+    case 'makes': {
+      const t = v.table[x.slot];
+      let s = 'Makes ' + t.work + ': the work this stack does at each End turn' + (v.officeOn ? ', first into the office card over it, the rest toward the target' : ', toward the target') + '. Each card works by its level: ' + w.slice(0, 5).map((n, i) => (i + 1) + ' makes ' + n).join(', ') + ' (so a merged card works more than the two it came from).';
+      if (t.work !== t.plainWork && t.cards.length) s += ' Its cards make ' + t.plainWork + ' on their own; ' + (t.effect ? 'the rest is ' + t.effect + ' (colour bonuses are a percentage, rounded down)' : 'something on the table changes it') + '.';
+      if (t.frozenCards) s += ' ' + t.frozenCards + ' of its cards are ' + v.frozenName + ' and frozen: they make nothing while the Colour audit stands.';
+      if (t.jam) s += ' The slot is jammed: it makes nothing for ' + t.jam + ' more turn' + (t.jam === 1 ? '' : 's') + '.';
+      if (!t.cards.length) s = 'An empty slot makes nothing, and blame that lands on it reaches you.';
+      return s;
+    }
+    case 'target': return 'Target ' + v.output + ' of ' + v.quota + ': the work this week needs. Meet it and the week ends at once (that is Friday, payday); still short after turn ' + v.turns + ' and you take a strike.';
+    case 'friday': return 'Friday ' + v.friday + ': what Friday pays if the week ended now: your cards’ income (what they bill) ' + v.fridayParts.bills + ' + HQ budget ' + v.fridayParts.budget + ' − salaries ' + v.fridayParts.salaries + '. Every card you place adds its bills and its salary, so it changes as you build. Meeting the target early adds a little for each turn to spare.';
+    case 'strikes': return 'Strikes: ' + v.strikes + ' of ' + (v.strikesAllowed + 1) + '. A strike comes from a missed target, from ' + v.blamePerStrike + ' blame reaching you, or from a loan you cannot repay when it is due. Strike ' + (v.strikesAllowed + 1) + ' ends the run.';
+    case 'blameyou': return 'Blame on you: ' + v.blame + ' of ' + v.blamePerStrike + '. Blame that lands on an empty slot, or is left over when a stack runs out of cards, reaches you. Every ' + v.blamePerStrike + ' is a strike.';
+    case 'blamerow': return 'Blame due: at each End turn, the blame shown for that turn lands on that slot and knocks its back card first (a 1 leaves, a higher card drops one). "now" is this turn; "–" means no blame that turn.';
+    case 'floor': return 'Floor ' + v.floor + ': every ' + v.weeksPerFloor + ' weeks is a floor, and its last week is the boss week (week ' + v.bossWeek + '). A new floor brings bigger targets, office cards and prices. ' + v.floors + ' floors win the run.';
+    case 'rule': return 'Boss rule: in the boss week ' + v.ruleWhat + '.';
+    case 'frozen': return 'Frozen: while the Colour audit' + (v.frozenSlot ? ' over slot ' + v.frozenSlot : '') + ' stands, ' + v.frozenName + ' cards make nothing, on every stack. Put work under it to beat it and end that.';
+    case 'office': {
+      const c = v.office[x.oi];
+      if (!c) return '';
+      return c.name + ' ' + c.size + ': ' + c.size + ' is the work it takes to beat it; the stack under it (slot ' + c.slot + ') works into it first. ' +
+        (c.passive ? 'It does not act on a timer.' : c.boss ? 'The boss acts on the week’s last turn if it is still standing, and the week cannot end before it is beaten.' : '"in ' + c.timer + '" is the turns until it acts; then it does what it says and leaves.') +
+        (c.seen ? ' It will: ' + c.does + '.' : ' It is hidden: you cannot read what it does until your table holds a ' + c.clearance + ' or higher.');
+    }
+  }
+  return '';
+}
 function renderBody() {
-  if (!cur) { renderMenu(); return; }
+  if (mode === 'menu' || !cur) { renderMenu(); return; }
   if (view.generic) { renderGeneric(); return; }
+  renderBuild();
+}
+// what this screen shows: a lesson hides what its rules do not have yet (the engine says which)
+function shows() {
   const v = view;
-  let h = '<div class="app"><div class="panel">';
-  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="how to play">i</button><span class="dim num" style="font-size:12px">seed ' + esc(seed) + '</span></div>';
+  if (les) return les.show;
+  return { target: true, endTurn: true, blame: true, money: true, office: v.officeOn || v.encounters };
+}
+function topBar() {
+  let h = '<div class="top"><button class="btn" data-back="1">← menu</button>';
+  if (mode === 'lesson') {
+    h += '<span class="name">' + (les.entry === 'bu-default' ? 'Lesson ' + les.n + ' of ' + lessons.filter(l => l.entry === 'bu-default').length : 'Extra lesson') + ': ' + esc(les.title) + '</span>' + (les.entry !== 'bu-default' ? '<span class="dim">(for entry ' + (menu.findIndex(m => m.key === les.entry) + 1) + ')</span>' : '') + '<button class="btn" data-relesson="1">start over</button>';
+  } else if (mode === 'watch') {
+    h += '<span class="name">Watch a bot: ' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="about this entry">i</button>';
+  } else {
+    h += '<span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="how to play">i</button><span class="dim num" style="font-size:12px">seed ' + esc(seed) + '</span>';
+  }
+  return h + '</div>';
+}
+function goalBar() {
+  if (!les) return '';
+  const dots = Array.from({ length: les.steps }, (_, i) => i < les.stepAt ? '●' : '○').join('');
+  return '<div class="goalbar"><span class="g">Goal: ' + esc(les.goal) + '</span>' + (les.steps ? '<span class="dots"' + tip('guided steps done') + '>' + dots + '</span>' : '') +
+    '<span class="say">' + (les.say && !les.done ? esc(les.say) : '') + '</span>' + '</div>';
+}
+function watchBar() {
+  if (mode !== 'watch') return '';
+  const b = botInfo || {};
+  let h = '<div class="row" style="margin:4px 0"><label class="num" for="botsel" style="font-size:12px">bot</label><select id="botsel">' + cur.bots.map(x => '<option' + (x === botName ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>' +
+    '<label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-rewatch="1">restart</button>' +
+    '<button class="btn punch" style="flex:0;white-space:nowrap" data-botnext="1"' + (view.over ? ' disabled' : '') + '>Next move</button>' +
+    '<button class="btn" data-auto="1"' + (view.over ? ' disabled' : '') + '>' + (auto ? 'pause' : 'auto-play') + '</button>' +
+    '<select id="speed" aria-label="speed">' + [[1500, 'slow'], [700, 'normal'], [250, 'fast']].map(([ms, n]) => '<option value="' + ms + '"' + (ms === speed ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></div>';
+  h += '<div class="botbox"><div>' + (b.said ? '<b>' + esc(botName) + ':</b> ' + esc(b.said) : '<span class="dim">Press Next move: the ' + esc(botName) + ' bot plays one move at a time and says what it did.</span>') + '</div>' + (b.why ? '<div class="why"' + (b.tip ? tip(b.tip) : '') + '>Why: ' + esc(b.why) + '</div>' : '') + '</div>';
+  return h;
+}
+function renderBuild() {
+  const v = view, show = shows(), P = (les && !les.done && !les.failed && les.point) || {};
+  // the pointer: the engine names a legal command; the page shows where to tap for it
+  let pHand = null, pSlot = null, pBtn = null;
+  if (P.hand != null) { if (!sel || sel.hand !== P.hand) pHand = P.hand; else pSlot = P.slot; }
+  else if (P.from != null) { if (!sel || sel.slot !== P.from || sel.hand != null) pSlot = P.from; else pSlot = P.slot; }
+  else if (P.button) pBtn = P.button;
+  const hs = sel && sel.hand != null ? v.hand[sel.hand] : null;
+  let h = '<div class="app"><div class="panel">' + topBar() + goalBar() + watchBar();
   h += '<div class="status">';
-  h += '<span>wk <b>' + v.week + '</b>/' + v.weeksToWin + ' · fl ' + v.floor + ' · turn <b>' + v.turn + '</b>/' + v.turns + '</span>';
+  h += '<span' + tip('wk ' + v.week + '/' + v.weeksToWin + ' · fl ' + v.floor) + '>Week <b>' + v.week + '</b> of ' + v.weeksToWin + ' · <span class="ex" data-explain="floor">Floor ' + v.floor + '</span></span>';
+  h += '<span' + tip('turn ' + v.turn + '/' + v.turns) + '>Turn <b>' + v.turn + '</b> of ' + v.turns + '</span>';
   if (v.fight) h += '<span class="rule">' + esc(v.fight.toUpperCase()) + '</span>';
-  if (v.goal) h += '<span><b>' + v.stacks + '</b> stacks · ' + esc(v.goal) + (v.dumpster ? ' · dumpster ' + v.dumpster : '') + '</span>';
-  else h += '<span><b>' + v.output + '</b>/' + v.quota + ' <span class="bar' + (v.output >= v.quota ? ' met' : '') + '"><i style="width:' + Math.min(100, v.quota ? v.output / v.quota * 100 : 0) + '%"></i></span></span>';
-  h += '<span><b>' + esc(v.money) + '</b>' + (v.debt ? ' <span style="color:var(--bad)">debt ' + esc(v.debt) + '</span>' : '') + '</span>';
-  h += '<span>strikes <span class="pips">' + '●'.repeat(v.strikes) + '○'.repeat(Math.max(0, v.strikesAllowed + 1 - v.strikes)) + '</span></span>';
-  h += '<span>you ✕' + v.blame + '/' + v.blamePerStrike + '</span>';
+  if (v.goal) h += '<span' + tip(v.stacks + ' stacks · ' + v.goal) + '>Stacks <b>' + v.stacks + '</b> · ' + esc(v.goal) + (v.dumpster ? ' · in the dumpster ' + v.dumpster : '') + '</span>';
+  else if (show.target) h += '<span class="ex" data-explain="target"' + tip(v.output + '/' + v.quota) + '>Target <b>' + v.output + '</b> / ' + v.quota + ' <span class="bar' + (v.output >= v.quota ? ' met' : '') + '"><i style="width:' + Math.min(100, v.quota ? v.output / v.quota * 100 : 0) + '%"></i></span></span>';
+  if (show.money) {
+    h += '<span' + tip(v.money + (v.debt ? ' debt ' + v.debt : '')) + '>Money <b>' + esc(v.money) + '</b>' + (v.debt ? ' <span style="color:var(--bad)">debt ' + esc(v.debt) + '</span>' : '') + '</span>';
+    if (v.friday) h += '<span class="ex" data-explain="friday"' + tip('Fri ' + v.friday + ': bills + HQ budget − salaries') + '>Friday <b>' + esc(v.friday) + '</b></span>';
+  }
+  if (show.blame) {
+    h += '<span class="ex" data-explain="strikes"' + tip('strikes ' + v.strikes + '/' + (v.strikesAllowed + 1)) + '>Strikes <span class="pips">' + '●'.repeat(v.strikes) + '○'.repeat(Math.max(0, v.strikesAllowed + 1 - v.strikes)) + '</span></span>';
+    h += '<span class="ex" data-explain="blameyou"' + tip('you ✕' + v.blame + '/' + v.blamePerStrike) + '>Blame on you <b>' + v.blame + '</b> / ' + v.blamePerStrike + '</span>';
+  }
   if (v.verbs && (v.ledger || v.quote)) h += '<span>' + (v.ledger ? 'ledger ' + v.ledger + (v.releasing ? ' (releasing x1.5)' : '') : '') + (v.quote ? ' quote ' + v.quote : '') + '</span>';
   if (v.pool) h += '<span title="colours pooling the risk">pool ' + v.pool + '</span>';
-  if (v.friday) h += '<span class="dim">Fri ' + esc(v.friday) + '</span>';
-  if (v.rule) h += '<span class="rule">BOSS: ' + esc(v.rule) + '</span>';
-  else if (v.bossRule) h += '<span class="dim">' + esc(v.encounter) + ' · boss wk ' + v.bossWeek + ': ' + esc(v.bossRule) + '</span>';
-  if (v.frozen) h += '<span class="rule">' + esc(v.frozen) + ' frozen</span>';
-  h += '</div><div class="days" style="--days:' + v.turns + '">';
-  v.problems.forEach((p, i) => { const d = i + 1; h += '<div class="day' + (d === v.turn ? ' now' : d < v.turn ? ' done' : '') + '">' + (p.size ? '<b>✕' + p.size + (p.spread ? '±' + p.spread : '') + '</b>→' + (p.slot || '?') : '·') + '</div>'; });
+  if (show.office) {
+    if (v.rule) h += '<span class="rule ex" data-explain="rule"' + tip('BOSS: ' + v.rule + ': ' + v.ruleWhat) + '>Boss rule: ' + esc(v.rule) + '</span>';
+    else if (v.bossRule) h += '<span class="dim"' + tip(v.encounter + ' · boss wk ' + v.bossWeek + ': ' + v.bossRule) + '>' + esc(v.encounterName) + ' · boss in week ' + v.bossWeek + ' (' + esc(v.bossName) + ': ' + esc(v.bossRule) + ')</span>';
+  }
+  if (v.frozen) h += '<span class="rule ex" data-explain="frozen"' + tip(v.frozen + ' frozen') + '>' + esc(v.frozenName) + ' cards make nothing</span>';
   h += '</div>';
+  if (show.blame) {
+    h += '<div class="dayl"><span class="ex" data-explain="blamerow">Blame due at the end of each turn</span></div><div class="days" style="--days:' + v.turns + '">';
+    v.problems.forEach((p, i) => { const d = i + 1; h += '<div class="day' + (d === v.turn ? ' now' : d < v.turn ? ' done' : '') + '"' + tip(p.size ? '✕' + p.size + (p.spread ? '±' + p.spread : '') + '→' + (p.slot || '?') : 'none') + '><i>' + (d === v.turn ? 'now' : d < v.turn ? 'done' : 'turn ' + d) + '</i>' + (p.size ? '<b>' + p.size + (p.spread ? '±' + p.spread : '') + '</b> → ' + (p.slot ? 'slot ' + p.slot : '?') : 'none') + '</div>'; });
+    h += '</div>';
+  }
   if (v.offer.length) {
     h += '<div class="row" style="margin-top:8px"><span class="label" style="margin:0">recruit 1 of ' + v.offer.length + '</span>';
     v.offer.forEach((c, i) => { h += cardHtml(c, 'h', 'button', ' data-cmd="recruit ' + (i + 1) + '" style="width:auto;min-width:60px"'); });
@@ -442,67 +633,112 @@ function renderBody() {
   }
   h += '<div class="table">';
   v.table.forEach((t, k) => {
-    h += '<div class="col"><div class="offices">';
-    v.office.filter(c => c.slot === k + 1).forEach(c => {
-      const oi = v.office.indexOf(c) + 1;
-      h += '<div class="oc' + (c.boss ? ' boss' : '') + (c.seen ? '' : ' hidden') + '"><span class="sz">' + (v.verbs ? '<small style="font-size:10px;opacity:.7">#' + oi + ' </small>' : '') + esc(c.face) + c.size + '</span><span>' + (c.passive ? '' : 't' + c.timer + ' ') + (c.signed ? 'signed ' : '') + esc(c.intent.replace('blame', '✕')) + (c.target ? ' →' + c.target : '') + '</span></div>';
-    });
-    h += '</div><div class="acts">' + actsFor(k) + '</div>';
-    h += '<button class="stack' + (sel && sel.slot === k ? ' sel' : '') + '" data-slot="' + k + '" aria-label="slot ' + (k + 1) + '">';
+    h += '<div class="col">';
+    if (show.office) {
+      h += '<div class="offices">';
+      v.office.filter(c => c.slot === k + 1).forEach(c => {
+        const oi = v.office.indexOf(c) + 1;
+        h += '<div class="oc' + (c.boss ? ' boss' : '') + (c.seen ? '' : ' hidden') + '" data-explain="office" data-oi="' + (oi - 1) + '"' + tip(c.face + c.size + ' ' + (c.passive ? '' : 't' + c.timer + ' ') + c.intent + (c.target ? ' →' + c.target : '')) + '><span class="nm">' + (v.verbs ? '#' + oi + ' ' : '') + esc(c.name) + '</span><span class="sz">' + c.size + '</span><span>' + (c.passive ? '' : 'in ' + c.timer + ': ') + (c.signed ? 'signed: ' : '') + esc(c.does) + '</span></div>';
+      });
+      h += '</div>';
+    }
+    h += '<div class="acts">' + actsFor(k) + '</div>';
+    const legal = hs && (hs.slots[k].play || hs.slots[k].tuck) || (sel && sel.slot != null && sel.ci == null && v.moves[sel.slot][k]);
+    h += '<button class="stack' + (sel && sel.slot === k ? ' sel' : '') + (legal ? ' can' : '') + (pSlot === k ? ' point' : '') + '" data-slot="' + k + '" aria-label="slot ' + (k + 1) + '">';
     t.cards.forEach((c, i) => { h += cardHtml(c, (i === t.cards.length - 1 ? 'front' : '') + (sel && sel.slot === k && sel.ci === i ? ' sel' : ''), 'div', ' data-ci="' + i + '"' + (sel && sel.slot === k && sel.ci === i ? ' style="outline:3px solid var(--fg)"' : '')); });
-    h += '</button><div class="foot">' + (t.cards.length ? '<b>' + t.work + '</b> ' + esc(t.effect) : (k + 1)) + (t.jam ? ' <span class="jam">jam ' + t.jam + '</span>' : '') +
+    h += '</button><div class="foot"' + tip(t.cards.length ? t.work + ' ' + t.effect : 'slot ' + (k + 1)) + '>' + (t.cards.length ? '<span class="ex" data-explain="makes" data-slot2="' + k + '">makes <b>' + t.work + '</b></span> ' + esc(plainEffect(t.effect)) + (t.frozenCards ? ' <span class="jam">' + t.frozenCards + ' frozen</span>' : '') : '<span class="ex" data-explain="makes" data-slot2="' + k + '">slot ' + (k + 1) + '</span>') + (t.jam ? ' <span class="jam">jammed ' + t.jam + '</span>' : '') +
       (t.mess ? ' <span class="jam">mess ' + t.mess + ' (−' + (5 * t.mess) + '%)</span>' : '') + (t.locked ? ' <span class="jam">shut</span>' : '') + (t.sign ? ' <span>sign out</span>' : '') +
       (t.booked ? ' <span>booked</span>' : '') + (t.closing ? ' <span>closing x2</span>' : '') + (t.assigned ? ' <span>on #' + t.assigned + '</span>' : '') + (t.dept ? '<br><span>' + esc(t.dept) + '</span>' : '') + '</div>' + verbsFor(t, k) + '</div>';
   });
-  h += '</div><div class="feed">' + chips.map(c => '<span class="chip ' + c[0] + '">' + esc(c[1]) + '</span>').join('') + '</div><div class="msg">' + esc(msg) + '</div></div>';
+  h += '</div><div class="log" aria-live="polite">' + log.slice(0, 6).map(l => '<div class="' + esc(l[0]) + '"' + (l[2] ? tip(l[2]) : '') + '>' + esc(l[1]) + '</div>').join('') + '</div><div class="msg">' + esc(msg) + '</div></div>';
 
-  // side: hand, shop, punch, rating, rules
-  h += '<div class="side"><div class="panel"><div class="label">hand' + (v.draw ? ' · roster ' + v.roster : '') + '</div><div class="hand">';
-  v.hand.forEach((x, i) => { h += cardHtml(x.card, 'h' + (sel && sel.hand === i ? ' sel' : ''), 'button', ' data-hand="' + i + '"', x.cost ? ' ' + x.cost : ''); });
-  if (!v.hand.length) h += '<span class="dim num">—</span>';
+  // side: hand, shop, end turn, rating, rules
+  h += '<div class="side"><div class="panel"><div class="label"' + tip('hand' + (v.draw ? ' · roster ' + v.roster : '')) + '>your hand' + (v.draw ? ' · ' + v.roster + ' more in your roster' : '') + '</div><div class="hand">';
+  v.hand.forEach((x, i) => { const place = x.slots.some(s => s.play || s.tuck); h += cardHtml(x.card, 'h' + (sel && sel.hand === i ? ' sel' : '') + (pHand === i ? ' point' : '') + (place ? '' : ' noplace'), 'button', ' data-hand="' + i + '"' + tip((place ? '' : 'no place on the table right now (a card goes on an empty slot only if it is a 1, on the same number to merge, or in front of one exactly one lower). ') + (x.cost ? 'costs ' + x.cost + ' to place' : 'free to place')), x.cost && show.money ? ' ' + x.cost : ''); });
+  if (!v.hand.length) h += '<span class="dim num">empty</span>';
   h += '</div>';
-  if (sel && sel.hand != null) h += '<div class="row" style="margin-top:6px"><button class="btn" data-cmd="drop ' + (sel.hand + 1) + '"' + dis(v.shop.fireWhy) + '>fire for good (' + esc(v.shop.fire) + ')</button><span class="dim num" style="font-size:12px">or tap a slot</span></div>';
-  h += '</div><div class="panel"><div class="row">';
-  h += btn('buy', 'pack', v.shop.pack) + btn('buy adv', 'adv', v.shop.adv) + btn('borrow', 'borrow +', v.shop.borrow, v.shop.line) + btn('repay', 'repay', v.shop.repay);
-  h += '</div><div class="row" style="margin-top:8px"><button class="btn punch" data-cmd="punch">PUNCH +' + v.makes + '</button></div></div>';
+  if (v.hand.some(x => !x.slots.some(s => s.play || s.tuck))) h += '<div class="dim" style="font-size:12px;margin-top:4px">Faded cards have no place on the table right now.</div>';
+  if (hs) h += '<div class="dim" style="font-size:12px;margin-top:6px">' + (v.hand[sel.hand].slots.some(s => s.play || s.tuck) ? 'Tap a green slot.' : 'No slot takes this card yet.') + '</div>';
+  if (hs && mode === 'play') h += '<div class="row" style="margin-top:6px"><button class="btn" data-cmd="drop ' + (sel.hand + 1) + '"' + (v.shop.fireWhy ? dis(v.shop.fireWhy) : tip(v.fireTip)) + '>fire for good (' + esc(v.shop.fire) + ')</button></div>';
+  h += '</div>' + (show.money || show.endTurn ? '<div class="panel">' : '<div hidden>');
+  if (show.money) h += '<div class="row" style="margin-bottom:8px">' + btn('buy', 'Buy pack', v.shop.pack, '', pBtn === 'buy') + btn('buy adv', 'Advanced pack', v.shop.adv) + btn('borrow', 'Borrow', v.shop.borrow, (v.loan ? v.loan + '; ' : '') + (v.shop.line ? 'debt ' + v.shop.line : ''), pBtn === 'borrow') + btn('repay', 'Repay', v.shop.repay) + '</div>' + (v.shop.pack.sold && v.shop.pack.why ? '<div class="dim" style="font-size:12px;margin:-4px 0 8px">No pack now: ' + esc(v.shop.pack.why) + '</div>' : '');
+  if (show.endTurn) h += '<div class="row"><button class="btn punch' + (pBtn === 'punch' ? ' point' : '') + '" data-cmd="punch"' + (mode === 'watch' ? ' disabled' : '') + tip('PUNCH +' + v.makes) + '>End turn (+' + v.makes + ' work)</button></div>';
+  h += '</div>';
   if (v.verbs) h += '<div class="panel row"><button class="btn" data-cmd="release"' + dis(v.releaseWhy) + '>release ledger ' + v.ledger + ' x1.5</button><input type="text" id="quoteN" inputmode="numeric" style="width:8ch" value="' + v.quota + '"><button class="btn" data-quote="1"' + dis(v.quoteWhy) + '>quote</button></div>';
-  h += ratingPanel(cur.key);
-  h += '<div class="panel"><ol class="rules">' +
-    '<li>Tap a hand card, then a slot: a 1 starts a slot; N+N merge to N+1; an N goes on an N−1; a 1 can tuck behind.</li>' +
-    '<li>PUNCH: each stack works (number under it), hits the office card above it first; the rest counts to the quota.</li>' +
-    '<li>✕ blame hits a stack\'s lowest card first; an empty slot sends it to you: ' + v.blamePerStrike + ' = a strike. ? cards need a higher card on the table to read.</li>' +
-    '<li>Meet the quota within ' + v.turns + ' turns or a strike; ' + (v.strikesAllowed + 1) + ' strikes end it. ' + v.weeksToWin + ' weeks wins.</li>' +
-    '<li>Hires cost once; Friday pays bills − salaries. Loan: +60% a week, due in the boss week.</li></ol>';
-  if (v.colours && !v.fourInks) h += '<div class="legend">' + (v.pigment
-    ? sw('var(--r)', 'R') + sw('var(--bl)', 'B') + sw('var(--y)', 'Y') + '<span>+10% per same</span>' + sw('color-mix(in oklab, var(--r) 55%, var(--w))', 'tint +6%') + sw('var(--p)', 'P x2 office') + sw('var(--o)', 'O +12%') + sw('var(--g)', 'G −1✕') + sw('var(--n)', 'N') + sw('var(--beige)', '^ with N x2.5') + sw('var(--w)', 'W intern')
-    : sw('var(--r)', 'R') + sw('var(--bl)', 'B') + sw('var(--y)', 'Y') + '<span>+25% per same behind · ★ x2</span>' + sw('var(--grey)', 'mixed')) + '</div>';
+  if (mode === 'play') h += ratingPanel(cur.key);
+  h += '<div class="panel"><details class="how"' + (mode === 'play' ? '' : ' open') + '><summary>How it works</summary><ol class="rules">' +
+    '<li>Tap a card in your hand: the green slots take it, and the button over each says what it becomes there. A card goes on an empty slot only if it is a 1, on the same number to merge, or in front of a card exactly one lower.</li>' +
+    '<li>Tap any underlined word or number, or an office card, to see what it means.</li>' +
+    (show.endTurn ? '<li>End turn: each stack works the number under it' + (show.office ? ', first against the office card above it' : '') + (show.target ? '; the rest counts toward the target' : '') + '.</li>' : '') +
+    (show.blame ? '<li>Blame hits a stack\'s back card first; on an empty slot it hits you (' + v.blamePerStrike + ' is a strike; the ' + (v.strikesAllowed + 1) + 'rd ends the run).</li>' : '') +
+    (show.money ? '<li>A 2 or higher costs money to place (merges are free); each Friday your cards earn their bills (income) and salaries go out.</li>' : '') +
+    (show.office ? '<li>Hidden office cards need a higher card on your table to read.</li>' : '') + '</ol></details>';
+  if (v.colours && !v.fourInks && v.inUse.length) {
+    const u = k => v.inUse.includes(k), pure = ['R', 'B', 'Y'].filter(u);
+    const names = { R: ['var(--r)', 'red'], B: ['var(--bl)', 'blue'], Y: ['var(--y)', 'yellow'] };
+    h += '<div class="legend words"><span class="dim">colours on your table and in hand:</span>' + (v.pigment
+      ? pure.map(k => sw(names[k][0], names[k][1])).join('') + (pure.length ? '<span>a top card works +10% for each card of its colour behind it (rounded down)</span>' : '') +
+        (u('tint') ? sw('color-mix(in oklab, var(--r) 55%, var(--w))', 'light mix (like y~w: yellow with white): +6% per card behind carrying its main colour') : '') +
+        (u('P') ? sw('var(--p)', 'purple: ×2 against office cards') : '') + (u('O') ? sw('var(--o)', 'orange: +12%') : '') + (u('G') ? sw('var(--g)', 'green: each blame 1 less') : '') +
+        (u('N') ? sw('var(--n)', 'brown: no bonus unless a beige card is in its stack') : '') + (u('beige') ? sw('var(--beige)', 'beige: a brown top card in its stack works ×2.5') : '') + (u('W') ? sw('var(--w)', 'white (W): an intern, no colour; merged into a colour it lightens it (a red 2 + a white 2 make a light red 3, r~w)') : '')
+      : pure.map(k => sw(names[k][0], names[k][1])).join('') + '<span>+25% for each card of the top card\'s colour behind it · ★ leader counts twice</span>' + (u('grey') ? sw('var(--grey)', 'grey: mixed, no bonus') : '')) + '</div>';
+  }
   if (v.fourInks) h += '<div class="legend">' + WHEEL.slice(0, 12).map((c, i) => '<i class="sw" style="background:' + c + '" title="sector ' + i + '"></i>').join('') + sw('var(--n)', 'brown') + '<span>verbs: B assign · Y book/release x1.5 · G quote · R reassign (tap a back card)</span></div>';
   if (v.encounters) h += '<div class="legend"><span>mess −5% each · sweep needs a brown front · LB = load-bearing crew (every colour; sweeps in encounters-b) · CL = closer (close: a stack x2 once a week)</span></div>';
-  h += '</div><div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button></div></div></div>';
-
-  if (v.over) h += '<div class="over"><div class="panel"><div class="big">' + (v.won ? 'WON' : 'OVER') + '</div><div>' + v.weeks + '/' + v.weeksToWin + ' weeks · seed ' + esc(seed) + '</div>' + ratingPanel(cur.key, true) +
-    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-again="1">same seed</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  h += '</div>';
+  if (mode === 'play') h += '<div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-watchthis="1">watch a bot play this</button></div>';
+  h += '</div></div>';
+  h += overlay();
   app.innerHTML = h;
 }
-function btn(cmd, label, b, extra) {
+function weekEndHtml() {
+  return weekEnd.map((l, i) => '<p class="' + (i === 0 ? (/Missed|over|Strike/.test(l) ? 'bad' : 'good') : /[Ss]trike|blame reached/.test(l) ? 'bad' : '') + '" style="margin:4px 0">' + esc(l) + '</p>').join('');
+}
+function overlay() {
+  const v = view;
+  if (overlayShut) return '';
+  if (weekEnd.length && !v.over && !(mode === 'lesson' && (les.done || les.failed))) {
+    const n = (weekEnd[0].match(/^Week (\d+)/) || [])[1];
+    return '<div class="over weekend"><div class="panel"><div class="big">End of week ' + esc(n || '') + '</div>' + weekEndHtml() + '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn punch" style="flex:0 0 auto" data-weekok="1">Next week</button></div></div></div>';
+  }
+  if (mode === 'lesson' && les.done) {
+    const next = les.next && lessons.find(l => l.key === les.next);
+    return '<div class="over"><div class="panel"><div class="big">Done</div><p style="font-family:var(--display);font-size:15px">' + esc(les.learned) + '</p>' + (weekEnd.length ? '<div class="weekend dim" style="font-size:13px;text-align:left">' + weekEndHtml() + '</div>' : '') +
+      '<div class="row" style="justify-content:center;margin-top:10px">' + (next ? '<button class="btn punch" style="flex:1 1 100%" data-lesson="' + esc(next.key) + '">Next: ' + esc(next.title) + '</button>' : '<button class="btn punch" style="flex:1 1 100%" data-open="' + esc(les.entry) + '">Play ' + (les.entry === 'bu-default' ? 'the game today' : 'entry ' + (menu.findIndex(m => m.key === les.entry) + 1)) + '</button>') +
+      '<button class="btn" data-shut="1">look at the table</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  }
+  if (mode === 'lesson' && les.stuck && !les.done) return '<div class="over"><div class="panel"><div class="big">Stuck</div><p style="font-family:var(--display)">This lesson\'s goal can no longer be reached from here. Start over: the start is the same every time.</p><div class="row" style="justify-content:center;margin-top:10px"><button class="btn punch" style="flex:0 0 auto" data-relesson="1">start over</button><button class="btn" data-shut="1">look at the table</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  if (mode === 'lesson' && les.failed) return '<div class="over"><div class="panel"><div class="big">Not this time</div><div class="weekend" style="text-align:left">' + weekEndHtml() + '</div><p style="font-family:var(--display)">The week ended before the goal. Try it again: the start is the same every time.</p><div class="row" style="justify-content:center;margin-top:10px"><button class="btn punch" style="flex:0" data-relesson="1">try again</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  if (v.over && mode === 'watch') return '<div class="over"><div class="panel"><div class="big">' + esc(botName) + (v.won ? ' won' : '\'s run ended') + '</div><div>' + (v.won ? 'all ' + v.weeksToWin + ' weeks' : 'reached week ' + v.week + ' of ' + v.weeksToWin + ' (' + v.weeks + ' completed)') + ' · seed ' + esc(seed) + '</div><div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-rewatch="1">watch again</button><button class="btn" data-randwatch="1">new seed</button><button class="btn" data-shut="1">look at the table</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  if (v.over && mode === 'play') return '<div class="over"><div class="panel"><div class="big">' + (v.won ? 'WON' : 'OVER') + '</div><div>' + (v.won ? 'all ' + v.weeksToWin + ' weeks' : 'reached week ' + v.week + ' of ' + v.weeksToWin + ' (' + v.weeks + ' completed)') + ' · seed ' + esc(seed) + '</div><div class="weekend" style="text-align:left">' + weekEndHtml() + '</div>' + ratingPanel(cur.key, true) +
+    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-again="1">same seed</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  return '';
+}
+// a stack's effect shorthand, in words (the engine computes the effect; this only renames it)
+function plainEffect(fx) {
+  return (fx || '').split(' ').filter(Boolean).map(x => x === 'x2' ? '' : x === 'office' ? '×2 vs office' : x === '-1' ? '' : x === 'blame' ? 'blame −1' : x === 'x1.5' ? '×1.5' : x === 'x1/2' ? '×½' : x === 'sales' ? '(sales)' : x === 'grudge' ? '(grudge)' : x).filter(Boolean).join(' ');
+}
+function btn(cmd, label, b, extra, point) {
   if (!b.sold) return '';
-  return '<button class="btn" data-cmd="' + cmd + '"' + dis(b.why) + '>' + esc(label) + (b.price ? ' ' + esc(b.price) : '') + (extra ? ' <span class="dim">' + esc(extra) + '</span>' : '') + '</button>';
+  return '<button class="btn' + (point ? ' point' : '') + '" data-cmd="' + cmd + '"' + dis(b.why) + (mode === 'watch' ? ' disabled' : '') + '>' + esc(label) + (b.price ? ' ' + esc(b.price) : '') + (extra ? ' <span class="dim">' + esc(extra) + '</span>' : '') + '</button>';
 }
 const dis = why => why ? ' disabled title="' + esc(why) + '"' : '';
 function actsFor(k) {
   let out = '';
+  if (mode === 'watch') return out;
   if (sel && sel.hand != null) {
     const s = view.hand[sel.hand].slots[k];
-    if (s.play) out += '<button class="go" data-cmd="play ' + (sel.hand + 1) + ' ' + (k + 1) + '">' + s.play + (s.price ? ' ' + esc(s.price) : '') + '</button>';
-    if (s.tuck) out += '<button data-cmd="tuck ' + (sel.hand + 1) + ' ' + (k + 1) + '">tuck</button>';
+    if (s.play) out += '<button class="go" data-cmd="play ' + (sel.hand + 1) + ' ' + (k + 1) + '"' + tip(s.play + (s.price ? ' ' + s.price : '') + ': makes ' + s.work) + '>' + (s.play === 'new' ? 'new' : s.play === 'merge' ? 'merge' : 'on') + ' → ' + s.becomes + (s.price ? ' ' + esc(s.price) : '') + '</button>';
+    if (s.tuck) out += '<button data-cmd="tuck ' + (sel.hand + 1) + ' ' + (k + 1) + '"' + tip('tuck behind: the 1 joins the back of the stack, adds its work and takes blame first; the stack makes ' + s.tuckWork) + '>tuck behind (+' + (s.tuckWork - view.table[k].work) + ')</button>';
   } else if (sel && sel.ci != null) {
     if (view.table[sel.slot].reassign[sel.ci].includes(k + 1)) out += '<button class="go" data-cmd="reassign ' + (sel.slot + 1) + ' ' + (sel.ci + 1) + ' ' + (k + 1) + '">reassign here</button>';
   } else if (sel && sel.slot != null && view.moves[sel.slot][k]) {
-    out += '<button class="go" data-cmd="move ' + (sel.slot + 1) + ' ' + (k + 1) + '">' + view.moves[sel.slot][k] + ' here</button>';
+    out += '<button class="go" data-cmd="move ' + (sel.slot + 1) + ' ' + (k + 1) + '">' + view.moves[sel.slot][k] + ' → ' + view.moveBecomes[sel.slot][k] + '</button>';
   }
   return out;
 }
 function verbsFor(t, k) {
+  if (mode === 'watch') return '';
   let b = '';
   if (t.canClose) b += '<button data-cmd="close ' + (k + 1) + '">close x2</button>';
   if (t.canBook) b += '<button data-cmd="book ' + (k + 1) + '">book</button>';
@@ -515,8 +751,8 @@ function ratingPanel(key, inOverlay) {
   const r = ratings[key] || {};
   let h = (inOverlay ? '<div style="margin-top:12px">' : '<div class="panel">') + '<div class="label">fun? ' + (dbState === 'on' ? '' : dbState === 'off' ? '(kept in this browser)' : '(connecting)') + '</div><div class="row rate">';
   for (let i = 1; i <= 5; i++) h += '<button data-fun="' + i + '" class="' + (r.fun >= i ? 'on' : '') + '" aria-label="fun ' + i + ' of 5">' + i + '</button>';
-  h += '</div><div class="row" style="margin-top:6px"><input type="text" id="note' + (inOverlay ? '2' : '') + '" maxlength="200" placeholder="one line" value="' + esc(r.note || '') + '" style="flex:1;min-width:10ch"><button class="btn" data-note="' + (inOverlay ? 'note2' : 'note') + '">save</button></div>' +
-    (dbState === 'off' ? '<div class="row" style="margin-top:6px"><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(issueUrl(key)) + '">send feedback</a><button class="btn" data-copyfb="' + esc(key) + '">copy feedback</button>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea() : '') + '</div>';
+  h += '</div><div class="row" style="margin-top:6px"><input type="text" id="note' + (inOverlay ? '2' : '') + '" maxlength="200" placeholder="one line" value="' + esc(r.note || '') + '" style="flex:1;min-width:10ch"><button class="btn" data-note="' + (inOverlay ? 'note2' : 'note') + '">save</button>' + (flash === 'saved' ? '<span class="dim num">saved</span>' : '') + '</div>' +
+    (dbState === 'off' ? '<div class="row" style="margin-top:6px"><button class="btn" data-copyfb="' + esc(key) + '">copy feedback</button>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea() : '') + '</div>';
   return h;
 }
 // any other scenario: its own Status as numbers, a button per Help verb, and a text box
@@ -536,46 +772,82 @@ function verbsOf(help) {
 }
 function renderGeneric() {
   const v = view;
-  let h = '<div class="app"><div class="panel">';
-  h += '<div class="top"><button class="btn" data-back="1">← menu</button><span class="name">' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="how to play">i</button><span class="dim num" style="font-size:12px">seed ' + esc(seed) + ' · ' + v.weeks + '/' + v.weeksToWin + '</span></div>';
+  let h = '<div class="app"><div class="panel">' + topBar() + watchBar();
+  h += '<div class="dim num" style="font-size:12px">' + v.weeks + ' of ' + v.weeksToWin + ' done</div>';
   h += '<pre class="num" style="white-space:pre-wrap;font-size:13px;line-height:1.45;margin:6px 0;overflow-x:auto">' + esc(v.status) + '</pre>';
-  h += '<div class="feed">' + chips.map(c => '<span class="chip ' + c[0] + '">' + esc(c[1]) + '</span>').join('') + '</div><div class="msg">' + esc(msg) + '</div>';
-  h += '<div class="row" style="margin-top:6px">' + verbsOf(v.help).map(x => '<button class="btn" title="' + esc(x.desc) + '" ' + (x.run ? 'data-cmd="' + esc(x.run) + '"' : 'data-fill="' + esc(x.fill) + '"') + '>' + esc(x.label) + '</button>').join('') + '</div>';
-  h += '<div class="row" style="margin-top:6px"><input type="text" id="cmd" autocomplete="off" placeholder="type a command, e.g. ' + esc((verbsOf(v.help)[0] || { label: 'help' }).label) + '" style="flex:1;min-width:12ch"><button class="btn punch" style="flex:0" data-go="1">do</button></div></div>';
-  h += '<div class="side">' + ratingPanel(cur.key) + '<div class="panel"><ol class="rules">' + v.rules.map(l => '<li>' + esc(l) + '</li>').join('') + '</ol></div>';
-  h += '<div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button></div></div></div>';
-  if (v.over) h += '<div class="over"><div class="panel"><div class="big">' + (v.won ? 'WON' : 'OVER') + '</div><div>' + v.weeks + '/' + v.weeksToWin + ' · seed ' + esc(seed) + '</div>' + ratingPanel(cur.key, true) +
-    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-again="1">same seed</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-back="1">← menu</button></div></div></div>';
+  h += '<div class="log">' + log.slice(0, 6).map(l => '<div class="' + esc(l[0]) + '">' + esc(l[1]) + '</div>').join('') + '</div><div class="msg">' + esc(msg) + '</div>';
+  if (mode !== 'watch') {
+    h += '<div class="row" style="margin-top:6px">' + verbsOf(v.help).map(x => '<button class="btn" title="' + esc(x.desc) + '" ' + (x.run ? 'data-cmd="' + esc(x.run) + '"' : 'data-fill="' + esc(x.fill) + '"') + '>' + esc(x.label) + '</button>').join('') + '</div>';
+    h += '<div class="row" style="margin-top:6px"><input type="text" id="cmd" autocomplete="off" placeholder="type a command, e.g. ' + esc((verbsOf(v.help)[0] || { label: 'help' }).label) + '" style="flex:1;min-width:12ch"><button class="btn punch" style="flex:0" data-go="1">do</button></div>';
+  }
+  h += '</div><div class="side">' + (mode === 'play' ? ratingPanel(cur.key) : '') + '<div class="panel"><ol class="rules">' + v.rules.map(l => '<li>' + esc(l) + '</li>').join('') + '</ol></div>';
+  if (mode === 'play') h += '<div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-watchthis="1">watch a bot play this</button></div>';
+  h += '</div></div>' + overlay();
   const focus = document.activeElement && document.activeElement.id === 'cmd';
   app.innerHTML = h;
   if (focus) document.getElementById('cmd')?.focus();
 }
 function copyArea() { return copyBox ? '<textarea id="copybox" readonly style="width:100%;height:7em;margin-top:6px;font-family:var(--num);font-size:12px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px">' + esc(copyBox) + '</textarea>' : ''; }
+let expOpen = false;
+function entryRow(m) {
+  const i = menu.indexOf(m), r = ratings[m.key];
+  return '<div class="erow"><button class="entry" data-open="' + esc(m.key) + '"><span class="n">' + (i + 1) + '</span><span class="t">' + esc(m.title) + '</span><span class="r">' +
+    (r && r.plays ? '<b>✓</b> ' + r.plays + 'x · best ' + r.best + 'wk' : '') + (r && r.fun ? '<br><span class="stars">' + '★'.repeat(r.fun) + '</span>' + '☆'.repeat(5 - r.fun) : '') + '</span><span class="l">' + esc(m.line) + '</span></button>' +
+    '<button class="wbtn" data-watch="' + esc(m.key) + '" aria-label="watch a bot play entry ' + (i + 1) + '" title="watch a bot play this">▶</button><button class="ibtn" data-info="' + esc(m.key) + '" aria-label="about entry ' + (i + 1) + '">i</button></div>';
+}
 function renderMenu() {
-  let h = '<div class="menu"><div class="row" style="justify-content:space-between"><h1>Simmili playtest</h1><button class="btn" data-info="about">About this playtest</button></div><div class="dim num" style="font-size:12px">pick one, play, rate it, come back. ✓ = played' + (dbState === 'off' ? ' · ratings kept in this browser: send them with "send feedback"' : '') + '</div>';
-  if (dbState === 'off' && Object.keys(ratings).length) h += '<div class="row"><button class="btn" data-copyall="1">copy all my feedback</button><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://github.com/' + FEEDBACK_REPO + '/issues/new?title=' + encodeURIComponent('Simmili playtest: all') + '&body=' + encodeURIComponent(allFeedback().slice(0, 6000)) + '">send all as one issue</a>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea();
+  const done = readMap(LDONE), main = lessons.filter(l => l.entry === 'bu-default'), extra = lessons.filter(l => l.entry !== 'bu-default');
+  let h = '<div class="menu"><div class="row" style="justify-content:space-between"><h1>Simmili playtest</h1><button class="btn" data-info="about">About this playtest</button></div>';
+  h += '<h2>Start here</h2><p class="sub">Never played? Six short lessons, one new rule each, about a minute apiece.</p>';
+  const lessonRow = (l, n) => '<button class="entry lesson' + (done[l.key] ? ' done' : '') + '" data-lesson="' + esc(l.key) + '"><span class="n">' + n + '</span><span class="t">' + esc(l.title) + '</span><span class="r">' + (done[l.key] ? '<b>✓</b> done' : '') + '</span><span class="l">' + esc(l.teaches) + '</span></button>';
+  main.forEach((l, i) => { h += lessonRow(l, 'L' + (i + 1)); });
+  h += '<button class="entry" data-watch="bu-default"><span class="n">▶</span><span class="t">Watch a bot play</span><span class="r"></span><span class="l">a lab bot plays the game today one move at a time, and says what it did and why</span></button>';
+  h += '<h2>The game today</h2>' + entryRow(menu[0]);
+  h += '<details class="exp"' + (expOpen ? ' open' : '') + '><summary>Experiments: ' + (menu.length - 1) + ' other versions and games</summary>';
+  extra.forEach(l => { const m = menu.find(x => x.key === l.entry); h += lessonRow(l, 'L+') .replace('</span><span class="l">', '</span><span class="l">a lesson for entry ' + (menu.indexOf(m) + 1) + ': '); });
   let group = '';
-  menu.forEach((m, i) => {
-    if (m.group !== group) { group = m.group; h += '<h2 style="font-size:15px;margin:10px 0 0">' + esc(group) + '</h2>'; }
-    const r = ratings[m.key];
-    h += '<div class="erow"><button class="entry" data-open="' + esc(m.key) + '"><span class="n">' + (i + 1) + '</span><span class="t">' + esc(m.title) + '</span><span class="r">' +
-      (r && r.plays ? '<b>✓</b> ' + r.plays + 'x · best ' + r.best + 'wk' : '') + (r && r.fun ? '<br><span class="stars">' + '★'.repeat(r.fun) + '</span>' + '☆'.repeat(5 - r.fun) : '') + '</span><span class="l">' + esc(m.line) + '</span></button><button class="ibtn" data-info="' + esc(m.key) + '" aria-label="about entry ' + (i + 1) + '">i</button></div>';
+  menu.slice(1).forEach(m => {
+    if (m.group !== group) { group = m.group; h += '<h2>' + esc(group === 'Build Up' ? 'Build Up, one change each (the line says what is different)' : 'Other games (not Build Up)') + '</h2>'; }
+    h += entryRow(m);
   });
+  h += '</details>';
+  h += '<div class="dim num" style="font-size:12px;margin-top:8px">pick one, play, rate it (1 to 5 and a line), come back. ✓ = played' + (dbState === 'off' ? ' · ratings are kept in this browser: copy them, then send them to the person who gave you this link' : '') + '</div>';
+  if (dbState === 'off' && Object.keys(ratings).length) h += '<div class="row"><button class="btn" data-copyall="1">copy all my feedback</button>' + (flash ? '<span class="dim num">' + esc(flash) + '</span>' : '') + '</div>' + copyArea();
   h += '</div>';
   app.innerHTML = h;
+  const d = app.querySelector('details.exp');
+  if (d) d.addEventListener('toggle', () => { expOpen = d.open; });
 }
 
 // ---- input ------------------------------------------------------------------------------------------------------------
+app.addEventListener('change', ev => {
+  if (ev.target.id === 'botsel') { startWatch(cur.key, seed, ev.target.value); return; }
+  if (ev.target.id === 'speed') { speed = +ev.target.value; if (auto) { stopAuto(); auto = setInterval(botNext, speed); } render(); }
+});
 app.addEventListener('click', ev => {
   const ci = ev.target.closest('[data-ci]');
-  if (ci && !(sel && sel.hand != null) && !(sel && sel.slot != null && sel.ci == null && +ci.closest('[data-slot]').dataset.slot !== sel.slot)) {
+  if (mode !== 'watch' && ci && !(sel && sel.hand != null) && !(sel && sel.slot != null && sel.ci == null && +ci.closest('[data-slot]').dataset.slot !== sel.slot)) {
     const k = +ci.closest('[data-slot]').dataset.slot, i = +ci.dataset.ci, t = view.table[k];
     if (i < t.cards.length - 1 && t.reassign[i] && t.reassign[i].length) { sel = sel && sel.slot === k && sel.ci === i ? null : { slot: k, ci: i }; msg = ''; render(); return; }
   }
+  const ex = ev.target.closest('[data-explain]');
+  if (ex && mode !== 'menu') { const dd = ex.dataset; explain = { k: dd.explain, slot: +(dd.slot2 || 0), oi: +(dd.oi || 0) }; hint = null; render(); return; }
   const el = ev.target.closest('button');
   if (!el) return;
   const d = el.dataset;
+  if (d.hintok) { hint = null; render(); return; }
+  if (d.explainok) { explain = null; render(); return; }
+  if (d.weekok) { weekEnd = []; render(); return; }
   if (d.open) { flash = ''; copyBox = ''; start(d.open, newSeed(), []); if (!seenInfo()[d.open]) { infoKey = d.open; render(); } return; }
+  if (d.lesson) { startLesson(d.lesson, []); return; }
+  if (d.relesson) { startLesson(lesKey, []); return; }
+  if (d.watch) { startWatch(d.watch, '1', 'Careful'); return; }
+  if (d.watchthis) { startWatch(cur.key, seed, 'Careful'); return; }
+  if (d.rewatch) { const s = document.getElementById('seed')?.value.trim() || seed; startWatch(cur.key, /^\d{1,20}$/.test(s) ? s : seed, botName); return; }
+  if (d.randwatch) { startWatch(cur.key, newSeed(), botName); return; }
+  if (d.botnext) { botNext(); return; }
+  if (d.auto) { if (auto) stopAuto(); else auto = setInterval(botNext, speed); render(); return; }
+  if (d.shut) { overlayShut = true; render(); return; }
   if (d.info) { infoKey = d.info; render(); return; }
   if (d.closeinfo) { if (infoKey !== 'about') markSeen(infoKey); else markSeen('about'); infoKey = null; render(); return; }
   if (d.copyfb) { copyText(feedbackText(d.copyfb)); return; }
@@ -583,9 +855,10 @@ app.addEventListener('click', ev => {
   if (d.fill != null) { const c = document.getElementById('cmd'); c.value = d.fill; c.focus(); return; }
   if (d.go) { const c = document.getElementById('cmd'), t = c.value.trim().toLowerCase(); if (t) act(t); return; }
   if (d.back) { flash = ''; copyBox = ''; showMenu(); return; }
+  if (mode === 'watch') return; // watching: the bot moves, not the page
   if (d.cmd) { act(d.cmd); return; }
-  if (d.fun) { writeRating(cur.key, { fun: +d.fun }); return; }
-  if (d.note) { writeRating(cur.key, { note: document.getElementById(d.note).value.slice(0, 200) }); return; }
+  if (d.fun) { flash = 'saved'; writeRating(cur.key, { fun: +d.fun }); return; }
+  if (d.note) { flash = 'saved'; writeRating(cur.key, { note: document.getElementById(d.note).value.slice(0, 200) }); return; }
   if (d.quote) { const n = document.getElementById('quoteN').value.trim(); if (!/^\d{1,9}$/.test(n)) { msg = 'quote a number'; render(); return; } act('quote ' + n); return; }
   if (d.hand != null) { const i = +d.hand; sel = sel && sel.hand === i ? null : { hand: i }; msg = ''; render(); return; }
   if (d.slot != null) {
@@ -599,6 +872,7 @@ app.addEventListener('click', ev => {
     }
     if (sel && sel.ci != null) { if (view.table[sel.slot].reassign[sel.ci].includes(k + 1)) act('reassign ' + (sel.slot + 1) + ' ' + (sel.ci + 1) + ' ' + (k + 1)); else { sel = null; render(); } return; }
     if (sel && sel.slot != null && sel.slot !== k) { act('move ' + (sel.slot + 1) + ' ' + (k + 1)); return; }
+    if (!sel && !view.table[k].cards.length) { msg = 'Tap a card in your hand first.'; render(); return; }
     sel = sel && sel.slot === k ? null : (view.table[k].cards.length ? { slot: k } : null);
     msg = ''; render(); return;
   }
@@ -609,9 +883,9 @@ app.addEventListener('click', ev => {
 document.addEventListener('keydown', e => {
   if (infoKey && e.key !== 'Escape') return;
   if (e.target.id === 'cmd' && e.key === 'Enter') { const t = e.target.value.trim().toLowerCase(); if (t) act(t); return; }
-  if (!cur || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || (view && view.generic)) return;
-  if ((e.key === ' ' || e.key === 'Enter') && !view.over) { e.preventDefault(); act('punch'); }
-  if (e.key === 'Escape') { if (infoKey) { markSeen(infoKey); infoKey = null; } sel = null; render(); }
+  if (mode === 'menu' || !cur || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || (view && view.generic && mode !== 'watch')) return;
+  if ((e.key === ' ' || e.key === 'Enter') && !view.over) { e.preventDefault(); if (mode === 'watch') botNext(); else act('punch'); }
+  if (e.key === 'Escape') { if (infoKey) { markSeen(infoKey); infoKey = null; } hint = null; explain = null; weekEnd = []; sel = null; render(); }
 });
 boot();
 </script>
