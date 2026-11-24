@@ -159,6 +159,11 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
   min-height: 44px; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;
   border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
 }
+.actions { display: grid; gap: 8px; justify-items: start; }
+.btn:disabled { opacity: .6; cursor: progress; }
+.btn-text { background: none; border: 0; padding: 8px 0; min-height: 44px; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; }
+.submit-status { min-height: 1.4em; margin: 0; font-weight: 600; }
+.submit-status[data-ok="true"] { color: var(--accent); }
 .finish { margin-top: 34px; padding-top: 18px; border-top: 2px solid var(--ink); display: grid; gap: 14px; }
 .finish h2 { margin: 0; font-size: 18px; font-weight: 600; }
 .sendbox { display: grid; gap: 10px; padding: 14px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 8px; }
@@ -212,8 +217,12 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
       </div>
       <p class="saved-note" id="saved-note" hidden>Your picks are saved for Talon. Close the page whenever you like; come back to change them.</p>
       <div class="sendbox" id="sendbox">
-        <p><b>Send this to the person who gave you this link.</b> Your picks are kept in this browser only.</p>
-        <div><button type="button" class="btn" id="copy-picks">Copy my picks</button></div>
+        <p>Done ticking? Press Submit and your picks go to Talon.</p>
+        <div class="actions">
+          <button type="button" class="btn" id="submit-picks">Submit my picks</button>
+          <p class="submit-status" id="submit-status" role="status" aria-live="polite"></p>
+          <button type="button" class="btn-text" id="copy-picks">Copy my picks</button>
+        </div>
         <p class="copy-status" id="copy-status" aria-live="polite"></p>
         <div class="field" id="picks-text-wrap" hidden>
           <label for="picks-text">Your picks: select all and copy</label>
@@ -233,6 +242,8 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
   const LS_PICKS = 'face-looks:picks:' + ROUND;
   const LS_FILTER = 'face-looks:filter:' + ROUND;
   const ALL = '__all', TICKED = '__ticked';
+  const SUBMIT_URL = 'https://formsubmit.co/ajax/talon@talonbaker.com'; // emails Talon (FormSubmit); see README
+  const SUBMIT_TIMEOUT_MS = 12000;
   const DEBOUNCE_MS = 800;
   const DB_TIMEOUT_MS = 10000;
   const LIMITS = { name: 80, note: 2000 };
@@ -465,6 +476,55 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
     return lines.join('\n');
   }
 
+  // ---------- submit: one click emails Talon through FormSubmit ----------
+  let sent = false;
+  async function submitPicks() {
+    const btn = $('submit-picks');
+    const status = $('submit-status');
+    if (btn.disabled) return;
+    const d = toDoc(state);
+    const tags = d.liked.filter((id) => faceById.has(id));
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.dataset.ok = 'false';
+    status.textContent = '';
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), SUBMIT_TIMEOUT_MS);
+    let ok = false;
+    try {
+      const res = await fetch(SUBMIT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Face picks from ' + (d.name || 'a tester'),
+          _template: 'box',
+          name: d.name,
+          picks: tags.join(', '),
+          count: tags.length,
+          note: d.note,
+          page: location.href,
+          at: new Date().toISOString()
+        }),
+        signal: ctl.signal
+      });
+      const j = res.ok ? await res.json() : null;
+      ok = !!j && (j.success === true || j.success === 'true');
+    } catch (e) { ok = false; }
+    clearTimeout(timer);
+    btn.disabled = false;
+    if (ok) {
+      sent = true;
+      btn.textContent = 'Send again';
+      status.dataset.ok = 'true';
+      status.textContent = 'Sent. Thank you!';
+    } else {
+      btn.textContent = sent ? 'Send again' : 'Submit my picks';
+      status.textContent = 'Couldn’t send. Copy your picks and send them to Talon instead.';
+      $('picks-text').value = summary();
+      $('picks-text-wrap').hidden = false;
+    }
+  }
+
   async function copyPicks() {
     const text = summary();
     const status = $('copy-status');
@@ -606,6 +666,7 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
   $('tester-name').addEventListener('input', (e) => { state.name = e.target.value.slice(0, LIMITS.name); changed(); });
   $('overall-note').addEventListener('input', (e) => { state.note = e.target.value.slice(0, LIMITS.note); changed(); });
   $('copy-picks').addEventListener('click', copyPicks);
+  $('submit-picks').addEventListener('click', submitPicks);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && timer) flush(); });
   setMode('connecting');
 
