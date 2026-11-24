@@ -164,6 +164,8 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
 .btn-text { background: none; border: 0; padding: 8px 0; min-height: 44px; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; }
 .submit-status { min-height: 1.4em; margin: 0; font-weight: 600; }
 .submit-status[data-ok="true"] { color: var(--accent); }
+.submit-why { margin: .2em 0 0; font-size: .85em; opacity: .8; overflow-wrap: anywhere; white-space: pre-line; }
+.submit-why:empty { display: none; }
 .finish { margin-top: 34px; padding-top: 18px; border-top: 2px solid var(--ink); display: grid; gap: 14px; }
 .finish h2 { margin: 0; font-size: 18px; font-weight: 600; }
 .sendbox { display: grid; gap: 10px; padding: 14px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 8px; }
@@ -221,6 +223,7 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
         <div class="actions">
           <button type="button" class="btn" id="submit-picks">Submit my picks</button>
           <p class="submit-status" id="submit-status" role="status" aria-live="polite"></p>
+          <p class="submit-why" id="submit-why"></p>
           <button type="button" class="btn-text" id="copy-picks">Copy my picks</button>
         </div>
         <p class="copy-status" id="copy-status" aria-live="polite"></p>
@@ -488,8 +491,11 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
     btn.textContent = 'Sending…';
     status.dataset.ok = 'false';
     status.textContent = '';
+    $('submit-why').textContent = '';
+    let why = '';
+    let timedOut = false;
     const ctl = new AbortController();
-    const timer = setTimeout(() => ctl.abort(), SUBMIT_TIMEOUT_MS);
+    const timer = setTimeout(() => { timedOut = true; ctl.abort(); }, SUBMIT_TIMEOUT_MS);
     let ok = false;
     try {
       const res = await fetch(SUBMIT_URL, {
@@ -507,9 +513,19 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
         }),
         signal: ctl.signal
       });
-      const j = res.ok ? await res.json() : null;
-      ok = !!j && (j.success === true || j.success === 'true');
-    } catch (e) { ok = false; }
+      let raw = '';
+      let j = null;
+      try { raw = await res.text(); j = JSON.parse(raw); } catch (e) { j = null; }
+      ok = res.ok && !!j && (j.success === true || j.success === 'true');
+      if (!ok) {
+        console.warn('Submit failed: HTTP ' + res.status, raw);
+        why = (j && typeof j.message === 'string' && j.message) ? j.message : 'HTTP ' + res.status;
+      }
+    } catch (e) {
+      ok = false;
+      console.warn('Submit failed: no response', e);
+      why = timedOut ? 'no answer after ' + (SUBMIT_TIMEOUT_MS / 1000) + ' s' : 'blocked or offline (' + (e && e.name ? e.name : 'error') + ')';
+    }
     clearTimeout(timer);
     btn.disabled = false;
     if (ok) {
@@ -520,6 +536,10 @@ h1 { font-size: 26px; line-height: 1.15; margin: 0; font-weight: 600; letter-spa
     } else {
       btn.textContent = sent ? 'Send again' : 'Submit my picks';
       status.textContent = 'Couldn’t send. Copy your picks and send them to Talon instead.';
+      let shown = String(why);
+      if (shown.length > 200) shown = shown.slice(0, 200) + '…';
+      if (/activat/i.test(why)) shown += '\nThe form is waiting for Talon to activate it. Your picks are saved here; try again later or copy them.';
+      $('submit-why').textContent = shown;
       $('picks-text').value = summary();
       $('picks-text-wrap').hidden = false;
     }
