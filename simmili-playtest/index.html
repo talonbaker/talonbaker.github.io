@@ -157,6 +157,116 @@ details.exp[open] > summary { margin-bottom: 4px }
 select { font: inherit; font-family: var(--num); font-size: 13px; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg) }
 details.how > summary { cursor: pointer; font-size: 12px; color: var(--dim) }
 .legend.words span { margin-right: 4px }
+/* round 30 (lane VS): the table layout (Talon: the middle two-thirds is the play area; its top third the problems, its
+   bottom two-thirds your desks and your hand, fanned at the bottom; your badge to the side). Stacked on a phone. */
+.tbl { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 4fr) minmax(200px, 1fr); grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "left top right" "left play right"; gap: 8px 10px; max-width: 1600px; margin: 0 auto; min-height: calc(100dvh - 16px) }
+.ttop { grid-area: top; padding: 6px 8px }
+.ttop .top { margin: 0 }
+.tbar { display: flex; flex-direction: column; gap: 10px; min-width: 0; align-self: start; position: sticky; top: 8px; max-height: calc(100dvh - 16px); overflow-y: auto }
+.tbar.left { grid-area: left }
+.tbar.right { grid-area: right }
+.tplay { grid-area: play; display: flex; flex-direction: column; min-width: 0; min-height: 560px; gap: 6px }
+.tprob { flex: 1 1 0; min-height: 150px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; background: color-mix(in oklab, var(--office) 10%, var(--bg)); border: 1px solid var(--line); border-radius: 10px; padding: 8px; align-content: start }
+.tlane { display: flex; flex-direction: column; gap: 6px; min-width: 0 }
+.tlane .empty { color: var(--dim); font-size: 12px; text-align: center; padding: 14px 0; border: 1px dashed var(--line); border-radius: 8px }
+.pc { position: relative; background: var(--office); color: var(--office-fg); border-radius: 8px; padding: 6px 8px 7px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 6px; cursor: help; box-shadow: 0 2px 0 rgba(0,0,0,.25) }
+.pc.call { background: color-mix(in oklab, var(--bad) 70%, var(--office)) }
+.pc.boss { box-shadow: inset 0 0 0 3px var(--bad), 0 2px 0 rgba(0,0,0,.25) }
+.pc.hidden { background: repeating-linear-gradient(135deg, var(--office), var(--office) 6px, var(--stripe) 6px, var(--stripe) 12px) }
+.pc .pn { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.pc .pt { grid-row: 1 / span 2; grid-column: 2; align-self: start; width: 30px; height: 30px; border-radius: 50%; background: var(--office-fg); color: var(--office); font-family: var(--num); font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center }
+.pc .pt.now { background: var(--y); color: #24201a }
+.pc .pb { font-family: var(--num); line-height: 1 }
+.pc .pb b { font-size: 26px }
+.pc .pb small { font-size: 11px; opacity: .85; margin-left: 4px }
+.pc .pl { grid-column: 1 / span 2; font-size: 12px; line-height: 1.3; margin-top: 3px; opacity: .95 }
+.tlower { flex: 2 1 0; display: flex; flex-direction: column; gap: 6px; min-height: 0 }
+.tdesks { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; align-items: start }
+.tdesk { display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.tdesk .dl { font-size: 12px; color: var(--dim); text-align: center; letter-spacing: .04em; text-transform: uppercase }
+.tdesk .acts { min-height: 28px; flex-wrap: wrap }
+.tdesk .acts button { border-color: var(--ok); color: var(--ok) }
+.tdesk .acts button.go { background: transparent; color: var(--ok); font-weight: 700 }
+.desk { --strip: 24px; --front: clamp(84px, 13vh, 118px); position: relative; display: block; width: 100%; padding: 0; border: 2px dashed var(--line); border-radius: 10px; background: color-mix(in oklab, var(--panel) 70%, var(--bg)); min-height: calc(var(--front) + 8px); height: calc(var(--strip) * (var(--n, 1) - 1) + var(--front) + 8px); touch-action: manipulation }
+.desk.can { border: 2px solid var(--ok); background: color-mix(in oklab, var(--ok) 10%, var(--panel)) }
+.desk.over { border: 3px solid var(--ok); box-shadow: 0 0 0 4px color-mix(in oklab, var(--ok) 30%, transparent) }
+.desk.sel { border: 3px solid var(--accent) }
+.desk .dc { position: absolute; left: 4px; right: 4px; height: var(--front); border-radius: 7px; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.35); box-shadow: 0 -1px 0 rgba(0,0,0,.18), 0 2px 3px rgba(0,0,0,.2); display: flex; flex-direction: column; padding: 2px 7px; font-family: var(--num); text-align: left; overflow: hidden }
+.desk .dc .st { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; height: calc(var(--strip) - 3px); font-size: 13px; font-weight: 700; white-space: nowrap }
+.desk .dc .st small { font-weight: 500; font-size: 10px; opacity: .9; overflow: hidden; text-overflow: ellipsis }
+.desk .dc.front .big { font-size: calc(var(--front) * .42); font-weight: 700; line-height: 1; margin-top: 2px }
+.desk .dc.front .tt { font-family: var(--display); font-size: 12px; font-weight: 700; opacity: .95 }
+.desk .dc.lightc { color: #24201a; text-shadow: none; box-shadow: 0 -1px 0 rgba(0,0,0,.18), 0 2px 3px rgba(0,0,0,.2), inset 0 0 0 1px var(--line) }
+.desk .dc.frozen { opacity: .45; outline: 2px dashed var(--bad); outline-offset: -2px }
+.desk .becomes-big { position: absolute; z-index: 20; right: 6px; bottom: 6px; background: var(--ok); color: #fff; font-family: var(--num); font-weight: 700; font-size: 18px; padding: 2px 8px; border-radius: 12px; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,.3) }
+.desk .none { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 12px; text-align: center; padding: 4px }
+.dfoot { font-family: var(--num); font-size: 12px; text-align: center; color: var(--dim) }
+.dfoot b { color: var(--fg); font-size: 18px }
+.dfoot .jam { color: var(--bad) }
+.thand { flex: 0 0 auto; height: clamp(140px, 21vh, 196px); position: relative; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 6px; border-top: 1px solid var(--line) }
+.thand .hl { position: absolute; left: 6px; top: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--dim) }
+.hc { --w: clamp(64px, 6.4vw, 92px); position: relative; width: var(--w); height: calc(var(--w) * 1.38); margin: 0 calc(var(--w) * -.12); border: none; border-radius: 9px; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.35); font-family: var(--num); display: flex; flex-direction: column; align-items: flex-start; padding: 6px 7px; text-align: left; transform-origin: 50% 120%; transform: translateY(var(--y, 0px)) rotate(var(--r, 0deg)); transition: transform .12s ease-out, box-shadow .12s; box-shadow: 0 3px 8px rgba(0,0,0,.28); touch-action: none; user-select: none; -webkit-user-select: none }
+.hc .lv { font-size: calc(var(--w) * .48); font-weight: 700; line-height: 1 }
+.hc .tt { font-family: var(--display); font-size: 11px; font-weight: 700; margin-top: 2px }
+.hc .cd { font-size: 10px; opacity: .9 }
+.hc .pr { margin-top: auto; font-size: 12px; font-weight: 700; background: rgba(0,0,0,.28); padding: 0 5px; border-radius: 6px }
+.hc .wt { margin-top: auto; font-size: 11px; font-weight: 700; background: var(--bad); color: #fff; padding: 0 5px; border-radius: 6px }
+.hc.lightc { color: #24201a; text-shadow: none; box-shadow: 0 3px 8px rgba(0,0,0,.28), inset 0 0 0 1px var(--line) }
+.hc.noplace { filter: saturate(.7); opacity: .82 }
+@media (hover: hover) { .hc:hover { transform: translateY(-26px) scale(1.16); z-index: 30; box-shadow: 0 10px 18px rgba(0,0,0,.35) } }
+.hc.sel { transform: translateY(-30px) scale(1.16); z-index: 31; outline: 4px solid var(--fg); outline-offset: 2px; box-shadow: 0 12px 20px rgba(0,0,0,.4) }
+.hc.dragging { opacity: .25 }
+.ghost { position: fixed; z-index: 60; pointer-events: none; transform: rotate(-4deg) scale(1.1); margin: 0; box-shadow: 0 16px 28px rgba(0,0,0,.45) }
+.badge { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden }
+.badge .bh { background: var(--accent); color: #fff; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; font-weight: 700 }
+.badge .bb { padding: 8px 10px; display: flex; flex-direction: column; gap: 7px }
+.badge .bn { font-weight: 700; font-size: 16px }
+.badge .bs { font-size: 12px; color: var(--dim); margin-top: -5px }
+.badge .rk { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; border-radius: 8px; background: var(--fg); color: var(--bg); font-family: var(--num); font-weight: 700; font-size: 18px; margin-right: 6px; padding: 0 4px }
+.badge .kv { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; font-family: var(--num); font-size: 13px }
+.badge .kv b { font-size: 18px }
+.badge .kv .k { font-family: var(--display); color: var(--dim); font-size: 12px }
+.badge .tbarw { height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; position: relative }
+.badge .tbarw i { position: absolute; inset: 0 auto 0 0; background: var(--accent) }
+.badge .tbarw.met i { background: var(--ok) }
+.badge .start { font-size: 12px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 6px }
+.toggles { display: flex; flex-direction: column; gap: 6px }
+.tog { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 8px; align-items: center; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; width: 100% }
+.tog .sw2 { grid-row: 1 / span 2; width: 34px; height: 20px; border-radius: 10px; background: var(--line); position: relative }
+.tog .sw2::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--panel); transition: left .12s }
+.tog.on .sw2 { background: var(--ok) }
+.tog.on .sw2::after { left: 16px }
+.tog b { font-size: 13px }
+.tog span { font-size: 11px; color: var(--dim); line-height: 1.3 }
+.tbar .btn.punch { font-size: 16px; padding: 12px 10px }
+.tbar .notes { font-size: 12px; color: var(--dim) }
+@media (max-width: 860px), (max-aspect-ratio: 1/1) {
+  .tbl { display: flex; flex-direction: column; min-height: 0 }
+  .tbar { position: static; max-height: none; overflow: visible; align-self: stretch }
+  .ttop { order: -2 }
+  .tbar.left { order: -1 }
+  .tplay { min-height: 0 }
+  .tprob, .tlower, .tdesks { flex: none }
+  .badge .bb { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; align-items: baseline }
+  .badge .bs { margin-top: 0 }
+  .badge .tbarw { flex: 1 1 100% }
+  .tprob { flex: none; min-height: 0; gap: 5px; padding: 5px }
+  .pc { padding: 4px 5px 5px }
+  .pc .pn { font-size: 11px }
+  .pc .pb b { font-size: 18px }
+  .pc .pb small { display: none }
+  .pc .pt { width: 22px; height: 22px; font-size: 13px }
+  .pc .pl { font-size: 10px }
+  .tdesks { gap: 5px }
+  .desk { --strip: 20px; --front: 78px }
+  .desk .dc .st { font-size: 11px }
+  .desk .dc .st small { display: none }
+  .desk .dc.front .tt { font-size: 10px }
+  .thand { height: auto; min-height: 130px; padding-top: 44px }
+  .hc { --w: min(66px, 17vw) }
+  .hc .tt { font-size: 9px }
+  .toggles { flex-direction: row }
+}
 </style>
 
 <div id="app"><div class="boot panel">starting the C# engine…</div></div>
@@ -193,6 +303,17 @@ const BU_HOW = [
   'Reach the week\'s target within the turns shown, or take a strike. Three strikes end the run; last 9 weeks to win.',
   'Money: packs bring new cards; a card of level 2+ costs money once when you place it; every Friday your table earns its bills and pays its salaries. You can borrow, but the debt grows 60% a week and is due at each boss week.',
 ];
+
+// round 30 (lane VS): the table slice's how-to (the same game, drawn as a table)
+const TABLE_HOW = [
+  'The middle of the screen is the table. On top: the problems facing each of your four desks (a printer jam, a client call, an audit). The big number on a problem is the work it takes to clear it (on a client call, the blame it brings); the round number is its countdown: 1 means the end of this turn.',
+  'Below: your four desks. Each desk is a column of cards; the highest card sits in front, fully visible, the lower ones peek out behind it. The number under a desk is the work it makes each turn.',
+  'At the bottom: your hand. Drag a card onto a desk (or tap it, then the desk). The desks that take it light up with what it becomes there (→ 3). An intern (1) starts an empty desk and is free; two of a number merge into the next one up; a card can also go in front of one exactly one lower. A 2 or higher costs money to place.',
+  'End turn: every desk works its number, first into the problem facing it, the rest toward the week\'s target. Then problems whose countdown ran out act, and blame lands. Blame takes a desk\'s back card first; on an empty desk it hits you (10 is a strike).',
+  'Meet the target within the turns and it is Friday: your cards\' income comes in, salaries go out. Three strikes end the run; nine weeks win it.',
+];
+const TABLE_RANK = 'Rank cap: your badge has a rank. You place cards up to your rank minus one (a merge counts what it makes). A card above that waits in your hand. Each week you win, your rank rises by one.';
+const TABLE_TOUGH = 'Blame as toughness: blame is soaked up from the back card forward. A card leaves only when the blame left reaches its level (a 3 needs 3); less than that and it holds, untouched, and the blame stops there.';
 
 const BU_COLOURS = 'Colours: a stack whose top card matches the colour of the cards behind it works harder. Mixing colours makes new colours with their own effects (the legend on the right).';
 
@@ -257,6 +378,10 @@ const INFO = {
   'bu-v-seatsanywhere': ['Safety seats where any colour anywhere on the table shares risk.', 'Is it clearer when every card counts?'],
   'bu-v-seatspalekeeps': ['Safety seats where a white top card shows its team\'s colour.', 'Does this make the table easier to read?'],
   'bu-v-seatsboth': ['Safety seats with both changes above.', 'Is this the clearest version of safety seats?'],
+  'bu-table': ['Today\'s game on a clear table: the problems on top, your four desks in the middle, your hand fanned at the bottom, your badge on the left. You start with $200, five interns, a random gift and one card in an envelope.', 'Can you tell what your hand is, what your desks are and what is coming at you? Is it fun once you can?', 'Prices are in dollars at $50 a unit: an intern is free, a 2 costs $100 to place.', 'Was anything on the screen unclear? Could you see why blame hit where it did?'],
+  'bu-table-rank': ['The table, with Talon\'s rank cap: you place cards up to your own rank minus one, and your rank rises each week you win.', 'Does waiting for a rank make a high card feel like something to work toward, or just a block?', TABLE_RANK, 'Did a card ever wait in your hand? Was the promotion a good moment?'],
+  'bu-table-tough': ['The table, with blame as toughness: a card leaves only when the blame left reaches its level; less, and it holds.', 'Is it easier to read where blame goes? Does it make high cards feel sturdy?', TABLE_TOUGH, 'Compare with "Build Up: the table": which way of taking blame feels right?'],
+  'bu-table-both': ['The table with both of Talon\'s ideas on: the rank cap and blame as toughness.', 'Do the two ideas work together?', TABLE_RANK + ' ' + TABLE_TOUGH],
   'sc-chain-of-command': ['A team tree: you manage two managers who each manage two; orders take time to travel down.', 'Is planning ahead around slow orders fun?'],
   'sc-clearance': ['A team tree where problems come face down; higher clearance lets you see them days ahead.', 'Is seeing further ahead a good reward?'],
   'sc-head-office-intends': ['Head Office posts its moves two days ahead; you plan around them.', 'Is a rival that tells you its plans fun to outwit?'],
@@ -309,6 +434,8 @@ const HINT = {
   strike: ['Strike', 'A strike: a missed target, 10 blame on you, or an unpaid loan. The third strike ends the run. Tip: a 1 on every empty slot and a spare 1 behind a good stack keep blame off you.'],
   friday: ['Friday', 'The week closed: your table\'s bills came in, salaries went out, HQ added its budget.'],
   classified: ['Hidden card', 'A hidden office card: you see what it does once your table holds a card of its level (most need a 4, the boss a 6).'],
+  rank: ['Promoted', 'You won the week, so your rank rose by one: you can now place cards one level higher. Your badge shows your rank.'],
+  held: ['Held', 'Blame as toughness: the card held, because the blame left was less than its level. It leaves only when the blame left reaches its level.'],
 };
 
 // ---- the engine ------------------------------------------------------------------------------------------------
@@ -509,7 +636,7 @@ function infoHtml() {
       '<div class="label">how to rate</div>' + ul(ABOUT.rate) + '<div class="label">feedback that helps</div>' + ul(ABOUT.helps);
   } else {
     const m = menu.find(x => x.key === infoKey) || { title: infoKey, line: '' }, i = INFO[infoKey] || [m.line, ''], n = menu.indexOf(m) + 1;
-    const bu = infoKey.startsWith('bu-'), rules = bu ? BU_HOW : (m.rules || []);
+    const bu = infoKey.startsWith('bu-'), rules = infoKey.startsWith('bu-table') ? TABLE_HOW : bu ? BU_HOW : (m.rules || []);
     h += '<div class="big" style="font-size:20px">' + n + '. ' + esc(m.title) + '</div><p>' + esc(i[0] || m.line) + '</p>';
     if (i[1]) h += '<div class="label">we are testing</div><p style="font-weight:700">' + esc(i[1]) + '</p>';
     h += '<div class="label">pay attention to</div><p>' + esc((i[3] ? i[3] + ' ' : '') + WATCH) + '</p>';
@@ -531,6 +658,7 @@ function explainText(x) {
       if (t.frozenCards) s += ' ' + t.frozenCards + ' of its cards are ' + v.frozenName + ' and frozen: they make nothing while the Colour audit stands.';
       if (t.jam) s += ' The slot is jammed: it makes nothing for ' + t.jam + ' more turn' + (t.jam === 1 ? '' : 's') + '.';
       if (!t.cards.length) s = 'An empty slot makes nothing, and blame that lands on it reaches you.';
+      if (isTable()) s = s.replace(/\bslot\b/g, 'desk').replace(/office card/g, 'problem');
       return s;
     }
     case 'target': return 'Target ' + v.output + ' of ' + v.quota + ': the work this week needs. Meet it and the week ends at once (that is Friday, payday); still short after turn ' + v.turns + ' and you take a strike.';
@@ -540,6 +668,9 @@ function explainText(x) {
     case 'blamerow': return 'Blame due: at each End turn, the blame shown for that turn lands on that slot and knocks its back card first (a 1 leaves, a higher card drops one). "now" is this turn; "–" means no blame that turn.';
     case 'floor': return 'Floor ' + v.floor + ': every ' + v.weeksPerFloor + ' weeks is a floor, and its last week is the boss week (week ' + v.bossWeek + '). A new floor brings bigger targets, office cards and prices. ' + v.floors + ' floors win the run.';
     case 'rule': return 'Boss rule: in the boss week ' + v.ruleWhat + '.';
+    case 'call': return 'Client call: ' + x.big + ' blame lands on desk ' + (x.slot + 1) + ' ' + (x.n <= 1 ? 'at the end of this turn' : 'in ' + x.n + ' turns') + '. Blame takes the back card of the desk first' + (v.toughness ? ' and a card leaves only when the blame left reaches its level; less, and it holds' : ': a 1 leaves, a higher card drops one') + '. On an empty desk it hits you: ' + v.blamePerStrike + ' is a strike. Work cannot clear a call: cover the desk.';
+    case 'rank': return 'Your rank: ' + v.rank + ' (' + v.rankTitle + '). You place cards up to your rank minus one, a ' + v.rankLimit + ' (a merge counts what it makes); a card above that waits in your hand. ' + v.rankRule.charAt(0).toUpperCase() + v.rankRule.slice(1) + ' (a guess, to be tuned).';
+    case 'tough': return TABLE_TOUGH;
     case 'frozen': return 'Frozen: while the Colour audit' + (v.frozenSlot ? ' over slot ' + v.frozenSlot : '') + ' stands, ' + v.frozenName + ' cards make nothing, on every stack. Put work under it to beat it and end that.';
     case 'office': {
       const c = v.office[x.oi];
@@ -554,6 +685,7 @@ function explainText(x) {
 function renderBody() {
   if (mode === 'menu' || !cur) { renderMenu(); return; }
   if (view.generic) { renderGeneric(); return; }
+  if (isTable()) { renderTable(); return; }
   renderBuild();
 }
 // what this screen shows: a lesson hides what its rules do not have yet (the engine says which)
@@ -565,7 +697,8 @@ function shows() {
 function topBar() {
   let h = '<div class="top"><button class="btn" data-back="1">← menu</button>';
   if (mode === 'lesson') {
-    h += '<span class="name">' + (les.entry === 'bu-default' ? 'Lesson ' + les.n + ' of ' + lessons.filter(l => l.entry === 'bu-default').length : 'Extra lesson') + ': ' + esc(les.title) + '</span>' + (les.entry !== 'bu-default' ? '<span class="dim">(for entry ' + (menu.findIndex(m => m.key === les.entry) + 1) + ')</span>' : '') + '<button class="btn" data-relesson="1">start over</button>';
+    const tl = lessons.filter(l => l.entry.startsWith('bu-table'));
+    h += '<span class="name">' + (les.entry === 'bu-default' ? 'Lesson ' + les.n + ' of ' + lessons.filter(l => l.entry === 'bu-default').length : les.entry.startsWith('bu-table') ? 'Table lesson ' + (tl.findIndex(l => l.key === les.key) + 1) + ' of ' + tl.length : 'Extra lesson') + ': ' + esc(les.title) + '</span>' + (les.entry !== 'bu-default' && !les.entry.startsWith('bu-table') ? '<span class="dim">(for entry ' + (menu.findIndex(m => m.key === les.entry) + 1) + ')</span>' : '') + '<button class="btn" data-relesson="1">start over</button>';
   } else if (mode === 'watch') {
     h += '<span class="name">Watch a bot: ' + (menu.indexOf(cur) + 1) + '. ' + esc(cur.title) + '</span><button class="ibtn" data-info="' + esc(cur.key) + '" aria-label="about this entry">i</button>';
   } else {
@@ -796,17 +929,28 @@ function entryRow(m) {
     '<button class="wbtn" data-watch="' + esc(m.key) + '" aria-label="watch a bot play entry ' + (i + 1) + '" title="watch a bot play this">▶</button><button class="ibtn" data-info="' + esc(m.key) + '" aria-label="about entry ' + (i + 1) + '">i</button></div>';
 }
 function renderMenu() {
-  const done = readMap(LDONE), main = lessons.filter(l => l.entry === 'bu-default'), extra = lessons.filter(l => l.entry !== 'bu-default');
+  const done = readMap(LDONE), main = lessons.filter(l => l.entry === 'bu-default'), extra = lessons.filter(l => l.entry !== 'bu-default' && !l.entry.startsWith('bu-table'));
+  const tableLessons = lessons.filter(l => l.entry.startsWith('bu-table')), others = menu.slice(1).filter(m => m.layout !== 'table');
   let h = '<div class="menu"><div class="row" style="justify-content:space-between"><h1>Simmili playtest</h1><button class="btn" data-info="about">About this playtest</button></div>';
   h += '<h2>Start here</h2><p class="sub">Never played? Six short lessons, one new rule each, about a minute apiece.</p>';
   const lessonRow = (l, n) => '<button class="entry lesson' + (done[l.key] ? ' done' : '') + '" data-lesson="' + esc(l.key) + '"><span class="n">' + n + '</span><span class="t">' + esc(l.title) + '</span><span class="r">' + (done[l.key] ? '<b>✓</b> done' : '') + '</span><span class="l">' + esc(l.teaches) + '</span></button>';
   main.forEach((l, i) => { h += lessonRow(l, 'L' + (i + 1)); });
   h += '<button class="entry" data-watch="bu-default"><span class="n">▶</span><span class="t">Watch a bot play</span><span class="r"></span><span class="l">a lab bot plays the game today one move at a time, and says what it did and why</span></button>';
-  h += '<h2>The game today</h2>' + entryRow(menu[0]);
-  h += '<details class="exp"' + (expOpen ? ' open' : '') + '><summary>Experiments: ' + (menu.length - 1) + ' other versions and games</summary>';
+  h += '<h2>The game today</h2><p class="sub">New: the same game on a clear table (problems on top, your desks, your hand at the bottom). Start with its lesson.</p>';
+  const tl = k => tableLessons.find(l => l.entry === k), tm = k => menu.find(m => m.key === k);
+  if (tl('bu-table')) h += lessonRow(tl('bu-table'), 'T1');
+  if (tm('bu-table')) h += entryRow(tm('bu-table'));
+  h += '<p class="sub" style="margin-top:6px">Two of Talon\'s ideas, each switchable (also on the table\'s own screen):</p>';
+  if (tl('bu-table-rank')) h += lessonRow(tl('bu-table-rank'), 'T2');
+  if (tm('bu-table-rank')) h += entryRow(tm('bu-table-rank'));
+  if (tl('bu-table-tough')) h += lessonRow(tl('bu-table-tough'), 'T3');
+  if (tm('bu-table-tough')) h += entryRow(tm('bu-table-tough'));
+  if (tm('bu-table-both')) h += entryRow(tm('bu-table-both'));
+  h += '<p class="sub" style="margin-top:6px">The game as the lessons above teach it:</p>' + entryRow(menu[0]);
+  h += '<details class="exp"' + (expOpen ? ' open' : '') + '><summary>Experiments: ' + others.length + ' other versions and games</summary>';
   extra.forEach(l => { const m = menu.find(x => x.key === l.entry); h += lessonRow(l, 'L+') .replace('</span><span class="l">', '</span><span class="l">a lesson for entry ' + (menu.indexOf(m) + 1) + ': '); });
   let group = '';
-  menu.slice(1).forEach(m => {
+  others.forEach(m => {
     if (m.group !== group) { group = m.group; h += '<h2>' + esc(group === 'Build Up' ? 'Build Up, one change each (the line says what is different)' : 'Other games (not Build Up)') + '</h2>'; }
     h += entryRow(m);
   });
@@ -819,19 +963,176 @@ function renderMenu() {
   if (d) d.addEventListener('toggle', () => { expOpen = d.open; });
 }
 
+// ---- round 30 (lane VS): the table layout -------------------------------------------------------------------------
+// The same game and the same engine view, drawn as a table: the problems facing each desk on top (the engine writes each
+// one's words: view.lanes), the four desks as solitaire columns (the highest card in front, the lower ones peeking out
+// behind it), the hand fanned at the bottom, your badge on the left, End turn and the shop on the right. Drag a hand
+// card onto a desk, or tap it and then the desk. Nothing here decides a rule: what a card becomes on a desk, whether it
+// waits for a rank, and every word on a problem come from the engine.
+const TABLE_KEYS = { '00': 'bu-table', '10': 'bu-table-rank', '01': 'bu-table-tough', '11': 'bu-table-both' };
+const isTable = () => cur && cur.layout === 'table';
+function tableKey(rank, tough) { return TABLE_KEYS[(rank ? '1' : '0') + (tough ? '1' : '0')]; }
+function deskCard(c, i, n, cls, attrs) {
+  const k = colour(c), front = i === n - 1;
+  return '<div class="dc' + (front ? ' front' : '') + (k.light ? ' lightc' : '') + (c.frozen ? ' frozen' : '') + (cls || '') + '" data-ci="' + i + '" style="top:calc(var(--strip) * ' + i + ' + 4px);z-index:' + (i + 1) + ';background:' + k.bg + '"' + (attrs || '') + '>' +
+    '<div class="st"><span>' + c.level + (c.leader ? '★' : '') + '</span><small' + (codeWords(c.code) ? tip(codeWords(c.code)) : '') + '>' + esc(front ? c.code : c.title + (c.code ? ' · ' + c.code : '')) + '</small></div>' +
+    (front ? '<div class="big">' + c.level + '</div><div class="tt">' + esc(c.title) + '</div>' : '') + '</div>';
+}
+function handCard(x, i, n, P) {
+  const c = x.card, k = colour(c), place = x.slots.some(s => s.play || s.tuck), mid = (n - 1) / 2, d = i - mid;
+  const r = d * Math.min(4, 18 / Math.max(1, n)), y = d * d * Math.min(3, 14 / Math.max(1, n));
+  const cls = 'hc' + (k.light ? ' lightc' : '') + (sel && sel.hand === i ? ' sel' : '') + (P === i ? ' point' : '') + (place ? '' : ' noplace');
+  const t = (place ? '' : x.waits ? x.waits + '. ' : 'No desk takes it right now (an empty desk takes a 1; the same number merges; a card goes in front of one exactly one lower). ') + (x.cost ? 'Costs ' + x.cost + ' to place.' : 'Free to place.');
+  return '<button class="' + cls + '" data-hand="' + i + '" style="--r:' + r.toFixed(1) + 'deg;--y:' + y.toFixed(1) + 'px;background:' + k.bg + ';z-index:' + (i + 1) + '"' + tip(t) + '>' +
+    '<span class="lv">' + c.level + '</span><span class="tt">' + esc(c.title) + '</span><span class="cd">' + esc(c.code || '') + '</span>' +
+    (x.waits ? '<span class="wt">rank ' + (c.level + 1) + '</span>' : x.cost ? '<span class="pr">' + esc(x.cost) + '</span>' : '<span class="pr">free</span>') + '</button>';
+}
+function laneCard(p, k) {
+  const ex = p.kind === 'office' ? ' data-explain="office" data-oi="' + p.oi + '"' : ' data-explain="call" data-slot2="' + k + '" data-n="' + p.count + '" data-big="' + p.big + '"';
+  return '<div class="pc' + (p.kind === 'call' ? ' call' : '') + (p.boss ? ' boss' : '') + (p.hidden ? ' hidden' : '') + '"' + ex + '>' +
+    '<div class="pn">' + esc(p.name) + '</div>' + (p.count ? '<div class="pt' + (p.count === 1 ? ' now' : '') + '"' + tip(p.count === 1 ? 'acts at the end of this turn' : 'acts in ' + p.count + ' turns') + '>' + p.count + '</div>' : '') +
+    '<div class="pb"><b>' + p.big + '</b><small>' + esc(p.bigWhat) + '</small></div><div class="pl">' + esc(p.line) + '</div></div>';
+}
+function badgeHtml(v, show) {
+  let h = '<div class="badge"><div class="bh">your badge</div><div class="bb">';
+  if (v.rankOn) h += '<div class="bn ex" data-explain="rank"><span class="rk">' + v.rank + '</span>' + esc(v.rankTitle) + '</div><div class="bs">you place up to a ' + v.rankLimit + ' · ' + esc(v.rankRule) + '</div>';
+  else h += '<div class="bn">Team lead</div><div class="bs">you run four desks</div>';
+  if (show.money) h += '<div class="kv"><span class="k">money</span><b>' + esc(v.money) + '</b></div>' + (v.debt ? '<div class="kv"><span class="k">debt</span><b style="color:var(--bad)">' + esc(v.debt) + '</b></div>' : '') +
+    (v.friday ? '<div class="kv ex" data-explain="friday"><span class="k">Friday</span><span>' + esc(v.friday) + '</span></div>' : '');
+  h += '<div class="kv"><span class="k">week</span><span><b>' + v.week + '</b> of ' + v.weeksToWin + ' · <span class="ex" data-explain="floor">floor ' + v.floor + '</span></span></div>';
+  if (show.endTurn) h += '<div class="kv"><span class="k">turn</span><span><b>' + v.turn + '</b> of ' + v.turns + '</span></div>';
+  if (show.target) h += '<div class="kv ex" data-explain="target"><span class="k">target</span><span><b>' + v.output + '</b> / ' + v.quota + '</span></div><div class="tbarw' + (v.output >= v.quota ? ' met' : '') + '"><i style="width:' + Math.min(100, v.quota ? v.output / v.quota * 100 : 0) + '%"></i></div>';
+  if (show.blame) h += '<div class="kv ex" data-explain="strikes"><span class="k">strikes</span><span class="pips">' + '●'.repeat(v.strikes) + '○'.repeat(Math.max(0, v.strikesAllowed + 1 - v.strikes)) + '</span></div>' +
+    '<div class="kv ex" data-explain="blameyou"><span class="k">blame on you</span><span><b>' + v.blame + '</b> / ' + v.blamePerStrike + '</span></div>';
+  if (v.toughness) h += '<div class="bs ex" data-explain="tough" style="margin-top:0">blame as toughness: a card holds unless the blame reaches its level</div>';
+  if (v.start) h += '<div class="start">' + esc(v.start) + '</div>';
+  return h + '</div></div>';
+}
+function renderTable() {
+  const v = view, show = shows(), P = (les && !les.done && !les.failed && les.point) || {};
+  let pHand = null, pSlot = null, pBtn = null;
+  if (P.hand != null) { if (!sel || sel.hand !== P.hand) pHand = P.hand; else pSlot = P.slot; }
+  else if (P.from != null) { if (!sel || sel.slot !== P.from || sel.hand != null) pSlot = P.from; else pSlot = P.slot; }
+  else if (P.button) pBtn = P.button;
+  const hs = sel && sel.hand != null ? v.hand[sel.hand] : null;
+  let h = '<div class="tbl"><div class="panel ttop">' + topBar() + goalBar() + watchBar() + '</div>';
+  // left: your badge, the office's week, the two switches
+  h += '<aside class="tbar left">' + badgeHtml(v, show);
+  if (show.office && (v.rule || v.bossRule)) h += '<div class="notes">' + (v.rule ? '<span class="rule ex" data-explain="rule">Boss rule: ' + esc(v.rule) + '</span>' : esc(v.encounterName) + ' · boss in week ' + v.bossWeek + ' (' + esc(v.bossName) + ': ' + esc(v.bossRule) + ')') + '</div>';
+  if (v.frozen) h += '<div class="notes"><span class="rule ex" data-explain="frozen">' + esc(v.frozenName) + ' cards make nothing</span></div>';
+  if (mode === 'play') {
+    h += '<div class="toggles">' +
+      '<button class="tog' + (v.rankOn ? ' on' : '') + '" data-tog="rank"><i class="sw2"></i><b>Rank cap</b><span>place cards up to your rank − 1; +1 rank each week you win</span></button>' +
+      '<button class="tog' + (v.toughness ? ' on' : '') + '" data-tog="tough"><i class="sw2"></i><b>Blame as toughness</b><span>a card leaves only when the blame left reaches its level</span></button></div>';
+  }
+  h += '</aside>';
+  // middle: the play area
+  h += '<main class="tplay">';
+  if (v.offer.length) {
+    h += '<div class="row"><span class="label" style="margin:0">recruit 1 of ' + v.offer.length + '</span>';
+    v.offer.forEach((c, i) => { h += cardHtml(c, 'h', 'button', ' data-cmd="recruit ' + (i + 1) + '" style="width:auto;min-width:60px"'); });
+    h += '<button class="btn" data-cmd="skip">skip</button></div>';
+  }
+  h += '<section class="tprob" aria-label="problems facing your desks">';
+  (v.lanes || [[], [], [], []]).forEach((lane, k) => {
+    h += '<div class="tlane">' + (lane.length ? lane.map(p => laneCard(p, k)).join('') : '<div class="empty">nothing facing desk ' + (k + 1) + '</div>') + '</div>';
+  });
+  h += '</section><div class="tlower"><section class="tdesks" aria-label="your desks">';
+  v.table.forEach((t, k) => {
+    const legal = hs && (hs.slots[k].play || hs.slots[k].tuck) || (sel && sel.slot != null && sel.ci == null && v.moves[sel.slot][k]);
+    let becomes = '';
+    if (hs && hs.slots[k].play) becomes = '→ ' + hs.slots[k].becomes;
+    else if (hs && hs.slots[k].tuck) becomes = 'tuck +' + (hs.slots[k].tuckWork - t.work);
+    else if (sel && sel.slot != null && sel.ci == null && v.moves[sel.slot][k]) becomes = '→ ' + v.moveBecomes[sel.slot][k];
+    h += '<div class="tdesk"><div class="dl">desk ' + (k + 1) + '</div><div class="acts">' + actsFor(k) + '</div>';
+    h += '<button class="stack desk' + (sel && sel.slot === k ? ' sel' : '') + (legal ? ' can' : '') + (pSlot === k ? ' point' : '') + '" data-slot="' + k + '" style="--n:' + Math.max(1, t.cards.length) + '" aria-label="desk ' + (k + 1) + '">';
+    t.cards.forEach((c, i) => { h += deskCard(c, i, t.cards.length); });
+    if (!t.cards.length && !becomes) h += '<span class="none">empty desk<br>an intern starts it</span>';
+    if (becomes) h += '<span class="becomes-big">' + esc(becomes) + '</span>';
+    h += '</button><div class="dfoot">' + (t.cards.length ? '<span class="ex" data-explain="makes" data-slot2="' + k + '">makes <b>' + t.work + '</b></span> ' + esc(plainEffect(t.effect)) : '<span class="ex" data-explain="makes" data-slot2="' + k + '">makes <b>0</b></span>') +
+      (t.jam ? ' <span class="jam">jammed ' + t.jam + '</span>' : '') + (t.frozenCards ? ' <span class="jam">' + t.frozenCards + ' frozen</span>' : '') + '</div>' + verbsFor(t, k) + '</div>';
+  });
+  h += '</section><section class="thand" aria-label="your hand"><span class="hl">your hand' + (v.draw ? ' · ' + v.roster + ' more in your roster' : '') + '</span>';
+  v.hand.forEach((x, i) => { h += handCard(x, i, v.hand.length, pHand); });
+  if (!v.hand.length) h += '<span class="dim num" style="align-self:center">no cards in hand</span>';
+  h += '</section></div></main>';
+  // right: end turn, the shop, what just happened
+  h += '<aside class="tbar right"><div class="panel">';
+  if (show.endTurn) h += '<div class="row"><button class="btn punch' + (pBtn === 'punch' ? ' point' : '') + '" data-cmd="punch"' + (mode === 'watch' ? ' disabled' : '') + tip('every desk works its number') + '>End turn (+' + v.makes + ' work)</button></div>';
+  if (hs) h += '<div class="dim" style="font-size:12px;margin-top:6px">' + (hs.slots.some(s => s.play || s.tuck) ? 'Drop it on a green desk.' : hs.waits ? 'It ' + esc(hs.waits) + '.' : 'No desk takes this card yet.') + '</div>';
+  if (hs && mode === 'play') h += '<div class="row" style="margin-top:6px"><button class="btn" data-cmd="drop ' + (sel.hand + 1) + '"' + (v.shop.fireWhy ? dis(v.shop.fireWhy) : tip(v.fireTip)) + '>fire for good (' + esc(v.shop.fire) + ')</button></div>';
+  if (show.money) h += '<div class="row" style="margin-top:8px">' + btn('buy', 'Buy pack', v.shop.pack, '', pBtn === 'buy') + btn('buy adv', 'Advanced pack', v.shop.adv) + btn('borrow', 'Borrow', v.shop.borrow, '', pBtn === 'borrow') + btn('repay', 'Repay', v.shop.repay) + '</div>' + (v.shop.pack.sold && v.shop.pack.why ? '<div class="dim" style="font-size:12px;margin-top:4px">No pack now: ' + esc(v.shop.pack.why) + '</div>' : '');
+  h += '<div class="log" aria-live="polite">' + log.slice(0, 7).map(l => '<div class="' + esc(l[0]) + '"' + (l[2] ? tip(l[2]) : '') + '>' + esc(l[1]) + '</div>').join('') + '</div><div class="msg">' + esc(msg) + '</div></div>';
+  h += '<div class="panel"><details class="how"><summary>How it works</summary><ol class="rules">' + TABLE_HOW.map(l => '<li>' + esc(l) + '</li>').join('') +
+    (v.rankOn ? '<li>' + esc(TABLE_RANK) + '</li>' : '') + (v.toughness ? '<li>' + esc(TABLE_TOUGH) + '</li>' : '') + '</ol></details></div>';
+  if (mode === 'play') h += ratingPanel(cur.key);
+  if (mode === 'play') h += '<div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-watchthis="1">watch a bot</button></div>';
+  h += '</aside></div>' + overlay();
+  app.innerHTML = h;
+}
+// drag a hand card onto a desk (a tap still selects it; tap-then-tap works as before)
+let drag = null, dragJust = 0;
+app.addEventListener('pointerdown', ev => {
+  if (mode === 'watch' || mode === 'menu' || !view || view.over || !isTable() || ev.button > 0) return;
+  const h = ev.target.closest('[data-hand]');
+  if (!h) return;
+  drag = { i: +h.dataset.hand, x: ev.clientX, y: ev.clientY, on: false, ghost: null, over: -1, w: 0, h: 0 };
+});
+document.addEventListener('pointermove', ev => {
+  if (!drag) return;
+  if (!drag.on) {
+    if (Math.hypot(ev.clientX - drag.x, ev.clientY - drag.y) < 8) return;
+    drag.on = true; sel = { hand: drag.i }; msg = ''; hint = null; explain = null; render();
+    const src = app.querySelector('[data-hand="' + drag.i + '"]');
+    if (src) {
+      const r = src.getBoundingClientRect();
+      drag.w = r.width; drag.h = r.height;
+      drag.ghost = src.cloneNode(true);
+      drag.ghost.classList.remove('sel', 'point');
+      drag.ghost.classList.add('ghost');
+      drag.ghost.style.width = r.width + 'px'; drag.ghost.style.height = r.height + 'px';
+      document.body.appendChild(drag.ghost);
+      src.classList.add('dragging');
+    }
+  }
+  if (drag.ghost) { drag.ghost.style.left = (ev.clientX - drag.w / 2) + 'px'; drag.ghost.style.top = (ev.clientY - drag.h * 0.6) + 'px'; }
+  const el = document.elementFromPoint(ev.clientX, ev.clientY), st = el && el.closest('button.desk[data-slot]'), k = st ? +st.dataset.slot : -1;
+  if (k !== drag.over) { app.querySelectorAll('.desk.over').forEach(x => x.classList.remove('over')); if (st && st.classList.contains('can')) st.classList.add('over'); drag.over = k; }
+  ev.preventDefault();
+});
+function endDrag(cancel) {
+  const d = drag; drag = null;
+  if (!d) return;
+  if (d.ghost) d.ghost.remove();
+  if (!d.on) return; // a tap: the click selects
+  dragJust = Date.now();
+  if (!cancel && d.over >= 0 && view.hand[d.i]) {
+    const s = view.hand[d.i].slots[d.over];
+    if (s.play) { act('play ' + (d.i + 1) + ' ' + (d.over + 1)); return; }
+    if (s.tuck) { act('tuck ' + (d.i + 1) + ' ' + (d.over + 1)); return; }
+    msg = s.why;
+  }
+  sel = null; render();
+}
+document.addEventListener('pointerup', () => endDrag(false));
+document.addEventListener('pointercancel', () => endDrag(true));
+
 // ---- input ------------------------------------------------------------------------------------------------------------
 app.addEventListener('change', ev => {
   if (ev.target.id === 'botsel') { startWatch(cur.key, seed, ev.target.value); return; }
   if (ev.target.id === 'speed') { speed = +ev.target.value; if (auto) { stopAuto(); auto = setInterval(botNext, speed); } render(); }
 });
 app.addEventListener('click', ev => {
+  if (Date.now() - dragJust < 400) return; // the end of a drag is not a tap
+  const tg = ev.target.closest('[data-tog]');
+  if (tg && view && mode === 'play') { const r = tg.dataset.tog === 'rank' ? !view.rankOn : view.rankOn, t = tg.dataset.tog === 'tough' ? !view.toughness : view.toughness; start(tableKey(r, t), seed, []); return; }
   const ci = ev.target.closest('[data-ci]');
   if (mode !== 'watch' && ci && !(sel && sel.hand != null) && !(sel && sel.slot != null && sel.ci == null && +ci.closest('[data-slot]').dataset.slot !== sel.slot)) {
     const k = +ci.closest('[data-slot]').dataset.slot, i = +ci.dataset.ci, t = view.table[k];
     if (i < t.cards.length - 1 && t.reassign[i] && t.reassign[i].length) { sel = sel && sel.slot === k && sel.ci === i ? null : { slot: k, ci: i }; msg = ''; render(); return; }
   }
   const ex = ev.target.closest('[data-explain]');
-  if (ex && mode !== 'menu') { const dd = ex.dataset; explain = { k: dd.explain, slot: +(dd.slot2 || 0), oi: +(dd.oi || 0) }; hint = null; render(); return; }
+  if (ex && mode !== 'menu') { const dd = ex.dataset; explain = { k: dd.explain, slot: +(dd.slot2 || 0), oi: +(dd.oi || 0), n: +(dd.n || 0), big: +(dd.big || 0) }; hint = null; render(); return; }
   const el = ev.target.closest('button');
   if (!el) return;
   const d = el.dataset;
