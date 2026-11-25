@@ -240,6 +240,31 @@ details.how > summary { cursor: pointer; font-size: 12px; color: var(--dim) }
 .tog span { font-size: 11px; color: var(--dim); line-height: 1.3 }
 .tbar .btn.punch { font-size: 16px; padding: 12px 10px }
 .tbar .notes { font-size: 12px; color: var(--dim) }
+/* round 33 (lane TB): boost-up's lifts on the stack, intent's icon and number on each problem, the switch chips */
+.desk .dc .st em.lift { font-style: normal; font-size: 11px; font-weight: 700; background: rgba(0,0,0,.32); color: #fff; padding: 0 4px; border-radius: 5px; margin-left: auto; text-shadow: none }
+.desk .dc.lightc .st em.lift { background: rgba(0,0,0,.6) }
+.desk .dc.front .wa { font-size: 12px; font-weight: 700; margin-top: auto; background: rgba(0,0,0,.3); color: #fff; align-self: flex-start; padding: 1px 6px; border-radius: 6px; text-shadow: none }
+.dfoot .bst { color: var(--ok); font-weight: 700 }
+.pc .pi { grid-row: 1 / span 2; grid-column: 2; align-self: start; display: flex; align-items: center; gap: 3px; background: var(--office-fg); color: var(--office); border-radius: 9px; padding: 3px 7px; font-family: var(--num); font-weight: 700; font-size: 18px; line-height: 1 }
+.pc .pi svg { width: 18px; height: 18px; flex: none }
+.pc .pi.blame, .pc .pi.audit { background: var(--bad); color: #fff }
+.pc .pi small { font-size: 12px; font-weight: 700; opacity: .9 }
+.pc .pips { font-size: 10px; letter-spacing: 1px; opacity: .9 }
+.r33sw { display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px }
+.r33sw .chips { display: flex; flex-wrap: wrap; gap: 4px }
+.r33sw .chip { font-size: 11px; font-weight: 700; border: 1px solid var(--line); border-radius: 10px; padding: 1px 8px; color: var(--dim) }
+.r33sw .chip.on { background: var(--ok); border-color: var(--ok); color: #fff }
+.r33sw .jumps { display: flex; flex-wrap: wrap; gap: 4px }
+.r33sw .jumps button { font-size: 11px; padding: 3px 6px }
+.r33sw .jumps button.here { outline: 2px solid var(--accent) }
+@media (max-width: 860px), (max-aspect-ratio: 1/1) {
+  .r33sw { flex-direction: row; flex-wrap: wrap; align-items: center }
+  .pc .pi { font-size: 15px; padding: 2px 5px }
+  .pc .pi svg { width: 14px; height: 14px }
+  .desk .dc .st em.lift { font-size: 10px; padding: 0 2px }
+  .desk .dc.front .wa { font-size: 10px; padding: 0 3px }
+  .desk .dc.front .wa .l { display: none }
+}
 @media (max-width: 860px), (max-aspect-ratio: 1/1) {
   .tbl { display: flex; flex-direction: column; min-height: 0 }
   .tbar { position: static; max-height: none; overflow: visible; align-self: stretch }
@@ -315,6 +340,14 @@ const TABLE_HOW = [
 const TABLE_RANK = 'Rank cap: your badge has a rank. You place cards up to your rank minus one (a merge counts what it makes). A card above that waits in your hand. Each week you win, your rank rises by one.';
 const TABLE_TOUGH = 'Blame as toughness: blame is soaked up from the back card forward. A card leaves only when the blame left reaches its level (a 3 needs 3); less than that and it holds, untouched, and the blame stops there.';
 
+// round 33 (lane TB): Talon's "the stacks don't reset", each part its own switch
+const TABLE_RESET = 'Reset: you build your desks from this turn\'s hand. After End turn every card on the table, and every card you did not play, goes to the discard pile. The next turn starts from a clean table with a fresh hand from the draw pile; when the draw pile runs out, the discard pile is shuffled back in. Any card can start an empty desk or go on top of any lower card (never on a higher one); nothing merges. A card of 2 or more costs money only the first time you place it. Blame still knocks cards off a desk, but they come back: the damage lasts the turn.';
+const TABLE_SPENT = 'Spent stacks: a desk whose work beats a problem is used up: its whole stack goes to the discard pile after End turn. Desks that did not beat anything stay as they are. The hand works as in Reset: unplayed cards go to the discard pile and you draw a fresh hand.';
+const TABLE_BOOST = 'Boost-up: every card below a card lifts it one level for its work (the bottom card is lifted by nobody, the next by one, the top of a 4-card stack by three). Interns at the bottom do the lifting; the top card takes the credit. Each card shows ▲ and the level it works at. Blame and prices still read the printed level.';
+const TABLE_BOOST2 = 'Boost-up, here: a card is lifted one level for every two cards below it.';
+const TABLE_INTENT = 'Intent: every problem shows its next move as an icon and a number with the desk it hits (a bolt and 3 → desk 2: 3 blame on desk 2). It makes that move at every End turn until it is beaten or its moves run out (the dots). The week\'s problems are dealt Monday from a fixed amount of trouble, at most three at a time, so the table never floods. Nothing is hidden.';
+const R33_PLAY = 'How to play: drag your lowest cards onto a desk first, then higher ones on top. Cover the desk a problem will hit this turn, put work under the problem you want gone, and spend what is left on one tall stack.';
+
 const BU_COLOURS = 'Colours: a stack whose top card matches the colour of the cards behind it works harder. Mixing colours makes new colours with their own effects (the legend on the right).';
 
 // [what this version is, what it is testing for, what is different from entry 1 (optional), extra thing to watch (optional)]
@@ -382,6 +415,11 @@ const INFO = {
   'bu-table-rank': ['The table, with Talon\'s rank cap: you place cards up to your own rank minus one, and your rank rises each week you win.', 'Does waiting for a rank make a high card feel like something to work toward, or just a block?', TABLE_RANK, 'Did a card ever wait in your hand? Was the promotion a good moment?'],
   'bu-table-tough': ['The table, with blame as toughness: a card leaves only when the blame left reaches its level; less, and it holds.', 'Is it easier to read where blame goes? Does it make high cards feel sturdy?', TABLE_TOUGH, 'Compare with "Build Up: the table": which way of taking blame feels right?'],
   'bu-table-both': ['The table with both of Talon\'s ideas on: the rank cap and blame as toughness.', 'Do the two ideas work together?', TABLE_RANK + ' ' + TABLE_TOUGH],
+  'bu-r33-s1': ['The table with Reset on: you build fresh desks from your hand every turn, and after End turn everything goes to the discard pile, Slay the Spire style.', 'Testing for: does a clean table every turn let you answer each turn\'s problem (cover the desk that gets blame, put work under the jam), instead of being stuck with last week\'s build? Targets are 30% of today\'s (a guess).', TABLE_RESET + ' ' + R33_PLAY, 'Did you miss your old stacks, or enjoy deciding fresh each turn?'],
+  'bu-r33-s1-boost': ['Reset plus boost-up: every card below a card lifts it one level, so a tall stack of interns under one good card makes a lot of work.', 'Testing for: does the order you stack in matter, and can you find a stack that breaks the game? Targets are 250% of today\'s (a guess), because boost-up multiplies work about tenfold.', TABLE_RESET + ' ' + TABLE_BOOST + ' ' + R33_PLAY, 'Did you find a stack that felt like a combo? Was it too strong, or just right?'],
+  'bu-r33-s1-boost-intent': ['Reset, boost-up and intent: each problem shows what it will do this turn, every turn.', 'Testing for: with the next move on show, can you plan each turn between defence (cover the desk it hits) and offence (stack work under it to beat it)? Does a fixed amount of trouble per week feel fair?', TABLE_RESET + ' ' + TABLE_BOOST + ' ' + TABLE_INTENT + ' ' + R33_PLAY, 'Could you read each problem\'s icon at a glance? Did you ever feel flooded?'],
+  'bu-r33-s2': ['Spent stacks: the halfway version. Only a stack that beats a problem goes to the discard pile; the rest stay.', 'Testing for: is keeping most of your table, but spending the stack that wins a fight, a better middle ground than today\'s or Reset?', TABLE_SPENT + ' Any card can start an empty desk or go on top of any lower card; nothing merges. ' + R33_PLAY, 'Did you hold back from beating a problem to keep a good stack?'],
+  'bu-r33-s2-boost-intent': ['Spent stacks with boost-up and intent.', 'Testing for: with stacks that stay and lifts that grow, does spending a stack to beat a problem feel like a real choice? Targets are 200% of today\'s (a guess).', TABLE_SPENT + ' ' + TABLE_BOOST + ' ' + TABLE_BOOST2 + ' ' + TABLE_INTENT + ' ' + R33_PLAY, 'Was there a moment when you chose not to beat a problem?'],
   'sc-chain-of-command': ['A team tree: you manage two managers who each manage two; orders take time to travel down.', 'Is planning ahead around slow orders fun?'],
   'sc-clearance': ['A team tree where problems come face down; higher clearance lets you see them days ahead.', 'Is seeing further ahead a good reward?'],
   'sc-head-office-intends': ['Head Office posts its moves two days ahead; you plan around them.', 'Is a rival that tells you its plans fun to outwit?'],
@@ -671,10 +709,13 @@ function explainText(x) {
     case 'call': return 'Client call: ' + x.big + ' blame lands on desk ' + (x.slot + 1) + ' ' + (x.n <= 1 ? 'at the end of this turn' : 'in ' + x.n + ' turns') + '. Blame takes the back card of the desk first' + (v.toughness ? ' and a card leaves only when the blame left reaches its level; less, and it holds' : ': a 1 leaves, a higher card drops one') + '. On an empty desk it hits you: ' + v.blamePerStrike + ' is a strike. Work cannot clear a call: cover the desk.';
     case 'rank': return 'Your rank: ' + v.rank + ' (' + v.rankTitle + '). You place cards up to your rank minus one, a ' + v.rankLimit + ' (a merge counts what it makes); a card above that waits in your hand. ' + v.rankRule.charAt(0).toUpperCase() + v.rankRule.slice(1) + ' (a guess, to be tuned).';
     case 'tough': return TABLE_TOUGH;
+    case 'piles': return 'Draw pile ' + v.drawPile + ', discard pile ' + v.discardPile + '. Each turn you draw a fresh hand from the draw pile; after End turn ' + (v.reset ? 'every card on the table and' : 'the stacks that beat a problem and') + ' the cards you did not play go to the discard pile. When the draw pile runs out the discard pile is shuffled back in, and each new week starts with every card shuffled together.';
+    case 'tocome': return v.toCome + ' more problem' + (v.toCome === 1 ? '' : 's') + ' this week. The week\'s problems are dealt on Monday from a fixed amount of trouble; at most three stand at once.';
     case 'frozen': return 'Frozen: while the Colour audit' + (v.frozenSlot ? ' over slot ' + v.frozenSlot : '') + ' stands, ' + v.frozenName + ' cards make nothing, on every stack. Put work under it to beat it and end that.';
     case 'office': {
       const c = v.office[x.oi];
       if (!c) return '';
+      if (v.intent) return c.name + ' ' + c.size + ': ' + c.size + ' is the work it takes to beat it; the stack under it (desk ' + c.slot + ') works into it first. At the end of this turn it will: ' + c.does + '. It moves at every End turn until it is beaten or its moves run out (the dots), and you always see its next move.';
       return c.name + ' ' + c.size + ': ' + c.size + ' is the work it takes to beat it; the stack under it (slot ' + c.slot + ') works into it first. ' +
         (c.passive ? 'It does not act on a timer.' : c.boss ? 'The boss acts on the week’s last turn if it is still standing, and the week cannot end before it is beaten.' : '"in ' + c.timer + '" is the turns until it acts; then it does what it says and leaves.') +
         (c.seen ? ' It will: ' + c.does + '.' : ' It is hidden: you cannot read what it does until your table holds a ' + c.clearance + ' or higher.');
@@ -946,6 +987,8 @@ function renderMenu() {
   if (tl('bu-table-tough')) h += lessonRow(tl('bu-table-tough'), 'T3');
   if (tm('bu-table-tough')) h += entryRow(tm('bu-table-tough'));
   if (tm('bu-table-both')) h += entryRow(tm('bu-table-both'));
+  const r33 = menu.filter(m => m.key.startsWith('bu-r33'));
+  if (r33.length) { h += '<p class="sub" style="margin-top:6px">New: Talon\'s "the stacks don\'t reset", each part its own switch (reset, spent stacks, boost-up, intent):</p>'; r33.forEach(m => { h += entryRow(m); }); }
   h += '<p class="sub" style="margin-top:6px">The game as the lessons above teach it:</p>' + entryRow(menu[0]);
   h += '<details class="exp"' + (expOpen ? ' open' : '') + '><summary>Experiments: ' + others.length + ' other versions and games</summary>';
   extra.forEach(l => { const m = menu.find(x => x.key === l.entry); h += lessonRow(l, 'L+') .replace('</span><span class="l">', '</span><span class="l">a lesson for entry ' + (menu.indexOf(m) + 1) + ': '); });
@@ -972,11 +1015,28 @@ function renderMenu() {
 const TABLE_KEYS = { '00': 'bu-table', '10': 'bu-table-rank', '01': 'bu-table-tough', '11': 'bu-table-both' };
 const isTable = () => cur && cur.layout === 'table';
 function tableKey(rank, tough) { return TABLE_KEYS[(rank ? '1' : '0') + (tough ? '1' : '0')]; }
-function deskCard(c, i, n, cls, attrs) {
-  const k = colour(c), front = i === n - 1;
+function deskCard(c, i, n, cls, attrs, lift, work) {
+  const k = colour(c), front = i === n - 1, up = lift && lift > c.level;
+  // boost-up (round 33): a lifted card shows the level it works at (▲) and its work, rising up the stack
+  const lt = up ? '<em class="lift"' + tip('lifted by the ' + i + ' card' + (i === 1 ? '' : 's') + ' below it: works as a ' + lift + ' (' + work + ' work)') + '>▲' + lift + ' · ' + work + '</em>' : '';
   return '<div class="dc' + (front ? ' front' : '') + (k.light ? ' lightc' : '') + (c.frozen ? ' frozen' : '') + (cls || '') + '" data-ci="' + i + '" style="top:calc(var(--strip) * ' + i + ' + 4px);z-index:' + (i + 1) + ';background:' + k.bg + '"' + (attrs || '') + '>' +
-    '<div class="st"><span>' + c.level + (c.leader ? '★' : '') + '</span><small' + (codeWords(c.code) ? tip(codeWords(c.code)) : '') + '>' + esc(front ? c.code : c.title + (c.code ? ' · ' + c.code : '')) + '</small></div>' +
-    (front ? '<div class="big">' + c.level + '</div><div class="tt">' + esc(c.title) + '</div>' : '') + '</div>';
+    '<div class="st"><span>' + c.level + (c.leader ? '★' : '') + '</span>' + (lt || '<small' + (codeWords(c.code) ? tip(codeWords(c.code)) : '') + '>' + esc(front ? c.code : c.title + (c.code ? ' · ' + c.code : '')) + '</small>') + '</div>' +
+    (front ? '<div class="big">' + c.level + '</div><div class="tt">' + esc(c.title) + '</div>' + (up ? '<div class="wa"><span class="l">works as a </span>▲' + lift + ': ' + work + '</div>' : '') : '') + '</div>';
+}
+// intent's icons (round 33): one small drawing per kind of move, coloured by the card
+const ICON = {
+  blame: '<path d="M9.5 1 3 9h4l-1 6 6.5-8.5h-4z" fill="currentColor"/>',
+  audit: '<circle cx="6.5" cy="6.5" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9.5 9.5 5 5" stroke="currentColor" stroke-width="2.4"/>',
+  jam: '<rect x="2" y="5" width="12" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 2h8M5 8l6 2M11 8l-6 2" stroke="currentColor" stroke-width="1.6"/>',
+  down: '<path d="M8 2v10M3.5 8 8 13l4.5-5" fill="none" stroke="currentColor" stroke-width="2.4"/>',
+  out: '<path d="M2 8h9M7.5 4 12 8l-4.5 4M14 2v12" fill="none" stroke="currentColor" stroke-width="2.2"/>',
+  swap: '<path d="M2 5h10l-3-3M14 11H4l3 3" fill="none" stroke="currentColor" stroke-width="2"/>',
+  money: '<path d="M11 4.5C10 3 6 3 5.5 5S11 7 10.8 9.8 6 13 4.8 11.4M8 1.5v13" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+  freeze: '<path d="M8 1v14M2 4.5l12 7M14 4.5l-12 7" stroke="currentColor" stroke-width="1.8"/>',
+};
+const ICON_WORD = { blame: 'blame', audit: 'audit (a 4+ top card drops one, else blame)', jam: 'jam: the desk makes nothing next turn', down: 'the top card drops one', out: 'the back card leaves', swap: 'the desk swaps with the next', money: 'packs cost more', freeze: 'a colour does no work' };
+function intentHtml(it) {
+  return '<div class="pi ' + it.icon + '"' + tip(ICON_WORD[it.icon] + (it.n ? ' ' + it.n : '') + (it.desk ? ' on desk ' + it.desk : '') + ', at the end of this turn') + '><svg viewBox="0 0 16 16" aria-hidden="true">' + (ICON[it.icon] || '') + '</svg>' + (it.n ? it.n : '') + (it.desk ? '<small>→' + it.desk + '</small>' : '') + '</div>';
 }
 function handCard(x, i, n, P) {
   const c = x.card, k = colour(c), place = x.slots.some(s => s.play || s.tuck), mid = (n - 1) / 2, d = i - mid;
@@ -990,8 +1050,8 @@ function handCard(x, i, n, P) {
 function laneCard(p, k) {
   const ex = p.kind === 'office' ? ' data-explain="office" data-oi="' + p.oi + '"' : ' data-explain="call" data-slot2="' + k + '" data-n="' + p.count + '" data-big="' + p.big + '"';
   return '<div class="pc' + (p.kind === 'call' ? ' call' : '') + (p.boss ? ' boss' : '') + (p.hidden ? ' hidden' : '') + '"' + ex + '>' +
-    '<div class="pn">' + esc(p.name) + '</div>' + (p.count ? '<div class="pt' + (p.count === 1 ? ' now' : '') + '"' + tip(p.count === 1 ? 'acts at the end of this turn' : 'acts in ' + p.count + ' turns') + '>' + p.count + '</div>' : '') +
-    '<div class="pb"><b>' + p.big + '</b><small>' + esc(p.bigWhat) + '</small></div><div class="pl">' + esc(p.line) + '</div></div>';
+    '<div class="pn">' + esc(p.name) + '</div>' + (p.intent ? intentHtml(p.intent) : p.count ? '<div class="pt' + (p.count === 1 ? ' now' : '') + '"' + tip(p.count === 1 ? 'acts at the end of this turn' : 'acts in ' + p.count + ' turns') + '>' + p.count + '</div>' : '') +
+    '<div class="pb"><b>' + p.big + '</b><small>' + esc(p.bigWhat) + '</small></div><div class="pl">' + esc(p.line) + (p.intent && p.intent.left ? ' <span class="pips"' + tip(p.intent.left + ' move' + (p.intent.left === 1 ? '' : 's') + ' left, this one included') + '>' + '●'.repeat(p.intent.left) + '</span>' : '') + '</div></div>';
 }
 function badgeHtml(v, show) {
   let h = '<div class="badge"><div class="bh">your badge</div><div class="bb">';
@@ -1005,6 +1065,8 @@ function badgeHtml(v, show) {
   if (show.blame) h += '<div class="kv ex" data-explain="strikes"><span class="k">strikes</span><span class="pips">' + '●'.repeat(v.strikes) + '○'.repeat(Math.max(0, v.strikesAllowed + 1 - v.strikes)) + '</span></div>' +
     '<div class="kv ex" data-explain="blameyou"><span class="k">blame on you</span><span><b>' + v.blame + '</b> / ' + v.blamePerStrike + '</span></div>';
   if (v.toughness) h += '<div class="bs ex" data-explain="tough" style="margin-top:0">blame as toughness: a card holds unless the blame reaches its level</div>';
+  if (v.piles) h += '<div class="kv ex" data-explain="piles"><span class="k">draw / discard</span><span><b>' + v.drawPile + '</b> / ' + v.discardPile + '</span></div>';
+  if (v.intent) h += '<div class="kv ex" data-explain="tocome"><span class="k">problems to come</span><span><b>' + v.toCome + '</b></span></div>';
   if (v.start) h += '<div class="start">' + esc(v.start) + '</div>';
   return h + '</div></div>';
 }
@@ -1020,7 +1082,11 @@ function renderTable() {
   h += '<aside class="tbar left">' + badgeHtml(v, show);
   if (show.office && (v.rule || v.bossRule)) h += '<div class="notes">' + (v.rule ? '<span class="rule ex" data-explain="rule">Boss rule: ' + esc(v.rule) + '</span>' : esc(v.encounterName) + ' · boss in week ' + v.bossWeek + ' (' + esc(v.bossName) + ': ' + esc(v.bossRule) + ')') + '</div>';
   if (v.frozen) h += '<div class="notes"><span class="rule ex" data-explain="frozen">' + esc(v.frozenName) + ' cards make nothing</span></div>';
-  if (mode === 'play') {
+  if (mode === 'play' && cur.key.startsWith('bu-r33')) {
+    const chip = (n, on) => '<span class="chip' + (on ? ' on' : '') + '">' + n + '</span>';
+    h += '<div class="r33sw"><div class="chips">' + chip('Reset', v.reset) + chip('Spent stacks', v.spent) + chip('Boost-up', v.boost) + chip('Intent', v.intent) + '</div><div class="jumps">' +
+      menu.filter(m => m.key.startsWith('bu-r33')).map(m => '<button class="btn' + (m.key === cur.key ? ' here' : '') + '" data-jump="' + esc(m.key) + '"' + tip(m.line) + '>' + (menu.indexOf(m) + 1) + '. ' + esc(m.title.replace('The table: ', '')) + '</button>').join('') + '</div></div>';
+  } else if (mode === 'play') {
     h += '<div class="toggles">' +
       '<button class="tog' + (v.rankOn ? ' on' : '') + '" data-tog="rank"><i class="sw2"></i><b>Rank cap</b><span>place cards up to your rank − 1; +1 rank each week you win</span></button>' +
       '<button class="tog' + (v.toughness ? ' on' : '') + '" data-tog="tough"><i class="sw2"></i><b>Blame as toughness</b><span>a card leaves only when the blame left reaches its level</span></button></div>';
@@ -1046,13 +1112,13 @@ function renderTable() {
     else if (sel && sel.slot != null && sel.ci == null && v.moves[sel.slot][k]) becomes = '→ ' + v.moveBecomes[sel.slot][k];
     h += '<div class="tdesk"><div class="dl">desk ' + (k + 1) + '</div><div class="acts">' + actsFor(k) + '</div>';
     h += '<button class="stack desk' + (sel && sel.slot === k ? ' sel' : '') + (legal ? ' can' : '') + (pSlot === k ? ' point' : '') + '" data-slot="' + k + '" style="--n:' + Math.max(1, t.cards.length) + '" aria-label="desk ' + (k + 1) + '">';
-    t.cards.forEach((c, i) => { h += deskCard(c, i, t.cards.length); });
-    if (!t.cards.length && !becomes) h += '<span class="none">empty desk<br>an intern starts it</span>';
+    t.cards.forEach((c, i) => { h += deskCard(c, i, t.cards.length, '', '', v.boost && t.lifts ? t.lifts[i] : 0, t.works ? t.works[i] : 0); });
+    if (!t.cards.length && !becomes) h += '<span class="none">empty desk<br>' + (v.piles ? 'any card starts it' : 'an intern starts it') + '</span>';
     if (becomes) h += '<span class="becomes-big">' + esc(becomes) + '</span>';
     h += '</button><div class="dfoot">' + (t.cards.length ? '<span class="ex" data-explain="makes" data-slot2="' + k + '">makes <b>' + t.work + '</b></span> ' + esc(plainEffect(t.effect)) : '<span class="ex" data-explain="makes" data-slot2="' + k + '">makes <b>0</b></span>') +
-      (t.jam ? ' <span class="jam">jammed ' + t.jam + '</span>' : '') + (t.frozenCards ? ' <span class="jam">' + t.frozenCards + ' frozen</span>' : '') + '</div>' + verbsFor(t, k) + '</div>';
+      (t.boostWork > 0 ? ' <span class="bst"' + tip('boost-up adds this much: each card below a card lifts it') + '>▲+' + t.boostWork + '</span>' : '') + (t.jam ? ' <span class="jam">jammed ' + t.jam + '</span>' : '') + (t.frozenCards ? ' <span class="jam">' + t.frozenCards + ' frozen</span>' : '') + '</div>' + verbsFor(t, k) + '</div>';
   });
-  h += '</section><section class="thand" aria-label="your hand"><span class="hl">your hand' + (v.draw ? ' · ' + v.roster + ' more in your roster' : '') + '</span>';
+  h += '</section><section class="thand" aria-label="your hand"><span class="hl">your hand' + (v.piles ? ' · ' + v.drawPile + ' in your draw pile, ' + v.discardPile + ' discarded' : v.draw ? ' · ' + v.roster + ' more in your roster' : '') + '</span>';
   v.hand.forEach((x, i) => { h += handCard(x, i, v.hand.length, pHand); });
   if (!v.hand.length) h += '<span class="dim num" style="align-self:center">no cards in hand</span>';
   h += '</section></div></main>';
@@ -1064,7 +1130,8 @@ function renderTable() {
   if (show.money) h += '<div class="row" style="margin-top:8px">' + btn('buy', 'Buy pack', v.shop.pack, '', pBtn === 'buy') + btn('buy adv', 'Advanced pack', v.shop.adv) + btn('borrow', 'Borrow', v.shop.borrow, '', pBtn === 'borrow') + btn('repay', 'Repay', v.shop.repay) + '</div>' + (v.shop.pack.sold && v.shop.pack.why ? '<div class="dim" style="font-size:12px;margin-top:4px">No pack now: ' + esc(v.shop.pack.why) + '</div>' : '');
   h += '<div class="log" aria-live="polite">' + log.slice(0, 7).map(l => '<div class="' + esc(l[0]) + '"' + (l[2] ? tip(l[2]) : '') + '>' + esc(l[1]) + '</div>').join('') + '</div><div class="msg">' + esc(msg) + '</div></div>';
   h += '<div class="panel"><details class="how"><summary>How it works</summary><ol class="rules">' + TABLE_HOW.map(l => '<li>' + esc(l) + '</li>').join('') +
-    (v.rankOn ? '<li>' + esc(TABLE_RANK) + '</li>' : '') + (v.toughness ? '<li>' + esc(TABLE_TOUGH) + '</li>' : '') + '</ol></details></div>';
+    (v.rankOn ? '<li>' + esc(TABLE_RANK) + '</li>' : '') + (v.toughness ? '<li>' + esc(TABLE_TOUGH) + '</li>' : '') +
+    (v.reset ? '<li>' + esc(TABLE_RESET) + '</li>' : '') + (v.spent ? '<li>' + esc(TABLE_SPENT) + '</li>' : '') + (v.boost ? '<li>' + esc(TABLE_BOOST + (v.boostStep > 1 ? ' ' + TABLE_BOOST2 : '')) + '</li>' : '') + (v.intent ? '<li>' + esc(TABLE_INTENT) + '</li>' : '') + '</ol></details></div>';
   if (mode === 'play') h += ratingPanel(cur.key);
   if (mode === 'play') h += '<div class="panel row"><label class="num" for="seed" style="font-size:12px">seed</label><input type="text" id="seed" inputmode="numeric" value="' + esc(seed) + '"><button class="btn" data-new="1">restart</button><button class="btn" data-rand="1">new seed</button><button class="btn" data-watchthis="1">watch a bot</button></div>';
   h += '</aside></div>' + overlay();
@@ -1125,6 +1192,8 @@ app.addEventListener('change', ev => {
 app.addEventListener('click', ev => {
   if (Date.now() - dragJust < 400) return; // the end of a drag is not a tap
   const tg = ev.target.closest('[data-tog]');
+  const jp = ev.target.closest('[data-jump]');
+  if (jp && view && mode === 'play') { start(jp.dataset.jump, seed, []); return; }
   if (tg && view && mode === 'play') { const r = tg.dataset.tog === 'rank' ? !view.rankOn : view.rankOn, t = tg.dataset.tog === 'tough' ? !view.toughness : view.toughness; start(tableKey(r, t), seed, []); return; }
   const ci = ev.target.closest('[data-ci]');
   if (mode !== 'watch' && ci && !(sel && sel.hand != null) && !(sel && sel.slot != null && sel.ci == null && +ci.closest('[data-slot]').dataset.slot !== sel.slot)) {
